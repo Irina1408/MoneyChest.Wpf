@@ -1,0 +1,87 @@
+﻿using MoneyChest.Data.Entities.History;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MoneyChest.Data.Attributes;
+
+namespace MoneyChest.Data.Entities
+{
+    [Historicized(typeof(UserHistory))]
+    public class User
+    {
+        public User()
+        {
+            FirstUsageDate = DateTime.Now;
+            LastUsageDate = DateTime.Now;
+
+            Categories = new List<Category>();
+            Currencies = new List<Currency>();
+            Debts = new List<Debt>();
+            Events = new List<Evnt>();
+            Limits = new List<Limit>();
+            Records = new List<Record>();
+            Storages = new List<Storage>();
+            CalendarSettings = new List<CalendarSetting>();
+            ForecastSettings = new List<ForecastSetting>();
+            GeneralSettings = new List<GeneralSetting>();
+            RecordsViewFilters = new List<RecordsViewFilter>();
+            ReportSettings = new List<ReportSetting>();
+
+            CategoriesHistory = new List<CategoryHistory>();
+            CurrenciesHistory = new List<CurrencyHistory>();
+            DebtsHistory = new List<DebtHistory>();
+            EventsHistory = new List<EventHistory>();
+            LimitsHistory = new List<LimitHistory>();
+            RecordsHistory = new List<RecordHistory>();
+            StoragesHistory = new List<StorageHistory>();
+        }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        public string Email { get; set; }
+
+        public DateTime FirstUsageDate { get; set; }
+
+        public DateTime LastUsageDate { get; set; }
+
+        public DateTime? LastSynchronizationDate { get; set; }
+
+        public string ServerUserId { get; set; }
+
+        #region Navigation properties
+        
+        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Currency> Currencies { get; set; }
+        public virtual ICollection<Debt> Debts { get; set; }
+        public virtual ICollection<Evnt> Events { get; set; }
+        public virtual ICollection<Limit> Limits { get; set; }
+        public virtual ICollection<Record> Records { get; set; }
+        public virtual ICollection<Storage> Storages { get; set; }
+        public virtual ICollection<CalendarSetting> CalendarSettings { get; set; }
+        public virtual ICollection<ForecastSetting> ForecastSettings { get; set; }
+        public virtual ICollection<GeneralSetting> GeneralSettings { get; set; }
+        public virtual ICollection<RecordsViewFilter> RecordsViewFilters { get; set; }
+        public virtual ICollection<ReportSetting> ReportSettings { get; set; }
+        public virtual ICollection<CategoryHistory> CategoriesHistory { get; set; }
+        public virtual ICollection<CurrencyHistory> CurrenciesHistory { get; set; }
+        public virtual ICollection<DebtHistory> DebtsHistory { get; set; }
+        public virtual ICollection<EventHistory> EventsHistory { get; set; }
+        public virtual ICollection<LimitHistory> LimitsHistory { get; set; }
+        public virtual ICollection<RecordHistory> RecordsHistory { get; set; }
+        public virtual ICollection<StorageHistory> StoragesHistory { get; set; }
+
+        #endregion
+    }
+}

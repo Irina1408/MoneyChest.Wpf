@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.Data", "MoneyChest.Data\MoneyChest.Data.csproj", "{367772A1-B49C-49DA-B5CB-AAE5BF696947}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest", "MoneyChest\MoneyChest.csproj", "{3DCAABE4-8EDE-47CB-8AC1-F020570796CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.Services", "MoneyChest.Services\MoneyChest.Services.csproj", "{AB2608AB-D835-49B0-841F-3F7E61869394}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{367772A1-B49C-49DA-B5CB-AAE5BF696947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{367772A1-B49C-49DA-B5CB-AAE5BF696947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{367772A1-B49C-49DA-B5CB-AAE5BF696947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{367772A1-B49C-49DA-B5CB-AAE5BF696947}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DCAABE4-8EDE-47CB-8AC1-F020570796CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DCAABE4-8EDE-47CB-8AC1-F020570796CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DCAABE4-8EDE-47CB-8AC1-F020570796CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DCAABE4-8EDE-47CB-8AC1-F020570796CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB2608AB-D835-49B0-841F-3F7E61869394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB2608AB-D835-49B0-841F-3F7E61869394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB2608AB-D835-49B0-841F-3F7E61869394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB2608AB-D835-49B0-841F-3F7E61869394}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
