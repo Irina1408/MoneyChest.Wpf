@@ -9,7 +9,12 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    class LimitService
+    public class LimitService : BaseHistoricizedService<Limit>
     {
+        public LimitService(ApplicationDbContext context) : base(context)
+        {
+        }
+
+        protected override int UserId(Limit entity) => entity.UserId;
     }
 }

@@ -9,7 +9,12 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    class RecordService
+    public class RecordService : BaseHistoricizedService<Record>
     {
+        public RecordService(ApplicationDbContext context) : base(context)
+        {
+        }
+
+        protected override int UserId(Record entity) => entity.UserId;
     }
 }

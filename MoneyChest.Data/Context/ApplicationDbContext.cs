@@ -66,6 +66,7 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<MoneyTransfer> MoneyTransfers { get; set; }
         public virtual DbSet<Record> Records { get; set; }
         public virtual DbSet<Storage> Storages { get; set; }
+        public virtual DbSet<StorageGroup> StorageGroups { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<CurrencyHistory> CurrenciesHistory { get; set; }
         public virtual DbSet<CurrencyExchangeRateHistory> CurrencyExchangeRatesHistory { get; set; }
@@ -86,6 +87,7 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<MoneyTransferHistory> MoneyTransfersHistory { get; set; }
         public virtual DbSet<RecordHistory> RecordsHistory { get; set; }
         public virtual DbSet<StorageHistory> StoragesHistory { get; set; }
+        public virtual DbSet<StorageGroupHistory> StorageGroupsHistory { get; set; }
         public virtual DbSet<UserHistory> UsersHistory { get; set; }
 
         #endregion
@@ -311,6 +313,17 @@ namespace MoneyChest.Data.Context
             modelBuilder.Entity<Storage>()
                 .HasMany(e => e.SimpleEvents)
                 .WithRequired(e => e.Storage)
+                .WillCascadeOnDelete(false);
+
+            // StorageGroup
+            modelBuilder.Entity<StorageGroup>()
+                .HasMany(e => e.Storages)
+                .WithRequired(e => e.StorageGroup)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<StorageGroup>()
+                .HasMany(e => e.CalendarSettings)
+                .WithOptional(e => e.StorageGroup)
                 .WillCascadeOnDelete(false);
 
             // Debt

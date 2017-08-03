@@ -1,4 +1,5 @@
-﻿using MoneyChest.Data.Enums;
+﻿using MoneyChest.Data.Attributes;
+using MoneyChest.Data.Entities.History;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,32 +10,23 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Entities
 {
-    public class CalendarSetting
+    [Historicized(typeof(StorageGroupHistory))]
+    public class StorageGroup
     {
-        public CalendarSetting()
-        {
-            PeriodType = CalendarPeriodType.Month;
-            ShowLimits = false;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public int? StorageGroupId { get; set; }
+        [Required]
+        public string Name { get; set; }
 
-        public CalendarPeriodType PeriodType { get; set; }
-
-        public bool ShowLimits { get; set; }
-        
         [Required]
         public int UserId { get; set; }
-
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
 
-        [ForeignKey(nameof(StorageGroupId))]
-        public StorageGroup StorageGroup { get; set; }
+        public virtual ICollection<Storage> Storages { get; set; }
+        public virtual ICollection<CalendarSetting> CalendarSettings { get; set; }
     }
 }

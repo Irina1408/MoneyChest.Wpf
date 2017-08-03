@@ -8,8 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
 using MoneyChest.Data.Entities.History;
-using MoneyChest.Data.Attributes;
-using MoneyChest.Data.Entities.History;
 
 namespace MoneyChest.Data.Entities
 {

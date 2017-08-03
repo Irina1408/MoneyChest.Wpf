@@ -7,34 +7,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoneyChest.Data.Entities
+namespace MoneyChest.Data.Entities.History
 {
-    public class CalendarSetting
+    public class StorageGroupHistory : IUserActionHistory
     {
-        public CalendarSetting()
+        public StorageGroupHistory()
         {
-            PeriodType = CalendarPeriodType.Month;
-            ShowLimits = false;
+            ActionDateTime = DateTime.Now;
         }
+
+        #region IUserActionHistory implementation
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int ActionId { get; set; }
 
-        public int? StorageGroupId { get; set; }
+        public DateTime ActionDateTime { get; set; }
 
-        public CalendarPeriodType PeriodType { get; set; }
+        public ActionType ActionType { get; set; }
 
-        public bool ShowLimits { get; set; }
-        
         [Required]
         public int UserId { get; set; }
-
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
 
-        [ForeignKey(nameof(StorageGroupId))]
-        public StorageGroup StorageGroup { get; set; }
+        #endregion
+
+        public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
     }
 }

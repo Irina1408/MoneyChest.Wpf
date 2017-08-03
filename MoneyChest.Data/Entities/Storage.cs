@@ -16,8 +16,6 @@ namespace MoneyChest.Data.Entities
     {
         public Storage()
         {
-            StoreType = StoreType.Wallet;
-
             StorageFromMoneyTransferEvents = new List<MoneyTransferEvent>();
             StorageToMoneyTransferEvents = new List<MoneyTransferEvent>();
             StorageFromMoneyTransfers = new List<MoneyTransfer>();
@@ -34,7 +32,7 @@ namespace MoneyChest.Data.Entities
 
         public string Name { get; set; }
 
-        public StoreType StoreType { get; set; }
+        public int StorageGroupId { get; set; }
 
         public decimal Value { get; set; }
 
@@ -53,6 +51,9 @@ namespace MoneyChest.Data.Entities
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
+
+        [ForeignKey(nameof(StorageGroupId))]
+        public virtual StorageGroup StorageGroup { get; set; }
 
 
         [InverseProperty(nameof(MoneyTransferEvent.StorageFrom))]

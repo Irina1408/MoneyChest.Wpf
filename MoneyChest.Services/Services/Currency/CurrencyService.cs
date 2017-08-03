@@ -9,10 +9,12 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    public class CurrencyService : BaseService<Currency>
+    public class CurrencyService : BaseHistoricizedService<Currency>
     {
         public CurrencyService(ApplicationDbContext context) : base(context)
         {
         }
+
+        protected override int UserId(Currency entity) => entity.UserId;
     }
 }

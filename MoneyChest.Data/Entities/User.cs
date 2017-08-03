@@ -25,6 +25,7 @@ namespace MoneyChest.Data.Entities
             Limits = new List<Limit>();
             Records = new List<Record>();
             Storages = new List<Storage>();
+            StorageGroups = new List<StorageGroup>();
             CalendarSettings = new List<CalendarSetting>();
             ForecastSettings = new List<ForecastSetting>();
             GeneralSettings = new List<GeneralSetting>();
@@ -38,6 +39,7 @@ namespace MoneyChest.Data.Entities
             LimitsHistory = new List<LimitHistory>();
             RecordsHistory = new List<RecordHistory>();
             StoragesHistory = new List<StorageHistory>();
+            StorageGroupsHistory = new List<StorageGroupHistory>();
         }
 
         [Key]
@@ -69,6 +71,7 @@ namespace MoneyChest.Data.Entities
         public virtual ICollection<Limit> Limits { get; set; }
         public virtual ICollection<Record> Records { get; set; }
         public virtual ICollection<Storage> Storages { get; set; }
+        public virtual ICollection<StorageGroup> StorageGroups { get; set; }
         public virtual ICollection<CalendarSetting> CalendarSettings { get; set; }
         public virtual ICollection<ForecastSetting> ForecastSettings { get; set; }
         public virtual ICollection<GeneralSetting> GeneralSettings { get; set; }
@@ -81,6 +84,7 @@ namespace MoneyChest.Data.Entities
         public virtual ICollection<LimitHistory> LimitsHistory { get; set; }
         public virtual ICollection<RecordHistory> RecordsHistory { get; set; }
         public virtual ICollection<StorageHistory> StoragesHistory { get; set; }
+        public virtual ICollection<StorageGroupHistory> StorageGroupsHistory { get; set; }
 
         #endregion
     }

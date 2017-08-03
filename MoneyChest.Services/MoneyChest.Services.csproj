@@ -49,21 +49,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\WriteHistoryException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Base\BaseEntityService.cs" />
     <Compile Include="Services\Base\BaseHistoricizedService.cs" />
     <Compile Include="Services\Base\BaseService.cs" />
-    <Compile Include="Services\Base\History\HistoricalEntityDefinitions.cs" />
-    <Compile Include="Services\Base\History\HistoricalEntityFactory.cs" />
-    <Compile Include="Services\Base\History\HistoryExtensions.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\Currency\CurrencyExchangeRateService.cs" />
     <Compile Include="Services\Currency\CurrencyService.cs" />
     <Compile Include="Services\DebtService.cs" />
+    <Compile Include="Services\Events\MoneyTransferEventService.cs" />
+    <Compile Include="Services\Events\RepayDebtEventService.cs" />
+    <Compile Include="Services\Events\SimpleEventService.cs" />
+    <Compile Include="Services\History\HistoryService.cs" />
     <Compile Include="Services\LimitService.cs" />
     <Compile Include="Services\MoneyTransferService.cs" />
     <Compile Include="Services\RecordService.cs" />
     <Compile Include="Services\Settings\CalendarSettingService.cs" />
     <Compile Include="Services\Settings\ForecastSettingService.cs" />
+    <Compile Include="Services\Settings\GeneralSettingService.cs" />
+    <Compile Include="Services\Settings\RecordsViewFilterService.cs" />
+    <Compile Include="Services\Settings\ReportSettingService.cs" />
     <Compile Include="Services\StorageService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
@@ -78,7 +84,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\Events\" />
+    <Folder Include="Services\Defaults\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

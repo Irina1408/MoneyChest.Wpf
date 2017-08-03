@@ -9,7 +9,17 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    class MoneyTransferService
+    public class MoneyTransferService : BaseHistoricizedService<MoneyTransfer>
     {
+        public MoneyTransferService(ApplicationDbContext context) : base(context)
+        {
+        }
+
+        protected override int UserId(MoneyTransfer entity)
+        {
+            if (entity.StorageFrom != null) return entity.StorageFrom.UserId;
+            if (entity.StorageTo != null) return entity.StorageTo.UserId;
+            return _context.Currencies.FirstOrDefault(item => item.Id == entity.StorageFromId).UserId;
+        }
     }
 }

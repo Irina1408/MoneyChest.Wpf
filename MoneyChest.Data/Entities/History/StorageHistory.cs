@@ -38,7 +38,7 @@ namespace MoneyChest.Data.Entities.History
 
         public string Name { get; set; }
 
-        public StoreType StoreType { get; set; }
+        public int StorageGroupId { get; set; }
 
         public decimal Value { get; set; }
 

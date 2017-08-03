@@ -77,12 +77,13 @@
     <Compile Include="Entities\History\Shedule\ScheduleHistory.cs" />
     <Compile Include="Entities\History\Shedule\WeeklySchedule.cs" />
     <Compile Include="Entities\History\Shedule\WeeklyScheduleDayOfWeek.cs" />
+    <Compile Include="Entities\History\StorageGroupHistory.cs" />
     <Compile Include="Entities\History\StorageHistory.cs" />
     <Compile Include="Entities\History\Base\IUserActionHistory.cs" />
     <Compile Include="Entities\History\UserHistory.cs" />
     <Compile Include="Entities\Settings\CalendarSetting.cs" />
     <Compile Include="Entities\Settings\ForecastSetting.cs" />
-    <Compile Include="Entities\Settings\GeneralSettings.cs" />
+    <Compile Include="Entities\Settings\GeneralSetting.cs" />
     <Compile Include="Entities\Settings\RecordsViewFilter.cs" />
     <Compile Include="Entities\Settings\ReportSetting.cs" />
     <Compile Include="Entities\Settings\SettingCategorized.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Entities\Shedule\MonthlyScheduleMonth.cs" />
     <Compile Include="Entities\Storage.cs" />
     <Compile Include="Entities\Shedule\WeeklySchedule.cs" />
+    <Compile Include="Entities\StorageGroup.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\History\ActionType.cs" />
     <Compile Include="Enums\Settings\CalendarPeriodType.cs" />
@@ -112,13 +114,12 @@
     <Compile Include="Enums\Settings\PeriodFilterType.cs" />
     <Compile Include="Enums\Settings\ReportType.cs" />
     <Compile Include="Enums\ScheduleType.cs" />
-    <Compile Include="Enums\StoreType.cs" />
     <Compile Include="Enums\TransactionType.cs" />
     <Compile Include="Exceptions\ReferenceConstraintException.cs" />
     <Compile Include="Exceptions\ViolationOfConstraintException.cs" />
-    <Compile Include="Migrations\201707301332336_InitialMigration.cs" />
-    <Compile Include="Migrations\201707301332336_InitialMigration.Designer.cs">
-      <DependentUpon>201707301332336_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201708031901552_InitialMigration.cs" />
+    <Compile Include="Migrations\201708031901552_InitialMigration.Designer.cs">
+      <DependentUpon>201708031901552_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,8 +129,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707301332336_InitialMigration.resx">
-      <DependentUpon>201707301332336_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201708031901552_InitialMigration.resx">
+      <DependentUpon>201708031901552_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

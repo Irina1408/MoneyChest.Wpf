@@ -9,10 +9,17 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    public class CurrencyExchangeRateService : BaseService<CurrencyExchangeRate>
+    public class CurrencyExchangeRateService : BaseHistoricizedService<CurrencyExchangeRate>
     {
         public CurrencyExchangeRateService(ApplicationDbContext context) : base(context)
         {
+        }
+
+        protected override int UserId(CurrencyExchangeRate entity)
+        {
+            if (entity.CurrencyFrom != null) return entity.CurrencyFrom.UserId;
+            if (entity.CurrencyTo != null) return entity.CurrencyTo.UserId;
+            return _context.Currencies.FirstOrDefault(item => item.Id == entity.CurrencyFromId).UserId;
         }
     }
 }

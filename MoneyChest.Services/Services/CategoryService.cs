@@ -9,7 +9,12 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    class CategoryService
+    public class CategoryService : BaseHistoricizedService<Category>
     {
+        public CategoryService(ApplicationDbContext context) : base(context)
+        {
+        }
+
+        protected override int UserId(Category entity) => entity.UserId;
     }
 }
