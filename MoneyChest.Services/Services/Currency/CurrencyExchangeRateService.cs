@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
+using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services
 {
@@ -26,7 +27,7 @@ namespace MoneyChest.Services.Services
             return _context.Currencies.FirstOrDefault(item => item.Id == entity.CurrencyFromId).UserId;
         }
 
-        protected override Func<CurrencyExchangeRate, bool> LimitByUser(int userId) =>
+        protected override Expression<Func<CurrencyExchangeRate, bool>> LimitByUser(int userId) =>
             item => item.CurrencyFrom.UserId == userId && item.CurrencyTo.UserId == userId;
     }
 }

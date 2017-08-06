@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Context;
+using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services.Base
 {
     public interface IBaseUserableService<T> : IBaseService<T>
         where T : class
     {
-        List<T> GetAllForUser(int userId, Func<T, bool> predicate = null);
-        T GetForUser(int userId, Func<T, bool> predicate = null);
+        List<T> GetAllForUser(int userId, Expression<Func<T, bool>> expression = null);
+        T GetForUser(int userId, Expression<Func<T, bool>> expression = null);
     }
 
     public abstract class BaseUserableService<T> : BaseService<T>, IBaseUserableService<T>
@@ -21,18 +22,20 @@ namespace MoneyChest.Services.Services.Base
         {
         }
         
-        public virtual List<T> GetAllForUser(int userId, Func<T, bool> predicate = null)
+        public virtual List<T> GetAllForUser(int userId, Expression<Func<T, bool>> expression = null)
         {
-            return Entities.Where(item => LimitByUser(userId)(item) && (predicate == null || predicate.Invoke(item))).ToList();
+            if (expression == null) expression = item => true;
+            return Entities.Where(LimitByUser(userId)).Where(expression).ToList();
         }
 
-        public virtual T GetForUser(int userId, Func<T, bool> predicate = null)
+        public virtual T GetForUser(int userId, Expression<Func<T, bool>> expression = null)
         {
-            return Entities.FirstOrDefault(item => LimitByUser(userId)(item) && (predicate == null || predicate.Invoke(item)));
+            if (expression == null) expression = item => true;
+            return Entities.Where(LimitByUser(userId)).FirstOrDefault(expression);
         }
 
         protected abstract int UserId(T entity);
 
-        protected abstract Func<T, bool> LimitByUser(int userId);
+        protected abstract Expression<Func<T, bool>> LimitByUser(int userId);
     }
 }

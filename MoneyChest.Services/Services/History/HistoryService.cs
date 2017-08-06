@@ -51,14 +51,14 @@ namespace MoneyChest.Services.Services.History
                 // get history type
                 var historyType = GetHistoryType(entity.GetType());
                 // check history type
-                if (historyType.BaseType != typeof(IUserActionHistory))
+                if (!historyType.GetInterfaces().Contains(typeof(IUserActionHistory)))
                     throw new WriteHistoryException("Incorrect history type");
 
                 // prepare entity history hepler
-                _historicizedEntityHelpers.Add(new HistoricizedEntityHelper(entity.GetType(), historyType));
+                helper = new HistoricizedEntityHelper(entity.GetType(), historyType);
+                _historicizedEntityHelpers.Add(helper);
             }
-
-            //var historySet = _context.Set(helper.HistoryType);
+            
             var historyItem = Activator.CreateInstance(helper.HistoryType) as IUserActionHistory;
 
             // fill historical entity
@@ -69,10 +69,6 @@ namespace MoneyChest.Services.Services.History
                 helper.FillHistoryItem(entity, historyItem);
             // write to the history
             _history.Add(new KeyValuePair<object, IUserActionHistory>(entity, historyItem));
-
-            //helper.FillHistoryItem(entity, historyItem);
-
-            //historySet.Add(historyItem);
         }
 
         public void WriteHistory<T, THistory>(T entity, ActionType actionType, int userId, Action<THistory> overrides = null)
@@ -107,37 +103,33 @@ namespace MoneyChest.Services.Services.History
 
         public override void SaveChanges()
         {
-            foreach(var historyItem in _history)
-            {
-                var historySet = _context.Set(historyItem.Key.GetType());
-                if (historyItem.Value.ActionType == ActionType.Add)
-                {
-                    var helper = _historicizedEntityHelpers.FirstOrDefault(item => item.EntityType == historyItem.Key.GetType());
-                    helper.FillHistoryItem(historyItem.Key, historyItem);
-                }
-                historySet.Add(historyItem);
-            }
+            WriteHistoryToDatabase();
             base.SaveChanges();
         }
 
         public override async Task SaveChangesAsync()
         {
-            foreach (var historyItem in _history)
-            {
-                var historySet = _context.Set(historyItem.Key.GetType());
-                if (historyItem.Value.ActionType == ActionType.Add)
-                {
-                    var helper = _historicizedEntityHelpers.FirstOrDefault(item => item.EntityType == historyItem.Key.GetType());
-                    helper.FillHistoryItem(historyItem.Key, historyItem);
-                }
-                historySet.Add(historyItem);
-            }
+            WriteHistoryToDatabase();
             await base.SaveChangesAsync();
         }
 
         #endregion
 
         #region Private methods and classes
+
+        private void WriteHistoryToDatabase()
+        {
+            foreach (var historyItem in _history)
+            {
+                var historySet = _context.Set(historyItem.Value.GetType());
+                if (historyItem.Value.ActionType == ActionType.Add)
+                {
+                    var helper = _historicizedEntityHelpers.FirstOrDefault(item => item.EntityType == historyItem.Key.GetType());
+                    helper.FillHistoryItem(historyItem.Key, historyItem.Value);
+                }
+                historySet.Add(historyItem.Value);
+            }
+        }
 
         private Type GetHistoryType(Type type)
         {

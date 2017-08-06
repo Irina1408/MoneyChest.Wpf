@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Context;
+using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services.Settings
 {
@@ -21,6 +22,6 @@ namespace MoneyChest.Services.Services.Settings
 
         protected override int UserId(GeneralSetting entity) => entity.UserId;
 
-        protected override Func<GeneralSetting, bool> LimitByUser(int userId) => item => item.UserId == userId;
+        protected override Expression<Func<GeneralSetting, bool>> LimitByUser(int userId) => item => item.UserId == userId;
     }
 }

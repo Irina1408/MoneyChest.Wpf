@@ -126,7 +126,7 @@ namespace MoneyChest.Data.Context
 
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.SimpleEvents)
-                .WithRequired(e => e.Category)
+                .WithOptional(e => e.Category)
                 .WillCascadeOnDelete(false);
 
             // User
@@ -237,7 +237,7 @@ namespace MoneyChest.Data.Context
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<SimpleEvent>()
-                .HasRequired(e => e.Category)
+                .HasOptional(e => e.Category)
                 .WithMany()
                 .WillCascadeOnDelete(false);
 

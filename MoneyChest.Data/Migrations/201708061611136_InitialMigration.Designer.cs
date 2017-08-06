@@ -13,7 +13,7 @@ namespace MoneyChest.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201708031901552_InitialMigration"; }
+            get { return "201708061611136_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source

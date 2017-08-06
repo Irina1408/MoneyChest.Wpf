@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MoneyChest.Services.Services.Base;
 using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
+using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services.Schedule
 {
@@ -25,6 +26,6 @@ namespace MoneyChest.Services.Services.Schedule
             return _context.Events.FirstOrDefault(_ => _.Id == entity.EventId).UserId;
         }
 
-        protected override Func<MonthlySchedule, bool> LimitByUser(int userId) => item => item.Event.UserId == userId;
+        protected override Expression<Func<MonthlySchedule, bool>> LimitByUser(int userId) => item => item.Event.UserId == userId;
     }
 }

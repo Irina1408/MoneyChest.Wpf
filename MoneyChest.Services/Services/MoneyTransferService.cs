@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MoneyChest.Services.Services.Base;
 using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
+using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services
 {
@@ -26,7 +27,7 @@ namespace MoneyChest.Services.Services
             return _context.Currencies.FirstOrDefault(item => item.Id == entity.StorageFromId).UserId;
         }
 
-        protected override Func<MoneyTransfer, bool> LimitByUser(int userId) => 
+        protected override Expression<Func<MoneyTransfer, bool>> LimitByUser(int userId) => 
             item => item.StorageFrom.UserId == userId && item.StorageTo.UserId == userId;
     }
 }

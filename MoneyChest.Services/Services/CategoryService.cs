@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MoneyChest.Services.Services.Base;
 using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
+using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services
 {
@@ -16,13 +17,23 @@ namespace MoneyChest.Services.Services
 
     public class CategoryService : BaseHistoricizedService<Category>, ICategoryService
     {
+        #region Initialization
+
         public CategoryService(ApplicationDbContext context) : base(context)
         {
         }
 
+        #endregion
+
+        #region Overrides
+
         protected override int UserId(Category entity) => entity.UserId;
 
-        protected override Func<Category, bool> LimitByUser(int userId) => item => item.UserId == userId;
+        protected override Expression<Func<Category, bool>> LimitByUser(int userId) => item => item.UserId == userId;
+
+        #endregion
+
+        #region ICategoryService implementation
 
         public int GetCategoryLevelsCount(int userId)
         {
@@ -31,7 +42,7 @@ namespace MoneyChest.Services.Services
 
             foreach (var category in categories)
             {
-                int level = CalculateLevelsCount(category);
+                int level = CalculateLevelsCount(categories, category);
                 if (level > maxLevel)
                     maxLevel = level;
             }
@@ -60,14 +71,16 @@ namespace MoneyChest.Services.Services
                 .ForEach(item => item.CategoryId = categoryIdTo);
         }
 
+        #endregion
+
         #region Private methods
 
-        private int CalculateLevelsCount(Category category, int level = 0)
+        private int CalculateLevelsCount(List<Category> categories, Category category, int level = 0)
         {
             int maxCatLevel = level;
-            foreach (var childCategory in Entities.Where(item => item.ParentCategory == category))
+            foreach (var childCategory in categories.Where(item => item.ParentCategory == category))
             {
-                int childCatLevel = CalculateLevelsCount(childCategory, level + 1);
+                int childCatLevel = CalculateLevelsCount(categories, childCategory, level + 1);
                 if (childCatLevel > maxCatLevel)
                     maxCatLevel = childCatLevel;
             }

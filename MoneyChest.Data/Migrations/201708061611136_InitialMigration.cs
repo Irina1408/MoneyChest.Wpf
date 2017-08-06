@@ -123,7 +123,7 @@ namespace MoneyChest.Data.Migrations
                         TransactionType = c.Int(nullable: false),
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Remark = c.String(),
-                        CategoryId = c.Int(nullable: false),
+                        CategoryId = c.Int(),
                         CurrencyId = c.Int(nullable: false),
                         StorageId = c.Int(),
                         DebtId = c.Int(),

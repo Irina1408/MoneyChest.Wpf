@@ -22,7 +22,7 @@ namespace MoneyChest.Data.Entities
 
         public int CurrencyId { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         public int StorageId { get; set; }
 
