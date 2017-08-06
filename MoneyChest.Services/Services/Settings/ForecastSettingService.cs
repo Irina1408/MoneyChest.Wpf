@@ -9,7 +9,11 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    public class ForecastSettingService : BaseService<ForecastSetting>
+    public interface IForecastSettingService : IBaseService<ForecastSetting>
+    {
+    }
+
+    public class ForecastSettingService : BaseService<ForecastSetting>, IForecastSettingService
     {
         public ForecastSettingService(ApplicationDbContext context) : base(context)
         {

@@ -54,6 +54,11 @@
     <Compile Include="Services\Base\BaseEntityService.cs" />
     <Compile Include="Services\Base\BaseHistoricizedService.cs" />
     <Compile Include="Services\Base\BaseService.cs" />
+    <Compile Include="Services\Base\Interfaces\ICurrencyExchangeRateService.cs" />
+    <Compile Include="Services\Base\Interfaces\ICurrencyService.cs" />
+    <Compile Include="Services\Base\Interfaces\IMoneyTransferEventService.cs" />
+    <Compile Include="Services\Base\Interfaces\IRepayDebtEventService.cs" />
+    <Compile Include="Services\Base\Interfaces\ISimpleEventService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\Currency\CurrencyExchangeRateService.cs" />
     <Compile Include="Services\Currency\CurrencyService.cs" />
@@ -65,6 +70,10 @@
     <Compile Include="Services\LimitService.cs" />
     <Compile Include="Services\MoneyTransferService.cs" />
     <Compile Include="Services\RecordService.cs" />
+    <Compile Include="Services\Schedule\DailyScheduleService.cs" />
+    <Compile Include="Services\Schedule\MonthlyScheduleService.cs" />
+    <Compile Include="Services\Schedule\OnceScheduleService.cs" />
+    <Compile Include="Services\Schedule\WeeklyScheduleService.cs" />
     <Compile Include="Services\Settings\CalendarSettingService.cs" />
     <Compile Include="Services\Settings\ForecastSettingService.cs" />
     <Compile Include="Services\Settings\GeneralSettingService.cs" />

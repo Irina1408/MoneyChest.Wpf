@@ -9,7 +9,11 @@ using MoneyChest.Data.Context;
 
 namespace MoneyChest.Services.Services.Settings
 {
-    public class ReportSettingService : BaseService<ReportSetting>
+    public interface IReportSettingService : IBaseService<ReportSetting>
+    {
+    }
+
+    public class ReportSettingService : BaseService<ReportSetting>, IReportSettingService
     {
         public ReportSettingService(ApplicationDbContext context) : base(context)
         {

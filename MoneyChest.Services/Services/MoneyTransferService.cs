@@ -9,7 +9,11 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    public class MoneyTransferService : BaseHistoricizedService<MoneyTransfer>
+    public interface IMoneyTransferService : IBaseHistoricizedService<MoneyTransfer>
+    {
+    }
+
+    public class MoneyTransferService : BaseHistoricizedService<MoneyTransfer>, IMoneyTransferService
     {
         public MoneyTransferService(ApplicationDbContext context) : base(context)
         {

@@ -9,7 +9,11 @@ using MoneyChest.Data.Context;
 
 namespace MoneyChest.Services.Services.Settings
 {
-    public class RecordsViewFilterService : BaseService<RecordsViewFilter>
+    public interface IRecordsViewFilterService : IBaseService<RecordsViewFilter>
+    {
+    }
+
+    public class RecordsViewFilterService : BaseService<RecordsViewFilter>, IRecordsViewFilterService
     {
         public RecordsViewFilterService(ApplicationDbContext context) : base(context)
         {

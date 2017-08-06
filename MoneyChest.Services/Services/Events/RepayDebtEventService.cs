@@ -9,7 +9,11 @@ using MoneyChest.Data.Context;
 
 namespace MoneyChest.Services.Services.Events
 {
-    public class RepayDebtEventService : BaseHistoricizedService<RepayDebtEvent>
+    public interface IRepayDebtEventService : IBaseHistoricizedService<RepayDebtEvent>
+    {
+    }
+
+    public class RepayDebtEventService : BaseHistoricizedService<RepayDebtEvent>, IRepayDebtEventService
     {
         public RepayDebtEventService(ApplicationDbContext context) : base(context)
         {

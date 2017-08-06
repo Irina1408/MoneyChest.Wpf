@@ -9,7 +9,11 @@ using MoneyChest.Data.Context;
 
 namespace MoneyChest.Services.Services
 {
-    public class CalendarSettingService : BaseService<CalendarSetting>
+    public interface ICalendarSettingService : IBaseService<CalendarSetting>
+    {
+    }
+
+    public class CalendarSettingService : BaseService<CalendarSetting>, ICalendarSettingService
     {
         public CalendarSettingService(ApplicationDbContext context) : base(context)
         {

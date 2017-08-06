@@ -11,7 +11,12 @@ using MoneyChest.Services.Services.History;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public abstract class BaseHistoricizedService<T> : BaseService<T>
+    public interface IBaseHistoricizedService<T> : IBaseService<T>
+        where T : class
+    {
+    }
+
+    public abstract class BaseHistoricizedService<T> : BaseService<T>, IBaseHistoricizedService<T>
         where T : class
     {
         internal HistoryService _historyService;

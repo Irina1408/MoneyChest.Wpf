@@ -9,7 +9,11 @@ using MoneyChest.Data.Context;
 
 namespace MoneyChest.Services.Services.Events
 {
-    public class MoneyTransferEventService : BaseHistoricizedService<MoneyTransferEvent>
+    public interface IMoneyTransferEventService : IBaseHistoricizedService<MoneyTransferEvent>
+    {
+    }
+
+    public class MoneyTransferEventService : BaseHistoricizedService<MoneyTransferEvent>, IMoneyTransferEventService
     {
         public MoneyTransferEventService(ApplicationDbContext context) : base(context)
         {

@@ -9,7 +9,11 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    public class LimitService : BaseHistoricizedService<Limit>
+    public interface ILimitService : IBaseHistoricizedService<Limit>
+    {
+    }
+
+    public class LimitService : BaseHistoricizedService<Limit>, ILimitService
     {
         public LimitService(ApplicationDbContext context) : base(context)
         {

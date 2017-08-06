@@ -9,7 +9,11 @@ using MoneyChest.Data.Context;
 
 namespace MoneyChest.Services.Services.Settings
 {
-    public class GeneralSettingService : BaseService<GeneralSetting>
+    public interface IGeneralSettingService : IBaseService<GeneralSetting>
+    {
+    }
+
+    public class GeneralSettingService : BaseService<GeneralSetting>, IGeneralSettingService
     {
         public GeneralSettingService(ApplicationDbContext context) : base(context)
         {
