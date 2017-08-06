@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services.Schedule
 {
-    public interface IMonthlyScheduleService : IBaseHistoricizedService<MonthlySchedule>
+    public interface IMonthlyScheduleService : IBaseHistoricizedService<MonthlySchedule>, IIdManageable<MonthlySchedule>
     {
     }
 
@@ -27,5 +27,13 @@ namespace MoneyChest.Services.Services.Schedule
         }
 
         protected override Expression<Func<MonthlySchedule, bool>> LimitByUser(int userId) => item => item.Event.UserId == userId;
+
+        #region IIdManageable<T> implementation
+
+        public MonthlySchedule Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
+
+        public void Delete(int id) => Delete(Get(id));
+
+        #endregion
     }
 }

@@ -23,7 +23,9 @@ namespace MoneyChest.Tests.Services
             var entityProperies = typeof(T).GetProperties();
 
             foreach (var prop in historyProperies
-                .Where(item => item.CanWrite && entityProperies.Any(e => e.Name == item.Name && e.CanRead)))
+                .Where(item => item.CanWrite 
+                    && (item.PropertyType == typeof(string) || !item.PropertyType.IsClass) 
+                    && entityProperies.Any(e => e.Name == item.Name && e.CanRead)))
             {
                 var entityProp = entityProperies.FirstOrDefault(item => item.Name == prop.Name);
 

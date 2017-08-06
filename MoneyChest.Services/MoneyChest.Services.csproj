@@ -55,6 +55,7 @@
     <Compile Include="Services\Base\BaseHistoricizedService.cs" />
     <Compile Include="Services\Base\BaseService.cs" />
     <Compile Include="Services\Base\BaseUserableEntityService.cs" />
+    <Compile Include="Services\Base\IIdManageable.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\Currency\CurrencyExchangeRateService.cs" />
     <Compile Include="Services\Currency\CurrencyService.cs" />

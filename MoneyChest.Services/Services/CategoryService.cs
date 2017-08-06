@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services
 {
-    public interface ICategoryService : IBaseHistoricizedService<Category>
+    public interface ICategoryService : IBaseHistoricizedService<Category>, IIdManageable<Category>
     {
         int GetCategoryLevelsCount(int userId);
     }
@@ -70,6 +70,14 @@ namespace MoneyChest.Services.Services
                 .ToList()
                 .ForEach(item => item.CategoryId = categoryIdTo);
         }
+
+        #endregion
+
+        #region IIdManageable<T> implementation
+
+        public Category Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
+
+        public void Delete(int id) => Delete(Get(id));
 
         #endregion
 

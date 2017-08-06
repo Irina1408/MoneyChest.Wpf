@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services.Events
 {
-    public interface IRepayDebtEventService : IBaseHistoricizedService<RepayDebtEvent>
+    public interface IRepayDebtEventService : IBaseHistoricizedService<RepayDebtEvent>, IIdManageable<RepayDebtEvent>
     {
     }
 
@@ -23,5 +23,13 @@ namespace MoneyChest.Services.Services.Events
         protected override int UserId(RepayDebtEvent entity) => entity.UserId;
 
         protected override Expression<Func<RepayDebtEvent, bool>> LimitByUser(int userId) => item => item.UserId == userId;
+
+        #region IIdManageable<T> implementation
+
+        public RepayDebtEvent Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
+
+        public void Delete(int id) => Delete(Get(id));
+
+        #endregion
     }
 }

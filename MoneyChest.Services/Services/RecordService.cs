@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IRecordService : IBaseHistoricizedService<Record>
+    public interface IRecordService : IBaseHistoricizedService<Record>, IIdManageable<Record>
     {
     }
 
@@ -23,5 +23,13 @@ namespace MoneyChest.Services.Services
         protected override int UserId(Record entity) => entity.UserId;
 
         protected override Expression<Func<Record, bool>> LimitByUser(int userId) => item => item.UserId == userId;
+
+        #region IIdManageable<T> implementation
+
+        public Record Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
+
+        public void Delete(int id) => Delete(Get(id));
+
+        #endregion
     }
 }
