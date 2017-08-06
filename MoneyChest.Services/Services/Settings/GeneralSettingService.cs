@@ -19,6 +19,8 @@ namespace MoneyChest.Services.Services.Settings
         {
         }
 
-        public override Func<GeneralSetting, bool> LimitByUser(int userId) => item => item.UserId == userId;
+        protected override int UserId(GeneralSetting entity) => entity.UserId;
+
+        protected override Func<GeneralSetting, bool> LimitByUser(int userId) => item => item.UserId == userId;
     }
 }

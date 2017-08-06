@@ -26,7 +26,7 @@ namespace MoneyChest.Services.Services
             return _context.Currencies.FirstOrDefault(item => item.Id == entity.CurrencyFromId).UserId;
         }
 
-        public override Func<CurrencyExchangeRate, bool> LimitByUser(int userId) =>
+        protected override Func<CurrencyExchangeRate, bool> LimitByUser(int userId) =>
             item => item.CurrencyFrom.UserId == userId && item.CurrencyTo.UserId == userId;
     }
 }

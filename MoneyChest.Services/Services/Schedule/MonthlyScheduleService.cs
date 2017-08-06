@@ -25,6 +25,6 @@ namespace MoneyChest.Services.Services.Schedule
             return _context.Events.FirstOrDefault(_ => _.Id == entity.EventId).UserId;
         }
 
-        public override Func<MonthlySchedule, bool> LimitByUser(int userId) => item => item.Event.UserId == userId;
+        protected override Func<MonthlySchedule, bool> LimitByUser(int userId) => item => item.Event.UserId == userId;
     }
 }

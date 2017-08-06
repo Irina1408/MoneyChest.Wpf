@@ -22,7 +22,7 @@ namespace MoneyChest.Services.Services
 
         protected override int UserId(Category entity) => entity.UserId;
 
-        public override Func<Category, bool> LimitByUser(int userId) => item => item.UserId == userId;
+        protected override Func<Category, bool> LimitByUser(int userId) => item => item.UserId == userId;
 
         public int GetCategoryLevelsCount(int userId)
         {
