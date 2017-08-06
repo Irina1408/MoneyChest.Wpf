@@ -25,5 +25,8 @@ namespace MoneyChest.Services.Services
             if (entity.StorageTo != null) return entity.StorageTo.UserId;
             return _context.Currencies.FirstOrDefault(item => item.Id == entity.StorageFromId).UserId;
         }
+
+        public override Func<MoneyTransfer, bool> LimitByUser(int userId) => 
+            item => item.StorageFrom.UserId == userId && item.StorageTo.UserId == userId;
     }
 }

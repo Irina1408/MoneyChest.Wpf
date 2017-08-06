@@ -20,5 +20,7 @@ namespace MoneyChest.Services.Services.Events
         }
 
         protected override int UserId(SimpleEvent entity) => entity.UserId;
+
+        public override Func<SimpleEvent, bool> LimitByUser(int userId) => item => item.UserId == userId;
     }
 }

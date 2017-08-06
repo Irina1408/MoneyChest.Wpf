@@ -9,14 +9,16 @@ using MoneyChest.Data.Context;
 
 namespace MoneyChest.Services.Services.Settings
 {
-    public interface IRecordsViewFilterService : IBaseService<RecordsViewFilter>
+    public interface IRecordsViewFilterService : IBaseUserableService<RecordsViewFilter>
     {
     }
 
-    public class RecordsViewFilterService : BaseService<RecordsViewFilter>, IRecordsViewFilterService
+    public class RecordsViewFilterService : BaseUserableService<RecordsViewFilter>, IRecordsViewFilterService
     {
         public RecordsViewFilterService(ApplicationDbContext context) : base(context)
         {
         }
+
+        public override Func<RecordsViewFilter, bool> LimitByUser(int userId) => item => item.UserId == userId;
     }
 }

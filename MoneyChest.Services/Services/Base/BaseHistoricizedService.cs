@@ -11,12 +11,12 @@ using MoneyChest.Services.Services.History;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public interface IBaseHistoricizedService<T> : IBaseService<T>
+    public interface IBaseHistoricizedService<T> : IBaseUserableService<T>
         where T : class
     {
     }
 
-    public abstract class BaseHistoricizedService<T> : BaseService<T>, IBaseHistoricizedService<T>
+    public abstract class BaseHistoricizedService<T> : BaseUserableService<T>, IBaseHistoricizedService<T>
         where T : class
     {
         internal HistoryService _historyService;
@@ -24,6 +24,12 @@ namespace MoneyChest.Services.Services.Base
         public BaseHistoricizedService(ApplicationDbContext context) : base(context)
         {
             _historyService = new HistoryService(context);
+        }
+
+        public override T Add(T entity)
+        {
+            _historyService.WriteHistory(entity, ActionType.Add, UserId(entity));
+            return base.Add(entity);
         }
 
         public override void Delete(T entity)
@@ -34,6 +40,14 @@ namespace MoneyChest.Services.Services.Base
 
         public override void SaveChanges()
         {
+            // save changed items
+            foreach (var entity in _context.ChangeTracker.Entries<T>()
+                    .Where(item => item.State == EntityState.Modified)
+                    .Select(item => item.Entity).ToList())
+            {
+                _historyService.WriteHistory(entity, ActionType.Update, UserId(entity));
+            }
+
             base.SaveChanges();
             // save history
             _historyService.SaveChanges();
@@ -41,11 +55,17 @@ namespace MoneyChest.Services.Services.Base
 
         public override async Task SaveChangesAsync()
         {
+            // save changed items
+            foreach (var entity in _context.ChangeTracker.Entries<T>()
+                    .Where(item => item.State == EntityState.Modified)
+                    .Select(item => item.Entity).ToList())
+            {
+                _historyService.WriteHistory(entity, ActionType.Update, UserId(entity));
+            }
+
             await base.SaveChangesAsync();
             // save history
             await _historyService.SaveChangesAsync();
         }
-
-        protected abstract int UserId(T entity);
     }
 }

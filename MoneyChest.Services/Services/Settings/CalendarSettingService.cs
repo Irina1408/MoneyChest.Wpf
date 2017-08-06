@@ -9,14 +9,16 @@ using MoneyChest.Data.Context;
 
 namespace MoneyChest.Services.Services
 {
-    public interface ICalendarSettingService : IBaseService<CalendarSetting>
+    public interface ICalendarSettingService : IBaseUserableService<CalendarSetting>
     {
     }
 
-    public class CalendarSettingService : BaseService<CalendarSetting>, ICalendarSettingService
+    public class CalendarSettingService : BaseUserableService<CalendarSetting>, ICalendarSettingService
     {
         public CalendarSettingService(ApplicationDbContext context) : base(context)
         {
         }
+
+        public override Func<CalendarSetting, bool> LimitByUser(int userId) => item => item.UserId == userId;
     }
 }

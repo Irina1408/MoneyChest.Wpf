@@ -24,5 +24,7 @@ namespace MoneyChest.Services.Services.Schedule
             if (entity.Event != null) return entity.Event.UserId;
             return _context.Events.FirstOrDefault(_ => _.Id == entity.EventId).UserId;
         }
+
+        public override Func<DailySchedule, bool> LimitByUser(int userId) => item => item.Event.UserId == userId;
     }
 }

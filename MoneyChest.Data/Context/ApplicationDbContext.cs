@@ -121,7 +121,7 @@ namespace MoneyChest.Data.Context
 
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.Records)
-                .WithRequired(e => e.Category)
+                .WithOptional(e => e.Category)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Category>()
@@ -270,7 +270,7 @@ namespace MoneyChest.Data.Context
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Record>()
-                .HasRequired(e => e.Category)
+                .HasOptional(e => e.Category)
                 .WithMany()
                 .WillCascadeOnDelete(false);
 

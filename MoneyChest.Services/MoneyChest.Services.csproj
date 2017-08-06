@@ -54,11 +54,7 @@
     <Compile Include="Services\Base\BaseEntityService.cs" />
     <Compile Include="Services\Base\BaseHistoricizedService.cs" />
     <Compile Include="Services\Base\BaseService.cs" />
-    <Compile Include="Services\Base\Interfaces\ICurrencyExchangeRateService.cs" />
-    <Compile Include="Services\Base\Interfaces\ICurrencyService.cs" />
-    <Compile Include="Services\Base\Interfaces\IMoneyTransferEventService.cs" />
-    <Compile Include="Services\Base\Interfaces\IRepayDebtEventService.cs" />
-    <Compile Include="Services\Base\Interfaces\ISimpleEventService.cs" />
+    <Compile Include="Services\Base\BaseUserableEntityService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\Currency\CurrencyExchangeRateService.cs" />
     <Compile Include="Services\Currency\CurrencyService.cs" />

@@ -9,14 +9,16 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IForecastSettingService : IBaseService<ForecastSetting>
+    public interface IForecastSettingService : IBaseUserableService<ForecastSetting>
     {
     }
 
-    public class ForecastSettingService : BaseService<ForecastSetting>, IForecastSettingService
+    public class ForecastSettingService : BaseUserableService<ForecastSetting>, IForecastSettingService
     {
         public ForecastSettingService(ApplicationDbContext context) : base(context)
         {
         }
+
+        public override Func<ForecastSetting, bool> LimitByUser(int userId) => item => item.UserId == userId;
     }
 }

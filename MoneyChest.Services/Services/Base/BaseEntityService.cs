@@ -11,7 +11,6 @@ namespace MoneyChest.Services.Services.Base
     public interface IBaseService<T> : IBaseService
         where T : class
     {
-        List<T> Get(Func<T, bool> predicate = null);
         T Add(T entity);
         void Delete(T entity);
     }
@@ -27,12 +26,7 @@ namespace MoneyChest.Services.Services.Base
         protected DbSet<T> Entities { get; }
 
         #region IBaseService<T> implementation
-
-        public virtual List<T> Get(Func<T, bool> predicate = null)
-        {
-            return Entities.Where(predicate).ToList();
-        }
-
+        
         public virtual T Add(T entity)
         {
             return Entities.Add(entity);
