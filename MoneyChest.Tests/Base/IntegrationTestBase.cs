@@ -12,17 +12,15 @@ namespace MoneyChest.Tests
     public class IntegrationTestBase
     {
         protected ApplicationFixture App;
-        protected User user;
 
         [TestInitialize]
-        public void Init()
+        public virtual void Init()
         {
             App = new ApplicationFixture();
-            user = App.Factory.Create<User>();
         }
 
         [TestCleanup]
-        public void Cleanup()
+        public virtual void Cleanup()
         {
             App.Dispose();
         }

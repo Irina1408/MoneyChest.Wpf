@@ -28,6 +28,7 @@ namespace MoneyChest.Tests.Base
         public void Dispose()
         {
             _transaction.Rollback();
+            Db.Dispose();
         }
     }
 }

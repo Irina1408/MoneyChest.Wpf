@@ -103,13 +103,13 @@ namespace MoneyChest.Services.Services.History
 
         public override void SaveChanges()
         {
-            WriteHistoryToDatabase();
+            WriteHistoryToHistorySet();
             base.SaveChanges();
         }
 
         public override async Task SaveChangesAsync()
         {
-            WriteHistoryToDatabase();
+            WriteHistoryToHistorySet();
             await base.SaveChangesAsync();
         }
 
@@ -117,7 +117,7 @@ namespace MoneyChest.Services.Services.History
 
         #region Private methods and classes
 
-        private void WriteHistoryToDatabase()
+        private void WriteHistoryToHistorySet()
         {
             foreach (var historyItem in _history)
             {
@@ -129,6 +129,8 @@ namespace MoneyChest.Services.Services.History
                 }
                 historySet.Add(historyItem.Value);
             }
+
+            _history.Clear();
         }
 
         private Type GetHistoryType(Type type)

@@ -47,19 +47,23 @@ namespace MoneyChest.Data.Mock
             return r;
         }
 
-        public T Get<T>(Expression<Func<T, bool>> lookup) where T : class
+        public T CreateInstance<T>(Action<T> overrides = null) where T : class, new()
         {
-            return _db.Set<T>().FirstOrDefault(lookup);
-        }
+            var r = new T();
+            try
+            {
+                Action<object> defaultSetter;
+                if (_defaults.TryGetValue(typeof(T), out defaultSetter))
+                    defaultSetter.Invoke(r);
 
-        public List<T> GetAll<T>(Expression<Func<T, bool>> lookup) where T : class
-        {
-            return _db.Set<T>().Where(lookup).ToList();
-        }
-
-        public List<T> GetAllInclude<T, TInclude>(Expression<Func<T, bool>> lookup, Expression<Func<T, TInclude>> path) where T : class
-        {
-            return _db.Set<T>().Where(lookup).Include(path).ToList();
+                overrides?.Invoke(r);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return r;
         }
 
         public T GetOrCreate<T>(Expression<Func<T, bool>> lookup, Action<T> overrides = null) where T : class, new()

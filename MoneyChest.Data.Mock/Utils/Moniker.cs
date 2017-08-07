@@ -18,6 +18,16 @@ namespace MoneyChest.Data.Mock.Utils
             "Meat", "Sweets", "Milk", "Drink", "Alcohol", "Fish", "Fruits", "Vegetables", "Transport"
         };
 
+        private string[] _currencies = new string[]
+        {
+            "Hryvnia", "US Dollar", "Euro", "Russian Ruble", "Belarussian Ruble"
+        };
+
+        private string[] _storageGroups = new string[]
+        {
+            "Wallet", "Coin box"
+        };
+
         #endregion
 
         #region Generators
@@ -40,6 +50,10 @@ namespace MoneyChest.Data.Mock.Utils
         }
         
         public static string Category => Instance.RandomWord(Instance._categories);
+        public static string Currency => Instance.RandomWord(Instance._currencies);
+        public static string StorageGroup => Instance.RandomWord(Instance._storageGroups);
+        public static string CurrencyCode => "COD";
+        public static string CurrencySymbol => "₴";
         public static string UserName => "TestUserName";
         public static string UserPassword => "TestUserPassword";
 

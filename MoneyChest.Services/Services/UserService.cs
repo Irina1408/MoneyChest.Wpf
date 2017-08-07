@@ -7,6 +7,8 @@ using MoneyChest.Services.Services.Base;
 using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
 using System.Linq.Expressions;
+using System.Data.Entity;
+using MoneyChest.Data.Enums;
 
 namespace MoneyChest.Services.Services
 {
@@ -16,13 +18,35 @@ namespace MoneyChest.Services.Services
 
     public class UserService : BaseHistoricizedService<User>, IUserService
     {
+        private List<User> _newUsers;
+
         public UserService(ApplicationDbContext context) : base(context)
         {
+            _newUsers = new List<User>();
+        }
+
+        public override User Add(User entity)
+        {
+            _newUsers.Add(entity);
+            return Entities.Add(entity);
         }
 
         protected override int UserId(User entity) => entity.Id;
 
         protected override Expression<Func<User, bool>> LimitByUser(int userId) => item => item.Id == userId;
+
+        public override void SaveChanges()
+        {
+            // save changed items
+            SaveChangedItemsToHistory();
+            // save changes
+            base.SaveChanges();
+            // save new users to history
+            foreach (var entity in _newUsers)
+                _historyService.WriteHistory(entity, ActionType.Add, entity.Id);
+            // save history
+            _historyService.SaveChanges();
+        }
 
         #region IIdManageable<T> implementation
 

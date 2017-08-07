@@ -75,8 +75,32 @@
     <Compile Include="Base\ApplicationFixture.cs" />
     <Compile Include="Base\IntegrationTestBase.cs" />
     <Compile Include="Services\Base\HistoricizedServiceTestBase.cs" />
+    <Compile Include="Services\Base\IdManageableUserableHistoricizedServiceTestBase.cs" />
+    <Compile Include="Services\Base\IdManageableUserableServiceTestBase.cs" />
+    <Compile Include="Services\Base\UserableEntityServiceTestBase.cs" />
     <Compile Include="Services\CategoryServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Currency\CurrencyExchangeRateServiceTests.cs" />
+    <Compile Include="Services\Currency\CurrencyServiceTests.cs" />
+    <Compile Include="Services\DebtServiceTests.cs" />
+    <Compile Include="Services\Events\MoneyTransferEventServiceTests.cs" />
+    <Compile Include="Services\Events\RepayDebtEventServiceTests.cs" />
+    <Compile Include="Services\Events\SimpleEventServiceTests.cs" />
+    <Compile Include="Services\LimitServiceTests.cs" />
+    <Compile Include="Services\MoneyTransferServiceTests.cs" />
+    <Compile Include="Services\RecordServiceTests.cs" />
+    <Compile Include="Services\Schedule\DailyScheduleServiceTests.cs" />
+    <Compile Include="Services\Schedule\MonthlyScheduleServiceTests.cs" />
+    <Compile Include="Services\Schedule\OnceScheduleServiceTests.cs" />
+    <Compile Include="Services\Schedule\WeeklyScheduleServiceTests.cs" />
+    <Compile Include="Services\Settings\CalendarSettingServiceTests.cs" />
+    <Compile Include="Services\Settings\ForecastSettingServiceTests.cs" />
+    <Compile Include="Services\Settings\GeneralSettingServiceTests.cs" />
+    <Compile Include="Services\Settings\RecordsViewFilterServiceTests.cs" />
+    <Compile Include="Services\Settings\ReportSettingServiceTests.cs" />
+    <Compile Include="Services\StorageGroupServiceTests.cs" />
+    <Compile Include="Services\StorageServiceTests.cs" />
+    <Compile Include="Services\UserServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoneyChest.Data.Mock\MoneyChest.Data.Mock.csproj">

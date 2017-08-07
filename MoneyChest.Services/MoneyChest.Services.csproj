@@ -76,6 +76,7 @@
     <Compile Include="Services\Settings\GeneralSettingService.cs" />
     <Compile Include="Services\Settings\RecordsViewFilterService.cs" />
     <Compile Include="Services\Settings\ReportSettingService.cs" />
+    <Compile Include="Services\StorageGroupService.cs" />
     <Compile Include="Services\StorageService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>

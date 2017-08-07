@@ -41,13 +41,8 @@ namespace MoneyChest.Services.Services.Base
         public override void SaveChanges()
         {
             // save changed items
-            foreach (var entity in _context.ChangeTracker.Entries<T>()
-                    .Where(item => item.State == EntityState.Modified)
-                    .Select(item => item.Entity).ToList())
-            {
-                _historyService.WriteHistory(entity, ActionType.Update, UserId(entity));
-            }
-
+            SaveChangedItemsToHistory();
+            // save changes
             base.SaveChanges();
             // save history
             _historyService.SaveChanges();
@@ -66,6 +61,17 @@ namespace MoneyChest.Services.Services.Base
             await base.SaveChangesAsync();
             // save history
             await _historyService.SaveChangesAsync();
+        }
+
+        protected void SaveChangedItemsToHistory()
+        {
+            // save changed items
+            foreach (var entity in _context.ChangeTracker.Entries<T>()
+                    .Where(item => item.State == EntityState.Modified)
+                    .Select(item => item.Entity).ToList())
+            {
+                _historyService.WriteHistory(entity, ActionType.Update, UserId(entity));
+            }
         }
     }
 }
