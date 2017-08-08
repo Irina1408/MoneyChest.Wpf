@@ -20,8 +20,8 @@ namespace MoneyChest.Tests.Services.Settings
         #region Overrides
 
         protected override void ChangeEntity(ForecastSetting entity) => entity.RepeatsCount += 10;
-
         protected override void SetUserId(ForecastSetting entity, int userId) => entity.UserId = userId;
+        protected override int CountEntitiesForUser => 1;
 
         #endregion
     }

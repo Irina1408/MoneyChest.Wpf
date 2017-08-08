@@ -42,12 +42,12 @@ namespace MoneyChest.Tests.Services
         public virtual void ItFetchesAllEntitiesForUser()
         {
             // create entities
-            var entity1 = App.Factory.Create<T>(OnCreateOverrides);
-            var entity2 = App.Factory.Create<T>(OnCreateOverrides);
+            for(int i = 0; i < CountEntitiesForUser; i++)
+                App.Factory.Create<T>(OnCreateOverrides);
 
             // check entities fetched
             var entities = service.GetAllForUser(user.Id);
-            entities.Count.ShouldBeEquivalentTo(2);
+            entities.Count.ShouldBeEquivalentTo(CountEntitiesForUser);
         }
 
         [TestMethod]
@@ -95,6 +95,7 @@ namespace MoneyChest.Tests.Services
 
         protected virtual Action<T> OnCreateOverrides => item => SetUserId(item, user.Id);
         protected virtual int GetUserId(T entity) => user.Id;
+        protected virtual int CountEntitiesForUser => 2;
         protected virtual void CheckAreEquivalent(T entity1, T entity2)
         {
             var entityProperies = typeof(T).GetProperties();

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.Data.Mock", "Mon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.Tests", "MoneyChest.Tests\MoneyChest.Tests.csproj", "{B2A8F169-CF4E-4FDF-B155-652636CC2CC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.Utils", "MoneyChest.Utils\MoneyChest.Utils.csproj", "{DC7D4636-AEAA-4101-92D7-98F43E7D0B97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{B2A8F169-CF4E-4FDF-B155-652636CC2CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2A8F169-CF4E-4FDF-B155-652636CC2CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2A8F169-CF4E-4FDF-B155-652636CC2CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC7D4636-AEAA-4101-92D7-98F43E7D0B97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7D4636-AEAA-4101-92D7-98F43E7D0B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7D4636-AEAA-4101-92D7-98F43E7D0B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7D4636-AEAA-4101-92D7-98F43E7D0B97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

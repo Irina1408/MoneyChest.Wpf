@@ -9,6 +9,7 @@ using MoneyChest.Data.Entities;
 using System.Linq.Expressions;
 using System.Data.Entity;
 using MoneyChest.Data.Enums;
+using MoneyChest.Services.Services.Defaults;
 
 namespace MoneyChest.Services.Services
 {
@@ -29,6 +30,18 @@ namespace MoneyChest.Services.Services
         {
             _newUsers.Add(entity);
             return Entities.Add(entity);
+        }
+
+        public User Add(User entity, Language language)
+        {
+            _newUsers.Add(entity);
+            var user = Entities.Add(entity);
+            SaveChanges();
+
+            var defaultsLoader = new DefaultsLoadingService(_context);
+            defaultsLoader.LoadDefaults(user.Id, language);
+
+            return user;
         }
 
         protected override int UserId(User entity) => entity.Id;

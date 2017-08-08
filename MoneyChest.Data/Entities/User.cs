@@ -26,11 +26,11 @@ namespace MoneyChest.Data.Entities
             Records = new List<Record>();
             Storages = new List<Storage>();
             StorageGroups = new List<StorageGroup>();
-            CalendarSettings = new List<CalendarSetting>();
-            ForecastSettings = new List<ForecastSetting>();
-            GeneralSettings = new List<GeneralSetting>();
-            RecordsViewFilters = new List<RecordsViewFilter>();
-            ReportSettings = new List<ReportSetting>();
+            //CalendarSettings = new List<CalendarSetting>();
+            //ForecastSettings = new List<ForecastSetting>();
+            //GeneralSettings = new List<GeneralSetting>();
+            //RecordsViewFilter = new List<RecordsViewFilter>();
+            //ReportSettings = new List<ReportSetting>();
 
             CategoriesHistory = new List<CategoryHistory>();
             CurrenciesHistory = new List<CurrencyHistory>();
@@ -64,6 +64,17 @@ namespace MoneyChest.Data.Entities
 
         #region Navigation properties
         
+        public virtual CalendarSetting CalendarSettings { get; set; }
+        
+        public virtual ForecastSetting ForecastSettings { get; set; }
+        
+        public virtual GeneralSetting GeneralSettings { get; set; }
+        
+        public virtual RecordsViewFilter RecordsViewFilter { get; set; }
+        
+        public virtual ReportSetting ReportSettings { get; set; }
+
+
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Currency> Currencies { get; set; }
         public virtual ICollection<Debt> Debts { get; set; }
@@ -72,11 +83,6 @@ namespace MoneyChest.Data.Entities
         public virtual ICollection<Record> Records { get; set; }
         public virtual ICollection<Storage> Storages { get; set; }
         public virtual ICollection<StorageGroup> StorageGroups { get; set; }
-        public virtual ICollection<CalendarSetting> CalendarSettings { get; set; }
-        public virtual ICollection<ForecastSetting> ForecastSettings { get; set; }
-        public virtual ICollection<GeneralSetting> GeneralSettings { get; set; }
-        public virtual ICollection<RecordsViewFilter> RecordsViewFilters { get; set; }
-        public virtual ICollection<ReportSetting> ReportSettings { get; set; }
         public virtual ICollection<CategoryHistory> CategoriesHistory { get; set; }
         public virtual ICollection<CurrencyHistory> CurrenciesHistory { get; set; }
         public virtual ICollection<DebtHistory> DebtsHistory { get; set; }

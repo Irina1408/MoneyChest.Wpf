@@ -21,8 +21,8 @@ namespace MoneyChest.Tests.Services.Settings
         #region Overrides
 
         protected override void ChangeEntity(ReportSetting entity) => entity.PeriodFilterType = PeriodFilterType.ThisYear;
-
         protected override void SetUserId(ReportSetting entity, int userId) => entity.UserId = userId;
+        protected override int CountEntitiesForUser => 1;
 
         #endregion
     }

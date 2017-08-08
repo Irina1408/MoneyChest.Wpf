@@ -20,8 +20,8 @@ namespace MoneyChest.Tests.Services.Settings
         #region Overrides
 
         protected override void ChangeEntity(CalendarSetting entity) => entity.ShowLimits = !entity.ShowLimits;
-
         protected override void SetUserId(CalendarSetting entity, int userId) => entity.UserId = userId;
+        protected override int CountEntitiesForUser => 1;
 
         #endregion
     }

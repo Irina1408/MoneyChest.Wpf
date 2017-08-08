@@ -19,8 +19,8 @@ namespace MoneyChest.Data.Entities
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int UserId { get; set; }
 
         // Hide coin box accounts in every selection
         public bool HideCoinBoxStorages { get; set; }
@@ -38,9 +38,6 @@ namespace MoneyChest.Data.Entities
         
         [ForeignKey(nameof(ComissionCategoryId))]
         public virtual Category ComissionCategory { get; set; }
-
-        [Required]
-        public int UserId { get; set; }
 
 
         [ForeignKey(nameof(UserId))]

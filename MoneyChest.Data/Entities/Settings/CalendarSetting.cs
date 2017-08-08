@@ -18,17 +18,14 @@ namespace MoneyChest.Data.Entities
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int UserId { get; set; }
 
         public int? StorageGroupId { get; set; }
 
         public CalendarPeriodType PeriodType { get; set; }
 
         public bool ShowLimits { get; set; }
-        
-        [Required]
-        public int UserId { get; set; }
 
 
         [ForeignKey(nameof(UserId))]

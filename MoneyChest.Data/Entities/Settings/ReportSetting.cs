@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Entities
 {
-    public class ReportSetting : SettingCategorized
+    [Table(nameof(ReportSetting))]
+    public class ReportSetting
     {
         public ReportSetting() : base()
         {
@@ -17,7 +18,16 @@ namespace MoneyChest.Data.Entities
             PeriodFilterType = PeriodFilterType.ThisMonth;
             ReportType = ReportType.PieChart;
             CategoryLevel = -1;
+            AllCategories = true;
+
+            Categories = new List<Category>();
         }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int UserId { get; set; }
+
+        public bool AllCategories { get; set; }
 
         public ReportType ReportType { get; set; }
 
@@ -33,11 +43,10 @@ namespace MoneyChest.Data.Entities
         [Column(TypeName = "date")]
         public DateTime? DateUntil { get; set; }
 
-        [Required]
-        public int UserId { get; set; }
-
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
+
+        public virtual ICollection<Category> Categories { get; set; }
     }
 }

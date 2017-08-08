@@ -20,6 +20,7 @@ namespace MoneyChest.Tests.Services.Settings
         #region Overrides
 
         protected override void ChangeEntity(GeneralSetting entity) => entity.HideCoinBoxStorages = !entity.HideCoinBoxStorages;
+        protected override int CountEntitiesForUser => 1;
 
         protected override void SetUserId(GeneralSetting entity, int userId)
         {

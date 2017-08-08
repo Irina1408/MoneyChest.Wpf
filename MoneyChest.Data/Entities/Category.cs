@@ -25,7 +25,9 @@ namespace MoneyChest.Data.Entities
             SimpleEvents = new List<SimpleEvent>();
             Limits = new List<Limit>();
             Records = new List<Record>();
-            UserSettingsCategorized = new List<SettingCategorized>();
+            ForecastSettings = new List<ForecastSetting>();
+            RecordsViewFilters = new List<RecordsViewFilter>();
+            ReportSettings = new List<ReportSetting>();
         }
 
         [Key]
@@ -64,7 +66,9 @@ namespace MoneyChest.Data.Entities
         public virtual ICollection<SimpleEvent> SimpleEvents { get; set; }
         public virtual ICollection<Limit> Limits { get; set; }
         public virtual ICollection<Record> Records { get; set; }
-        public virtual ICollection<SettingCategorized> UserSettingsCategorized { get; set; }
+        public virtual ICollection<ForecastSetting> ForecastSettings { get; set; }
+        public virtual ICollection<RecordsViewFilter> RecordsViewFilters { get; set; }
+        public virtual ICollection<ReportSetting> ReportSettings { get; set; }
 
         #endregion
     }

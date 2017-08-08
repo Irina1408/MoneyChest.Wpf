@@ -52,7 +52,6 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<GeneralSetting> GeneralSettings { get; set; }
         public virtual DbSet<RecordsViewFilter> RecordsViewFilters { get; set; }
         public virtual DbSet<ReportSetting> ReportSettings { get; set; }
-        public virtual DbSet<SettingCategorized> SettingsCategorized { get; set; }
         public virtual DbSet<DailySchedule> DailySchedules { get; set; }
         public virtual DbSet<MonthlySchedule> MonthlySchedules { get; set; }
         public virtual DbSet<MonthlyScheduleMonth> MonthlyScheduleMonths { get; set; }
@@ -131,27 +130,27 @@ namespace MoneyChest.Data.Context
 
             // User
             modelBuilder.Entity<User>()
-                .HasMany(e => e.CalendarSettings)
+                .HasOptional(e => e.CalendarSettings)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
-                .HasMany(e => e.ForecastSettings)
+                .HasOptional(e => e.ForecastSettings)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
-                .HasMany(e => e.GeneralSettings)
+                .HasOptional(e => e.GeneralSettings)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
-                .HasMany(e => e.RecordsViewFilters)
+                .HasOptional(e => e.RecordsViewFilter)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
-                .HasMany(e => e.ReportSettings)
+                .HasOptional(e => e.ReportSettings)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 

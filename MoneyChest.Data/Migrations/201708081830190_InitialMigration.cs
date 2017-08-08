@@ -11,17 +11,16 @@ namespace MoneyChest.Data.Migrations
                 "dbo.CalendarSettings",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        UserId = c.Int(nullable: false),
                         StorageGroupId = c.Int(),
                         PeriodType = c.Int(nullable: false),
                         ShowLimits = c.Boolean(nullable: false),
-                        UserId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
+                .PrimaryKey(t => t.UserId)
                 .ForeignKey("dbo.StorageGroups", t => t.StorageGroupId)
                 .ForeignKey("dbo.Users", t => t.UserId)
-                .Index(t => t.StorageGroupId)
-                .Index(t => t.UserId);
+                .Index(t => t.UserId)
+                .Index(t => t.StorageGroupId);
             
             CreateTable(
                 "dbo.StorageGroups",
@@ -162,22 +161,14 @@ namespace MoneyChest.Data.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.GeneralSettings",
+                "dbo.ForecastSettings",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        HideCoinBoxStorages = c.Boolean(nullable: false),
-                        Language = c.Int(nullable: false),
-                        DebtCategoryId = c.Int(nullable: false),
-                        ComissionCategoryId = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
+                        AllCategories = c.Boolean(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
+                .PrimaryKey(t => t.UserId)
                 .ForeignKey("dbo.Users", t => t.UserId)
-                .ForeignKey("dbo.Categories", t => t.ComissionCategoryId)
-                .ForeignKey("dbo.Categories", t => t.DebtCategoryId)
-                .Index(t => t.DebtCategoryId)
-                .Index(t => t.ComissionCategoryId)
                 .Index(t => t.UserId);
             
             CreateTable(
@@ -388,35 +379,22 @@ namespace MoneyChest.Data.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.SettingCategorizeds",
+                "dbo.GeneralSettings",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        AllCategories = c.Boolean(nullable: false),
-                        UserId = c.Int(),
-                        Description = c.String(),
-                        Remark = c.String(),
-                        PeriodFilterType = c.Int(),
-                        TransactionType = c.Int(),
-                        DateFrom = c.DateTime(storeType: "date"),
-                        DateUntil = c.DateTime(storeType: "date"),
-                        UserId1 = c.Int(),
-                        ReportType = c.Int(),
-                        DataType = c.Int(),
-                        PeriodFilterType1 = c.Int(),
-                        CategoryLevel = c.Int(),
-                        DateFrom1 = c.DateTime(storeType: "date"),
-                        DateUntil1 = c.DateTime(storeType: "date"),
-                        UserId2 = c.Int(),
-                        Discriminator = c.String(nullable: false, maxLength: 128),
+                        UserId = c.Int(nullable: false),
+                        HideCoinBoxStorages = c.Boolean(nullable: false),
+                        Language = c.Int(nullable: false),
+                        DebtCategoryId = c.Int(nullable: false),
+                        ComissionCategoryId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
+                .PrimaryKey(t => t.UserId)
                 .ForeignKey("dbo.Users", t => t.UserId)
-                .ForeignKey("dbo.Users", t => t.UserId1)
-                .ForeignKey("dbo.Users", t => t.UserId2)
+                .ForeignKey("dbo.Categories", t => t.ComissionCategoryId)
+                .ForeignKey("dbo.Categories", t => t.DebtCategoryId)
                 .Index(t => t.UserId)
-                .Index(t => t.UserId1)
-                .Index(t => t.UserId2);
+                .Index(t => t.DebtCategoryId)
+                .Index(t => t.ComissionCategoryId);
             
             CreateTable(
                 "dbo.Limits",
@@ -484,6 +462,40 @@ namespace MoneyChest.Data.Migrations
                     })
                 .PrimaryKey(t => t.ActionId)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.RecordsViewFilter",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false),
+                        AllCategories = c.Boolean(nullable: false),
+                        Description = c.String(),
+                        Remark = c.String(),
+                        PeriodFilterType = c.Int(nullable: false),
+                        TransactionType = c.Int(),
+                        DateFrom = c.DateTime(storeType: "date"),
+                        DateUntil = c.DateTime(storeType: "date"),
+                    })
+                .PrimaryKey(t => t.UserId)
+                .ForeignKey("dbo.Users", t => t.UserId)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.ReportSetting",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false),
+                        AllCategories = c.Boolean(nullable: false),
+                        ReportType = c.Int(nullable: false),
+                        DataType = c.Int(nullable: false),
+                        PeriodFilterType = c.Int(nullable: false),
+                        CategoryLevel = c.Int(nullable: false),
+                        DateFrom = c.DateTime(storeType: "date"),
+                        DateUntil = c.DateTime(storeType: "date"),
+                    })
+                .PrimaryKey(t => t.UserId)
+                .ForeignKey("dbo.Users", t => t.UserId)
                 .Index(t => t.UserId);
             
             CreateTable(
@@ -659,16 +671,42 @@ namespace MoneyChest.Data.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.SettingCategorizedCategories",
+                "dbo.ForecastSettingCategories",
                 c => new
                     {
-                        SettingCategorized_Id = c.Int(nullable: false),
+                        ForecastSetting_UserId = c.Int(nullable: false),
                         Category_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.SettingCategorized_Id, t.Category_Id })
-                .ForeignKey("dbo.SettingCategorizeds", t => t.SettingCategorized_Id, cascadeDelete: true)
+                .PrimaryKey(t => new { t.ForecastSetting_UserId, t.Category_Id })
+                .ForeignKey("dbo.ForecastSettings", t => t.ForecastSetting_UserId, cascadeDelete: true)
                 .ForeignKey("dbo.Categories", t => t.Category_Id, cascadeDelete: true)
-                .Index(t => t.SettingCategorized_Id)
+                .Index(t => t.ForecastSetting_UserId)
+                .Index(t => t.Category_Id);
+            
+            CreateTable(
+                "dbo.RecordsViewFilterCategories",
+                c => new
+                    {
+                        RecordsViewFilter_UserId = c.Int(nullable: false),
+                        Category_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.RecordsViewFilter_UserId, t.Category_Id })
+                .ForeignKey("dbo.RecordsViewFilter", t => t.RecordsViewFilter_UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Categories", t => t.Category_Id, cascadeDelete: true)
+                .Index(t => t.RecordsViewFilter_UserId)
+                .Index(t => t.Category_Id);
+            
+            CreateTable(
+                "dbo.ReportSettingCategories",
+                c => new
+                    {
+                        ReportSetting_UserId = c.Int(nullable: false),
+                        Category_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.ReportSetting_UserId, t.Category_Id })
+                .ForeignKey("dbo.ReportSetting", t => t.ReportSetting_UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Categories", t => t.Category_Id, cascadeDelete: true)
+                .Index(t => t.ReportSetting_UserId)
                 .Index(t => t.Category_Id);
             
         }
@@ -699,8 +737,6 @@ namespace MoneyChest.Data.Migrations
             DropForeignKey("dbo.Events", "DebtId", "dbo.Debts");
             DropForeignKey("dbo.Records", "Debt_Id", "dbo.Debts");
             DropForeignKey("dbo.Records", "DebtId", "dbo.Debts");
-            DropForeignKey("dbo.SettingCategorizedCategories", "Category_Id", "dbo.Categories");
-            DropForeignKey("dbo.SettingCategorizedCategories", "SettingCategorized_Id", "dbo.SettingCategorizeds");
             DropForeignKey("dbo.Events", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.Records", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.Limits", "CategoryId", "dbo.Categories");
@@ -710,14 +746,18 @@ namespace MoneyChest.Data.Migrations
             DropForeignKey("dbo.Storages", "UserId", "dbo.Users");
             DropForeignKey("dbo.StorageGroupHistories", "UserId", "dbo.Users");
             DropForeignKey("dbo.StorageGroups", "UserId", "dbo.Users");
-            DropForeignKey("dbo.SettingCategorizeds", "UserId2", "dbo.Users");
-            DropForeignKey("dbo.SettingCategorizeds", "UserId1", "dbo.Users");
+            DropForeignKey("dbo.ReportSetting", "UserId", "dbo.Users");
+            DropForeignKey("dbo.ReportSettingCategories", "Category_Id", "dbo.Categories");
+            DropForeignKey("dbo.ReportSettingCategories", "ReportSetting_UserId", "dbo.ReportSetting");
+            DropForeignKey("dbo.RecordsViewFilter", "UserId", "dbo.Users");
+            DropForeignKey("dbo.RecordsViewFilterCategories", "Category_Id", "dbo.Categories");
+            DropForeignKey("dbo.RecordsViewFilterCategories", "RecordsViewFilter_UserId", "dbo.RecordsViewFilter");
             DropForeignKey("dbo.RecordHistories", "UserId", "dbo.Users");
             DropForeignKey("dbo.Records", "UserId", "dbo.Users");
             DropForeignKey("dbo.LimitHistories", "UserId", "dbo.Users");
             DropForeignKey("dbo.Limits", "UserId", "dbo.Users");
             DropForeignKey("dbo.GeneralSettings", "UserId", "dbo.Users");
-            DropForeignKey("dbo.SettingCategorizeds", "UserId", "dbo.Users");
+            DropForeignKey("dbo.ForecastSettings", "UserId", "dbo.Users");
             DropForeignKey("dbo.EventHistories", "UserId", "dbo.Users");
             DropForeignKey("dbo.Events", "UserId", "dbo.Users");
             DropForeignKey("dbo.Schedules", "EventId", "dbo.Events");
@@ -730,12 +770,18 @@ namespace MoneyChest.Data.Migrations
             DropForeignKey("dbo.CategoryHistories", "UserId", "dbo.Users");
             DropForeignKey("dbo.Categories", "UserId", "dbo.Users");
             DropForeignKey("dbo.CalendarSettings", "UserId", "dbo.Users");
+            DropForeignKey("dbo.ForecastSettingCategories", "Category_Id", "dbo.Categories");
+            DropForeignKey("dbo.ForecastSettingCategories", "ForecastSetting_UserId", "dbo.ForecastSettings");
             DropForeignKey("dbo.Categories", "ParentCategoryId", "dbo.Categories");
             DropForeignKey("dbo.CurrencyExchangeRates", "CurrencyToId", "dbo.Currencies");
             DropForeignKey("dbo.CurrencyExchangeRates", "CurrencyFromId", "dbo.Currencies");
             DropForeignKey("dbo.CalendarSettings", "StorageGroupId", "dbo.StorageGroups");
-            DropIndex("dbo.SettingCategorizedCategories", new[] { "Category_Id" });
-            DropIndex("dbo.SettingCategorizedCategories", new[] { "SettingCategorized_Id" });
+            DropIndex("dbo.ReportSettingCategories", new[] { "Category_Id" });
+            DropIndex("dbo.ReportSettingCategories", new[] { "ReportSetting_UserId" });
+            DropIndex("dbo.RecordsViewFilterCategories", new[] { "Category_Id" });
+            DropIndex("dbo.RecordsViewFilterCategories", new[] { "RecordsViewFilter_UserId" });
+            DropIndex("dbo.ForecastSettingCategories", new[] { "Category_Id" });
+            DropIndex("dbo.ForecastSettingCategories", new[] { "ForecastSetting_UserId" });
             DropIndex("dbo.WeeklyScheduleDayOfWeekHistories", new[] { "UserId" });
             DropIndex("dbo.UserHistories", new[] { "UserId" });
             DropIndex("dbo.MonthlyScheduleMonthHistories", new[] { "UserId" });
@@ -746,14 +792,16 @@ namespace MoneyChest.Data.Migrations
             DropIndex("dbo.MoneyTransfers", new[] { "StorageFromId" });
             DropIndex("dbo.StorageHistories", new[] { "UserId" });
             DropIndex("dbo.StorageGroupHistories", new[] { "UserId" });
+            DropIndex("dbo.ReportSetting", new[] { "UserId" });
+            DropIndex("dbo.RecordsViewFilter", new[] { "UserId" });
             DropIndex("dbo.RecordHistories", new[] { "UserId" });
             DropIndex("dbo.LimitHistories", new[] { "UserId" });
             DropIndex("dbo.Limits", new[] { "UserId" });
             DropIndex("dbo.Limits", new[] { "CategoryId" });
             DropIndex("dbo.Limits", new[] { "CurrencyId" });
-            DropIndex("dbo.SettingCategorizeds", new[] { "UserId2" });
-            DropIndex("dbo.SettingCategorizeds", new[] { "UserId1" });
-            DropIndex("dbo.SettingCategorizeds", new[] { "UserId" });
+            DropIndex("dbo.GeneralSettings", new[] { "ComissionCategoryId" });
+            DropIndex("dbo.GeneralSettings", new[] { "DebtCategoryId" });
+            DropIndex("dbo.GeneralSettings", new[] { "UserId" });
             DropIndex("dbo.EventHistories", new[] { "UserId" });
             DropIndex("dbo.WeeklyScheduleDayOfWeeks", new[] { "WeeklyScheduleId" });
             DropIndex("dbo.MonthlyScheduleMonths", new[] { "MonthlyScheduleId" });
@@ -769,9 +817,7 @@ namespace MoneyChest.Data.Migrations
             DropIndex("dbo.DebtHistories", new[] { "UserId" });
             DropIndex("dbo.CurrencyHistories", new[] { "UserId" });
             DropIndex("dbo.CategoryHistories", new[] { "UserId" });
-            DropIndex("dbo.GeneralSettings", new[] { "UserId" });
-            DropIndex("dbo.GeneralSettings", new[] { "ComissionCategoryId" });
-            DropIndex("dbo.GeneralSettings", new[] { "DebtCategoryId" });
+            DropIndex("dbo.ForecastSettings", new[] { "UserId" });
             DropIndex("dbo.Categories", new[] { "UserId" });
             DropIndex("dbo.Categories", new[] { "ParentCategoryId" });
             DropIndex("dbo.Records", new[] { "Debt_Id" });
@@ -791,9 +837,11 @@ namespace MoneyChest.Data.Migrations
             DropIndex("dbo.Storages", new[] { "CurrencyId" });
             DropIndex("dbo.Storages", new[] { "StorageGroupId" });
             DropIndex("dbo.StorageGroups", new[] { "UserId" });
-            DropIndex("dbo.CalendarSettings", new[] { "UserId" });
             DropIndex("dbo.CalendarSettings", new[] { "StorageGroupId" });
-            DropTable("dbo.SettingCategorizedCategories");
+            DropIndex("dbo.CalendarSettings", new[] { "UserId" });
+            DropTable("dbo.ReportSettingCategories");
+            DropTable("dbo.RecordsViewFilterCategories");
+            DropTable("dbo.ForecastSettingCategories");
             DropTable("dbo.WeeklyScheduleDayOfWeekHistories");
             DropTable("dbo.UserHistories");
             DropTable("dbo.MonthlyScheduleMonthHistories");
@@ -803,10 +851,12 @@ namespace MoneyChest.Data.Migrations
             DropTable("dbo.MoneyTransfers");
             DropTable("dbo.StorageHistories");
             DropTable("dbo.StorageGroupHistories");
+            DropTable("dbo.ReportSetting");
+            DropTable("dbo.RecordsViewFilter");
             DropTable("dbo.RecordHistories");
             DropTable("dbo.LimitHistories");
             DropTable("dbo.Limits");
-            DropTable("dbo.SettingCategorizeds");
+            DropTable("dbo.GeneralSettings");
             DropTable("dbo.EventHistories");
             DropTable("dbo.WeeklyScheduleDayOfWeeks");
             DropTable("dbo.MonthlyScheduleMonths");
@@ -816,7 +866,7 @@ namespace MoneyChest.Data.Migrations
             DropTable("dbo.CurrencyHistories");
             DropTable("dbo.CategoryHistories");
             DropTable("dbo.Users");
-            DropTable("dbo.GeneralSettings");
+            DropTable("dbo.ForecastSettings");
             DropTable("dbo.Categories");
             DropTable("dbo.Records");
             DropTable("dbo.Debts");
