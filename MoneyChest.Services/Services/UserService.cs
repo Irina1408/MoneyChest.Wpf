@@ -65,6 +65,8 @@ namespace MoneyChest.Services.Services
 
         public User Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
 
+        public List<User> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
+
         public void Delete(int id) => Delete(Get(id));
 
         #endregion

@@ -37,6 +37,8 @@ namespace MoneyChest.Services.Services
 
         public Currency Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
 
+        public List<Currency> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
+
         public void Delete(int id) => Delete(Get(id));
 
         #endregion

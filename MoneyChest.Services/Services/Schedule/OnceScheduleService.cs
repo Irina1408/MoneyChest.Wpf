@@ -32,6 +32,8 @@ namespace MoneyChest.Services.Services.Schedule
 
         public OnceSchedule Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
 
+        public List<OnceSchedule> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
+
         public void Delete(int id) => Delete(Get(id));
 
         #endregion

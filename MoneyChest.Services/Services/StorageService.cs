@@ -28,6 +28,8 @@ namespace MoneyChest.Services.Services
 
         public Storage Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
 
+        public List<Storage> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
+
         public void Delete(int id) => Delete(Get(id));
 
         #endregion

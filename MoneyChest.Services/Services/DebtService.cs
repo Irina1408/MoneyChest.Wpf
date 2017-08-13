@@ -28,6 +28,8 @@ namespace MoneyChest.Services.Services
 
         public Debt Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
 
+        public List<Debt> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
+
         public void Delete(int id) => Delete(Get(id));
 
         #endregion

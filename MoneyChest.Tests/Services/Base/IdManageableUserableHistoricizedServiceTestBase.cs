@@ -37,6 +37,19 @@ namespace MoneyChest.Tests.Services
         }
 
         [TestMethod]
+        public virtual void ItFetchesEntityByIds()
+        {
+            // create entity
+            var entity = App.Factory.Create<T>(OnCreateOverrides);
+
+            // check entity fetched
+            var entityFetched = serviceIdManageable.Get(new List<int>() { (int)entity.GetType().GetProperty(IdPropertyName).GetValue(entity) });
+            entityFetched.Should().NotBeNull();
+            entityFetched.Count.ShouldBeEquivalentTo(1);
+            CheckAreEquivalent(entityFetched[0], entity);
+        }
+
+        [TestMethod]
         public virtual void ItRemovesEntityById()
         {
             var entity = App.Factory.Create<T>(OnCreateOverrides);

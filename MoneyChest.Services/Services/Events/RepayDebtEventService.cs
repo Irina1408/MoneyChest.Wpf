@@ -28,6 +28,8 @@ namespace MoneyChest.Services.Services.Events
 
         public RepayDebtEvent Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
 
+        public List<RepayDebtEvent> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
+
         public void Delete(int id) => Delete(Get(id));
 
         #endregion
