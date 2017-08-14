@@ -74,6 +74,9 @@
   <ItemGroup>
     <Compile Include="Base\ApplicationFixture.cs" />
     <Compile Include="Base\IntegrationTestBase.cs" />
+    <Compile Include="Base\UserableIntegrationTestBase.cs" />
+    <Compile Include="Calculators\DebtsSummaryCalculatorTests.cs" />
+    <Compile Include="Calculators\StorageSummaryCalculatorTests.cs" />
     <Compile Include="Services\Base\HistoricizedServiceTestBase.cs" />
     <Compile Include="Services\Base\IdManageableUserableHistoricizedServiceTestBase.cs" />
     <Compile Include="Services\Base\IdManageableUserableServiceTestBase.cs" />
@@ -103,6 +106,10 @@
     <Compile Include="Services\UserServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MoneyChest.Calculation\MoneyChest.Calculation.csproj">
+      <Project>{db809b22-130f-4fb6-a8ad-2b50b56c6098}</Project>
+      <Name>MoneyChest.Calculation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MoneyChest.Data.Mock\MoneyChest.Data.Mock.csproj">
       <Project>{22F4DD23-4DE7-489A-A0AF-2A8066CC7E63}</Project>
       <Name>MoneyChest.Data.Mock</Name>

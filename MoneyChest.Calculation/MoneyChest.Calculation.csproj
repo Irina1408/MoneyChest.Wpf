@@ -44,15 +44,20 @@
     <Compile Include="Common\SpecialValueUntil.cs" />
     <Compile Include="Common\ValueUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Calculators\DebtsSummaryCalculator.cs" />
+    <Compile Include="Calculators\StorageSummaryCalculator.cs" />
     <Compile Include="Summary\Base\BaseSummary.cs" />
     <Compile Include="Summary\DebtsSummary.cs" />
     <Compile Include="Summary\StorageSummary.cs" />
-    <Compile Include="Summary\SummaryCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoneyChest.Data\MoneyChest.Data.csproj">
       <Project>{367772a1-b49c-49da-b5cb-aae5bf696947}</Project>
       <Name>MoneyChest.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MoneyChest.Services\MoneyChest.Services.csproj">
+      <Project>{ab2608ab-d835-49b0-841f-3f7e61869394}</Project>
+      <Name>MoneyChest.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
