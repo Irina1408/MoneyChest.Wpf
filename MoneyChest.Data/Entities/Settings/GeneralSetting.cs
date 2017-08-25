@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace MoneyChest.Data.Entities
         {
             Language = Language.English;
             HideCoinBoxStorages = true;
+            FirstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
         }
 
         [Key]
@@ -26,6 +28,8 @@ namespace MoneyChest.Data.Entities
         public bool HideCoinBoxStorages { get; set; }
 
         public Language Language { get; set; }
+
+        public DayOfWeek FirstDayOfWeek { get; set; }
 
         public int DebtCategoryId { get; set; }
 

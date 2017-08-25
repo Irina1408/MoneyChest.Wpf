@@ -83,6 +83,7 @@
     <Compile Include="Services\StorageGroupService.cs" />
     <Compile Include="Services\StorageService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Utils\ServiceHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoneyChest.Data\MoneyChest.Data.csproj">

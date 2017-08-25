@@ -19,6 +19,7 @@ namespace MoneyChest.Data.Entities
             ReportType = ReportType.PieChart;
             CategoryLevel = -1;
             AllCategories = true;
+            IncludeRecordsWithoutCategory = true;
 
             Categories = new List<Category>();
         }
@@ -26,6 +27,8 @@ namespace MoneyChest.Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }
+
+        public bool IncludeRecordsWithoutCategory { get; set; }
 
         public bool AllCategories { get; set; }
 

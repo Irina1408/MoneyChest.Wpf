@@ -20,5 +20,21 @@ namespace MoneyChest.Tests.Services
         protected override void SetUserId(Category entity, int userId) => entity.UserId = userId;
 
         #endregion
+
+        [TestMethod]
+        public virtual void ItFecthesCategoryLevel()
+        {
+            // create entity
+            var entity1 = App.Factory.Create<Category>(OnCreateOverrides);
+            var entity2 = App.Factory.Create<Category>(item =>
+            {
+                OnCreateOverrides?.Invoke(item);
+                item.ParentCategoryId = entity1.Id;
+            });
+
+            // check entity fetched
+            var entityFetched = ((CategoryService)serviceIdManageable).GetLowestCategoryLevel(user.Id);
+            entityFetched.ShouldBeEquivalentTo(1);
+        }
     }
 }

@@ -20,5 +20,22 @@ namespace MoneyChest.Tests.Services
         protected override void SetUserId(Currency entity, int userId) => entity.UserId = userId;
 
         #endregion
+
+        [TestMethod]
+        public virtual void ItFecthesMainCurrency()
+        {
+            // create entity
+            var entity = App.Factory.Create<Currency>(item => 
+            {
+                OnCreateOverrides?.Invoke(item);
+                item.IsMain = true;
+                item.IsUsed = true;
+            });
+
+            // check entity fetched
+            var entityFetched = ((CurrencyService)serviceIdManageable).GetMain(user.Id);
+            entityFetched.Should().NotBeNull();
+            CheckAreEquivalent(entityFetched, entity);
+        }
     }
 }

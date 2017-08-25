@@ -13,6 +13,7 @@ namespace MoneyChest.Services.Services
 {
     public interface ICurrencyService : IBaseHistoricizedService<Currency>, IIdManageable<Currency>
     {
+        Currency GetMain(int userId);
     }
 
     public class CurrencyService : BaseHistoricizedService<Currency>, ICurrencyService
@@ -30,6 +31,15 @@ namespace MoneyChest.Services.Services
         protected override int UserId(Currency entity) => entity.UserId;
 
         protected override Expression<Func<Currency, bool>> LimitByUser(int userId) => item => item.UserId == userId;
+
+        #endregion
+
+        #region ICurrencyService implementation
+
+        public Currency GetMain(int userId)
+        {
+            return GetForUser(userId, item => item.IsMain);
+        }
 
         #endregion
 

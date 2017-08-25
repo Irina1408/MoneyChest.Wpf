@@ -46,6 +46,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Calculators\DebtsSummaryCalculator.cs" />
     <Compile Include="Calculators\StorageSummaryCalculator.cs" />
+    <Compile Include="Reports\ReportBuilder.cs" />
+    <Compile Include="Reports\ReportUnit.cs" />
     <Compile Include="Summary\Base\BaseSummary.cs" />
     <Compile Include="Summary\DebtsSummary.cs" />
     <Compile Include="Summary\StorageSummary.cs" />

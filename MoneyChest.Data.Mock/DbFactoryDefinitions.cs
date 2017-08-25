@@ -61,7 +61,7 @@ namespace MoneyChest.Data.Mock
             {
                 e.Description = "Record";
                 e.TransactionType = TransactionType.Expense;
-                e.Date = DateTime.Today;
+                e.Date = DateTime.Now;
                 e.Value = Moniker.Digit;
             });
 

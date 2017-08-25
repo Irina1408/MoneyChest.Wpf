@@ -385,6 +385,7 @@ namespace MoneyChest.Data.Migrations
                         UserId = c.Int(nullable: false),
                         HideCoinBoxStorages = c.Boolean(nullable: false),
                         Language = c.Int(nullable: false),
+                        FirstDayOfWeek = c.Int(nullable: false),
                         DebtCategoryId = c.Int(nullable: false),
                         ComissionCategoryId = c.Int(nullable: false),
                     })
@@ -486,6 +487,7 @@ namespace MoneyChest.Data.Migrations
                 c => new
                     {
                         UserId = c.Int(nullable: false),
+                        IncludeRecordsWithoutCategory = c.Boolean(nullable: false),
                         AllCategories = c.Boolean(nullable: false),
                         ReportType = c.Int(nullable: false),
                         DataType = c.Int(nullable: false),

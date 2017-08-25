@@ -12,7 +12,19 @@ namespace MoneyChest.Services.Services
 {
     public interface ICategoryService : IBaseHistoricizedService<Category>, IIdManageable<Category>
     {
-        int GetCategoryLevelsCount(int userId);
+        int GetLowestCategoryLevel(int userId);
+        /// <summary>
+        /// Returns dictionary of category mapping where
+        /// key -> category id
+        /// value -> category id of selected level or higher (1 level is higher then 3 level)
+        /// </summary>
+        Dictionary<int, int> GetCategoryMapping(int userId, int level);
+        /// <summary>
+        /// Returns dictionary of category level mapping where
+        /// key -> category id
+        /// value -> category level (from 0)
+        /// </summary>
+        Dictionary<int, int> GetCategoryLevelMapping(int userId);
     }
 
     public class CategoryService : BaseHistoricizedService<Category>, ICategoryService
@@ -35,19 +47,52 @@ namespace MoneyChest.Services.Services
 
         #region ICategoryService implementation
 
-        public int GetCategoryLevelsCount(int userId)
+        public int GetLowestCategoryLevel(int userId)
         {
-            int maxLevel = -1;
-            var categories = Entities.Where(item => item.ParentCategory == null && item.UserId == userId).ToList();
-
-            foreach (var category in categories)
+            int lowestLevel = -1;
+            var categories = Entities.Where(item => item.UserId == userId).ToList();
+            
+            foreach (var category in categories.Where(item => item.ParentCategory == null))
             {
-                int level = CalculateLevelsCount(categories, category);
-                if (level > maxLevel)
-                    maxLevel = level;
+                int level = CalculateLowestLevelNumber(categories, category);
+                if (level > lowestLevel)
+                    lowestLevel = level;
             }
 
-            return maxLevel;
+            return lowestLevel;
+        }
+        
+        public Dictionary<int, int> GetCategoryMapping(int userId, int level)
+        {
+            var categories = GetAllForUser(userId);
+
+            // if level is not declared return the same sequence
+            if (level < 0) return categories.ToDictionary(_ => _.Id, _ => _.Id);
+
+            var mapping = GetCategoryLevelMapping(categories);
+            var result = new Dictionary<int, int>();
+
+            foreach (var cat in categories)
+            {
+                if (mapping[cat.Id] <= level)
+                    result.Add(cat.Id, cat.Id);
+                else
+                {
+                    // find parent category on necessary level
+                    var catId = cat.ParentCategoryId.Value;
+                    while (mapping[catId] > level)
+                        catId = categories.First(_ => _.Id == catId).ParentCategoryId.Value;
+                    // upgrade result
+                    result.Add(cat.Id, catId);
+                }
+            }
+
+            return result;
+        }
+        
+        public Dictionary<int, int> GetCategoryLevelMapping(int userId)
+        {
+            return GetCategoryLevelMapping(GetAllForUser(userId));
         }
 
         public void ReplaceRelatedEntities(int categoryIdFrom, int categoryIdTo)
@@ -85,17 +130,37 @@ namespace MoneyChest.Services.Services
 
         #region Private methods
 
-        private int CalculateLevelsCount(List<Category> categories, Category category, int level = 0)
+        private int CalculateLowestLevelNumber(List<Category> categories, Category category, int level = 0)
         {
-            int maxCatLevel = level;
+            int lowestCatLevel = level;
             foreach (var childCategory in categories.Where(item => item.ParentCategory == category))
             {
-                int childCatLevel = CalculateLevelsCount(categories, childCategory, level + 1);
-                if (childCatLevel > maxCatLevel)
-                    maxCatLevel = childCatLevel;
+                int childCatLevel = CalculateLowestLevelNumber(categories, childCategory, level + 1);
+                if (childCatLevel > lowestCatLevel)
+                    lowestCatLevel = childCatLevel;
             }
 
-            return maxCatLevel;
+            return lowestCatLevel;
+        }
+
+        private Dictionary<int, int> GetCategoryLevelMapping(List<Category> categories)
+        {
+            int level = 0;
+            var result = new Dictionary<int, int>();
+            var currentCategories = categories.Where(item => item.ParentCategoryId == null).ToList();
+
+            while (currentCategories.Count > 0)
+            {
+                // add correspond to current level categories
+                foreach (var cat in currentCategories)
+                    result.Add(cat.Id, level);
+
+                // update local variables
+                currentCategories = categories.Where(item => currentCategories.Any(c => c.Id == item.ParentCategoryId)).ToList();
+                level++;
+            }
+
+            return result;
         }
 
         #endregion
