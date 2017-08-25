@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyChest.Data.Entities;
+using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Base;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,13 @@ namespace MoneyChest.Tests.Services
         {
             base.Init();
             service = (TService)Activator.CreateInstance(typeof(TService), App.Db);
-            user = App.Factory.Create<User>();
+            if (CreateUserSettings)
+            {
+                var userService = new UserService(App.Db);
+                user = userService.Add(new User() { Name = "Name", Password = "Password" });
+            }
+            else
+                user = App.Factory.Create<User>();
         }
         
         [TestMethod]
@@ -33,7 +40,7 @@ namespace MoneyChest.Tests.Services
             var entity = App.Factory.Create<T>(OnCreateOverrides);
 
             // check entity fetched
-            var entityFetched= service.GetForUser(GetUserId(entity));
+            var entityFetched = FetchItem(entity);
             entityFetched.Should().NotBeNull();
             CheckAreEquivalent(entityFetched, entity);
         }
@@ -41,13 +48,15 @@ namespace MoneyChest.Tests.Services
         [TestMethod]
         public virtual void ItFetchesAllEntitiesForUser()
         {
+            var entities = new List<T>();
+
             // create entities
-            for(int i = 0; i < CountEntitiesForUser; i++)
-                App.Factory.Create<T>(OnCreateOverrides);
+            for (int i = 0; i < CountEntitiesForUser; i++)
+                entities.Add(App.Factory.Create<T>(OnCreateOverrides));
 
             // check entities fetched
-            var entities = service.GetAllForUser(user.Id);
-            entities.Count.ShouldBeEquivalentTo(CountEntitiesForUser);
+            foreach (var entity in entities)
+                FetchItem(entity).Should().NotBeNull();
         }
 
         [TestMethod]
@@ -58,7 +67,7 @@ namespace MoneyChest.Tests.Services
             service.SaveChanges();
 
             // check entity exists
-            var ent = service.GetForUser(GetUserId(entity));
+            var ent = FetchItem(entity);
             ent.Should().NotBeNull();
             CheckAreEquivalent(ent, entity);
             OnEntityAdded(entity);
@@ -72,7 +81,7 @@ namespace MoneyChest.Tests.Services
             service.SaveChanges();
 
             // check entity changes saved
-            var entitySaved = service.GetForUser(GetUserId(entity));
+            var entitySaved = FetchItem(entity);
             entitySaved.Should().NotBeNull();
             CheckAreEquivalent(entitySaved, entity);
             OnEntityUpdated(entity);
@@ -86,7 +95,7 @@ namespace MoneyChest.Tests.Services
             service.SaveChanges();
 
             // check entity removed
-            var entityRemoved = service.GetForUser(GetUserId(entity));
+            var entityRemoved = FetchItem(entity);
             entityRemoved.Should().BeNull();
             OnEntityRemoved(entity);
         }
@@ -96,6 +105,8 @@ namespace MoneyChest.Tests.Services
         protected virtual Action<T> OnCreateOverrides => item => SetUserId(item, user.Id);
         protected virtual int GetUserId(T entity) => user.Id;
         protected virtual int CountEntitiesForUser => 2;
+        protected virtual bool CreateUserSettings => true;
+        protected virtual T FetchItem(T entity) => service.GetForUser(GetUserId(entity));
         protected virtual void CheckAreEquivalent(T entity1, T entity2)
         {
             var entityProperies = typeof(T).GetProperties();

@@ -22,6 +22,7 @@ namespace MoneyChest.Tests.Services.Settings
         protected override void ChangeEntity(RecordsViewFilter entity) => entity.Description = "Products";
         protected override void SetUserId(RecordsViewFilter entity, int userId) => entity.UserId = userId;
         protected override int CountEntitiesForUser => 1;
+        protected override bool CreateUserSettings => false;
 
         #endregion
     }

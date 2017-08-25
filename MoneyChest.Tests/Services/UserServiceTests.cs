@@ -203,6 +203,7 @@ namespace MoneyChest.Tests.Services
         protected override void ChangeEntity(User entity) => entity.Name = "Some other name";
         protected override void SetUserId(User entity, int userId) { }
         protected override int GetUserId(User entity) => entity.Id;
+        protected override bool CreateUserSettings => false;
 
         #endregion
     }

@@ -51,7 +51,8 @@
   <ItemGroup>
     <Compile Include="DbFactory.cs" />
     <Compile Include="DbFactoryDefinitions.cs" />
-    <Compile Include="DbFactoryExtencions.cs" />
+    <Compile Include="DbFactoryExtensions.cs" />
+    <Compile Include="DbFactoryExtensions.Records.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Moniker.cs" />
   </ItemGroup>

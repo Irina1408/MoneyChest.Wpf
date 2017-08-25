@@ -51,10 +51,15 @@ namespace MoneyChest.Services.Services
 
         public List<Record> Get(int userId, DateTime from, DateTime until, TransactionType transactionType, bool includeWithoutCategory, List<int> categoryIds = null)
         {
-            return GetAllForUser(userId, item => item.TransactionType == transactionType
-                && item.Date >= from && item.Date <= until
-                && (includeWithoutCategory && item.CategoryId == null
-                || (item.CategoryId != null && (categoryIds == null || categoryIds.Contains((int)item.CategoryId)))));
+            if(categoryIds == null)
+                return GetAllForUser(userId, item => item.TransactionType == transactionType
+                    && item.Date >= from && item.Date <= until
+                    && (includeWithoutCategory && item.CategoryId == null || item.CategoryId != null));
+            else
+                return GetAllForUser(userId, item => item.TransactionType == transactionType
+                    && item.Date >= from && item.Date <= until
+                    && (includeWithoutCategory && item.CategoryId == null
+                    || (item.CategoryId != null && categoryIds.Contains((int)item.CategoryId))));
         }
 
         #endregion

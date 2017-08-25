@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Mock
 {
-    public static class DbFactoryExtencions
+    public static partial class DbFactoryExtensions
     {
         public static Storage CreateStorage(this DbFactory f, int userId, Action<Storage> overrides = null)
         {

@@ -11,7 +11,7 @@ namespace MoneyChest.Services.Utils
     {
         public static Tuple<DateTime, DateTime> GetPeriod(PeriodFilterType period, DayOfWeek firstDayOfWeek)
         {
-            int tmp;
+            int tmp, year, month;
 
             switch (period)
             {
@@ -27,7 +27,7 @@ namespace MoneyChest.Services.Utils
                         ? (int)DateTime.Today.DayOfWeek - (int)firstDayOfWeek
                         : 7 - (int)firstDayOfWeek + (int)DateTime.Today.DayOfWeek;
 
-                    return new Tuple<DateTime, DateTime>(DateTime.Today.AddDays(-tmp), DateTime.Today.AddDays(1));
+                    return new Tuple<DateTime, DateTime>(DateTime.Today.AddDays(-tmp), DateTime.Today.AddDays(7-tmp));
 
                 case PeriodFilterType.PreviousWeek:
                     // the past number of days this week
@@ -40,13 +40,16 @@ namespace MoneyChest.Services.Utils
                         DateTime.Today.AddDays(-tmp).AddMilliseconds(-1));
 
                 case PeriodFilterType.ThisMonth:
+                    year = DateTime.Today.Month < 12 ? DateTime.Today.Year : DateTime.Today.Year + 1;
+                    month = DateTime.Today.Month < 12 ? DateTime.Today.Month + 1 : 1;
+
                     return new Tuple<DateTime, DateTime>(
-                        new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1), 
-                        new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)));
+                        new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1),
+                        new DateTime(year, month, 1).AddMilliseconds(-1));
 
                 case PeriodFilterType.PreviousMonth:
-                    int year = DateTime.Today.Month > 1 ? DateTime.Today.Year : DateTime.Today.Year - 1;
-                    int month = DateTime.Today.Month > 1 ? DateTime.Today.Month - 1 : 12;
+                    year = DateTime.Today.Month > 1 ? DateTime.Today.Year : DateTime.Today.Year - 1;
+                    month = DateTime.Today.Month > 1 ? DateTime.Today.Month - 1 : 12;
 
                     return new Tuple<DateTime, DateTime>(
                         new DateTime(year, month, 1), 

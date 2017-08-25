@@ -14,13 +14,6 @@ namespace MoneyChest.Tests.Services
     [TestClass]
     public class CategoryServiceTests : IdManageableUserableHistoricizedServiceTestBase<Category, CategoryService, CategoryHistory>
     {
-        #region Overrides 
-
-        protected override void ChangeEntity(Category entity) => entity.Name = "Some other name";
-        protected override void SetUserId(Category entity, int userId) => entity.UserId = userId;
-
-        #endregion
-
         [TestMethod]
         public virtual void ItFecthesCategoryLevel()
         {
@@ -36,5 +29,14 @@ namespace MoneyChest.Tests.Services
             var entityFetched = ((CategoryService)serviceIdManageable).GetLowestCategoryLevel(user.Id);
             entityFetched.ShouldBeEquivalentTo(1);
         }
+
+        #region Overrides 
+        
+        protected override void ChangeEntity(Category entity) => entity.Name = "Some other name";
+        protected override void SetUserId(Category entity, int userId) => entity.UserId = userId;
+        protected override Category FetchItem(Category entity) => 
+            service.GetAllForUser(GetUserId(entity)).FirstOrDefault(_ => _.Id == entity.Id);
+
+        #endregion
     }
 }

@@ -29,7 +29,13 @@ namespace MoneyChest.Services.Services
         public override User Add(User entity)
         {
             _newUsers.Add(entity);
-            return Entities.Add(entity);
+            var user = Entities.Add(entity);
+            SaveChanges();
+
+            var defaultsLoader = new DefaultsLoadingService(_context);
+            defaultsLoader.LoadDefaultSettingss(user.Id, Language.English);
+
+            return user;
         }
 
         public User Add(User entity, Language language)

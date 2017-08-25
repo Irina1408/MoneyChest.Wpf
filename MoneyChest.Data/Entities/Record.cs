@@ -16,7 +16,7 @@ namespace MoneyChest.Data.Entities
     {
         public Record()
         {
-            Date = DateTime.Today;
+            Date = DateTime.Now;
             TransactionType = TransactionType.Expense;
         }
 

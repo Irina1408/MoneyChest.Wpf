@@ -46,7 +46,7 @@ namespace MoneyChest.Data.Mock
 
             f.Define<CurrencyExchangeRate>(e =>
             {
-                e.Rate = Moniker.Digit;
+                e.Rate = Moniker.LimitedDigit(20);
             });
             
             f.Define<Debt>(e =>

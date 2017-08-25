@@ -31,5 +31,15 @@ namespace MoneyChest.Services.Services.Defaults
             loader.LoadSettings();
             SaveChanges();
         }
+
+        public void LoadDefaultSettingss(int userId, Language language)
+        {
+            var loader = (language == Language.Russian)
+                ? (IDefaultsLoader)new DefaultsLoaderRus(_context, userId)
+                : (IDefaultsLoader)new DefaultsLoaderEng(_context, userId);
+            
+            loader.LoadSettings();
+            SaveChanges();
+        }
     }
 }

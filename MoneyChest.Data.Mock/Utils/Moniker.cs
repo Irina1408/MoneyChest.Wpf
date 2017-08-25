@@ -40,15 +40,19 @@ namespace MoneyChest.Data.Mock.Utils
 
         #region Sugar 
 
-        public static int Digit => Instance._rnd.Next(10);
+        public static int Digit => Instance._rnd.Next(1000);
+        public static int LimitedDigit(int maxValue) => Instance._rnd.Next(maxValue);
+        public static int LimitedDigit(int minValue, int maxValue) => Instance._rnd.Next(minValue, maxValue);
         public static string Digits(int length)
         {
             var txt = new StringBuilder();
             for (int i = 0; i < length; i++)
-                txt.Append(Digit);
+                txt.Append(LimitedDigit(9));
             return txt.ToString();
         }
-        
+        public static DateTime DateTimeBetween(DateTime from, DateTime until) =>
+            from.AddHours(Instance._rnd.Next((int)(until - from).TotalHours));
+            
         public static string Category => Instance.RandomWord(Instance._categories);
         public static string Currency => Instance.RandomWord(Instance._currencies);
         public static string StorageGroup => Instance.RandomWord(Instance._storageGroups);

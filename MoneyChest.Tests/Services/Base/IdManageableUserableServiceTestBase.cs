@@ -55,7 +55,7 @@ namespace MoneyChest.Tests.Services
             service.SaveChanges();
 
             // check entity removed
-            var entityRemoved = service.GetForUser(user.Id);
+            var entityRemoved = FetchItem(entity);
             entityRemoved.Should().BeNull();
             OnEntityRemoved(entity);
         }
