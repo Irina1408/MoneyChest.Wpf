@@ -12,8 +12,8 @@ namespace MoneyChest.Data.Enums
         [Description("Today")]
         Today,
 
-        [Description("Yeasterday")]
-        Yeasterday,
+        [Description("Yesterday")]
+        Yesterday,
 
         [Description("This week")]
         ThisWeek,

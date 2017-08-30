@@ -18,7 +18,7 @@ namespace MoneyChest.Services.Utils
                 case PeriodFilterType.Today:
                     return new Tuple<DateTime, DateTime>(DateTime.Today, DateTime.Today.AddDays(1));
 
-                case PeriodFilterType.Yeasterday:
+                case PeriodFilterType.Yesterday:
                     return new Tuple<DateTime, DateTime>(DateTime.Today.AddDays(-1), DateTime.Today.AddMilliseconds(-1));
 
                 case PeriodFilterType.ThisWeek:

@@ -34,10 +34,15 @@ namespace MoneyChest.Services.Services
         {
             if (period == PeriodFilterType.All || period == PeriodFilterType.CustomPeriod)
                 // all records for transaction type and categories
-                return GetAllForUser(userId,
-                    item => item.TransactionType == transactionType
-                    && (includeWithoutCategory && item.CategoryId == null
-                    || (item.CategoryId != null && (categoryIds == null || categoryIds.Contains((int)item.CategoryId)))));
+                if(categoryIds == null)
+                    return GetAllForUser(userId,
+                        item => item.TransactionType == transactionType
+                         && (includeWithoutCategory && item.CategoryId == null || item.CategoryId != null));
+                else
+                    return GetAllForUser(userId,
+                        item => item.TransactionType == transactionType
+                         && (includeWithoutCategory && item.CategoryId == null
+                        || (item.CategoryId != null && categoryIds.Contains((int)item.CategoryId))));
             else
             {
                 // get general settings for getting first day of week
