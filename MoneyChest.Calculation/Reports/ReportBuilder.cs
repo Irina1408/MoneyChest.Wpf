@@ -68,6 +68,7 @@ namespace MoneyChest.Calculation.Reports
 
             // get category mapping
             var categoryMapping = _categoryService.GetCategoryMapping(_userId, reportSettings.CategoryLevel);
+            var recordsOtherCurrency = records.Where(_ => _.CurrencyId != _mainCurrency.Id).ToList();
 
             // calculate values for every category
             var catValue = new Dictionary<int, decimal>();
@@ -103,61 +104,8 @@ namespace MoneyChest.Calculation.Reports
         private void LoadData()
         {
             _mainCurrency = _currencyService.GetMain(_userId);
-            _currencyExchangeRates = _currencyExchangeRateService.GetAllForUser(_userId,
-                item => item.CurrencyTo.IsMain && item.CurrencyFrom.Records.Any(r => r.CategoryId == item.CurrencyFromId));
-
+            _currencyExchangeRates = _currencyExchangeRateService.GetAllForUser(_userId, item => item.CurrencyTo.IsMain);
             _isDataLoaded = true;
-        }
-
-        /// <summary>
-        /// Returns dictionary of category mapping where
-        /// key -> category id
-        /// value -> category id of level or higher (1 level is higher then 3 level)
-        /// </summary>
-        private Dictionary<int, int> GetCategoryMapping(List<Category> categories, int level)
-        {
-            // if level is not declared return the same sequence
-            if (level < 0) return categories.ToDictionary(_ => _.Id, _ => _.Id);
-
-            var mapping = GetCategoryLevelMapping(categories);
-            var result = new Dictionary<int, int>();
-
-            foreach(var cat in categories)
-            {
-                if (mapping[cat.Id] <= level)
-                    result.Add(cat.Id, cat.Id);
-                else
-                {
-                    // find parent category on necessary level
-                    var catId = cat.ParentCategoryId.Value;
-                    while (mapping[catId] > level)
-                        catId = categories.First(_ => _.Id == catId).ParentCategoryId.Value;
-                    // upgrade result
-                    result.Add(cat.Id, catId);
-                }
-            }
-
-            return result;
-        }
-
-        private Dictionary<int, int> GetCategoryLevelMapping(List<Category> categories)
-        {
-            int level = 0;
-            var result = new Dictionary<int, int>();
-            var currentCategories = categories.Where(item => item.ParentCategoryId == null).ToList();
-
-            while (currentCategories.Count > 0)
-            {
-                // add correspond to current level categories
-                foreach (var cat in currentCategories)
-                    result.Add(cat.Id, level);
-
-                // update local variables
-                currentCategories = categories.Where(item => currentCategories.Any(c => c.Id == item.ParentCategoryId)).ToList();
-                level++;
-            }
-
-            return result;
         }
 
         #endregion

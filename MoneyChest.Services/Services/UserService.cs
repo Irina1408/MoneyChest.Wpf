@@ -33,7 +33,7 @@ namespace MoneyChest.Services.Services
             SaveChanges();
 
             var defaultsLoader = new DefaultsLoadingService(_context);
-            defaultsLoader.LoadDefaultSettingss(user.Id, Language.English);
+            defaultsLoader.LoadDefaults(user.Id, Language.English);
 
             return user;
         }

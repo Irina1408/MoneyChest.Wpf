@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Calculation.Summary
 {
+    /// <summary>
+    /// Special - storage group id
+    /// </summary>
     public class StorageSummary : BaseSummary<int>
     {
     }

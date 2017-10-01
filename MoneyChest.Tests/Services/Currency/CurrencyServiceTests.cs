@@ -22,15 +22,36 @@ namespace MoneyChest.Tests.Services
         #endregion
 
         [TestMethod]
+        public virtual void ItSetsMainCurrency()
+        {
+            var currencyService = (CurrencyService)serviceIdManageable;
+
+            // create entity
+            var entity = App.Factory.Create<Currency>(item =>
+            {
+                OnCreateOverrides?.Invoke(item);
+                item.IsUsed = true;
+            });
+            currencyService.SetMain(user.Id, entity.Id);
+
+            // check entity is main currency
+            var currencies = currencyService.GetAllForUser(user.Id, _ => _.IsMain);
+            currencies.Count.ShouldBeEquivalentTo(1);
+            CheckAreEquivalent(currencies[0], entity);
+        }
+
+        [TestMethod]
         public virtual void ItFecthesMainCurrency()
         {
+            var currencyService = (CurrencyService)serviceIdManageable;
+
             // create entity
             var entity = App.Factory.Create<Currency>(item => 
             {
                 OnCreateOverrides?.Invoke(item);
-                item.IsMain = true;
                 item.IsUsed = true;
             });
+            currencyService.SetMain(user.Id, entity.Id);
 
             // check entity fetched
             var entityFetched = ((CurrencyService)serviceIdManageable).GetMain(user.Id);

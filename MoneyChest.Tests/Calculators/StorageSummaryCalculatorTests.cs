@@ -23,10 +23,11 @@ namespace MoneyChest.Tests.Calculators
             var storageSummaryCalculator = new StorageSummaryCalculator(service, user.Id);
 
             var summary = storageSummaryCalculator.CalculateSummary();
-            summary.Items.Count.ShouldBeEquivalentTo(1);
-            summary.Items[0].Value.ShouldBeEquivalentTo(entity.Value);
-            summary.Items[0].CurrencyId.ShouldBeEquivalentTo(entity.CurrencyId);
-            summary.Items[0].Special.ShouldBeEquivalentTo(entity.StorageGroupId);
+            var summaryItem = summary.Items.FirstOrDefault(_ => _.CurrencyId == entity.CurrencyId && _.Special == entity.StorageGroupId);
+            summaryItem.Should().NotBeNull();
+            summaryItem.Value.ShouldBeEquivalentTo(entity.Value);
+            summaryItem.CurrencyId.ShouldBeEquivalentTo(entity.CurrencyId);
+            summaryItem.Special.ShouldBeEquivalentTo(entity.StorageGroupId);
         }
     }
 }

@@ -13,15 +13,17 @@ namespace MoneyChest.Services.Services
     public interface ICategoryService : IBaseHistoricizedService<Category>, IIdManageable<Category>
     {
         int GetLowestCategoryLevel(int userId);
+
         /// <summary>
-        /// Returns dictionary of category mapping where
-        /// key -> category id
+        /// Returns dictionary of category mapping where:
+        /// key -> category id,
         /// value -> category id of selected level or higher (1 level is higher then 3 level)
         /// </summary>
         Dictionary<int, int> GetCategoryMapping(int userId, int level);
+
         /// <summary>
-        /// Returns dictionary of category level mapping where
-        /// key -> category id
+        /// Returns dictionary of category level mapping where:
+        /// key -> category id,
         /// value -> category level (from 0)
         /// </summary>
         Dictionary<int, int> GetCategoryLevelMapping(int userId);
@@ -61,7 +63,12 @@ namespace MoneyChest.Services.Services
 
             return lowestLevel;
         }
-        
+
+        /// <summary>
+        /// Returns dictionary of category mapping where:
+        /// key -> category id,
+        /// value -> category id of selected level or higher (1 level is higher then 3 level)
+        /// </summary>
         public Dictionary<int, int> GetCategoryMapping(int userId, int level)
         {
             var categories = GetAllForUser(userId);
@@ -89,7 +96,12 @@ namespace MoneyChest.Services.Services
 
             return result;
         }
-        
+
+        /// <summary>
+        /// Returns dictionary of category level mapping where:
+        /// key -> category id,
+        /// value -> category level (from 0)
+        /// </summary>
         public Dictionary<int, int> GetCategoryLevelMapping(int userId)
         {
             return GetCategoryLevelMapping(GetAllForUser(userId));

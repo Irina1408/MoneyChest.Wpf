@@ -14,6 +14,7 @@ namespace MoneyChest.Services.Services
     public interface ICurrencyService : IBaseHistoricizedService<Currency>, IIdManageable<Currency>
     {
         Currency GetMain(int userId);
+        void SetMain(int userId, int currencyId);
     }
 
     public class CurrencyService : BaseHistoricizedService<Currency>, ICurrencyService
@@ -39,6 +40,12 @@ namespace MoneyChest.Services.Services
         public Currency GetMain(int userId)
         {
             return GetForUser(userId, item => item.IsMain);
+        }
+
+        public void SetMain(int userId, int currencyId)
+        {
+            GetAllForUser(userId).ForEach(c => c.IsMain = c.Id == currencyId);
+            SaveChanges();
         }
 
         #endregion

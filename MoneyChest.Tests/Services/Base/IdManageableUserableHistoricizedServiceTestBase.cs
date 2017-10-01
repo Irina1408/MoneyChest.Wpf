@@ -62,6 +62,9 @@ namespace MoneyChest.Tests.Services
             OnEntityRemoved(entity);
         }
 
+        protected override T FetchItem(T entity) =>
+            serviceIdManageable.Get((int)entity.GetType().GetProperty(IdPropertyName).GetValue(entity));
+
         protected virtual string IdPropertyName => "Id";
     }
 }
