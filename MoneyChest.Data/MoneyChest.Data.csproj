@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="Attributes\HistoricizedAttribute.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
+    <Compile Include="Entities\Base\IHasId.cs" />
+    <Compile Include="Entities\Base\IHasUserId.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Currency\Currency.cs" />
     <Compile Include="Entities\Currency\CurrencyExchangeRate.cs" />
@@ -116,9 +118,9 @@
     <Compile Include="Enums\TransactionType.cs" />
     <Compile Include="Exceptions\ReferenceConstraintException.cs" />
     <Compile Include="Exceptions\ViolationOfConstraintException.cs" />
-    <Compile Include="Migrations\201708151901379_InitialMigration.cs" />
-    <Compile Include="Migrations\201708151901379_InitialMigration.Designer.cs">
-      <DependentUpon>201708151901379_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201710211842245_initial_migration.cs" />
+    <Compile Include="Migrations\201710211842245_initial_migration.Designer.cs">
+      <DependentUpon>201710211842245_initial_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,8 +130,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708151901379_InitialMigration.resx">
-      <DependentUpon>201708151901379_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201710211842245_initial_migration.resx">
+      <DependentUpon>201710211842245_initial_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

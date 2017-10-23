@@ -7,14 +7,16 @@ using MoneyChest.Services.Services.Base;
 using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
 using System.Linq.Expressions;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
 
-namespace MoneyChest.Services.Services.Schedule
+namespace MoneyChest.Services.Services
 {
-    public interface IOnceScheduleService : IBaseHistoricizedService<OnceSchedule>, IIdManageable<OnceSchedule>
+    public interface IOnceScheduleService : IBaseIdManagableService<OnceScheduleModel>
     {
     }
 
-    public class OnceScheduleService : BaseHistoricizedService<OnceSchedule>, IOnceScheduleService
+    public class OnceScheduleService : BaseHistoricizedIdManageableService<OnceSchedule, OnceScheduleModel, OnceScheduleConverter>, IOnceScheduleService
     {
         public OnceScheduleService(ApplicationDbContext context) : base(context)
         {
@@ -25,17 +27,6 @@ namespace MoneyChest.Services.Services.Schedule
             if (entity.Event != null) return entity.Event.UserId;
             return _context.Events.FirstOrDefault(_ => _.Id == entity.EventId).UserId;
         }
-
-        protected override Expression<Func<OnceSchedule, bool>> LimitByUser(int userId) => item => item.Event.UserId == userId;
-
-        #region IIdManageable<T> implementation
-
-        public OnceSchedule Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
-
-        public List<OnceSchedule> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
-
-        public void Delete(int id) => Delete(Get(id));
-
-        #endregion
+        
     }
 }

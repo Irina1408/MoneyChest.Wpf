@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Data.Attributes;
+using MoneyChest.Data.Entities.Base;
 using MoneyChest.Data.Entities.History;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(StorageGroupHistory))]
-    public class StorageGroup
+    public class StorageGroup : IHasId, IHasUserId
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

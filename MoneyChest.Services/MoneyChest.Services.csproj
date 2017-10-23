@@ -49,46 +49,59 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\Base\InterfaceImplementationsBase\BaseHistoricizedIdManageableService.cs" />
+    <Compile Include="Services\Base\InterfaceImplementationsBase\BaseHistoricizedIdManageableUserableListService.cs" />
+    <Compile Include="Services\Base\InterfaceImplementationsBase\IBaseIdManagableService.cs" />
+    <Compile Include="Services\Base\InterfaceImplementationsBase\IBaseIdManagableUserableListService.cs" />
+    <Compile Include="Services\Base\BaseHistoricizedService.EntityModel.cs" />
+    <Compile Include="Services\Base\BaseService.Entity.cs" />
+    <Compile Include="Services\Base\BaseService.EntityModel.cs" />
+    <Compile Include="Services\Base\Interfaces\IBaseService.cs" />
+    <Compile Include="Services\Base\Interfaces\IUserableService.cs" />
+    <Compile Include="Services\Base\SpecificBaseServices\BaseUserSettingService.cs" />
     <Compile Include="Services\Defaults\DefaultsLoadingService.cs" />
     <Compile Include="Services\Defaults\DefaultsLoaderEng.cs" />
     <Compile Include="Services\Defaults\DefaultsLoaderRus.cs" />
     <Compile Include="Services\Defaults\IDefaultsLoader.cs" />
     <Compile Include="Exceptions\WriteHistoryException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Base\BaseEntityService.cs" />
-    <Compile Include="Services\Base\BaseHistoricizedService.cs" />
     <Compile Include="Services\Base\BaseService.cs" />
-    <Compile Include="Services\Base\BaseUserableEntityService.cs" />
-    <Compile Include="Services\Base\IIdManageable.cs" />
-    <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Services\Base\Interfaces\IIdManageable.cs" />
+    <Compile Include="Services\Common\CategoryService.cs" />
     <Compile Include="Services\Currency\CurrencyExchangeRateService.cs" />
     <Compile Include="Services\Currency\CurrencyService.cs" />
-    <Compile Include="Services\DebtService.cs" />
+    <Compile Include="Services\Common\DebtService.cs" />
+    <Compile Include="Services\Events\EventService.cs" />
     <Compile Include="Services\Events\MoneyTransferEventService.cs" />
     <Compile Include="Services\Events\RepayDebtEventService.cs" />
     <Compile Include="Services\Events\SimpleEventService.cs" />
     <Compile Include="Services\History\HistoryService.cs" />
-    <Compile Include="Services\LimitService.cs" />
-    <Compile Include="Services\MoneyTransferService.cs" />
-    <Compile Include="Services\RecordService.cs" />
+    <Compile Include="Services\Common\LimitService.cs" />
+    <Compile Include="Services\Common\MoneyTransferService.cs" />
+    <Compile Include="Services\Common\RecordService.cs" />
     <Compile Include="Services\Schedule\DailyScheduleService.cs" />
     <Compile Include="Services\Schedule\MonthlyScheduleService.cs" />
     <Compile Include="Services\Schedule\OnceScheduleService.cs" />
+    <Compile Include="Services\Schedule\ScheduleService.cs" />
     <Compile Include="Services\Schedule\WeeklyScheduleService.cs" />
     <Compile Include="Services\Settings\CalendarSettingService.cs" />
     <Compile Include="Services\Settings\ForecastSettingService.cs" />
     <Compile Include="Services\Settings\GeneralSettingService.cs" />
     <Compile Include="Services\Settings\RecordsViewFilterService.cs" />
     <Compile Include="Services\Settings\ReportSettingService.cs" />
-    <Compile Include="Services\StorageGroupService.cs" />
-    <Compile Include="Services\StorageService.cs" />
-    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\Common\StorageGroupService.cs" />
+    <Compile Include="Services\Common\StorageService.cs" />
+    <Compile Include="Services\Common\UserService.cs" />
     <Compile Include="Utils\ServiceHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoneyChest.Data\MoneyChest.Data.csproj">
       <Project>{367772a1-b49c-49da-b5cb-aae5bf696947}</Project>
       <Name>MoneyChest.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MoneyChest.Model\MoneyChest.Model.csproj">
+      <Project>{AA3CD891-1018-489D-A0C5-16C295C2E636}</Project>
+      <Name>MoneyChest.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\MoneyChest.Utils\MoneyChest.Utils.csproj">
       <Project>{dc7d4636-aeaa-4101-92d7-98f43e7d0b97}</Project>

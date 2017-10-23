@@ -10,7 +10,7 @@ namespace MoneyChest.Data.Enums
     [Description("Debt type")]
     public enum DebtType
     {
-        [Description("Take borrow")]
+        [Description("Lend")]
         TakeBorrow = 0,
 
         [Description("Give borrow")]

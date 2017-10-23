@@ -8,8 +8,8 @@ namespace MoneyChest.Data.Enums
 {
     public enum EventType
     {
-        SimpleRecord,
-        RepayDebt,
-        MoneyTransfer
+        Simple = 0,
+        RepayDebt = 1,
+        MoneyTransfer = 2
     }
 }

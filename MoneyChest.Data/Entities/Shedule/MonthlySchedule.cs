@@ -14,7 +14,8 @@ namespace MoneyChest.Data.Entities
     {
         public MonthlySchedule() : base()
         {
-            DateFrom = DateTime.Today;
+            DateFrom = DateTime.Today.AddDays(1);
+            ScheduleType = Enums.ScheduleType.Monthly;
 
             MonthlyScheduleMonths = new List<MonthlyScheduleMonth>();
         }

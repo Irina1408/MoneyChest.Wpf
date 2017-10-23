@@ -19,6 +19,7 @@ namespace MoneyChest.Data.Entities
             CurrencyExchangeRate = 1;
             TakeComissionFromReceiver = false;
             TakeComissionCurrencyFromReceiver = false;
+            EventType = EventType.MoneyTransfer;
         }
 
         public bool TakeExistingCurrencyExchangeRate { get; set; }

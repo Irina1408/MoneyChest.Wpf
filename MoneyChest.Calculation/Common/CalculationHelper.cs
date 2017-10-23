@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Data.Entities;
+using MoneyChest.Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ namespace MoneyChest.Calculation.Common
 {
     public static class CalculationHelper
     {
-        public static decimal ConvertToMainCurrency(decimal value, int currencyId, int mainCurrencyId, IEnumerable<CurrencyExchangeRate> rates)
+        public static decimal ConvertToCurrency(decimal value, int currencyId, int targetCurrencyId, 
+            IEnumerable<CurrencyExchangeRateModel> rates)
         {
-            if (currencyId == mainCurrencyId) return value;
-            var rate = rates.FirstOrDefault(item => item.CurrencyFromId == currencyId && item.CurrencyToId == mainCurrencyId);
+            if (currencyId == targetCurrencyId) return value;
+            var rate = rates.FirstOrDefault(item => item.CurrencyFromId == currencyId && item.CurrencyToId == targetCurrencyId);
             return value * (rate != null ? rate.Rate : 1);
         }
     }

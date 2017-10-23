@@ -1,4 +1,5 @@
-﻿using MoneyChest.Data.Enums;
+﻿using MoneyChest.Data.Entities.Base;
+using MoneyChest.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Entities
 {
-    public class GeneralSetting
+    public class GeneralSetting : IHasUserId
     {
         public GeneralSetting()
         {

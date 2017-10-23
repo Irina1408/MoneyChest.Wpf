@@ -15,7 +15,8 @@ namespace MoneyChest.Data.Entities
         public DailySchedule() : base()
         {
             Period = 1;
-            DateFrom = DateTime.Today;
+            DateFrom = DateTime.Today.AddDays(1);
+            ScheduleType = Enums.ScheduleType.Daily;
         }
 
         [Column(TypeName = "date")]

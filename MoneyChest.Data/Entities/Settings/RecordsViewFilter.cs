@@ -1,4 +1,5 @@
-﻿using MoneyChest.Data.Enums;
+﻿using MoneyChest.Data.Entities.Base;
+using MoneyChest.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace MoneyChest.Data.Entities
 {
     [Table(nameof(RecordsViewFilter))]
-    public class RecordsViewFilter
+    public class RecordsViewFilter : IHasUserId
     {
         public RecordsViewFilter() : base()
         {

@@ -8,16 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
 
 namespace MoneyChest.Tests.Services
 {
     [TestClass]
-    public class CurrencyServiceTests : IdManageableUserableHistoricizedServiceTestBase<Currency, CurrencyService, CurrencyHistory>
+    public class CurrencyServiceTests : HistoricizedIdManageableUserableListServiceTestBase<Currency, CurrencyModel, CurrencyConverter, CurrencyService, CurrencyHistory>
     {
         #region Overrides 
 
-        protected override void ChangeEntity(Currency entity) => entity.Name = "Some other name";
-        protected override void SetUserId(Currency entity, int userId) => entity.UserId = userId;
+        protected override void ChangeEntity(CurrencyModel entity) => entity.Name = "Some other name";
 
         #endregion
 
@@ -32,12 +33,13 @@ namespace MoneyChest.Tests.Services
                 OnCreateOverrides?.Invoke(item);
                 item.IsUsed = true;
             });
+
             currencyService.SetMain(user.Id, entity.Id);
 
             // check entity is main currency
-            var currencies = currencyService.GetAllForUser(user.Id, _ => _.IsMain);
+            var currencies = currencyService.GetListForUser(user.Id).Where( _ => _.IsMain).ToList();
             currencies.Count.ShouldBeEquivalentTo(1);
-            CheckAreEquivalent(currencies[0], entity);
+            CheckAreEquivalent(currencies[0], converter.ToModel(entity));
         }
 
         [TestMethod]
@@ -56,7 +58,7 @@ namespace MoneyChest.Tests.Services
             // check entity fetched
             var entityFetched = ((CurrencyService)serviceIdManageable).GetMain(user.Id);
             entityFetched.Should().NotBeNull();
-            CheckAreEquivalent(entityFetched, entity);
+            CheckAreEquivalent(entityFetched, converter.ToModel(entity));
         }
     }
 }

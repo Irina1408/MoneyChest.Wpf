@@ -10,16 +10,29 @@ using MoneyChest.Data.Entities.History;
 using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Tests.Services.Events
 {
     [TestClass]
-    public class SimpleEventServiceTests : IdManageableUserableHistoricizedServiceTestBase<SimpleEvent, SimpleEventService, SimpleEventHistory>
+    public class SimpleEventServiceTests : HistoricizedIdManageableUserableListServiceTestBase<SimpleEvent, SimpleEventModel, SimpleEventConverter, SimpleEventService, SimpleEventHistory>
     {
         #region Overrides 
 
-        protected override void ChangeEntity(SimpleEvent entity) => entity.Description = "Some other description";
+        protected override IQueryable<SimpleEvent> Scope => Entities.Include(_ => _.Storage).Include(_ => _.Currency).Include(_ => _.Category);
+        protected override void ChangeEntity(SimpleEventModel entity) => entity.Description = "Some other description";
         protected override void SetUserId(SimpleEvent entity, int userId)
+        {
+            var storage = App.Factory.CreateStorage(userId);
+            var category = App.Factory.Create<Category>(item => item.UserId = userId);
+            entity.StorageId = storage.Id;
+            entity.CurrencyId = storage.CurrencyId;
+            entity.CategoryId = category.Id;
+            entity.UserId = userId;
+        }
+        protected override void SetUserId(SimpleEventModel entity, int userId)
         {
             var storage = App.Factory.CreateStorage(userId);
             var category = App.Factory.Create<Category>(item => item.UserId = userId);

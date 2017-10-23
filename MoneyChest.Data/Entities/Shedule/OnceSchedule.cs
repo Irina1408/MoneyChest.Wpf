@@ -15,6 +15,7 @@ namespace MoneyChest.Data.Entities
         public OnceSchedule() : base()
         {
             Date = DateTime.Today.AddDays(1);
+            ScheduleType = Enums.ScheduleType.Once;
         }
 
         [Column(TypeName = "date")]

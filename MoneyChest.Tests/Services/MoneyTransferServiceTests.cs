@@ -9,15 +9,19 @@ using MoneyChest.Data.Entities;
 using MoneyChest.Data.Entities.History;
 using MoneyChest.Services.Services;
 using MoneyChest.Data.Mock;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Tests.Services
 {
     [TestClass]
-    public class MoneyTransferServiceTests : HistoricizedServiceTestBase<MoneyTransfer, MoneyTransferService, MoneyTransferHistory>
+    public class MoneyTransferServiceTests : HistoricizedIdManageableServiceTestBase<MoneyTransfer, MoneyTransferModel, MoneyTransferConverter, MoneyTransferService, MoneyTransferHistory>
     {
         #region Overrides 
 
-        protected override void ChangeEntity(MoneyTransfer entity) => entity.Value += 100;
+        protected override IQueryable<MoneyTransfer> Scope => Entities.Include(_ => _.StorageFrom).Include(_ => _.StorageTo);
+        protected override void ChangeEntity(MoneyTransferModel entity) => entity.Value += 100;
         protected override void SetUserId(MoneyTransfer entity, int userId)
         {
             var storage1 = App.Factory.CreateStorage(userId);
@@ -25,6 +29,14 @@ namespace MoneyChest.Tests.Services
 
             entity.StorageFrom = storage1;
             entity.StorageTo = storage2;
+            entity.StorageFromId = storage1.Id;
+            entity.StorageToId = storage2.Id;
+        }
+        protected override void SetUserId(MoneyTransferModel entity, int userId)
+        {
+            var storage1 = App.Factory.CreateStorage(userId);
+            var storage2 = App.Factory.CreateStorage(userId);
+            
             entity.StorageFromId = storage1.Id;
             entity.StorageToId = storage2.Id;
         }

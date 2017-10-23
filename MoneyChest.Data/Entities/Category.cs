@@ -9,11 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
 using MoneyChest.Data.Entities.History;
+using MoneyChest.Data.Entities.Base;
 
 namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(CategoryHistory))]
-    public class Category
+    public class Category : IHasId, IHasUserId
     {
         public Category()
         {

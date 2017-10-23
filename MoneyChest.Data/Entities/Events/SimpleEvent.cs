@@ -16,6 +16,7 @@ namespace MoneyChest.Data.Entities
         public SimpleEvent() : base()
         {
             TransactionType = TransactionType.Expense;
+            EventType = EventType.Simple;
         }
 
         public TransactionType TransactionType { get; set; }

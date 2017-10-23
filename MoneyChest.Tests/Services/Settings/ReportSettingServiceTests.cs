@@ -12,18 +12,19 @@ using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
 using MoneyChest.Services.Services.Settings;
 using MoneyChest.Data.Enums;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Tests.Services.Settings
 {
     [TestClass]
-    public class ReportSettingServiceTests : UserableEntityServiceTestBase<ReportSetting, ReportSettingService>
+    public class ReportSettingServiceTests : UserSettingServiceTestBase<ReportSetting, ReportSettingModel, ReportSettingConverter, ReportSettingService>
     {
         #region Overrides
 
-        protected override void ChangeEntity(ReportSetting entity) => entity.PeriodFilterType = PeriodFilterType.ThisYear;
-        protected override void SetUserId(ReportSetting entity, int userId) => entity.UserId = userId;
-        protected override int CountEntitiesForUser => 1;
-        protected override bool CreateUserSettings => false;
+        protected override IQueryable<ReportSetting> Scope => Entities.Include(_ => _.Categories);
+        protected override void ChangeEntity(ReportSettingModel entity) => entity.PeriodFilterType = PeriodFilterType.ThisYear;
 
         #endregion
     }

@@ -11,18 +11,19 @@ using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
 using MoneyChest.Services.Services.Settings;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Tests.Services.Settings
 {
     [TestClass]
-    public class RecordsViewFilterServiceTests : UserableEntityServiceTestBase<RecordsViewFilter, RecordsViewFilterService>
+    public class RecordsViewFilterServiceTests : UserSettingServiceTestBase<RecordsViewFilter, RecordsViewFilterModel, RecordsViewFilterConverter, RecordsViewFilterService>
     {
         #region Overrides
 
-        protected override void ChangeEntity(RecordsViewFilter entity) => entity.Description = "Products";
-        protected override void SetUserId(RecordsViewFilter entity, int userId) => entity.UserId = userId;
-        protected override int CountEntitiesForUser => 1;
-        protected override bool CreateUserSettings => false;
+        protected override IQueryable<RecordsViewFilter> Scope => Entities.Include(_ => _.Categories);
+        protected override void ChangeEntity(RecordsViewFilterModel entity) => entity.Description = "Products";
 
         #endregion
     }

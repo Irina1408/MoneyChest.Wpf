@@ -10,16 +10,29 @@ using MoneyChest.Data.Entities.History;
 using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Tests.Services.Events
 {
     [TestClass]
-    public class MoneyTransferEventServiceTests : IdManageableUserableHistoricizedServiceTestBase<MoneyTransferEvent, MoneyTransferEventService, MoneyTransferEventHistory>
+    public class MoneyTransferEventServiceTests : HistoricizedIdManageableUserableListServiceTestBase<MoneyTransferEvent, MoneyTransferEventModel, MoneyTransferEventConverter, MoneyTransferEventService, MoneyTransferEventHistory>
     {
         #region Overrides 
 
-        protected override void ChangeEntity(MoneyTransferEvent entity) => entity.Description = "Some other description";
+        protected override IQueryable<MoneyTransferEvent> Scope => Entities.Include(_ => _.StorageFrom).Include(_ => _.StorageTo);
+        protected override void ChangeEntity(MoneyTransferEventModel entity) => entity.Description = "Some other description";
         protected override void SetUserId(MoneyTransferEvent entity, int userId)
+        {
+            var storage1 = App.Factory.CreateStorage(userId);
+            var storage2 = App.Factory.CreateStorage(userId);
+
+            entity.StorageFromId = storage1.Id;
+            entity.StorageToId = storage2.Id;
+            entity.UserId = userId;
+        }
+        protected override void SetUserId(MoneyTransferEventModel entity, int userId)
         {
             var storage1 = App.Factory.CreateStorage(userId);
             var storage2 = App.Factory.CreateStorage(userId);

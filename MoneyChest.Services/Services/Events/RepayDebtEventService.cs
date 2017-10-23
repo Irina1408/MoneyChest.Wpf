@@ -7,31 +7,22 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Context;
 using System.Linq.Expressions;
+using System.Data.Entity;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
 
 namespace MoneyChest.Services.Services.Events
 {
-    public interface IRepayDebtEventService : IBaseHistoricizedService<RepayDebtEvent>, IIdManageable<RepayDebtEvent>
+    public interface IRepayDebtEventService : IBaseIdManagableUserableListService<RepayDebtEventModel>
     {
     }
 
-    public class RepayDebtEventService : BaseHistoricizedService<RepayDebtEvent>, IRepayDebtEventService
+    public class RepayDebtEventService : BaseHistoricizedIdManageableUserableListService<RepayDebtEvent, RepayDebtEventModel, RepayDebtEventConverter>, IRepayDebtEventService
     {
         public RepayDebtEventService(ApplicationDbContext context) : base(context)
         {
         }
 
-        protected override int UserId(RepayDebtEvent entity) => entity.UserId;
-
-        protected override Expression<Func<RepayDebtEvent, bool>> LimitByUser(int userId) => item => item.UserId == userId;
-
-        #region IIdManageable<T> implementation
-
-        public RepayDebtEvent Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
-
-        public List<RepayDebtEvent> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
-
-        public void Delete(int id) => Delete(Get(id));
-
-        #endregion
+        protected override IQueryable<RepayDebtEvent> Scope => Entities.Include(_ => _.Storage).Include(_ => _.Debt);
     }
 }

@@ -10,17 +10,26 @@ using MoneyChest.Data.Entities.History;
 using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
-using MoneyChest.Services.Services.Schedule;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Tests.Services.Schedule
 {
     [TestClass]
-    public class MonthlyScheduleServiceTests : IdManageableUserableHistoricizedServiceTestBase<MonthlySchedule, MonthlyScheduleService, MonthlyScheduleHistory>
+    public class MonthlyScheduleServiceTests : HistoricizedIdManageableServiceTestBase<MonthlySchedule, MonthlyScheduleModel, MonthlyScheduleConverter, MonthlyScheduleService, MonthlyScheduleHistory>
     {
         #region Overrides 
 
-        protected override void ChangeEntity(MonthlySchedule entity) => entity.DayOfMonth += 2;
+        protected override IQueryable<MonthlySchedule> Scope => Entities.Include(_ => _.MonthlyScheduleMonths);
+        protected override void ChangeEntity(MonthlyScheduleModel entity) => entity.DayOfMonth += 2;
         protected override void SetUserId(MonthlySchedule entity, int userId)
+        {
+            var storage = App.Factory.CreateStorage(userId);
+            var evnt = App.Factory.CreateSimpleEvent(userId);
+            entity.EventId = evnt.Id;
+        }
+        protected override void SetUserId(MonthlyScheduleModel entity, int userId)
         {
             var storage = App.Factory.CreateStorage(userId);
             var evnt = App.Factory.CreateSimpleEvent(userId);

@@ -6,12 +6,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoneyChest.Data.Enums;
 
 namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(RepayDebtEventHistory))]
     public class RepayDebtEvent : Evnt
     {
+        public RepayDebtEvent() : base()
+        {
+            EventType = EventType.RepayDebt;
+        }
+
         public int StorageId { get; set; }
 
         public int DebtId { get; set; }

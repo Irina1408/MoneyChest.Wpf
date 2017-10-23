@@ -7,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
+using MoneyChest.Data.Entities.Base;
 
 namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(UserHistory))]
-    public class User
+    public class User : IHasId
     {
         public User()
         {
@@ -26,11 +27,6 @@ namespace MoneyChest.Data.Entities
             Records = new List<Record>();
             Storages = new List<Storage>();
             StorageGroups = new List<StorageGroup>();
-            //CalendarSettings = new List<CalendarSetting>();
-            //ForecastSettings = new List<ForecastSetting>();
-            //GeneralSettings = new List<GeneralSetting>();
-            //RecordsViewFilter = new List<RecordsViewFilter>();
-            //ReportSettings = new List<ReportSetting>();
 
             CategoriesHistory = new List<CategoryHistory>();
             CurrenciesHistory = new List<CurrencyHistory>();

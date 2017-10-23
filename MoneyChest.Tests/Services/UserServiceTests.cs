@@ -11,11 +11,13 @@ using MoneyChest.Services.Services;
 using MoneyChest.Data.Enums;
 using System.Linq.Expressions;
 using System.Data.Entity;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
 
 namespace MoneyChest.Tests.Services
 {
     [TestClass]
-    public class UserServiceTests : IdManageableUserableHistoricizedServiceTestBase<User, UserService, UserHistory>
+    public class UserServiceTests : HistoricizedIdManageableServiceTestBase<User, UserModel, UserConverter, UserService, UserHistory>
     {
         #region Defaults
 
@@ -23,15 +25,15 @@ namespace MoneyChest.Tests.Services
         public void ItLoadsDefaultEngCategoriesForUser()
         {
             // create user
-            var user = App.Factory.CreateInstance<User>(OnCreateOverrides);
-            ((UserService)service).Add(user, Language.English);
+            var model = App.Factory.CreateInstance<UserModel>(OnCreateModelOverrides);
+            model = ((UserService)service).Add(model, Language.English);
 
             // check entities fetched
-            var userDb = service.GetForUser(user.Id);
+            var userDb = ((UserService)service).Get(model.Id);
             userDb.Should().NotBeNull();
 
             // check categories
-            var categories = App.Db.Categories.Where(item => item.UserId == user.Id).ToList();
+            var categories = App.Db.Categories.Where(item => item.UserId == model.Id).ToList();
             (categories.Count > 0).ShouldBeEquivalentTo(true);
         }
 
@@ -39,15 +41,15 @@ namespace MoneyChest.Tests.Services
         public void ItLoadsDefaultEngCurrenciesForUser()
         {
             // create user
-            var user = App.Factory.CreateInstance<User>(OnCreateOverrides);
-            ((UserService)service).Add(user, Language.English);
+            var model = App.Factory.CreateInstance<UserModel>(OnCreateModelOverrides);
+            model = ((UserService)service).Add(model, Language.English);
 
             // check entities fetched
-            var userDb = service.GetForUser(user.Id);
+            var userDb = ((UserService)service).Get(model.Id);
             userDb.Should().NotBeNull();
 
             // check Currencies
-            var currencies = App.Db.Currencies.Where(item => item.UserId == user.Id).ToList();
+            var currencies = App.Db.Currencies.Where(item => item.UserId == model.Id).ToList();
             (currencies.Count > 0).ShouldBeEquivalentTo(true);
         }
 
@@ -55,19 +57,19 @@ namespace MoneyChest.Tests.Services
         public void ItLoadsDefaultEngStoragesForUser()
         {
             // create user
-            var user = App.Factory.CreateInstance<User>(OnCreateOverrides);
-            ((UserService)service).Add(user, Language.English);
+            var model = App.Factory.CreateInstance<UserModel>(OnCreateModelOverrides);
+            model = ((UserService)service).Add(model, Language.English);
 
             // check entities fetched
-            var userDb = service.GetForUser(user.Id);
+            var userDb = ((UserService)service).Get(model.Id);
             userDb.Should().NotBeNull();
 
             // check StorageGroups
-            var storageGroups = App.Db.StorageGroups.Where(item => item.UserId == user.Id).ToList();
+            var storageGroups = App.Db.StorageGroups.Where(item => item.UserId == model.Id).ToList();
             (storageGroups.Count > 0).ShouldBeEquivalentTo(true);
 
             // check Storages
-            var storages = App.Db.Storages.Where(item => item.UserId == user.Id).ToList();
+            var storages = App.Db.Storages.Where(item => item.UserId == model.Id).ToList();
             (storages.Count > 0).ShouldBeEquivalentTo(true);
         }
 
@@ -75,8 +77,8 @@ namespace MoneyChest.Tests.Services
         public void ItLoadsDefaultEngSettingsForUser()
         {
             // create user
-            var user = App.Factory.CreateInstance<User>(OnCreateOverrides);
-            ((UserService)service).Add(user, Language.English);
+            var model = App.Factory.CreateInstance<UserModel>(OnCreateModelOverrides);
+            model = ((UserService)service).Add(model, Language.English);
 
             // check user and settings
             var userDb = App.Db.Users
@@ -85,7 +87,7 @@ namespace MoneyChest.Tests.Services
                 .Include(_ => _.GeneralSettings)
                 .Include(_ => _.ReportSettings)
                 .Include(_ => _.RecordsViewFilter)
-                .Where(item => item.Id == user.Id)
+                .Where(item => item.Id == model.Id)
                 .FirstOrDefault();
 
             userDb.Should().NotBeNull();
@@ -100,15 +102,15 @@ namespace MoneyChest.Tests.Services
         public void ItLoadsDefaultRusCategoriesForUser()
         {
             // create user
-            var user = App.Factory.CreateInstance<User>(OnCreateOverrides);
-            ((UserService)service).Add(user, Language.Russian);
+            var model = App.Factory.CreateInstance<UserModel>(OnCreateModelOverrides);
+            model = ((UserService)service).Add(model, Language.Russian);
 
             // check entities fetched
-            var userDb = service.GetForUser(user.Id);
+            var userDb = ((UserService)service).Get(model.Id);
             userDb.Should().NotBeNull();
 
             // check categories
-            var categories = App.Db.Categories.Where(item => item.UserId == user.Id).ToList();
+            var categories = App.Db.Categories.Where(item => item.UserId == model.Id).ToList();
             (categories.Count > 0).ShouldBeEquivalentTo(true);
         }
 
@@ -116,15 +118,15 @@ namespace MoneyChest.Tests.Services
         public void ItLoadsDefaultRusCurrenciesForUser()
         {
             // create user
-            var user = App.Factory.CreateInstance<User>(OnCreateOverrides);
-            ((UserService)service).Add(user, Language.Russian);
+            var model = App.Factory.CreateInstance<UserModel>(OnCreateModelOverrides);
+            model = ((UserService)service).Add(model, Language.Russian);
 
             // check entities fetched
-            var userDb = service.GetForUser(user.Id);
+            var userDb = ((UserService)service).Get(model.Id);
             userDb.Should().NotBeNull();
 
             // check Currencies
-            var currencies = App.Db.Currencies.Where(item => item.UserId == user.Id).ToList();
+            var currencies = App.Db.Currencies.Where(item => item.UserId == model.Id).ToList();
             (currencies.Count > 0).ShouldBeEquivalentTo(true);
         }
 
@@ -132,19 +134,19 @@ namespace MoneyChest.Tests.Services
         public void ItLoadsDefaultRusStoragesForUser()
         {
             // create user
-            var user = App.Factory.CreateInstance<User>(OnCreateOverrides);
-            ((UserService)service).Add(user, Language.Russian);
+            var model = App.Factory.CreateInstance<UserModel>(OnCreateModelOverrides);
+            model = ((UserService)service).Add(model, Language.Russian);
 
             // check entities fetched
-            var userDb = service.GetForUser(user.Id);
+            var userDb = ((UserService)service).Get(model.Id);
             userDb.Should().NotBeNull();
 
             // check StorageGroups
-            var storageGroups = App.Db.StorageGroups.Where(item => item.UserId == user.Id).ToList();
+            var storageGroups = App.Db.StorageGroups.Where(item => item.UserId == model.Id).ToList();
             (storageGroups.Count > 0).ShouldBeEquivalentTo(true);
 
             // check Storages
-            var storages = App.Db.Storages.Where(item => item.UserId == user.Id).ToList();
+            var storages = App.Db.Storages.Where(item => item.UserId == model.Id).ToList();
             (storages.Count > 0).ShouldBeEquivalentTo(true);
         }
 
@@ -152,8 +154,8 @@ namespace MoneyChest.Tests.Services
         public void ItLoadsDefaultRusSettingsForUser()
         {
             // create user
-            var user = App.Factory.CreateInstance<User>(OnCreateOverrides);
-            ((UserService)service).Add(user, Language.Russian);
+            var model = App.Factory.CreateInstance<UserModel>(OnCreateModelOverrides);
+            model = ((UserService)service).Add(model, Language.Russian);
 
             // check user and settings
             var userDb = App.Db.Users
@@ -162,7 +164,7 @@ namespace MoneyChest.Tests.Services
                 .Include(_ => _.GeneralSettings)
                 .Include(_ => _.ReportSettings)
                 .Include(_ => _.RecordsViewFilter)
-                .Where(item => item.Id == user.Id)
+                .Where(item => item.Id == model.Id)
                 .FirstOrDefault();
 
             userDb.Should().NotBeNull();
@@ -176,18 +178,7 @@ namespace MoneyChest.Tests.Services
         #endregion
 
         #region Overrides 
-
-        [TestMethod]
-        public override void ItFetchesAllEntitiesForUser()
-        {
-            // create entities
-            var entity1 = App.Factory.Create<User>(OnCreateOverrides);
-
-            // check entities fetched
-            var entities = service.GetAllForUser(entity1.Id);
-            entities.Count.ShouldBeEquivalentTo(1);
-        }
-
+        
         [TestMethod]
         public override void ItRemovesEntityById()
         {
@@ -200,10 +191,10 @@ namespace MoneyChest.Tests.Services
             // not check user deletion
         }
 
-        protected override void ChangeEntity(User entity) => entity.Name = "Some other name";
+        protected override void ChangeEntity(UserModel entity) => entity.Name = "Some other name";
         protected override void SetUserId(User entity, int userId) { }
+        protected override void SetUserId(UserModel entity, int userId) { }
         protected override int GetUserId(User entity) => entity.Id;
-        protected override bool CreateUserSettings => false;
 
         #endregion
     }

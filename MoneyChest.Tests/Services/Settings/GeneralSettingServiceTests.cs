@@ -11,17 +11,17 @@ using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
 using MoneyChest.Services.Services.Settings;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
 
 namespace MoneyChest.Tests.Services.Settings
 {
     [TestClass]
-    public class GeneralSettingServiceTests : UserableEntityServiceTestBase<GeneralSetting, GeneralSettingService>
+    public class GeneralSettingServiceTests : UserSettingServiceTestBase<GeneralSetting, GeneralSettingModel, GeneralSettingConverter, GeneralSettingService>
     {
         #region Overrides
 
-        protected override void ChangeEntity(GeneralSetting entity) => entity.HideCoinBoxStorages = !entity.HideCoinBoxStorages;
-        protected override int CountEntitiesForUser => 1;
-        protected override bool CreateUserSettings => false;
+        protected override void ChangeEntity(GeneralSettingModel entity) => entity.HideCoinBoxStorages = !entity.HideCoinBoxStorages;
 
         protected override void SetUserId(GeneralSetting entity, int userId)
         {

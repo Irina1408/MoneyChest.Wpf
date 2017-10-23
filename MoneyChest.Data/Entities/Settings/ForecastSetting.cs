@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyChest.Data.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Entities
 {
-    public class ForecastSetting
+    public class ForecastSetting : IHasUserId
     {
         public ForecastSetting()
         {

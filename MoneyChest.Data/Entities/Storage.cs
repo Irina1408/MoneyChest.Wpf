@@ -8,11 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
 using MoneyChest.Data.Entities.History;
+using MoneyChest.Data.Entities.Base;
 
 namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(StorageHistory))]
-    public class Storage
+    public class Storage : IHasId, IHasUserId
     {
         public Storage()
         {
@@ -32,13 +33,13 @@ namespace MoneyChest.Data.Entities
 
         public string Name { get; set; }
 
-        public int StorageGroupId { get; set; }
-
         public decimal Value { get; set; }
 
         public string Remark { get; set; }
 
         public int CurrencyId { get; set; }
+
+        public int StorageGroupId { get; set; }
 
         [Required]
         public int UserId { get; set; }

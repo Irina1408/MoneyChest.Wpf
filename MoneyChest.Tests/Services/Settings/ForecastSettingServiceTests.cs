@@ -11,18 +11,19 @@ using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
 using MoneyChest.Services.Services.Settings;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Tests.Services.Settings
 {
     [TestClass]
-    public class ForecastSettingServiceTests : UserableEntityServiceTestBase<ForecastSetting, ForecastSettingService>
+    public class ForecastSettingServiceTests : UserSettingServiceTestBase<ForecastSetting, ForecastSettingModel, ForecastSettingConverter, ForecastSettingService>
     {
         #region Overrides
 
-        protected override void ChangeEntity(ForecastSetting entity) => entity.RepeatsCount += 10;
-        protected override void SetUserId(ForecastSetting entity, int userId) => entity.UserId = userId;
-        protected override int CountEntitiesForUser => 1;
-        protected override bool CreateUserSettings => false;
+        protected override IQueryable<ForecastSetting> Scope => Entities.Include(_ => _.Categories);
+        protected override void ChangeEntity(ForecastSettingModel entity) => entity.RepeatsCount += 10;
 
         #endregion
     }

@@ -78,10 +78,11 @@
     <Compile Include="Calculators\DebtsSummaryCalculatorTests.cs" />
     <Compile Include="Calculators\StorageSummaryCalculatorTests.cs" />
     <Compile Include="Reports\ReportBuilderTests.cs" />
-    <Compile Include="Services\Base\HistoricizedServiceTestBase.cs" />
-    <Compile Include="Services\Base\IdManageableUserableHistoricizedServiceTestBase.cs" />
-    <Compile Include="Services\Base\IdManageableUserableServiceTestBase.cs" />
+    <Compile Include="Services\Base\HistoricizedIdManageableServiceTestBase.cs" />
+    <Compile Include="Services\Base\HistoricizedIdManageableUserableListServiceTestBase.cs" />
     <Compile Include="Services\Base\UserableEntityServiceTestBase.cs" />
+    <Compile Include="Services\Base\HistoricizedEntityModelServiceTestBase.cs" />
+    <Compile Include="Services\Base\UserSettingServiceTestBase.cs" />
     <Compile Include="Services\CategoryServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Currency\CurrencyExchangeRateServiceTests.cs" />
@@ -118,6 +119,10 @@
     <ProjectReference Include="..\MoneyChest.Data\MoneyChest.Data.csproj">
       <Project>{367772a1-b49c-49da-b5cb-aae5bf696947}</Project>
       <Name>MoneyChest.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MoneyChest.Model\MoneyChest.Model.csproj">
+      <Project>{AA3CD891-1018-489D-A0C5-16C295C2E636}</Project>
+      <Name>MoneyChest.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\MoneyChest.Services\MoneyChest.Services.csproj">
       <Project>{ab2608ab-d835-49b0-841f-3f7e61869394}</Project>

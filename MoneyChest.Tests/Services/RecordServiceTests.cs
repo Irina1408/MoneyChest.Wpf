@@ -11,11 +11,14 @@ using MoneyChest.Services.Services;
 using MoneyChest.Data.Mock;
 using MoneyChest.Data.Enums;
 using MoneyChest.Services.Services.Settings;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Tests.Services
 {
     [TestClass]
-    public class RecordServiceTests : IdManageableUserableHistoricizedServiceTestBase<Record, RecordService, RecordHistory>
+    public class RecordServiceTests : HistoricizedIdManageableUserableListServiceTestBase<Record, RecordModel, RecordConverter, RecordService, RecordHistory>
     {
         [TestMethod]
         public void ItFecthesExpeseWithoutCategoryRecordsForPeriodFilterTypes()
@@ -261,7 +264,7 @@ namespace MoneyChest.Tests.Services
         private void CheckRecordExistance(List<Record> records, PeriodFilterType period, TransactionType transactionType, bool includeWithoutCategory, List<int> categoryIds = null)
         {
             var service = (IRecordService)serviceIdManageable;
-            var allRecords = service.GetAllForUser(user.Id);
+            var allRecords = service.GetListForUser(user.Id);
 
             var entityFetched = service.Get(user.Id, period, transactionType, includeWithoutCategory, categoryIds);
             //entityFetched.Count.ShouldBeEquivalentTo(records.Count);
@@ -285,8 +288,18 @@ namespace MoneyChest.Tests.Services
 
         #region Overrides 
 
-        protected override void ChangeEntity(Record entity) => entity.Description = "Some other Description";
+        protected override IQueryable<Record> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category).Include(_ => _.Storage).Include(_ => _.Debt);
+        protected override void ChangeEntity(RecordModel entity) => entity.Description = "Some other Description";
         protected override void SetUserId(Record entity, int userId)
+        {
+            var category = App.Factory.Create<Category>(item => item.UserId = userId);
+            var storage = App.Factory.CreateStorage(userId);
+            entity.UserId = userId;
+            entity.CurrencyId = storage.CurrencyId;
+            entity.StorageId = storage.Id;
+            entity.CategoryId = category.Id;
+        }
+        protected override void SetUserId(RecordModel entity, int userId)
         {
             var category = App.Factory.Create<Category>(item => item.UserId = userId);
             var storage = App.Factory.CreateStorage(userId);

@@ -1,4 +1,5 @@
-﻿using MoneyChest.Data.Enums;
+﻿using MoneyChest.Data.Entities.Base;
+using MoneyChest.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace MoneyChest.Data.Entities
 {
     [Table(nameof(ReportSetting))]
-    public class ReportSetting
+    public class ReportSetting : IHasUserId
     {
         public ReportSetting() : base()
         {

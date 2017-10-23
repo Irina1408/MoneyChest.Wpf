@@ -29,7 +29,7 @@ namespace MoneyChest.Tests.Calculators
             var summary = debtsSummaryCalculator.CalculateSummary();
             summary.BorrowedDebts.Count.ShouldBeEquivalentTo(1);
             summary.BorrowedDebts[0].Value.ShouldBeEquivalentTo(entity.Value);
-            summary.BorrowedDebts[0].CurrencyId.ShouldBeEquivalentTo(entity.CurrencyId);
+            summary.BorrowedDebts[0].Currency.Id.ShouldBeEquivalentTo(entity.CurrencyId);
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace MoneyChest.Tests.Calculators
             var summary = debtsSummaryCalculator.CalculateSummary();
             summary.GivenDebts.Count.ShouldBeEquivalentTo(1);
             summary.GivenDebts[0].Value.ShouldBeEquivalentTo(entity.Value);
-            summary.GivenDebts[0].CurrencyId.ShouldBeEquivalentTo(entity.CurrencyId);
+            summary.GivenDebts[0].Currency.Id.ShouldBeEquivalentTo(entity.CurrencyId);
         }
     }
 }

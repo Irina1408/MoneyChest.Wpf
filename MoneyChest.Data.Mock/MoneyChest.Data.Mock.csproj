@@ -61,6 +61,10 @@
       <Project>{367772A1-B49C-49DA-B5CB-AAE5BF696947}</Project>
       <Name>MoneyChest.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MoneyChest.Model\MoneyChest.Model.csproj">
+      <Project>{AA3CD891-1018-489D-A0C5-16C295C2E636}</Project>
+      <Name>MoneyChest.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

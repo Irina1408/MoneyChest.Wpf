@@ -7,21 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Context;
 using System.Linq.Expressions;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Services.Services.Settings
 {
-    public interface IGeneralSettingService : IBaseUserableService<GeneralSetting>
+    public interface IGeneralSettingService : IUserSettingsService<GeneralSettingModel>
     {
     }
 
-    public class GeneralSettingService : BaseUserableService<GeneralSetting>, IGeneralSettingService
+    public class GeneralSettingService : BaseUserSettingService<GeneralSetting, GeneralSettingModel, GeneralSettingConverter>, IGeneralSettingService
     {
         public GeneralSettingService(ApplicationDbContext context) : base(context)
         {
         }
-
-        protected override int UserId(GeneralSetting entity) => entity.UserId;
-
-        protected override Expression<Func<GeneralSetting, bool>> LimitByUser(int userId) => item => item.UserId == userId;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Data.Attributes;
+using MoneyChest.Data.Entities.Base;
 using MoneyChest.Data.Entities.History;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(CurrencyHistory))]
-    public class Currency
+    public class Currency : IHasId, IHasUserId
     {
         public Currency()
         {

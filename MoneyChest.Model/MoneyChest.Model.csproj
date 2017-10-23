@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AA3CD891-1018-489D-A0C5-16C295C2E636}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MoneyChest.Model</RootNamespace>
+    <AssemblyName>MoneyChest.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converters\Base\IEntityModelConverter.cs" />
+    <Compile Include="Converters\CategoryConverter.cs" />
+    <Compile Include="Converters\CurrencyConverter.cs" />
+    <Compile Include="Converters\CurrencyExchangeRateConverter.cs" />
+    <Compile Include="Converters\DebtConverter.cs" />
+    <Compile Include="Converters\Events\SimpleEventConverter.cs" />
+    <Compile Include="Converters\Events\RepayDebtEventConverter.cs" />
+    <Compile Include="Converters\Events\MoneyTransferEventConverter.cs" />
+    <Compile Include="Converters\LimitConverter.cs" />
+    <Compile Include="Converters\MoneyTransferConverter.cs" />
+    <Compile Include="Converters\RecordConverter.cs" />
+    <Compile Include="Converters\Schedule\WeeklyScheduleConverter.cs" />
+    <Compile Include="Converters\Schedule\OnceScheduleConverter.cs" />
+    <Compile Include="Converters\Schedule\MonthlyScheduleConverter.cs" />
+    <Compile Include="Converters\Schedule\DailyScheduleConverter.cs" />
+    <Compile Include="Converters\Settings\ReportSettingConverter.cs" />
+    <Compile Include="Converters\Settings\RecordsViewFilterConverter.cs" />
+    <Compile Include="Converters\Settings\GeneralSettingConverter.cs" />
+    <Compile Include="Converters\Settings\ForecastSettingConverter.cs" />
+    <Compile Include="Converters\Settings\CalendarSettingConverter.cs" />
+    <Compile Include="Converters\StorageConverter.cs" />
+    <Compile Include="Converters\StorageGroupConverter.cs" />
+    <Compile Include="Converters\UserConverter.cs" />
+    <Compile Include="Convert\ToReferenceView.cs" />
+    <Compile Include="Model\CategoryModel.cs" />
+    <Compile Include="Model\CurrencyExchangeRateModel.cs" />
+    <Compile Include="Model\CurrencyModel.cs" />
+    <Compile Include="Model\DebtModel.cs" />
+    <Compile Include="Model\Events\EventModel.cs" />
+    <Compile Include="Model\Events\SimpleEventModel.cs" />
+    <Compile Include="Model\Events\RepayDebtEventModel.cs" />
+    <Compile Include="Model\Events\MoneyTransferEventModel.cs" />
+    <Compile Include="Model\LimitModel.cs" />
+    <Compile Include="Model\MoneyTransferModel.cs" />
+    <Compile Include="Model\RecordModel.cs" />
+    <Compile Include="Model\Reference\CategoryReference.cs" />
+    <Compile Include="Model\Reference\CurrencyReference.cs" />
+    <Compile Include="Model\Reference\DebtReference.cs" />
+    <Compile Include="Model\Reference\StorageGroupReference.cs" />
+    <Compile Include="Model\Reference\StorageReference.cs" />
+    <Compile Include="Model\Schedule\WeeklyScheduleModel.cs" />
+    <Compile Include="Model\Schedule\OnceScheduleModel.cs" />
+    <Compile Include="Model\Schedule\MonthlyScheduleModel.cs" />
+    <Compile Include="Model\Schedule\DailyScheduleModel.cs" />
+    <Compile Include="Model\Schedule\ScheduleModel.cs" />
+    <Compile Include="Model\Settings\CalendarSettingModel.cs" />
+    <Compile Include="Model\Settings\ReportSettingModel.cs" />
+    <Compile Include="Model\Settings\RecordsViewFilterModel.cs" />
+    <Compile Include="Model\Settings\ForecastSettingModel.cs" />
+    <Compile Include="Model\Settings\GeneralSettingModel.cs" />
+    <Compile Include="Model\StorageGroupModel.cs" />
+    <Compile Include="Model\StorageModel.cs" />
+    <Compile Include="Model\UserModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MoneyChest.Data\MoneyChest.Data.csproj">
+      <Project>{367772a1-b49c-49da-b5cb-aae5bf696947}</Project>
+      <Name>MoneyChest.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -320,11 +320,6 @@ namespace MoneyChest.Data.Context
                 .WithRequired(e => e.StorageGroup)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<StorageGroup>()
-                .HasMany(e => e.CalendarSettings)
-                .WithOptional(e => e.StorageGroup)
-                .WillCascadeOnDelete(false);
-
             // Debt
             modelBuilder.Entity<Debt>()
                 .HasRequired(e => e.Currency)

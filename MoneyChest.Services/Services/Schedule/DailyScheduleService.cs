@@ -7,14 +7,16 @@ using MoneyChest.Services.Services.Base;
 using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
 using System.Linq.Expressions;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
 
-namespace MoneyChest.Services.Services.Schedule
+namespace MoneyChest.Services.Services
 {
-    public interface IDailyScheduleService : IBaseHistoricizedService<DailySchedule>, IIdManageable<DailySchedule>
+    public interface IDailyScheduleService : IBaseIdManagableService<DailyScheduleModel>
     {
     }
 
-    public class DailyScheduleService : BaseHistoricizedService<DailySchedule>, IDailyScheduleService
+    public class DailyScheduleService : BaseHistoricizedIdManageableService<DailySchedule, DailyScheduleModel, DailyScheduleConverter>, IDailyScheduleService
     {
         public DailyScheduleService(ApplicationDbContext context) : base(context)
         {
@@ -25,17 +27,5 @@ namespace MoneyChest.Services.Services.Schedule
             if (entity.Event != null) return entity.Event.UserId;
             return _context.Events.FirstOrDefault(_ => _.Id == entity.EventId).UserId;
         }
-
-        protected override Expression<Func<DailySchedule, bool>> LimitByUser(int userId) => item => item.Event.UserId == userId;
-
-        #region IIdManageable<T> implementation
-
-        public DailySchedule Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
-
-        public List<DailySchedule> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
-
-        public void Delete(int id) => Delete(Get(id));
-
-        #endregion
     }
 }

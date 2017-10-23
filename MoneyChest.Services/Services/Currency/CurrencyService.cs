@@ -8,16 +8,20 @@ using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
 using System.Linq.Expressions;
 using MoneyChest.Data.Enums;
+using MoneyChest.Model.Convert;
+using System.Data.Entity;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface ICurrencyService : IBaseHistoricizedService<Currency>, IIdManageable<Currency>
+    public interface ICurrencyService : IBaseIdManagableUserableListService<CurrencyModel>
     {
-        Currency GetMain(int userId);
+        CurrencyModel GetMain(int userId);
         void SetMain(int userId, int currencyId);
     }
 
-    public class CurrencyService : BaseHistoricizedService<Currency>, ICurrencyService
+    public class CurrencyService : BaseHistoricizedIdManageableUserableListService<Currency, CurrencyModel, CurrencyConverter>, ICurrencyService
     {
         #region Initialization
 
@@ -27,36 +31,18 @@ namespace MoneyChest.Services.Services
 
         #endregion
 
-        #region Overrides
-
-        protected override int UserId(Currency entity) => entity.UserId;
-
-        protected override Expression<Func<Currency, bool>> LimitByUser(int userId) => item => item.UserId == userId;
-
-        #endregion
-
         #region ICurrencyService implementation
 
-        public Currency GetMain(int userId)
+        public CurrencyModel GetMain(int userId)
         {
-            return GetForUser(userId, item => item.IsMain);
+            return _converter.ToModel(Entities.FirstOrDefault(e => e.UserId == userId && e.IsMain));
         }
 
         public void SetMain(int userId, int currencyId)
         {
-            GetAllForUser(userId).ForEach(c => c.IsMain = c.Id == currencyId);
+            Entities.Where(e => e.UserId == userId).ToList().ForEach(c => c.IsMain = c.Id == currencyId);
             SaveChanges();
         }
-
-        #endregion
-
-        #region IIdManageable<T> implementation
-
-        public Currency Get(int id) => Entities.FirstOrDefault(_ => _.Id == id);
-
-        public List<Currency> Get(List<int> ids) => Entities.Where(_ => ids.Contains(_.Id)).ToList();
-
-        public void Delete(int id) => Delete(Get(id));
 
         #endregion
     }

@@ -23,8 +23,8 @@ namespace MoneyChest.Calculation.Calculators
         {
             var debtsSummary = new DebtsSummary();
 
-            foreach (var debt in _debtSevice.GetAllForUser(_userId, item => !item.IsRepayed))
-                debtsSummary.UpdateBalance(debt.DebtType, debt.CurrencyId, debt.Value - debt.PaidValue);
+            foreach (var debt in _debtSevice.GetActive(_userId))
+                debtsSummary.Update(debt.DebtType, debt.Currency, debt.Value - debt.PaidValue);
 
             return debtsSummary;
         }

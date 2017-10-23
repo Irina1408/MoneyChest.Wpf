@@ -11,18 +11,19 @@ using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
 using MoneyChest.Services.Services.Settings;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Tests.Services.Settings
 {
     [TestClass]
-    public class CalendarSettingServiceTests : UserableEntityServiceTestBase<CalendarSetting, CalendarSettingService>
+    public class CalendarSettingServiceTests : UserSettingServiceTestBase<CalendarSetting, CalendarSettingModel, CalendarSettingConverter, CalendarSettingService>
     {
         #region Overrides
 
-        protected override void ChangeEntity(CalendarSetting entity) => entity.ShowLimits = !entity.ShowLimits;
-        protected override void SetUserId(CalendarSetting entity, int userId) => entity.UserId = userId;
-        protected override int CountEntitiesForUser => 1;
-        protected override bool CreateUserSettings => false;
+        protected override IQueryable<CalendarSetting> Scope => Entities.Include(_ => _.StorageGroups);
+        protected override void ChangeEntity(CalendarSettingModel entity) => entity.ShowLimits = !entity.ShowLimits;
 
         #endregion
     }

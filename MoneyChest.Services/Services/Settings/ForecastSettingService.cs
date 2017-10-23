@@ -7,21 +7,33 @@ using System.Threading.Tasks;
 using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
 using System.Linq.Expressions;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IForecastSettingService : IBaseUserableService<ForecastSetting>
+    public interface IForecastSettingService : IUserSettingsService<ForecastSettingModel>
     {
     }
 
-    public class ForecastSettingService : BaseUserableService<ForecastSetting>, IForecastSettingService
+    public class ForecastSettingService : BaseUserSettingService<ForecastSetting, ForecastSettingModel, ForecastSettingConverter>, IForecastSettingService
     {
         public ForecastSettingService(ApplicationDbContext context) : base(context)
         {
         }
 
-        protected override int UserId(ForecastSetting entity) => entity.UserId;
+        protected override IQueryable<ForecastSetting> Scope => Entities.Include(_ => _.Categories);
 
-        protected override Expression<Func<ForecastSetting, bool>> LimitByUser(int userId) => item => item.UserId == userId;
+        protected override ForecastSetting Update(ForecastSetting entity, ForecastSettingModel model)
+        {
+            entity.Categories.Clear();
+            SaveChanges();
+
+            var categories = _context.Categories.Where(e => model.CategoryIds.Contains(e.Id)).ToList();
+            categories.ForEach(e => entity.Categories.Add(e));
+
+            return entity;
+        }
     }
 }

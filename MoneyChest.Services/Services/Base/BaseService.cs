@@ -10,12 +10,6 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public interface IBaseService : IDisposable
-    {
-        void SaveChanges();
-        Task SaveChangesAsync();
-    }
-
     public abstract class BaseService : IBaseService
     {
         protected ApplicationDbContext _context;

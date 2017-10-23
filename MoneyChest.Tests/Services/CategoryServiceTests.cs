@@ -8,11 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
 
 namespace MoneyChest.Tests.Services
 {
     [TestClass]
-    public class CategoryServiceTests : IdManageableUserableHistoricizedServiceTestBase<Category, CategoryService, CategoryHistory>
+    public class CategoryServiceTests : HistoricizedIdManageableUserableListServiceTestBase<Category, CategoryModel, CategoryConverter, CategoryService, CategoryHistory>
     {
         [TestMethod]
         public virtual void ItFecthesLowestCategoryLevel()
@@ -84,10 +86,7 @@ namespace MoneyChest.Tests.Services
 
         #region Overrides 
 
-        protected override void ChangeEntity(Category entity) => entity.Name = "Some other name";
-        protected override void SetUserId(Category entity, int userId) => entity.UserId = userId;
-        protected override Category FetchItem(Category entity) => 
-            service.GetAllForUser(GetUserId(entity)).FirstOrDefault(_ => _.Id == entity.Id);
+        protected override void ChangeEntity(CategoryModel entity) => entity.Name = "Some other name";
 
         #endregion
     }

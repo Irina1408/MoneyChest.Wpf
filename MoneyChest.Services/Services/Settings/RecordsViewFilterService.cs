@@ -7,21 +7,33 @@ using MoneyChest.Data.Entities;
 using MoneyChest.Services.Services.Base;
 using MoneyChest.Data.Context;
 using System.Linq.Expressions;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Services.Services.Settings
 {
-    public interface IRecordsViewFilterService : IBaseUserableService<RecordsViewFilter>
+    public interface IRecordsViewFilterService : IUserSettingsService<RecordsViewFilterModel>
     {
     }
 
-    public class RecordsViewFilterService : BaseUserableService<RecordsViewFilter>, IRecordsViewFilterService
+    public class RecordsViewFilterService : BaseUserSettingService<RecordsViewFilter, RecordsViewFilterModel, RecordsViewFilterConverter>, IRecordsViewFilterService
     {
         public RecordsViewFilterService(ApplicationDbContext context) : base(context)
         {
         }
 
-        protected override int UserId(RecordsViewFilter entity) => entity.UserId;
+        protected override IQueryable<RecordsViewFilter> Scope => Entities.Include(_ => _.Categories);
 
-        protected override Expression<Func<RecordsViewFilter, bool>> LimitByUser(int userId) => item => item.UserId == userId;
+        protected override RecordsViewFilter Update(RecordsViewFilter entity, RecordsViewFilterModel model)
+        {
+            entity.Categories.Clear();
+            SaveChanges();
+
+            var categories = _context.Categories.Where(e => model.CategoryIds.Contains(e.Id)).ToList();
+            categories.ForEach(e => entity.Categories.Add(e));
+
+            return entity;
+        }
     }
 }

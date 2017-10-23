@@ -13,6 +13,7 @@ using MoneyChest.Data.Entities;
 using MoneyChest.Services.Services.Settings;
 using MoneyChest.Calculation.Reports;
 using System.Diagnostics;
+using MoneyChest.Model.Model;
 
 namespace MoneyChest.Tests.Reports
 {
@@ -22,6 +23,8 @@ namespace MoneyChest.Tests.Reports
         [TestMethod]
         public void ItBuildsReportForAllCategoriesAllLevels()
         {
+            Debug.WriteLine(string.Format("Test: {0}", nameof(ItBuildsReportForAllCategoriesAllLevels)));
+
             // get report settings
             var reportSettingsService = new ReportSettingService(App.Db);
             var reportSettings = reportSettingsService.GetForUser(user.Id);
@@ -36,6 +39,8 @@ namespace MoneyChest.Tests.Reports
         [TestMethod]
         public void ItBuildsReportForAllCategoriesSpecialLevel()
         {
+            Debug.WriteLine(string.Format("Test: {0}", nameof(ItBuildsReportForAllCategoriesSpecialLevel)));
+
             // get report settings
             var reportSettingsService = new ReportSettingService(App.Db);
             var reportSettings = reportSettingsService.GetForUser(user.Id);
@@ -63,6 +68,8 @@ namespace MoneyChest.Tests.Reports
         [TestMethod]
         public void ItBuildsReportForSpecialCategoriesAllLevels()
         {
+            Debug.WriteLine(string.Format("Test: {0}", nameof(ItBuildsReportForSpecialCategoriesAllLevels)));
+
             // get report settings
             var reportSettingsService = new ReportSettingService(App.Db);
             var reportSettings = reportSettingsService.GetForUser(user.Id);
@@ -71,9 +78,9 @@ namespace MoneyChest.Tests.Reports
             var category1 = App.Factory.Create<Category>(_ => _.UserId = user.Id);
             var category2 = App.Factory.Create<Category>(_ => _.UserId = user.Id);
             var category3 = App.Factory.Create<Category>(_ => _.UserId = user.Id);
-
-            reportSettings.Categories.Add(category1);
-            reportSettings.Categories.Add(category2);
+            
+            reportSettings.CategoryIds.Add(category1.Id);
+            reportSettings.CategoryIds.Add(category2.Id);
             reportSettings.AllCategories = false;
             reportSettings.CategoryLevel = -1;
 
@@ -84,6 +91,8 @@ namespace MoneyChest.Tests.Reports
         [TestMethod]
         public void ItBuildsReportForSpecialCategoriesSpecialLevel()
         {
+            Debug.WriteLine(string.Format("Test: {0}", nameof(ItBuildsReportForSpecialCategoriesSpecialLevel)));
+
             // get report settings
             var reportSettingsService = new ReportSettingService(App.Db);
             var reportSettings = reportSettingsService.GetForUser(user.Id);
@@ -106,8 +115,8 @@ namespace MoneyChest.Tests.Reports
                 c.ParentCategoryId = categoryLvl1.Id;
             });
 
-            reportSettings.Categories.Add(categoryLvl1);
-            reportSettings.Categories.Add(categoryLvl2_1);
+            reportSettings.CategoryIds.Add(categoryLvl1.Id);
+            reportSettings.CategoryIds.Add(categoryLvl2_1.Id);
             reportSettings.AllCategories = false;
             reportSettings.CategoryLevel = 1;
 
@@ -118,6 +127,8 @@ namespace MoneyChest.Tests.Reports
         [TestMethod]
         public void ItBuildsReportWithCurrencyExchangeRate()
         {
+            Debug.WriteLine(string.Format("Test: {0}", nameof(ItBuildsReportWithCurrencyExchangeRate)));
+
             // get report settings
             var reportSettingsService = new ReportSettingService(App.Db);
             var reportSettings = reportSettingsService.GetForUser(user.Id);
@@ -158,7 +169,7 @@ namespace MoneyChest.Tests.Reports
         /// It builds and checks report for all combinations of TransactionType, PeriodFilterType, IncludeRecordsWithoutCategory
         /// </summary>
         private void BuildAndCheckReport(
-            ReportSetting reportSettings, 
+            ReportSettingModel reportSettings, 
             Action<Record> createRecordOneTypeOverrides = null,
             Action<Record> createRecordSecondTypeOverrides = null)
         {
@@ -286,7 +297,7 @@ namespace MoneyChest.Tests.Reports
             return new Tuple<DateTime, DateTime>(from, until);
         }
         
-        private void CheckReportFetch(ReportSetting reportSettings)
+        private void CheckReportFetch(ReportSettingModel reportSettings)
         {
             // necessary services
             var recordService = new RecordService(App.Db);
@@ -297,13 +308,13 @@ namespace MoneyChest.Tests.Reports
             // necessary values
             var mainCurrency = currencyService.GetMain(user.Id);
             mainCurrency.Should().NotBeNull();
-            var currencyExchangeRates = currencyExchangeRateService.GetAllForUser(user.Id, _ => _.CurrencyToId == mainCurrency.Id);
+            var currencyExchangeRates = currencyExchangeRateService.GetList(user.Id, mainCurrency.Id);
 
             // initialize report instance
             var reportBuilder = new ReportBuilder(user.Id, recordService, categoryService, currencyService, currencyExchangeRateService);
 
             // build report
-            var result = reportBuilder.BuildReport(reportSettings);
+            var result = reportBuilder.Build(reportSettings);
 
             // get all correspond records
             var records = GetRecordsToCheck(reportSettings);
@@ -325,10 +336,9 @@ namespace MoneyChest.Tests.Reports
                 result.FirstOrDefault(_ => _.Caption == null).Should().BeNull();
 
             // load categories
-            var categoryIds = reportSettings.Categories.Select(_ => _.Id).ToList();
             var categories = reportSettings.AllCategories
-                ? categoryService.GetAllForUser(user.Id)
-                : categoryService.GetAllForUser(user.Id, _ => categoryIds.Contains(_.Id));
+                ? categoryService.GetListForUser(user.Id)
+                : categoryService.Get(reportSettings.CategoryIds);
 
             // 3. check categories are shown when all levels are included
             if (reportSettings.CategoryLevel == -1)
@@ -371,20 +381,21 @@ namespace MoneyChest.Tests.Reports
             }
         }
 
-        private List<Record> GetRecordsToCheck(ReportSetting reportSettings)
+        private List<RecordModel> GetRecordsToCheck(ReportSettingModel reportSettings)
         {
             var recordService = new RecordService(App.Db);
 
             // get all records for user
             // Note: use period (DateFrom - DateUntil) from ReportSetting because IN TESTS it should correspond to PeriodFilterType
+            var allRecords = recordService.GetListForUser(user.Id);
             var records = reportSettings.PeriodFilterType == PeriodFilterType.All
-                ? recordService.GetAllForUser(user.Id, _ => _.TransactionType == reportSettings.DataType)
-                : recordService.GetAllForUser(user.Id, _ => 
+                ? allRecords.Where(_ => _.TransactionType == reportSettings.DataType).ToList()
+                : allRecords.Where(_ => 
                     _.Date >= reportSettings.DateFrom.Value && _.Date <= reportSettings.DateUntil.Value 
-                    && _.TransactionType == reportSettings.DataType);
+                    && _.TransactionType == reportSettings.DataType).ToList();
 
             // get records that should be included into report
-            List<Record> recordsToCheck = null;
+            List<RecordModel> recordsToCheck = null;
             if (reportSettings.AllCategories)
             {
                 // take into account IncludeRecordsWithoutCategory
@@ -394,25 +405,24 @@ namespace MoneyChest.Tests.Reports
             }
             else
             {
-                var categoryIds = reportSettings.Categories.Select(_ => _.Id).ToList();
                 recordsToCheck = reportSettings.IncludeRecordsWithoutCategory
-                    ? records.Where(_ => !_.CategoryId.HasValue || categoryIds.Contains(_.CategoryId.Value)).ToList()
-                    : records.Where(_ => _.CategoryId.HasValue && categoryIds.Contains(_.CategoryId.Value)).ToList();
+                    ? records.Where(_ => !_.CategoryId.HasValue || reportSettings.CategoryIds.Contains(_.CategoryId.Value)).ToList()
+                    : records.Where(_ => _.CategoryId.HasValue && reportSettings.CategoryIds.Contains(_.CategoryId.Value)).ToList();
             }
 
             return recordsToCheck;
         }
 
-        private decimal GetSumValue(List<Record> records, List<CurrencyExchangeRate> currencyExchangeRates, 
-            Currency mainCurrency, int? categoryId) => 
+        private decimal GetSumValue(List<RecordModel> records, List<CurrencyExchangeRateModel> currencyExchangeRates, 
+            CurrencyModel mainCurrency, int? categoryId) => 
             GetSumValue(records, currencyExchangeRates, mainCurrency, new List<int?>() { categoryId });
 
-        private decimal GetSumValue(List<Record> records, List<CurrencyExchangeRate> currencyExchangeRates,
-            Currency mainCurrency, List<int> categoryIds) =>
+        private decimal GetSumValue(List<RecordModel> records, List<CurrencyExchangeRateModel> currencyExchangeRates,
+            CurrencyModel mainCurrency, List<int> categoryIds) =>
             GetSumValue(records, currencyExchangeRates, mainCurrency, categoryIds.Select(_ => (int?) _).ToList());
 
-        private decimal GetSumValue(List<Record> records, List<CurrencyExchangeRate> currencyExchangeRates,
-            Currency mainCurrency, List<int?> categoryIds = null)
+        private decimal GetSumValue(List<RecordModel> records, List<CurrencyExchangeRateModel> currencyExchangeRates,
+            CurrencyModel mainCurrency, List<int?> categoryIds = null)
         {
             var recordsToBeUsed = categoryIds == null ? records : records.Where(_ => categoryIds.Contains(_.CategoryId));
             var value = recordsToBeUsed.Where(_ => _.CurrencyId == mainCurrency.Id).Sum(_ => _.Value);

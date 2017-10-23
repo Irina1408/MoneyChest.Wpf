@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Data.Attributes;
+using MoneyChest.Data.Entities.Base;
 using MoneyChest.Data.Entities.History;
 using MoneyChest.Data.Enums;
 using System;
@@ -13,7 +14,7 @@ namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(EventHistory))]
     [Table("Events")]
-    public class Evnt
+    public class Evnt : IHasId, IHasUserId
     {
         public Evnt()
         {
@@ -22,6 +23,10 @@ namespace MoneyChest.Data.Entities
             ConfirmBeforeExecute = false;
 
             Schedules = new List<Schedule>();
+            OnceSchedules = new List<OnceSchedule>();
+            DailySchedules = new List<DailySchedule>();
+            WeeklySchedules = new List<WeeklySchedule>();
+            MonthlySchedules = new List<MonthlySchedule>();
         }
 
         [Key]
@@ -36,8 +41,6 @@ namespace MoneyChest.Data.Entities
         
         [Column(TypeName = "date")]
         public DateTime? PausedToDate { get; set; }
-        
-        public ScheduleType ScheduleType { get; set; }
 
         public bool AutoExecution { get; set; }
 
@@ -45,6 +48,8 @@ namespace MoneyChest.Data.Entities
         public TimeSpan? AutoExecutionTime { get; set; }
 
         public bool ConfirmBeforeExecute { get; set; }
+
+        public EventType EventType { get; set; }
 
         public string Remark { get; set; }
 
@@ -56,5 +61,9 @@ namespace MoneyChest.Data.Entities
         public virtual User User { get; set; }
 
         public virtual ICollection<Schedule> Schedules { get; set; }
+        public virtual ICollection<OnceSchedule> OnceSchedules { get; set; }
+        public virtual ICollection<DailySchedule> DailySchedules { get; set; }
+        public virtual ICollection<WeeklySchedule> WeeklySchedules { get; set; }
+        public virtual ICollection<MonthlySchedule> MonthlySchedules { get; set; }
     }
 }

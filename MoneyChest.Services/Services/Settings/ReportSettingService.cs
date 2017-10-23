@@ -8,27 +8,32 @@ using MoneyChest.Services.Services.Base;
 using MoneyChest.Data.Context;
 using System.Linq.Expressions;
 using System.Data.Entity;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
 
 namespace MoneyChest.Services.Services.Settings
 {
-    public interface IReportSettingService : IBaseUserableService<ReportSetting>
+    public interface IReportSettingService : IUserSettingsService<ReportSettingModel>
     {
     }
 
-    public class ReportSettingService : BaseUserableService<ReportSetting>, IReportSettingService
+    public class ReportSettingService : BaseUserSettingService<ReportSetting, ReportSettingModel, ReportSettingConverter>, IReportSettingService
     {
         public ReportSettingService(ApplicationDbContext context) : base(context)
         {
         }
 
-        public override ReportSetting GetForUser(int userId, Expression<Func<ReportSetting, bool>> expression = null)
+        protected override IQueryable<ReportSetting> Scope => Entities.Include(_ => _.Categories);
+
+        protected override ReportSetting Update(ReportSetting entity, ReportSettingModel model)
         {
-            if (expression == null) expression = item => true;
-            return Entities.Include(_ => _.Categories).Where(LimitByUser(userId)).FirstOrDefault(expression);
+            entity.Categories.Clear();
+            SaveChanges();
+
+            var categories = _context.Categories.Where(e => model.CategoryIds.Contains(e.Id)).ToList();
+            categories.ForEach(e => entity.Categories.Add(e));
+
+            return entity;
         }
-
-        protected override int UserId(ReportSetting entity) => entity.UserId;
-
-        protected override Expression<Func<ReportSetting, bool>> LimitByUser(int userId) => item => item.UserId == userId;
     }
 }

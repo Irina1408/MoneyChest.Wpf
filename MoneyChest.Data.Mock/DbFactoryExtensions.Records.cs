@@ -27,7 +27,7 @@ namespace MoneyChest.Data.Mock
 
         public static List<Record> CreateRecords(this DbFactory f, int userId, DateTime from, DateTime until, Action<Record> overrides = null)
         {
-            return CreateRecords(f, userId, from, until, Moniker.LimitedDigit(2, 30), overrides);
+            return CreateRecords(f, userId, from, until, Moniker.LimitedDigit(2, 5), overrides);
         }
 
         public static List<Record> CreateRecords(this DbFactory f, int userId, DateTime from, DateTime until, int count, Action<Record> overrides = null)
