@@ -15,6 +15,8 @@ namespace MoneyChest.Model.Model
         
         public decimal Value { get; set; }
 
+        public bool IsHidden { get; set; }
+
         public string Remark { get; set; }
 
 

@@ -8,9 +8,9 @@ namespace MoneyChest.Data.Enums
 {
     public enum ScheduleType
     {
-        Once,
-        Daily,
-        Weekly,
-        Monthly
+        Once = 0,
+        Daily = 1,
+        Weekly = 2,
+        Monthly = 3
     }
 }

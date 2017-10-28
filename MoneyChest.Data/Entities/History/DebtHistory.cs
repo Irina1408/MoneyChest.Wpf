@@ -36,7 +36,7 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Description { get; set; }
 
         public DebtType DebtType { get; set; }
 
@@ -47,10 +47,13 @@ namespace MoneyChest.Data.Entities.History
 
         public decimal PaidValue { get; set; }
 
-        public bool IsRepayed { get; set; }
+        public bool IsRepaid { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime? RepayingDate { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? DueDate { get; set; }
 
         public string Remark { get; set; }
 

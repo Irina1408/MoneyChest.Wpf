@@ -63,12 +63,13 @@
     <Compile Include="Converters\StorageConverter.cs" />
     <Compile Include="Converters\StorageGroupConverter.cs" />
     <Compile Include="Converters\UserConverter.cs" />
-    <Compile Include="Convert\ToReferenceView.cs" />
+    <Compile Include="Converters\Reference\ToReferenceView.cs" />
     <Compile Include="Model\CategoryModel.cs" />
     <Compile Include="Model\CurrencyExchangeRateModel.cs" />
     <Compile Include="Model\CurrencyModel.cs" />
     <Compile Include="Model\DebtModel.cs" />
     <Compile Include="Model\Events\EventModel.cs" />
+    <Compile Include="Model\Events\EventsScopeModel.cs" />
     <Compile Include="Model\Events\SimpleEventModel.cs" />
     <Compile Include="Model\Events\RepayDebtEventModel.cs" />
     <Compile Include="Model\Events\MoneyTransferEventModel.cs" />
@@ -78,8 +79,10 @@
     <Compile Include="Model\Reference\CategoryReference.cs" />
     <Compile Include="Model\Reference\CurrencyReference.cs" />
     <Compile Include="Model\Reference\DebtReference.cs" />
+    <Compile Include="Model\Reference\MoneyTransferReference.cs" />
     <Compile Include="Model\Reference\StorageGroupReference.cs" />
     <Compile Include="Model\Reference\StorageReference.cs" />
+    <Compile Include="Model\Schedule\SchedulesScopeModel.cs" />
     <Compile Include="Model\Schedule\WeeklyScheduleModel.cs" />
     <Compile Include="Model\Schedule\OnceScheduleModel.cs" />
     <Compile Include="Model\Schedule\MonthlyScheduleModel.cs" />

@@ -17,7 +17,6 @@ namespace MoneyChest.Model.Converters
             {
                 Name = model.Name,
                 Password = model.Password,
-                Email = model.Email,
                 LastUsageDate = model.LastUsageDate,
                 LastSynchronizationDate = model?.LastSynchronizationDate,
                 ServerUserId = model?.ServerUserId
@@ -31,7 +30,6 @@ namespace MoneyChest.Model.Converters
                 Id = entity.Id,
                 Name = entity.Name,
                 Password = entity.Password,
-                Email = entity.Email,
                 LastUsageDate = entity.LastUsageDate,
                 LastSynchronizationDate = entity?.LastSynchronizationDate,
                 ServerUserId = entity?.ServerUserId
@@ -42,7 +40,6 @@ namespace MoneyChest.Model.Converters
         {
             entity.Name = model.Name;
             entity.Password = model.Password;
-            entity.Email = model.Email;
             entity.LastUsageDate = model.LastUsageDate;
             entity.LastSynchronizationDate = model?.LastSynchronizationDate;
             entity.ServerUserId = model?.ServerUserId;

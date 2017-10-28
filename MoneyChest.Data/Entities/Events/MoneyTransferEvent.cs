@@ -18,7 +18,6 @@ namespace MoneyChest.Data.Entities
             TakeExistingCurrencyExchangeRate = true;
             CurrencyExchangeRate = 1;
             TakeComissionFromReceiver = false;
-            TakeComissionCurrencyFromReceiver = false;
             EventType = EventType.MoneyTransfer;
         }
 
@@ -26,11 +25,9 @@ namespace MoneyChest.Data.Entities
 
         public decimal CurrencyExchangeRate { get; set; }
 
-        public decimal Commission { get; set; }
+        public decimal Commission { get; set; } // always in StorageFrom currency (Value too)
 
         public bool TakeComissionFromReceiver { get; set; }
-
-        public bool TakeComissionCurrencyFromReceiver { get; set; }
 
         public CommissionType? CommissionType { get; set; }
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Enums
 {
+    // TODO: maybe change to Day/Week/Month/Quater/Year and use arrows
     public enum PeriodFilterType
     {
         [Description("Today")]

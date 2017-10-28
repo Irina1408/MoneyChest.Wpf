@@ -27,7 +27,6 @@ namespace MoneyChest.Services.Services.Base
             var entity = _converter.ToEntity(model);
             // add to database
             entity = Add(entity);
-            //SaveChanges();
 
             return _converter.ToModel(entity);
         }

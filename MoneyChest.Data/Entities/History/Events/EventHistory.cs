@@ -45,7 +45,7 @@ namespace MoneyChest.Data.Entities.History
         [Column(TypeName = "date")]
         public DateTime? PausedToDate { get; set; }
 
-        public ScheduleType ScheduleType { get; set; }
+        public EventType EventType { get; set; }
 
         public bool AutoExecution { get; set; }
 

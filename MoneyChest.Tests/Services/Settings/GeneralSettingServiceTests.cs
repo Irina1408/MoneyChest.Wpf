@@ -21,17 +21,7 @@ namespace MoneyChest.Tests.Services.Settings
     {
         #region Overrides
 
-        protected override void ChangeEntity(GeneralSettingModel entity) => entity.HideCoinBoxStorages = !entity.HideCoinBoxStorages;
-
-        protected override void SetUserId(GeneralSetting entity, int userId)
-        {
-            var category1 = App.Factory.Create<Category>(item => item.UserId = userId);
-            var category2 = App.Factory.Create<Category>(item => item.UserId = userId);
-
-            entity.ComissionCategoryId = category1.Id;
-            entity.DebtCategoryId = category2.Id;
-            entity.UserId = userId;
-        }
+        protected override void ChangeEntity(GeneralSettingModel entity) => entity.FirstDayOfWeek = DayOfWeek.Thursday;
 
         #endregion
     }

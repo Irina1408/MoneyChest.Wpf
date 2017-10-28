@@ -45,5 +45,7 @@ namespace MoneyChest.Data.Entities.History
         public bool IsUsed { get; set; }
 
         public bool IsMain { get; set; }
+
+        public bool SymbolAlignmentIsRight { get; set; }
     }
 }

@@ -17,8 +17,6 @@ namespace MoneyChest.Model.Model
 
         public bool TakeComissionFromReceiver { get; set; }
 
-        public bool TakeComissionCurrencyFromReceiver { get; set; }
-
         public CommissionType? CommissionType { get; set; }
 
 

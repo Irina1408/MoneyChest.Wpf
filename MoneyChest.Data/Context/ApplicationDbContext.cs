@@ -99,16 +99,6 @@ namespace MoneyChest.Data.Context
 
             // Category
             modelBuilder.Entity<Category>()
-                .HasMany(e => e.GeneralSettingsAsDebtCategory)
-                .WithRequired(e => e.DebtCategory)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.GeneralSettingsAsComission)
-                .WithRequired(e => e.ComissionCategory)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Category>()
                 .HasMany(e => e.ChildCategories)
                 .WithOptional(e => e.ParentCategory)
                 .WillCascadeOnDelete(false);
@@ -204,6 +194,11 @@ namespace MoneyChest.Data.Context
 
             modelBuilder.Entity<MoneyTransfer>()
                 .HasRequired(e => e.StorageTo)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<MoneyTransfer>()
+                .HasOptional(e => e.Category)
                 .WithMany()
                 .WillCascadeOnDelete(false);
 
@@ -330,7 +325,12 @@ namespace MoneyChest.Data.Context
                 .HasOptional(e => e.Storage)
                 .WithMany()
                 .WillCascadeOnDelete(false);
-            
+
+            modelBuilder.Entity<Debt>()
+                .HasOptional(e => e.Category)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Debt>()
                 .HasMany(e => e.RepayDebtEvents)
                 .WithRequired(e => e.Debt)

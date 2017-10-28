@@ -12,6 +12,7 @@ namespace MoneyChest.Data.Entities
 {
     public class CalendarSetting : IHasUserId
     {
+        // TODO: create CalendarFilter. Store there IsFilterApplied, StorageGroups, Storages, Categories. Apply filter after data is generated
         public CalendarSetting()
         {
             PeriodType = CalendarPeriodType.Month;
@@ -31,6 +32,7 @@ namespace MoneyChest.Data.Entities
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
         
+        // TODO: not used
         public virtual ICollection<StorageGroup> StorageGroups { get; set; }
     }
 }

@@ -50,10 +50,10 @@ namespace MoneyChest.Calculation.Reports
             List<RecordModel> records = null;
             if (settings.PeriodFilterType == PeriodFilterType.CustomPeriod)
                 records = _recordService.Get(_userId, settings.DateFrom.Value, settings.DateUntil.Value,
-                    settings.DataType, settings.IncludeRecordsWithoutCategory, settings.AllCategories ? null : settings.CategoryIds);
+                    settings.DataType.Value, settings.IncludeRecordsWithoutCategory, settings.AllCategories ? null : settings.CategoryIds);
             else
                 records = _recordService.Get(_userId, settings.PeriodFilterType,
-                    settings.DataType, settings.IncludeRecordsWithoutCategory, settings.AllCategories ? null : settings.CategoryIds);
+                    settings.DataType.Value, settings.IncludeRecordsWithoutCategory, settings.AllCategories ? null : settings.CategoryIds);
 
             // get category mapping
             var categoryMapping = _categoryService.GetCategoryMapping(_userId, settings.CategoryLevel);

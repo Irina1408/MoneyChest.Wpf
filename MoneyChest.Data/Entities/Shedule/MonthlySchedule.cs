@@ -26,7 +26,7 @@ namespace MoneyChest.Data.Entities
         [Column(TypeName = "date")]
         public DateTime? DateUntil { get; set; }
 
-        public int DayOfMonth { get; set; }
+        public int DayOfMonth { get; set; }     // -1 if it's the last day of month
 
         public virtual ICollection<MonthlyScheduleMonth> MonthlyScheduleMonths { get; set; }
     }

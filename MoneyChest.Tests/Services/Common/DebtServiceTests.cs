@@ -21,7 +21,7 @@ namespace MoneyChest.Tests.Services
         #region Overrides 
 
         protected override IQueryable<Debt> Scope => Entities.Include(_ => _.Currency);
-        protected override void ChangeEntity(DebtModel entity) => entity.Name = "Some other name";
+        protected override void ChangeEntity(DebtModel entity) => entity.Description = "Some other name";
         protected override void SetUserId(Debt entity, int userId)
         {
             var currency = App.Factory.Create<Currency>(item => item.UserId = userId);

@@ -13,6 +13,7 @@ namespace MoneyChest.Calculation.Builders.Calendar
         public CalendarDayData()
         {
             Legend = new List<LegendUnit>();
+            MoneyTransferLegend = new List<MoneyTransferLegendUnit>();
             LimitLegend = new List<LimitLegendUnit>();
         }
 
@@ -34,9 +35,14 @@ namespace MoneyChest.Calculation.Builders.Calendar
         public CurrencyReference Currency { get; set; }
 
         /// <summary>
-        /// All expences and incomes in this day
+        /// All expences and incomes (planned if it's day after today) in this day 
         /// </summary>
         public List<LegendUnit> Legend { get; set; }
+
+        /// <summary>
+        /// Money transfers between user accounts
+        /// </summary>
+        public List<MoneyTransferLegendUnit> MoneyTransferLegend { get; set; }
         
         /// <summary>
         /// All limits for this day

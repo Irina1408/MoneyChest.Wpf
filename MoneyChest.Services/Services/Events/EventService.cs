@@ -8,111 +8,58 @@ using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
 using System.Linq.Expressions;
 using MoneyChest.Data.Enums;
+using MoneyChest.Model.Model;
+using MoneyChest.Model.Converters;
+using System.Data.Entity;
 
 namespace MoneyChest.Services.Services.Events
 {
     public interface IEventService
     {
-        List<Evnt> Get(int userId, Expression<Func<Evnt, bool>> expression = null, params EventType[] eventTypes);
+        EventsScopeModel Get(List<int> ids);
     }
 
     public class EventService : BaseService, IEventService
     {
+        #region Private fields
+
+        private MoneyTransferEventConverter _moneyTransferEventConverter;
+        private RepayDebtEventConverter _repayDebtEventConverter;
+        private SimpleEventConverter _simpleEventConverter;
+
+        #endregion
+
+        #region Initialization
+
         public EventService(ApplicationDbContext context) : base(context)
         {
-        }
-        
-        public List<Evnt> Get(int userId, Expression<Func<Evnt, bool>> expression = null, params EventType[] eventTypes)
-        {
-            // check expression
-            if (expression == null) expression = item => true;
-
-            // check event types
-            if(eventTypes == null || eventTypes.Length == 0)
-                return GetAllTypes(userId, expression);
-
-            var result = new List<Evnt>();
-
-            foreach (var eventType in eventTypes.Distinct())
-                result.AddRange(Get(userId, eventType, expression));
-
-            return result;
+            _moneyTransferEventConverter = new MoneyTransferEventConverter();
+            _repayDebtEventConverter = new RepayDebtEventConverter();
+            _simpleEventConverter = new SimpleEventConverter();
         }
 
-        public List<T> Get<T>(int userId, List<int> storageGroupIds)
-            where T : Evnt
+        #endregion
+
+        #region IEventService implementation
+
+        public EventsScopeModel Get(List<int> ids)
         {
-            if(typeof(T) == typeof(SimpleEvent))
-                return _context.SimpleEvents.Where(_ => _.UserId == userId && storageGroupIds.Contains(_.Storage.StorageGroupId))
-                    .Select(_ => _ as T).ToList();
-
-            if (typeof(T) == typeof(RepayDebtEvent))
-                return _context.RepayDebtEvents.Where(_ => _.UserId == userId && storageGroupIds.Contains(_.Storage.StorageGroupId))
-                    .Select(_ => _ as T).ToList();
-
-            if (typeof(T) == typeof(MoneyTransferEvent))
-                return _context.MoneyTransferEvents.Where(_ => _.UserId == userId 
-                    && (storageGroupIds.Contains(_.StorageFrom.StorageGroupId) || storageGroupIds.Contains(_.StorageTo.StorageGroupId)))
-                    .Select(_ => _ as T).ToList();
-
-            if (typeof(T) == typeof(Evnt))
-                return _context.Events.Where(_ => _.UserId == userId).Select(_ => _ as T).ToList();
-
-            // else throw exception
-            throw new ArgumentException($"Unknown event type: {typeof(T).Name}");
-        }
-
-        private List<Evnt> GetAllTypes(int userId, Expression<Func<Evnt, bool>> expression = null)
-        {
-            // check expression
-            if (expression == null) expression = item => true;
-
-            var result = new List<Evnt>();
-
-            foreach (EventType eventType in Enum.GetValues(typeof(EventType)))
-                result.AddRange(Get(userId, eventType, expression));
-
-            return result;
-        }
-
-        private List<Evnt> Get(int userId, EventType eventType, Expression<Func<Evnt, bool>> expression = null)
-        {
-            // check expression
-            if (expression == null) expression = item => true;
-
-            switch (eventType)
+            return new EventsScopeModel()
             {
-                case EventType.Simple:
-                    return _context.SimpleEvents.Where(_ => _.UserId == userId).Where(expression).Select(_ => _ as Evnt).ToList();
+                MoneyTransferEvents = _context.MoneyTransferEvents
+                    .Include(_ => _.StorageFrom).Include(_ => _.StorageTo)
+                    .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_moneyTransferEventConverter.ToModel),
 
-                case EventType.RepayDebt:
-                    return _context.RepayDebtEvents.Where(_ => _.UserId == userId).Where(expression).Select(_ => _ as Evnt).ToList();
+                RepayDebtEvents = _context.RepayDebtEvents
+                    .Include(_ => _.Storage).Include(_ => _.Debt)
+                    .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_repayDebtEventConverter.ToModel),
 
-                case EventType.MoneyTransfer:
-                    return _context.MoneyTransferEvents.Where(_ => _.UserId == userId).Where(expression).Select(_ => _ as Evnt).ToList();
-
-                default:
-                    return GetAllTypes(userId, expression);
-            }
+                SimpleEvents = _context.SimpleEvents
+                    .Include(_ => _.Storage).Include(_ => _.Currency).Include(_ => _.Category)
+                    .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_simpleEventConverter.ToModel)
+            };
         }
-        
-        private List<T> Get<T>(int userId, Expression<Func<T, bool>> expression = null)
-            where T : Evnt
-        {
-            // check expression
-            if (expression == null) expression = item => true;
 
-            if (typeof(T) == typeof(SimpleEvent))
-                return _context.SimpleEvents.Where(_ => _.UserId == userId).Select(_ => _ as T).Where(expression).ToList();
-            if (typeof(T) == typeof(RepayDebtEvent))
-                return _context.RepayDebtEvents.Where(_ => _.UserId == userId).Select(_ => _ as T).Where(expression).ToList();
-            if (typeof(T) == typeof(MoneyTransferEvent))
-                return _context.MoneyTransferEvents.Where(_ => _.UserId == userId).Select(_ => _ as T).Where(expression).ToList();
-            if (typeof(T) == typeof(Evnt))
-                return _context.Events.Where(_ => _.UserId == userId).Select(_ => _ as T).Where(expression).ToList();
-
-            // else throw exception
-            throw new ArgumentException($"Unknown event type: {typeof(T).Name}");
-        }
+        #endregion
     }
 }

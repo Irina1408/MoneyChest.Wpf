@@ -15,15 +15,16 @@ namespace MoneyChest.Model.Converters
         {
             return new Debt()
             {
-                Name = model.Name,
+                Description = model.Description,
                 DebtType = model.DebtType,
                 TakingDate = model.TakingDate,
                 Value = model.Value,
                 PaidValue = model.PaidValue,
-                IsRepayed = model.IsRepayed,
+                IsRepaid = model.IsRepaid,
                 RepayingDate = model?.RepayingDate,
                 Remark = model.Remark,
                 CurrencyId = model.CurrencyId,
+                CategoryId = model?.CategoryId,
                 StorageId = model?.StorageId,
                 UserId = model.UserId
             };
@@ -34,15 +35,16 @@ namespace MoneyChest.Model.Converters
             return new DebtModel()
             {
                 Id = entity.Id,
-                Name = entity.Name,
+                Description = entity.Description,
                 DebtType = entity.DebtType,
                 TakingDate = entity.TakingDate,
                 Value = entity.Value,
                 PaidValue = entity.PaidValue,
-                IsRepayed = entity.IsRepayed,
+                IsRepaid = entity.IsRepaid,
                 RepayingDate = entity?.RepayingDate,
                 Remark = entity.Remark,
                 CurrencyId = entity.CurrencyId,
+                CategoryId = entity?.CategoryId,
                 StorageId = entity?.StorageId,
                 UserId = entity.UserId,
                 Currency = entity.Currency.ToReferenceView()
@@ -51,15 +53,16 @@ namespace MoneyChest.Model.Converters
 
         public Debt Update(Debt entity, DebtModel model)
         {
-            entity.Name = model.Name;
+            entity.Description = model.Description;
             entity.DebtType = model.DebtType;
             entity.TakingDate = model.TakingDate;
             entity.Value = model.Value;
             entity.PaidValue = model.PaidValue;
-            entity.IsRepayed = model.IsRepayed;
+            entity.IsRepaid = model.IsRepaid;
             entity.RepayingDate = model?.RepayingDate;
             entity.Remark = model.Remark;
             entity.CurrencyId = model.CurrencyId;
+            entity.CategoryId = model?.CategoryId;
             entity.StorageId = model?.StorageId;
             entity.UserId = model.UserId;
 

@@ -20,8 +20,6 @@ namespace MoneyChest.Model.Model
         
         public string Password { get; set; }
 
-        public string Email { get; set; }
-
         public DateTime LastUsageDate { get; set; }
 
         public DateTime? LastSynchronizationDate { get; set; }

@@ -11,7 +11,9 @@ namespace MoneyChest.Model.Model
     public class MoneyTransferModel : IHasId
     {
         public int Id { get; set; }
-        
+
+        public string Description { get; set; }
+
         public DateTime Date { get; set; }
 
         public decimal Value { get; set; }
@@ -24,16 +26,16 @@ namespace MoneyChest.Model.Model
 
         public bool TakeComissionFromReceiver { get; set; }
 
-        public bool TakeComissionCurrencyFromReceiver { get; set; }
-
         public string Remark { get; set; }
 
 
         public int StorageFromId { get; set; }
         public int StorageToId { get; set; }
+        public int? CategoryId { get; set; }
 
         
         public StorageReference StorageFrom { get; set; }
         public StorageReference StorageTo { get; set; }
+        public CategoryReference Category { get; set; }
     }
 }

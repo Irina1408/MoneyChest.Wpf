@@ -28,7 +28,7 @@ namespace MoneyChest.Services.Services
 
         public List<DebtModel> GetActive(int userId)
         {
-            return Scope.Where(e => e.UserId == userId && !e.IsRepayed).ToList().ConvertAll(_converter.ToModel);
+            return Scope.Where(e => e.UserId == userId && !e.IsRepaid).ToList().ConvertAll(_converter.ToModel);
         }
 
         #endregion

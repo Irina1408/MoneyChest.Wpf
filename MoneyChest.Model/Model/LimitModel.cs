@@ -20,7 +20,7 @@ namespace MoneyChest.Model.Model
 
         public decimal Value { get; set; }
 
-        public decimal RemainingValue { get; set; }
+        public decimal SpentValue { get; set; }
 
         public string Remark { get; set; }
 

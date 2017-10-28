@@ -19,7 +19,7 @@ namespace MoneyChest.Model.Converters
                 DateUntil = model.DateUntil,
                 LimitState = model.LimitState,
                 Value = model.Value,
-                RemainingValue = model.RemainingValue,
+                SpentValue = model.SpentValue,
                 Remark = model.Remark,
                 CurrencyId = model.CurrencyId,
                 CategoryId = model?.CategoryId,
@@ -36,7 +36,7 @@ namespace MoneyChest.Model.Converters
                 DateUntil = entity.DateUntil,
                 LimitState = entity.LimitState,
                 Value = entity.Value,
-                RemainingValue = entity.RemainingValue,
+                SpentValue = entity.SpentValue,
                 Remark = entity.Remark,
                 CurrencyId = entity.CurrencyId,
                 CategoryId = entity?.CategoryId,
@@ -52,7 +52,7 @@ namespace MoneyChest.Model.Converters
             entity.DateUntil = model.DateUntil;
             entity.LimitState = model.LimitState;
             entity.Value = model.Value;
-            entity.RemainingValue = model.RemainingValue;
+            entity.SpentValue = model.SpentValue;
             entity.Remark = model.Remark;
             entity.CurrencyId = model.CurrencyId;
             entity.CategoryId = model?.CategoryId;

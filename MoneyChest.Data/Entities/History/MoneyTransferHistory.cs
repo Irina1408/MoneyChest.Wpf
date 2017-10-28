@@ -36,6 +36,8 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
+        public string Description { get; set; }
+
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
@@ -48,8 +50,6 @@ namespace MoneyChest.Data.Entities.History
         public CommissionType? CommissionType { get; set; }
 
         public bool TakeComissionFromReceiver { get; set; }
-
-        public bool TakeComissionCurrencyFromReceiver { get; set; }
 
         public string Remark { get; set; }
 

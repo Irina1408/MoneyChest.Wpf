@@ -83,17 +83,17 @@
     <Compile Include="Services\Base\UserableEntityServiceTestBase.cs" />
     <Compile Include="Services\Base\HistoricizedEntityModelServiceTestBase.cs" />
     <Compile Include="Services\Base\UserSettingServiceTestBase.cs" />
-    <Compile Include="Services\CategoryServiceTests.cs" />
+    <Compile Include="Services\Common\CategoryServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Currency\CurrencyExchangeRateServiceTests.cs" />
     <Compile Include="Services\Currency\CurrencyServiceTests.cs" />
-    <Compile Include="Services\DebtServiceTests.cs" />
+    <Compile Include="Services\Common\DebtServiceTests.cs" />
     <Compile Include="Services\Events\MoneyTransferEventServiceTests.cs" />
     <Compile Include="Services\Events\RepayDebtEventServiceTests.cs" />
     <Compile Include="Services\Events\SimpleEventServiceTests.cs" />
-    <Compile Include="Services\LimitServiceTests.cs" />
-    <Compile Include="Services\MoneyTransferServiceTests.cs" />
-    <Compile Include="Services\RecordServiceTests.cs" />
+    <Compile Include="Services\Common\LimitServiceTests.cs" />
+    <Compile Include="Services\Common\MoneyTransferServiceTests.cs" />
+    <Compile Include="Services\Common\RecordServiceTests.cs" />
     <Compile Include="Services\Schedule\DailyScheduleServiceTests.cs" />
     <Compile Include="Services\Schedule\MonthlyScheduleServiceTests.cs" />
     <Compile Include="Services\Schedule\OnceScheduleServiceTests.cs" />
@@ -103,9 +103,9 @@
     <Compile Include="Services\Settings\GeneralSettingServiceTests.cs" />
     <Compile Include="Services\Settings\RecordsViewFilterServiceTests.cs" />
     <Compile Include="Services\Settings\ReportSettingServiceTests.cs" />
-    <Compile Include="Services\StorageGroupServiceTests.cs" />
-    <Compile Include="Services\StorageServiceTests.cs" />
-    <Compile Include="Services\UserServiceTests.cs" />
+    <Compile Include="Services\Common\StorageGroupServiceTests.cs" />
+    <Compile Include="Services\Common\StorageServiceTests.cs" />
+    <Compile Include="Services\Common\UserServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoneyChest.Calculation\MoneyChest.Calculation.csproj">

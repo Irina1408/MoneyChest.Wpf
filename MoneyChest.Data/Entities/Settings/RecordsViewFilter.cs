@@ -13,6 +13,7 @@ namespace MoneyChest.Data.Entities
     [Table(nameof(RecordsViewFilter))]
     public class RecordsViewFilter : IHasUserId
     {
+        // TODO: create RecordsViewSettings. Store there period, grouping
         public RecordsViewFilter() : base()
         {
             AllCategories = true;

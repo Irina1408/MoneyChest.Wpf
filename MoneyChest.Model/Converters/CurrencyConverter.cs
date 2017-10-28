@@ -20,6 +20,7 @@ namespace MoneyChest.Model.Converters
                 Symbol = model.Symbol,
                 IsUsed = model.IsUsed,
                 IsMain = model.IsMain,
+                SymbolAlignmentIsRight = model.SymbolAlignmentIsRight,
                 UserId = model.UserId
             };
         }
@@ -34,6 +35,7 @@ namespace MoneyChest.Model.Converters
                 Symbol = entity.Symbol,
                 IsUsed = entity.IsUsed,
                 IsMain = entity.IsMain,
+                SymbolAlignmentIsRight = entity.SymbolAlignmentIsRight,
                 UserId = entity.UserId
             };
         }
@@ -45,6 +47,7 @@ namespace MoneyChest.Model.Converters
             entity.Symbol = model.Symbol;
             entity.IsUsed = model.IsUsed;
             entity.IsMain = model.IsMain;
+            entity.SymbolAlignmentIsRight = model.SymbolAlignmentIsRight;
             entity.UserId = model.UserId;
 
             return entity;

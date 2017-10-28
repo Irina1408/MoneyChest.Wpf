@@ -19,7 +19,7 @@ namespace MoneyChest.Model.Converters
                 IncludeRecordsWithoutCategory = model.IncludeRecordsWithoutCategory,
                 ReportType = model.ReportType,
                 PeriodFilterType = model.PeriodFilterType,
-                DataType = model.DataType,
+                DataType = model?.DataType,
                 CategoryLevel = model.CategoryLevel,
                 DateFrom = model?.DateFrom,
                 DateUntil = model?.DateUntil
@@ -35,7 +35,7 @@ namespace MoneyChest.Model.Converters
                 IncludeRecordsWithoutCategory = entity.IncludeRecordsWithoutCategory,
                 ReportType = entity.ReportType,
                 PeriodFilterType = entity.PeriodFilterType,
-                DataType = entity.DataType,
+                DataType = entity?.DataType,
                 CategoryLevel = entity.CategoryLevel,
                 DateFrom = entity?.DateFrom,
                 DateUntil = entity?.DateUntil,
@@ -50,7 +50,7 @@ namespace MoneyChest.Model.Converters
             entity.IncludeRecordsWithoutCategory = model.IncludeRecordsWithoutCategory;
             entity.ReportType = model.ReportType;
             entity.PeriodFilterType = model.PeriodFilterType;
-            entity.DataType = model.DataType;
+            entity.DataType = model?.DataType;
             entity.CategoryLevel = model.CategoryLevel;
             entity.DateFrom = model?.DateFrom;
             entity.DateUntil = model?.DateUntil;

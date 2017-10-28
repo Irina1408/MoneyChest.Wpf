@@ -38,6 +38,8 @@ namespace MoneyChest.Data.Entities.History
 
         public string Name { get; set; }
 
+        public bool IsHidden { get; set; }
+
         public int StorageGroupId { get; set; }
 
         public decimal Value { get; set; }

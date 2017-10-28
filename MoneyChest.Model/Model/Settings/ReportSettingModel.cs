@@ -18,7 +18,7 @@ namespace MoneyChest.Model.Model
 
         public ReportType ReportType { get; set; }
 
-        public TransactionType DataType { get; set; }
+        public TransactionType? DataType { get; set; }
 
         public PeriodFilterType PeriodFilterType { get; set; }
 

@@ -38,8 +38,6 @@ namespace MoneyChest.Data.Entities.History
         
         public string Password { get; set; }
 
-        public string Email { get; set; }
-
         public DateTime FirstUsageDate { get; set; }
 
         public DateTime LastUsageDate { get; set; }

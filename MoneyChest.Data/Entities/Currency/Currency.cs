@@ -18,6 +18,7 @@ namespace MoneyChest.Data.Entities
         public Currency()
         {
             IsUsed = true;
+            SymbolAlignmentIsRight = true;
 
             CurrencyExchangeRateFroms = new List<CurrencyExchangeRate>();
             CurrencyExchangeRateTos = new List<CurrencyExchangeRate>();
@@ -33,17 +34,22 @@ namespace MoneyChest.Data.Entities
         public int Id { get; set; }
 
         [StringLength(100)]
+        [Required]
         public string Name { get; set; }
 
         [StringLength(10)]
+        [Required]
         public string Code { get; set; }
 
         [StringLength(10)]
+        [Required]
         public string Symbol { get; set; }
         
         public bool IsUsed { get; set; }
         
         public bool IsMain { get; set; }
+
+        public bool SymbolAlignmentIsRight { get; set; }
 
         [Required]
         public int UserId { get; set; }

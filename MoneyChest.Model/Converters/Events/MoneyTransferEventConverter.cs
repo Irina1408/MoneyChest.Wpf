@@ -29,7 +29,6 @@ namespace MoneyChest.Model.Converters
                 CurrencyExchangeRate = model.CurrencyExchangeRate,
                 Commission = model.Commission,
                 TakeComissionFromReceiver = model.TakeComissionFromReceiver,
-                TakeComissionCurrencyFromReceiver = model.TakeComissionCurrencyFromReceiver,
                 CommissionType = model?.CommissionType,
                 StorageFromId = model.StorageFromId,
                 StorageToId = model.StorageToId
@@ -55,7 +54,6 @@ namespace MoneyChest.Model.Converters
                 CurrencyExchangeRate = entity.CurrencyExchangeRate,
                 Commission = entity.Commission,
                 TakeComissionFromReceiver = entity.TakeComissionFromReceiver,
-                TakeComissionCurrencyFromReceiver = entity.TakeComissionCurrencyFromReceiver,
                 CommissionType = entity?.CommissionType,
                 StorageFromId = entity.StorageFromId,
                 StorageToId = entity.StorageToId,
@@ -81,7 +79,6 @@ namespace MoneyChest.Model.Converters
             entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
             entity.Commission = model.Commission;
             entity.TakeComissionFromReceiver = model.TakeComissionFromReceiver;
-            entity.TakeComissionCurrencyFromReceiver = model.TakeComissionCurrencyFromReceiver;
             entity.CommissionType = model?.CommissionType;
             entity.StorageFromId = model.StorageFromId;
             entity.StorageToId = model.StorageToId;

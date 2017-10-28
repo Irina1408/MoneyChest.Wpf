@@ -17,6 +17,8 @@ namespace MoneyChest.Data.Entities
     {
         public Storage()
         {
+            IsHidden = false;
+
             StorageFromMoneyTransferEvents = new List<MoneyTransferEvent>();
             StorageToMoneyTransferEvents = new List<MoneyTransferEvent>();
             StorageFromMoneyTransfers = new List<MoneyTransfer>();
@@ -35,6 +37,8 @@ namespace MoneyChest.Data.Entities
 
         public decimal Value { get; set; }
 
+        public bool IsHidden { get; set; }
+
         public string Remark { get; set; }
 
         public int CurrencyId { get; set; }
@@ -45,7 +49,7 @@ namespace MoneyChest.Data.Entities
         public int UserId { get; set; }
 
 
-        #region Naviagtion properties
+        #region Navigation properties
 
         [ForeignKey(nameof(CurrencyId))]
         public virtual Currency Currency { get; set; }

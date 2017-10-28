@@ -20,6 +20,8 @@ namespace MoneyChest.Model.Model
         public bool IsUsed { get; set; }
 
         public bool IsMain { get; set; }
+
+        public bool SymbolAlignmentIsRight { get; set; }
         
         public int UserId { get; set; }
     }

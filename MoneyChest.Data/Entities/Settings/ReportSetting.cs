@@ -15,7 +15,6 @@ namespace MoneyChest.Data.Entities
     {
         public ReportSetting() : base()
         {
-            DataType = TransactionType.Expense;
             PeriodFilterType = PeriodFilterType.ThisMonth;
             ReportType = ReportType.PieChart;
             CategoryLevel = -1;
@@ -35,7 +34,7 @@ namespace MoneyChest.Data.Entities
 
         public ReportType ReportType { get; set; }
 
-        public TransactionType DataType { get; set; }
+        public TransactionType? DataType { get; set; }
 
         public PeriodFilterType PeriodFilterType { get; set; }
 

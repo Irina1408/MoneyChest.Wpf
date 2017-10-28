@@ -58,7 +58,7 @@ namespace MoneyChest.Data.Mock
 
             f.Define<Debt>(e =>
             {
-                e.Name = "Take Debt";
+                e.Description = "Take Debt";
                 e.DebtType = DebtType.TakeBorrow;
                 e.TakingDate = DateTime.Today;
                 e.Value = Moniker.Digit;
@@ -146,7 +146,7 @@ namespace MoneyChest.Data.Mock
 
             f.Define<DebtModel>(e =>
             {
-                e.Name = "Take Debt";
+                e.Description = "Take Debt";
                 e.DebtType = DebtType.TakeBorrow;
                 e.TakingDate = DateTime.Today;
                 e.Value = Moniker.Digit;

@@ -12,16 +12,8 @@ namespace MoneyChest.Model.Model
     {
         public int UserId { get; set; }
 
-        // Hide coin box accounts in every selection
-        public bool HideCoinBoxStorages { get; set; }
-
         public Language Language { get; set; }
 
         public DayOfWeek FirstDayOfWeek { get; set; }
-
-        public int DebtCategoryId { get; set; }
-
-        // Money transfer comission category
-        public int ComissionCategoryId { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace MoneyChest.Services.Services
     {
         CurrencyModel GetMain(int userId);
         void SetMain(int userId, int currencyId);
+        List<CurrencyModel> GetUsed(int userId);
     }
 
     public class CurrencyService : BaseHistoricizedIdManageableUserableListService<Currency, CurrencyModel, CurrencyConverter>, ICurrencyService
@@ -42,6 +43,12 @@ namespace MoneyChest.Services.Services
         {
             Entities.Where(e => e.UserId == userId).ToList().ForEach(c => c.IsMain = c.Id == currencyId);
             SaveChanges();
+        }
+
+        public List<CurrencyModel> GetUsed(int userId)
+        {
+            return Scope.Where(e => e.IsUsed || e.Records.Any() || e.SimpleEvents.Any() || e.Storages.Any() || e.Limits.Any() || e.Debts.Any())
+                .ToList().ConvertAll(_converter.ToModel);
         }
 
         #endregion

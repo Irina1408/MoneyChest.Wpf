@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class StorageReference
+    public class MoneyTransferReference
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int StorageGroupId { get; set; }
-        public int CurrencyId { get; set; }
+        public string Description { get; set; }
     }
 }

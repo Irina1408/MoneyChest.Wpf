@@ -22,8 +22,6 @@ namespace MoneyChest.Calculation.Builders.Calendar
 
         private IStorageService _storageService;
         private IMoneyTransferService _moneyTransferService;
-        private IRepayDebtEventService _repayDebtEventService;
-        private ISimpleEventService _simpleEventService;
         private IScheduleService _scheduleService;
         private IEventService _eventService;
 
@@ -39,8 +37,6 @@ namespace MoneyChest.Calculation.Builders.Calendar
             ICurrencyService currencyService, 
             ICurrencyExchangeRateService currencyExchangeRateService,
             IStorageService storageService,
-            IRepayDebtEventService repayDebtEventService,
-            ISimpleEventService simpleEventService,
             IMoneyTransferService moneyTransferService,
             IScheduleService scheduleService,
             IEventService eventService) 
@@ -48,8 +44,6 @@ namespace MoneyChest.Calculation.Builders.Calendar
         {
             _storageService = storageService;
             _moneyTransferService = moneyTransferService;
-            _repayDebtEventService = repayDebtEventService;
-            _simpleEventService = simpleEventService;
             _scheduleService = scheduleService;
             _eventService = eventService;
             _storageSummaryCalculator = new StorageSummaryCalculator(_storageService, _userId);
@@ -78,12 +72,16 @@ namespace MoneyChest.Calculation.Builders.Calendar
                     Balance = _preloadedData.StorageSummary
                 };
 
+                // TODO: if today add records and events
                 // fill data by records if current day is today or past day
                 if (DateTime.Today >= currDate)
-                    FillDataByRecords(calendarDayData, currDate, settings.StorageGroupIds);
+                {
+                    FillRecordsLegend(calendarDayData, currDate);
+                    FillMoneyTransfersLegend(calendarDayData, currDate, settings.StorageGroupIds);
+                }
                 else
                 {
-                    //FillDataByEvents(calendarDayData, currDate, settings.StorageGroupIds);
+                    FillEventLegend(calendarDayData, currDate, settings.StorageGroupIds);
                 }
 
                 result.Add(calendarDayData);
@@ -96,6 +94,8 @@ namespace MoneyChest.Calculation.Builders.Calendar
         protected override void LoadData()
         {
             base.LoadData();
+
+            _preloadedData.Currencies = _currencyService.GetUsed(_userId);
         }
 
         #endregion
@@ -107,24 +107,16 @@ namespace MoneyChest.Calculation.Builders.Calendar
             // calculate current storage summary
             _preloadedData.StorageSummary = _storageSummaryCalculator.CalculateSingleCurrencySummary(_mainCurrency, 
                 _currencyExchangeRates, settings.StorageGroupIds).Sum(_ => _.Value);
-            // preload records
-            /*
-            _preloadedData.Records = _recordService.GetListForUser(_userId, item => item.Date >= settings.From
-                && (!item.StorageId.HasValue || settings.StorageGroupIds.Contains(item.StorageId.Value)));
-            // preload money transfers
-            _preloadedData.MoneyTransfers = _moneyTransferService.GetListForUser(_userId, item => item.Date >= settings.From
-                    && item.Date <= settings.Until 
-                    && (item.StorageFrom.StorageGroupId != item.StorageTo.StorageGroupId || item.StorageFrom.CurrencyId != item.StorageTo.CurrencyId)
-                    && (settings.StorageGroupIds.Contains(item.StorageFromId) || settings.StorageGroupIds.Contains(item.StorageToId)));
-            // preload schedules
-            _preloadedData.OnceSchedules = _scheduleService.GetActiveForPeriod<OnceSchedule>(_userId, settings.From, settings.Until);
-            _preloadedData.DailySchedules = _scheduleService.GetActiveForPeriod<DailySchedule>(_userId, settings.From, settings.Until);
-            _preloadedData.WeeklySchedules = _scheduleService.GetActiveForPeriod<WeeklySchedule>(_userId, settings.From, settings.Until);
-            _preloadedData.MonthlySchedules = _scheduleService.GetActiveForPeriod<MonthlySchedule>(_userId, settings.From, settings.Until);
-            */
+
+            // preload data from database
+            _preloadedData.MoneyTransfers = _moneyTransferService.GetAfterDate(_userId, settings.From, settings.StorageGroupIds)
+                .Where(item => settings.StorageGroupIds.Contains(item.StorageFrom.StorageGroupId) || settings.StorageGroupIds.Contains(item.StorageTo.StorageGroupId)).ToList();
+            _preloadedData.Records = _recordService.Get(_userId, settings.From, DateTime.Today.AddDays(1), settings.StorageGroupIds);
+            _preloadedData.Schedules = _scheduleService.GetActiveForPeriod(_userId, DateTime.Today, settings.Until);
+            _preloadedData.Events = _eventService.Get(_preloadedData.Schedules.GetEventIds());
         }
 
-        private void FillDataByRecords(CalendarDayData data, DateTime date, List<int> storageGroupIds)
+        private void FillRecordsLegend(CalendarDayData data, DateTime date)
         {
             // get records for the correspond day
             var records = _preloadedData.Records.Where(item 
@@ -135,114 +127,220 @@ namespace MoneyChest.Calculation.Builders.Calendar
             {
                 if(record.TransactionType == TransactionType.Expense)
                 {
-                    data.TotalExpences += CalculationHelper.ConvertToCurrency(record.Value, record.CurrencyId, _mainCurrency.Id, _currencyExchangeRates);
+                    data.TotalExpences += ConvertToMainCurrency(record.Value, record.CurrencyId);
                     data.Legend.Add(new LegendUnit(record.Currency, -record.Value, record.Description));
                 }
                 else
                 {
-                    data.TotalIncomes += CalculationHelper.ConvertToCurrency(record.Value, record.CurrencyId, _mainCurrency.Id, _currencyExchangeRates);
+                    data.TotalIncomes += ConvertToMainCurrency(record.Value, record.CurrencyId);
                     data.Legend.Add(new LegendUnit(record.Currency, record.Value, record.Description));
                 }
             }
             
-            // get all money transfers after this day between storages with differens currencies
-            var moneyTransfers = _preloadedData.MoneyTransfers.Where(item => item.Date > date.AddDays(1));
-            /*
-            // revert all money transfers after this day between storages with differens currencies
-            foreach (var moneyTransfer in moneyTransfers)
-            {
-                if(storageGroupIds.Contains(moneyTransfer.StorageFrom.StorageGroupId))
-                    data.Balance += CalculationHelper.ConvertToCurrency(moneyTransfer.Value, moneyTransfer.StorageFrom.CurrencyId, _mainCurrency.Id, _currencyExchangeRates);
-                if (storageGroupIds.Contains(moneyTransfer.StorageTo.StorageGroupId))
-                    data.Balance += CalculationHelper.ConvertToCurrency(-moneyTransfer.Value * moneyTransfer.CurrencyExchangeRate, moneyTransfer.StorageFrom.CurrencyId, _mainCurrency.Id, _currencyExchangeRates);
-            }
-            */
             // "remove" records after this day from balance
             foreach (var record in _preloadedData.Records.Where(item => date.AddDays(1) < item.Date))
             {
-                data.Balance += CalculationHelper.ConvertToCurrency(record.TransactionType == TransactionType.Expense ? record.Value : -record.Value, record.CurrencyId, _mainCurrency.Id, _currencyExchangeRates);
+                data.Balance += ConvertToMainCurrency(record.TransactionType == TransactionType.Expense ? record.Value : -record.Value, record.CurrencyId);
             }
         }
 
-        private void FillDataByEvents(CalendarDayData data, DateTime date, List<int> storageGroupIds)
+        private void FillMoneyTransfersLegend(CalendarDayData data, DateTime date, List<int> storageGroupIds)
         {
-
-        }
-
-        private void FillLegendByEvents(CalendarDayData data, DateTime date, List<int> storageGroupIds)
-        {
-            //var evnts = _simpleEventService.GetAllForUser(_userId, item => item.EventState != EventState.Closed
-            //               && (!item.Schedule.DateUntil.HasValue || item.Schedule.DateUntil.Value >= date)
-            //               && (!item.PausedToDate.HasValue || item.PausedToDate.Value < date));
-
-            //// write every month events
-            //foreach (var evnt in evnts.Where(item => item.Schedule.ScheduleType == ScheduleType.EveryMonth
-            //    && item.Schedule.DayOfMonth == date.Day && item.Schedule.Months[(Month)date.Month]))
-            //{
-            //    // write event data
-            //    WriteEvent(data, evnt);
-            //}
-
-            /*
-            foreach (var schedue in _preloadedData.MonthlySchedules.Where(e => e.DayOfMonth == date.Day
-                && e.MonthlyScheduleMonths.Any(m => m.Month == (Month)date.Month)).Distinct())
+            // write legend for today money transfers
+            foreach (var moneyTransfer in _preloadedData.MoneyTransfers.Where(item
+                => item.Date.Year == data.Year && item.Date.Month == data.Month && item.Date.Day == data.DayOfMonth).ToList())
             {
-
+                var currencyFrom = _preloadedData.Currencies.First(_ => _.Id == moneyTransfer.StorageFrom.CurrencyId).ToReferenceView();
+                var currencyTo = _preloadedData.Currencies.First(_ => _.Id == moneyTransfer.StorageTo.CurrencyId).ToReferenceView();
+                
+                data.MoneyTransferLegend.Add(new MoneyTransferLegendUnit
+                {
+                    StorageFrom = moneyTransfer.StorageFrom,
+                    StorageTo = moneyTransfer.StorageTo,
+                    ValueCurrencyFrom = new ValueUnit(currencyFrom, moneyTransfer.Value),
+                    ValueCurrencyTo = new ValueUnit(currencyTo, moneyTransfer.Value * moneyTransfer.CurrencyExchangeRate)
+                });
             }
-            */
+            
+            // get all money transfers after this day between storages with differens currencies
+            var moneyTransfers = _preloadedData.MoneyTransfers.Where(item => item.Date >= date.AddDays(1)
+                && item.StorageFrom.CurrencyId != item.StorageTo.CurrencyId).ToList();
 
-            //// write every week events
-            //foreach (var evnt in evnts.Where(item => item.Schedule.ScheduleType == ScheduleType.EveryWeek
-            //    && item.Schedule.DaysOfWeek[date.DayOfWeek]))
-            //{
-            //    // write event data
-            //    WriteEvent(data, evnt);
-            //}
-
-            //// write every day events
-            //foreach (var evnt in evnts.Where(item => item.Schedule.ScheduleType == ScheduleType.EveryDay
-            //    && item.Schedule.DayPeriod > 0))
-            //{
-            //    // check this event will in this day
-            //    DateTime evntDate = evnt.Schedule.DateFrom;
-
-            //    while (evntDate < date)
-            //    {
-            //        evntDate = evntDate.AddDays(evnt.Schedule.DayPeriod);
-            //    }
-
-            //    if (evntDate != date) continue;
-
-            //    // write event data
-            //    WriteEvent(data, evnt);
-            //}
-
-            //// write once events
-            //foreach (var evnt in evnts.Where(item => item.Schedule.ScheduleType == ScheduleType.Once
-            //&& item.Schedule.DateFrom == date))
-            //{
-            //    // write event data
-            //    WriteEvent(data, evnt);
-            //}
+            // revert all money transfers after this day between storages with differens currencies
+            foreach (var moneyTransfer in moneyTransfers)
+            {
+                // TODO: not calculate the same for every day
+                if (storageGroupIds.Contains(moneyTransfer.StorageFrom.StorageGroupId))
+                    data.Balance += ConvertToMainCurrency(moneyTransfer.Value, moneyTransfer.StorageFrom.CurrencyId);
+                if (storageGroupIds.Contains(moneyTransfer.StorageTo.StorageGroupId))
+                    data.Balance += ConvertToMainCurrency(-moneyTransfer.Value * moneyTransfer.CurrencyExchangeRate, moneyTransfer.StorageTo.CurrencyId);
+            }
         }
 
-        private void WriteEvent(CalendarDayData data, Evnt evnt)
+        private void FillEventLegend(CalendarDayData data, DateTime date, List<int> storageGroupIds)
         {
-            //// determine sammary
-            //List<SummaryUnit> summary = evnt.TransactionType == TransactionType.Expense
-            //    ? reportUnit.TotalExpences
-            //    : reportUnit.TotalIncomes;
+            // TODO: remove previous events from balance
+            // TODO: write events in order
+            // write every month events
+            foreach (var schedule in _preloadedData.Schedules.MonthlySchedules.Where(e => e.DayOfMonth == date.Day
+                && e.Months.Contains((Month)date.Month)).Distinct())
+            {
+                // write event
+                WriteEvent(data, schedule.EventId, storageGroupIds);
+            }
 
-            //// get summary unit for current currency
-            //var sUnit = GetSummaryUnit(summary, evnt.Currency);
+            // write every week events
+            foreach (var schedule in _preloadedData.Schedules.WeeklySchedules.Where(item => item.DaysOfWeek.Contains(date.DayOfWeek)))
+            {
+                // write event
+                WriteEvent(data, schedule.EventId, storageGroupIds);
+            }
 
-            //sUnit.Value += evnt.Value;
+            // write every day events
+            foreach (var schedule in _preloadedData.Schedules.DailySchedules.Where(item => item.Period > 0))
+            {
+                // check this event will in this day
+                DateTime evntDate = schedule.DateFrom;
+                while (evntDate < date)
+                    evntDate = evntDate.AddDays(schedule.Period);
+                if (evntDate != date) continue;
 
-            //reportUnit.Legend.Add(new KeyValuePair<string, SummaryUnit>(
-            //    evnt.Description, new SummaryUnit(evnt.Currency)
-            //    {
-            //        Value = evnt.TransactionType == TransactionType.Expense ? -evnt.Value : evnt.Value
-            //    }));
+                // write event
+                WriteEvent(data, schedule.EventId, storageGroupIds);
+            }
+
+            // write once events
+            foreach (var schedule in _preloadedData.Schedules.OnceSchedules.Where(item => item.Date.Year == data.Year && item.Date.Month == data.Month && item.Date.Day == data.DayOfMonth))
+            {
+                // write event
+                WriteEvent(data, schedule.EventId, storageGroupIds);
+            }
+        }
+
+        private void WriteEvent(CalendarDayData data, int eventId, List<int> storageGroupIds)
+        {
+            // get event
+            var eventType = _preloadedData.Events.GetEventType(eventId);
+
+            if(eventType == EventType.Simple)
+            {
+                var evnt = _preloadedData.Events.SimpleEvents.First(_ => _.Id == eventId);
+                if (!storageGroupIds.Contains(evnt.Storage.StorageGroupId)) return;
+
+                // update balance
+                var valueInMainCurrency = ConvertToMainCurrency(evnt.Value, evnt.CurrencyId);
+                if (evnt.TransactionType == TransactionType.Expense)
+                {
+                    data.TotalExpences += valueInMainCurrency;
+                    data.Balance -= valueInMainCurrency;
+                }
+                else
+                {
+                    data.TotalIncomes += valueInMainCurrency;
+                    data.Balance += valueInMainCurrency;
+                }
+
+                // fill legend
+                data.Legend.Add(new LegendUnit(evnt.Currency, evnt.TransactionType == TransactionType.Expense ? -evnt.Value : evnt.Value, evnt.Description));
+            }
+
+            if(eventType == EventType.RepayDebt)
+            {
+                var evnt = _preloadedData.Events.RepayDebtEvents.First(_ => _.Id == eventId);
+                if (!storageGroupIds.Contains(evnt.Storage.StorageGroupId)) return;
+
+                // TODO: curency? from storage or from debt
+                // update balance
+                var valueInMainCurrency = ConvertToMainCurrency(evnt.Value, evnt.Storage.CurrencyId);
+                if (evnt.Debt.DebtType == DebtType.GiveBorrow)
+                {
+                    data.TotalExpences += valueInMainCurrency;
+                    data.Balance -= valueInMainCurrency;
+                }
+                else
+                {
+                    data.TotalIncomes += valueInMainCurrency;
+                    data.Balance += valueInMainCurrency;
+                }
+
+                // fill legend
+                var currency = _preloadedData.Currencies.First(_ => _.Id == evnt.Storage.CurrencyId).ToReferenceView();
+                data.Legend.Add(new LegendUnit(currency, evnt.Debt.DebtType == DebtType.GiveBorrow ? -evnt.Value : evnt.Value, evnt.Description));
+            }
+
+            if(eventType == EventType.MoneyTransfer)
+            {
+                var evnt = _preloadedData.Events.MoneyTransferEvents.First(_ => _.Id == eventId);
+                if (!storageGroupIds.Contains(evnt.StorageFrom.StorageGroupId) && !storageGroupIds.Contains(evnt.StorageTo.StorageGroupId)) return;
+
+                // update balance
+                if (!(storageGroupIds.Contains(evnt.StorageFrom.StorageGroupId) && storageGroupIds.Contains(evnt.StorageTo.StorageGroupId)))
+                {
+                    if (storageGroupIds.Contains(evnt.StorageFrom.StorageGroupId))
+                    {
+                        var valueInMainCurrency = ConvertToMainCurrency(evnt.Value, evnt.StorageFrom.CurrencyId);
+                        data.TotalExpences += valueInMainCurrency;
+                        data.Balance -= valueInMainCurrency;
+                    }
+                    if (storageGroupIds.Contains(evnt.StorageTo.StorageGroupId))
+                    {
+                        var valueInMainCurrency = ConvertToMainCurrency(evnt.Value, evnt.StorageTo.CurrencyId);
+                        data.TotalIncomes += valueInMainCurrency;
+                        data.Balance += valueInMainCurrency;
+                    }
+                }
+                   
+                var currencyFrom = _preloadedData.Currencies.First(_ => _.Id == evnt.StorageFrom.CurrencyId).ToReferenceView();
+                var currencyTo = _preloadedData.Currencies.First(_ => _.Id == evnt.StorageTo.CurrencyId).ToReferenceView();
+
+                // TODO: load from database evnt.StorageTo.CurrencyId currency exchange rate
+                var valCurrTo = evnt.TakeExistingCurrencyExchangeRate
+                    ? CalculationHelper.ConvertToCurrency(evnt.Value, evnt.StorageFrom.CurrencyId, evnt.StorageTo.CurrencyId, _currencyExchangeRates)
+                    : evnt.Value * evnt.CurrencyExchangeRate;
+
+                // fill legend
+                data.MoneyTransferLegend.Add(new MoneyTransferLegendUnit()
+                {
+                    StorageFrom = evnt.StorageFrom,
+                    StorageTo = evnt.StorageTo,
+                    ValueCurrencyFrom = new ValueUnit(currencyFrom, evnt.Value),
+                    ValueCurrencyTo = new ValueUnit(currencyTo, valCurrTo)
+                });
+
+                // TODO: fill comission
+                if(evnt.Commission > 0)
+                {
+                    // calculate comission value correspond to comission tyep
+                    var comissionValue = evnt.CommissionType == CommissionType.Currency ? evnt.Commission : evnt.Value * evnt.Commission;
+                    //var comissionCurrency = evnt.
+                    // update balance
+                    if (evnt.TakeComissionFromReceiver && storageGroupIds.Contains(evnt.StorageTo.StorageGroupId))
+                    {
+                        var valueInMainCurrency = ConvertToMainCurrency(comissionValue, evnt.StorageTo.CurrencyId);
+                        data.TotalExpences += valueInMainCurrency;
+                        data.Balance += valueInMainCurrency;
+                    }
+                    // ???
+                    if (storageGroupIds.Contains(evnt.StorageFrom.StorageGroupId))
+                    {
+                        var valueInMainCurrency = ConvertToMainCurrency(evnt.Value, evnt.StorageFrom.CurrencyId);
+                        data.TotalExpences += valueInMainCurrency;
+                        data.Balance -= valueInMainCurrency;
+                    }
+                    if (storageGroupIds.Contains(evnt.StorageTo.StorageGroupId))
+                    {
+                        var valueInMainCurrency = ConvertToMainCurrency(evnt.Value, evnt.StorageTo.CurrencyId);
+                        data.TotalIncomes += valueInMainCurrency;
+                        data.Balance += valueInMainCurrency;
+                    }
+                }
+            }
+        }
+
+        private decimal ConvertToMainCurrency(decimal value, int currencyFromId)
+        {
+            if (currencyFromId == _mainCurrency.Id) return value;
+            else return CalculationHelper.ConvertToCurrency(value, currencyFromId, _mainCurrency.Id, _currencyExchangeRates);
         }
 
         #endregion
@@ -251,13 +349,13 @@ namespace MoneyChest.Calculation.Builders.Calendar
 
         private class PreloadedData
         {
+            public List<CurrencyModel> Currencies { get; set; }
+
             public decimal StorageSummary { get; set; }
             public List<RecordModel> Records { get; set; }
             public List<MoneyTransferModel> MoneyTransfers { get; set; }
-            public List<OnceScheduleModel> OnceSchedules { get; set; }
-            public List<DailyScheduleModel> DailySchedules { get; set; }
-            public List<WeeklyScheduleModel> WeeklySchedules { get; set; }
-            public List<MonthlyScheduleModel> MonthlySchedules { get; set; }
+            public SchedulesScopeModel Schedules { get; set; }
+            public EventsScopeModel Events { get; set; }
         }
 
         #endregion

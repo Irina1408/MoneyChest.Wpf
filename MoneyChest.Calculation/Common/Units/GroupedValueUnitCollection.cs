@@ -38,7 +38,5 @@ namespace MoneyChest.Calculation.Common
                 this[key].Update(currency, value);
             }
         }
-        
-        //internal protected virtual bool KeyContains(TKey key) => this.ContainsKey(key);
     }
 }

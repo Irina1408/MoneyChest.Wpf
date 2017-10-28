@@ -12,7 +12,7 @@ namespace MoneyChest.Model.Model
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Description { get; set; }
 
         public DebtType DebtType { get; set; }
         
@@ -22,14 +22,17 @@ namespace MoneyChest.Model.Model
 
         public decimal PaidValue { get; set; }
 
-        public bool IsRepayed { get; set; }
+        public bool IsRepaid { get; set; }
         
         public DateTime? RepayingDate { get; set; }
+
+        public DateTime? DueDate { get; set; }
 
         public string Remark { get; set; }
         
 
         public int CurrencyId { get; set; }
+        public int? CategoryId { get; set; }
         public int? StorageId { get; set; }
         public int UserId { get; set; }
 

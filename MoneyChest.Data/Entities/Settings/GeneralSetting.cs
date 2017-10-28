@@ -17,7 +17,6 @@ namespace MoneyChest.Data.Entities
         public GeneralSetting()
         {
             Language = Language.English;
-            HideCoinBoxStorages = true;
             FirstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
         }
 
@@ -25,24 +24,9 @@ namespace MoneyChest.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }
 
-        // Hide coin box accounts in every selection
-        public bool HideCoinBoxStorages { get; set; }
-
         public Language Language { get; set; }
 
         public DayOfWeek FirstDayOfWeek { get; set; }
-
-        public int DebtCategoryId { get; set; }
-
-        // Money transfer comission category
-        public int ComissionCategoryId { get; set; }
-
-
-        [ForeignKey(nameof(DebtCategoryId))]
-        public virtual Category DebtCategory { get; set; }
-        
-        [ForeignKey(nameof(ComissionCategoryId))]
-        public virtual Category ComissionCategory { get; set; }
 
 
         [ForeignKey(nameof(UserId))]

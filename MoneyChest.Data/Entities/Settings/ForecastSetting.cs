@@ -26,9 +26,8 @@ namespace MoneyChest.Data.Entities
         public int UserId { get; set; }
 
         public bool AllCategories { get; set; }
-
-        [Description("Count of the minimum repeats")]
-        public uint RepeatsCount { get; set; }
+        
+        public uint RepeatsCount { get; set; }  // Count of the minimum repeats
 
         public uint ActualDays { get; set; }
 

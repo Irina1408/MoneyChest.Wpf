@@ -15,11 +15,8 @@ namespace MoneyChest.Model.Converters
             return new GeneralSetting()
             {
                 UserId = model.UserId,
-                HideCoinBoxStorages = model.HideCoinBoxStorages,
                 Language = model.Language,
-                FirstDayOfWeek = model.FirstDayOfWeek,
-                DebtCategoryId = model.DebtCategoryId,
-                ComissionCategoryId = model.ComissionCategoryId
+                FirstDayOfWeek = model.FirstDayOfWeek
             };
         }
 
@@ -28,22 +25,16 @@ namespace MoneyChest.Model.Converters
             return new GeneralSettingModel()
             {
                 UserId = entity.UserId,
-                HideCoinBoxStorages = entity.HideCoinBoxStorages,
                 Language = entity.Language,
-                FirstDayOfWeek = entity.FirstDayOfWeek,
-                DebtCategoryId = entity.DebtCategoryId,
-                ComissionCategoryId = entity.ComissionCategoryId
+                FirstDayOfWeek = entity.FirstDayOfWeek
             };
         }
 
         public GeneralSetting Update(GeneralSetting entity, GeneralSettingModel model)
         {
             entity.UserId = model.UserId;
-            entity.HideCoinBoxStorages = model.HideCoinBoxStorages;
             entity.Language = model.Language;
-            entity.FirstDayOfWeek = entity.FirstDayOfWeek;
-            entity.DebtCategoryId = entity.DebtCategoryId;
-            entity.ComissionCategoryId = entity.ComissionCategoryId;
+            entity.FirstDayOfWeek = model.FirstDayOfWeek;
 
             return entity;
         }

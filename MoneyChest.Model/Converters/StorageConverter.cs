@@ -17,6 +17,7 @@ namespace MoneyChest.Model.Converters
             {
                 Name = model.Name,
                 Value = model.Value,
+                IsHidden = model.IsHidden,
                 Remark = model.Remark,
                 CurrencyId = model.CurrencyId,
                 StorageGroupId = model.StorageGroupId,
@@ -31,6 +32,7 @@ namespace MoneyChest.Model.Converters
                 Id = entity.Id,
                 Name = entity.Name,
                 Value = entity.Value,
+                IsHidden = entity.IsHidden,
                 Remark = entity.Remark,
                 CurrencyId = entity.CurrencyId,
                 StorageGroupId = entity.StorageGroupId,
@@ -44,6 +46,7 @@ namespace MoneyChest.Model.Converters
         {
             entity.Name = model.Name;
             entity.Value = model.Value;
+            entity.IsHidden = model.IsHidden;
             entity.Remark = model.Remark;
             entity.StorageGroupId = model.StorageGroupId;
             entity.CurrencyId = model.CurrencyId;

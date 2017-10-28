@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyChest.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace MoneyChest.Model.Model
     public class DebtReference
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Description { get; set; }
+        public DebtType DebtType { get; set; }
     }
 }

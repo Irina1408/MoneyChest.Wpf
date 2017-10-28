@@ -37,18 +37,19 @@ namespace MoneyChest.Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                        StorageGroupId = c.Int(nullable: false),
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        IsHidden = c.Boolean(nullable: false),
                         Remark = c.String(),
                         CurrencyId = c.Int(nullable: false),
+                        StorageGroupId = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .ForeignKey("dbo.Currencies", t => t.CurrencyId)
                 .ForeignKey("dbo.StorageGroups", t => t.StorageGroupId)
-                .Index(t => t.StorageGroupId)
                 .Index(t => t.CurrencyId)
+                .Index(t => t.StorageGroupId)
                 .Index(t => t.UserId);
             
             CreateTable(
@@ -56,11 +57,12 @@ namespace MoneyChest.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(maxLength: 100),
-                        Code = c.String(maxLength: 10),
-                        Symbol = c.String(maxLength: 10),
+                        Name = c.String(nullable: false, maxLength: 100),
+                        Code = c.String(nullable: false, maxLength: 10),
+                        Symbol = c.String(nullable: false, maxLength: 10),
                         IsUsed = c.Boolean(nullable: false),
                         IsMain = c.Boolean(nullable: false),
+                        SymbolAlignmentIsRight = c.Boolean(nullable: false),
                         UserId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -86,66 +88,42 @@ namespace MoneyChest.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Description = c.String(),
                         DebtType = c.Int(nullable: false),
-                        TakingDate = c.DateTime(nullable: false, storeType: "date"),
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
                         PaidValue = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        IsRepayed = c.Boolean(nullable: false),
+                        IsRepaid = c.Boolean(nullable: false),
+                        TakingDate = c.DateTime(nullable: false, storeType: "date"),
                         RepayingDate = c.DateTime(storeType: "date"),
+                        DueDate = c.DateTime(storeType: "date"),
                         Remark = c.String(),
                         CurrencyId = c.Int(nullable: false),
+                        CategoryId = c.Int(),
                         StorageId = c.Int(),
                         UserId = c.Int(nullable: false),
+                        Category_Id = c.Int(),
                         Storage_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Categories", t => t.Category_Id)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Categories", t => t.CategoryId)
                 .ForeignKey("dbo.Storages", t => t.StorageId)
                 .ForeignKey("dbo.Currencies", t => t.CurrencyId)
                 .ForeignKey("dbo.Storages", t => t.Storage_Id)
                 .Index(t => t.CurrencyId)
-                .Index(t => t.StorageId)
-                .Index(t => t.UserId)
-                .Index(t => t.Storage_Id);
-            
-            CreateTable(
-                "dbo.Records",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Date = c.DateTime(nullable: false),
-                        Description = c.String(),
-                        TransactionType = c.Int(nullable: false),
-                        Value = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Remark = c.String(),
-                        CategoryId = c.Int(),
-                        CurrencyId = c.Int(nullable: false),
-                        StorageId = c.Int(),
-                        DebtId = c.Int(),
-                        UserId = c.Int(nullable: false),
-                        Debt_Id = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
-                .ForeignKey("dbo.Categories", t => t.CategoryId)
-                .ForeignKey("dbo.Debts", t => t.DebtId)
-                .ForeignKey("dbo.Debts", t => t.Debt_Id)
-                .ForeignKey("dbo.Currencies", t => t.CurrencyId)
-                .ForeignKey("dbo.Storages", t => t.StorageId)
                 .Index(t => t.CategoryId)
-                .Index(t => t.CurrencyId)
                 .Index(t => t.StorageId)
-                .Index(t => t.DebtId)
                 .Index(t => t.UserId)
-                .Index(t => t.Debt_Id);
+                .Index(t => t.Category_Id)
+                .Index(t => t.Storage_Id);
             
             CreateTable(
                 "dbo.Categories",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false),
                         TransactionType = c.Int(),
                         InHistory = c.Boolean(nullable: false),
                         ParentCategoryId = c.Int(),
@@ -175,7 +153,6 @@ namespace MoneyChest.Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
                         Password = c.String(nullable: false),
-                        Email = c.String(),
                         FirstUsageDate = c.DateTime(nullable: false),
                         LastUsageDate = c.DateTime(nullable: false),
                         LastSynchronizationDate = c.DateTime(),
@@ -215,6 +192,7 @@ namespace MoneyChest.Data.Migrations
                         Symbol = c.String(),
                         IsUsed = c.Boolean(nullable: false),
                         IsMain = c.Boolean(nullable: false),
+                        SymbolAlignmentIsRight = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.ActionId)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
@@ -229,13 +207,14 @@ namespace MoneyChest.Data.Migrations
                         ActionType = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
                         Id = c.Int(nullable: false),
-                        Name = c.String(),
+                        Description = c.String(),
                         DebtType = c.Int(nullable: false),
                         TakingDate = c.DateTime(nullable: false, storeType: "date"),
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
                         PaidValue = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        IsRepayed = c.Boolean(nullable: false),
+                        IsRepaid = c.Boolean(nullable: false),
                         RepayingDate = c.DateTime(storeType: "date"),
+                        DueDate = c.DateTime(storeType: "date"),
                         Remark = c.String(),
                         CurrencyId = c.Int(nullable: false),
                         StorageId = c.Int(),
@@ -263,7 +242,6 @@ namespace MoneyChest.Data.Migrations
                         CurrencyExchangeRate = c.Decimal(precision: 18, scale: 2),
                         Commission = c.Decimal(precision: 18, scale: 2),
                         TakeComissionFromReceiver = c.Boolean(),
-                        TakeComissionCurrencyFromReceiver = c.Boolean(),
                         CommissionType = c.Int(),
                         StorageFromId = c.Int(),
                         StorageToId = c.Int(),
@@ -363,7 +341,7 @@ namespace MoneyChest.Data.Migrations
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
                         EventState = c.Int(nullable: false),
                         PausedToDate = c.DateTime(storeType: "date"),
-                        ScheduleType = c.Int(nullable: false),
+                        EventType = c.Int(nullable: false),
                         AutoExecution = c.Boolean(nullable: false),
                         AutoExecutionTime = c.Time(precision: 7),
                         ConfirmBeforeExecute = c.Boolean(nullable: false),
@@ -372,7 +350,6 @@ namespace MoneyChest.Data.Migrations
                         CurrencyExchangeRate = c.Decimal(precision: 18, scale: 2),
                         Commission = c.Decimal(precision: 18, scale: 2),
                         TakeComissionFromReceiver = c.Boolean(),
-                        TakeComissionCurrencyFromReceiver = c.Boolean(),
                         CommissionType = c.Int(),
                         StorageFromId = c.Int(),
                         StorageToId = c.Int(),
@@ -393,19 +370,12 @@ namespace MoneyChest.Data.Migrations
                 c => new
                     {
                         UserId = c.Int(nullable: false),
-                        HideCoinBoxStorages = c.Boolean(nullable: false),
                         Language = c.Int(nullable: false),
                         FirstDayOfWeek = c.Int(nullable: false),
-                        DebtCategoryId = c.Int(nullable: false),
-                        ComissionCategoryId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.UserId)
                 .ForeignKey("dbo.Users", t => t.UserId)
-                .ForeignKey("dbo.Categories", t => t.ComissionCategoryId)
-                .ForeignKey("dbo.Categories", t => t.DebtCategoryId)
-                .Index(t => t.UserId)
-                .Index(t => t.DebtCategoryId)
-                .Index(t => t.ComissionCategoryId);
+                .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.Limits",
@@ -416,7 +386,7 @@ namespace MoneyChest.Data.Migrations
                         DateUntil = c.DateTime(nullable: false, storeType: "date"),
                         LimitState = c.Int(nullable: false),
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        RemainingValue = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        SpentValue = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Remark = c.String(),
                         CurrencyId = c.Int(nullable: false),
                         CategoryId = c.Int(),
@@ -443,7 +413,7 @@ namespace MoneyChest.Data.Migrations
                         DateUntil = c.DateTime(nullable: false, storeType: "date"),
                         LimitState = c.Int(nullable: false),
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        RemainingValue = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        SpentValue = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Remark = c.String(),
                         CurrencyId = c.Int(nullable: false),
                         CategoryId = c.Int(),
@@ -451,6 +421,37 @@ namespace MoneyChest.Data.Migrations
                 .PrimaryKey(t => t.ActionId)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.Records",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Date = c.DateTime(nullable: false),
+                        Description = c.String(),
+                        TransactionType = c.Int(nullable: false),
+                        Value = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Remark = c.String(),
+                        CategoryId = c.Int(),
+                        CurrencyId = c.Int(nullable: false),
+                        StorageId = c.Int(),
+                        DebtId = c.Int(),
+                        UserId = c.Int(nullable: false),
+                        Debt_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Debts", t => t.DebtId)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Categories", t => t.CategoryId)
+                .ForeignKey("dbo.Debts", t => t.Debt_Id)
+                .ForeignKey("dbo.Currencies", t => t.CurrencyId)
+                .ForeignKey("dbo.Storages", t => t.StorageId)
+                .Index(t => t.CategoryId)
+                .Index(t => t.CurrencyId)
+                .Index(t => t.StorageId)
+                .Index(t => t.DebtId)
+                .Index(t => t.UserId)
+                .Index(t => t.Debt_Id);
             
             CreateTable(
                 "dbo.RecordHistories",
@@ -500,7 +501,7 @@ namespace MoneyChest.Data.Migrations
                         IncludeRecordsWithoutCategory = c.Boolean(nullable: false),
                         AllCategories = c.Boolean(nullable: false),
                         ReportType = c.Int(nullable: false),
-                        DataType = c.Int(nullable: false),
+                        DataType = c.Int(),
                         PeriodFilterType = c.Int(nullable: false),
                         CategoryLevel = c.Int(nullable: false),
                         DateFrom = c.DateTime(storeType: "date"),
@@ -535,6 +536,7 @@ namespace MoneyChest.Data.Migrations
                         UserId = c.Int(nullable: false),
                         Id = c.Int(nullable: false),
                         Name = c.String(),
+                        IsHidden = c.Boolean(nullable: false),
                         StorageGroupId = c.Int(nullable: false),
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Remark = c.String(),
@@ -549,22 +551,28 @@ namespace MoneyChest.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        Description = c.String(),
                         Date = c.DateTime(nullable: false, storeType: "date"),
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
                         CurrencyExchangeRate = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Commission = c.Decimal(nullable: false, precision: 18, scale: 2),
                         CommissionType = c.Int(),
                         TakeComissionFromReceiver = c.Boolean(nullable: false),
-                        TakeComissionCurrencyFromReceiver = c.Boolean(nullable: false),
                         Remark = c.String(),
                         StorageFromId = c.Int(nullable: false),
                         StorageToId = c.Int(nullable: false),
+                        CategoryId = c.Int(),
+                        Category_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Categories", t => t.CategoryId)
+                .ForeignKey("dbo.Categories", t => t.Category_Id)
                 .ForeignKey("dbo.Storages", t => t.StorageFromId)
                 .ForeignKey("dbo.Storages", t => t.StorageToId)
                 .Index(t => t.StorageFromId)
-                .Index(t => t.StorageToId);
+                .Index(t => t.StorageToId)
+                .Index(t => t.CategoryId)
+                .Index(t => t.Category_Id);
             
             CreateTable(
                 "dbo.CurrencyExchangeRateHistories",
@@ -591,6 +599,7 @@ namespace MoneyChest.Data.Migrations
                         ActionType = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
                         Id = c.Int(nullable: false),
+                        ScheduleType = c.Int(nullable: false),
                         EventId = c.Int(nullable: false),
                         DateFrom = c.DateTime(storeType: "date"),
                         DateUntil = c.DateTime(storeType: "date"),
@@ -617,13 +626,13 @@ namespace MoneyChest.Data.Migrations
                         ActionType = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
                         Id = c.Int(nullable: false),
+                        Description = c.String(),
                         Date = c.DateTime(nullable: false, storeType: "date"),
                         Value = c.Decimal(nullable: false, precision: 18, scale: 2),
                         CurrencyExchangeRate = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Commission = c.Decimal(nullable: false, precision: 18, scale: 2),
                         CommissionType = c.Int(),
                         TakeComissionFromReceiver = c.Boolean(nullable: false),
-                        TakeComissionCurrencyFromReceiver = c.Boolean(nullable: false),
                         Remark = c.String(),
                         StorageFromId = c.Int(nullable: false),
                         StorageToId = c.Int(nullable: false),
@@ -657,7 +666,6 @@ namespace MoneyChest.Data.Migrations
                         UserId = c.Int(nullable: false),
                         Name = c.String(),
                         Password = c.String(),
-                        Email = c.String(),
                         FirstUsageDate = c.DateTime(nullable: false),
                         LastUsageDate = c.DateTime(nullable: false),
                         LastSynchronizationDate = c.DateTime(),
@@ -761,12 +769,12 @@ namespace MoneyChest.Data.Migrations
             DropForeignKey("dbo.Debts", "StorageId", "dbo.Storages");
             DropForeignKey("dbo.Events", "DebtId", "dbo.Debts");
             DropForeignKey("dbo.Records", "Debt_Id", "dbo.Debts");
-            DropForeignKey("dbo.Records", "DebtId", "dbo.Debts");
+            DropForeignKey("dbo.Debts", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.Events", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.Records", "CategoryId", "dbo.Categories");
+            DropForeignKey("dbo.MoneyTransfers", "Category_Id", "dbo.Categories");
+            DropForeignKey("dbo.MoneyTransfers", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.Limits", "CategoryId", "dbo.Categories");
-            DropForeignKey("dbo.GeneralSettings", "DebtCategoryId", "dbo.Categories");
-            DropForeignKey("dbo.GeneralSettings", "ComissionCategoryId", "dbo.Categories");
             DropForeignKey("dbo.StorageHistories", "UserId", "dbo.Users");
             DropForeignKey("dbo.Storages", "UserId", "dbo.Users");
             DropForeignKey("dbo.StorageGroupHistories", "UserId", "dbo.Users");
@@ -779,6 +787,7 @@ namespace MoneyChest.Data.Migrations
             DropForeignKey("dbo.RecordsViewFilterCategories", "RecordsViewFilter_UserId", "dbo.RecordsViewFilter");
             DropForeignKey("dbo.RecordHistories", "UserId", "dbo.Users");
             DropForeignKey("dbo.Records", "UserId", "dbo.Users");
+            DropForeignKey("dbo.Records", "DebtId", "dbo.Debts");
             DropForeignKey("dbo.LimitHistories", "UserId", "dbo.Users");
             DropForeignKey("dbo.Limits", "UserId", "dbo.Users");
             DropForeignKey("dbo.GeneralSettings", "UserId", "dbo.Users");
@@ -801,6 +810,7 @@ namespace MoneyChest.Data.Migrations
             DropForeignKey("dbo.CalendarSettings", "UserId", "dbo.Users");
             DropForeignKey("dbo.ForecastSettingCategories", "Category_Id", "dbo.Categories");
             DropForeignKey("dbo.ForecastSettingCategories", "ForecastSetting_UserId", "dbo.ForecastSettings");
+            DropForeignKey("dbo.Debts", "Category_Id", "dbo.Categories");
             DropForeignKey("dbo.Categories", "ParentCategoryId", "dbo.Categories");
             DropForeignKey("dbo.CurrencyExchangeRates", "CurrencyToId", "dbo.Currencies");
             DropForeignKey("dbo.CurrencyExchangeRates", "CurrencyFromId", "dbo.Currencies");
@@ -820,6 +830,8 @@ namespace MoneyChest.Data.Migrations
             DropIndex("dbo.MoneyTransferHistories", new[] { "UserId" });
             DropIndex("dbo.ScheduleHistories", new[] { "UserId" });
             DropIndex("dbo.CurrencyExchangeRateHistories", new[] { "UserId" });
+            DropIndex("dbo.MoneyTransfers", new[] { "Category_Id" });
+            DropIndex("dbo.MoneyTransfers", new[] { "CategoryId" });
             DropIndex("dbo.MoneyTransfers", new[] { "StorageToId" });
             DropIndex("dbo.MoneyTransfers", new[] { "StorageFromId" });
             DropIndex("dbo.StorageHistories", new[] { "UserId" });
@@ -827,12 +839,16 @@ namespace MoneyChest.Data.Migrations
             DropIndex("dbo.ReportSetting", new[] { "UserId" });
             DropIndex("dbo.RecordsViewFilter", new[] { "UserId" });
             DropIndex("dbo.RecordHistories", new[] { "UserId" });
+            DropIndex("dbo.Records", new[] { "Debt_Id" });
+            DropIndex("dbo.Records", new[] { "UserId" });
+            DropIndex("dbo.Records", new[] { "DebtId" });
+            DropIndex("dbo.Records", new[] { "StorageId" });
+            DropIndex("dbo.Records", new[] { "CurrencyId" });
+            DropIndex("dbo.Records", new[] { "CategoryId" });
             DropIndex("dbo.LimitHistories", new[] { "UserId" });
             DropIndex("dbo.Limits", new[] { "UserId" });
             DropIndex("dbo.Limits", new[] { "CategoryId" });
             DropIndex("dbo.Limits", new[] { "CurrencyId" });
-            DropIndex("dbo.GeneralSettings", new[] { "ComissionCategoryId" });
-            DropIndex("dbo.GeneralSettings", new[] { "DebtCategoryId" });
             DropIndex("dbo.GeneralSettings", new[] { "UserId" });
             DropIndex("dbo.EventHistories", new[] { "UserId" });
             DropIndex("dbo.WeeklyScheduleDayOfWeeks", new[] { "WeeklyScheduleId" });
@@ -856,22 +872,18 @@ namespace MoneyChest.Data.Migrations
             DropIndex("dbo.ForecastSettings", new[] { "UserId" });
             DropIndex("dbo.Categories", new[] { "UserId" });
             DropIndex("dbo.Categories", new[] { "ParentCategoryId" });
-            DropIndex("dbo.Records", new[] { "Debt_Id" });
-            DropIndex("dbo.Records", new[] { "UserId" });
-            DropIndex("dbo.Records", new[] { "DebtId" });
-            DropIndex("dbo.Records", new[] { "StorageId" });
-            DropIndex("dbo.Records", new[] { "CurrencyId" });
-            DropIndex("dbo.Records", new[] { "CategoryId" });
             DropIndex("dbo.Debts", new[] { "Storage_Id" });
+            DropIndex("dbo.Debts", new[] { "Category_Id" });
             DropIndex("dbo.Debts", new[] { "UserId" });
             DropIndex("dbo.Debts", new[] { "StorageId" });
+            DropIndex("dbo.Debts", new[] { "CategoryId" });
             DropIndex("dbo.Debts", new[] { "CurrencyId" });
             DropIndex("dbo.CurrencyExchangeRates", new[] { "CurrencyToId" });
             DropIndex("dbo.CurrencyExchangeRates", new[] { "CurrencyFromId" });
             DropIndex("dbo.Currencies", new[] { "UserId" });
             DropIndex("dbo.Storages", new[] { "UserId" });
-            DropIndex("dbo.Storages", new[] { "CurrencyId" });
             DropIndex("dbo.Storages", new[] { "StorageGroupId" });
+            DropIndex("dbo.Storages", new[] { "CurrencyId" });
             DropIndex("dbo.StorageGroups", new[] { "UserId" });
             DropIndex("dbo.CalendarSettings", new[] { "UserId" });
             DropTable("dbo.ReportSettingCategories");
@@ -890,6 +902,7 @@ namespace MoneyChest.Data.Migrations
             DropTable("dbo.ReportSetting");
             DropTable("dbo.RecordsViewFilter");
             DropTable("dbo.RecordHistories");
+            DropTable("dbo.Records");
             DropTable("dbo.LimitHistories");
             DropTable("dbo.Limits");
             DropTable("dbo.GeneralSettings");
@@ -904,7 +917,6 @@ namespace MoneyChest.Data.Migrations
             DropTable("dbo.Users");
             DropTable("dbo.ForecastSettings");
             DropTable("dbo.Categories");
-            DropTable("dbo.Records");
             DropTable("dbo.Debts");
             DropTable("dbo.CurrencyExchangeRates");
             DropTable("dbo.Currencies");

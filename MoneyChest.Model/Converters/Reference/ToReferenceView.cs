@@ -15,6 +15,11 @@ namespace MoneyChest.Model.Convert
             return new CurrencyReference { Id = entity.Id, Code = entity.Code };
         }
 
+        public static CurrencyReference ToReferenceView(this CurrencyModel entity)
+        {
+            return new CurrencyReference { Id = entity.Id, Code = entity.Code };
+        }
+
         public static StorageGroupReference ToReferenceView(this StorageGroup entity)
         {
             return new StorageGroupReference { Id = entity.Id, Name = entity.Name };
@@ -22,7 +27,13 @@ namespace MoneyChest.Model.Convert
 
         public static StorageReference ToReferenceView(this Storage entity)
         {
-            return new StorageReference { Id = entity.Id, Name = entity.Name };
+            return new StorageReference
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                StorageGroupId = entity.StorageGroupId,
+                CurrencyId = entity.CurrencyId
+            };
         }
 
         public static CategoryReference ToReferenceView(this Category entity)
@@ -32,7 +43,12 @@ namespace MoneyChest.Model.Convert
 
         public static DebtReference ToReferenceView(this Debt entity)
         {
-            return new DebtReference { Id = entity.Id, Name = entity.Name };
+            return new DebtReference { Id = entity.Id, Description = entity.Description, DebtType = entity.DebtType };
+        }
+
+        public static MoneyTransferReference ToReferenceView(this MoneyTransfer entity)
+        {
+            return new MoneyTransferReference { Id = entity.Id, Description = entity.Description };
         }
     }
 }

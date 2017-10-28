@@ -20,6 +20,7 @@ namespace MoneyChest.Services.Services
     {
         List<RecordModel> Get(int userId, PeriodFilterType period, TransactionType transactionType, bool includeWithoutCategory, List<int> categoryIds = null);
         List<RecordModel> Get(int userId, DateTime from, DateTime until, TransactionType transactionType, bool includeWithoutCategory, List<int> categoryIds = null);
+        List<RecordModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds);
     }
 
     public class RecordService : BaseHistoricizedIdManageableUserableListService<Record, RecordModel, RecordConverter>, IRecordService
@@ -67,6 +68,12 @@ namespace MoneyChest.Services.Services
                     && item.Date >= from && item.Date <= until
                     && (includeWithoutCategory && item.CategoryId == null
                     || (item.CategoryId != null && categoryIds.Contains((int)item.CategoryId)))).ToList().ConvertAll(_converter.ToModel);
+        }
+
+        public List<RecordModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds)
+        {
+            return Scope.Where(item => item.UserId == userId && item.Date >= from && item.Date <= until
+                && (!item.StorageId.HasValue || storageGroupIds.Contains(item.StorageId.Value))).ToList().ConvertAll(_converter.ToModel);
         }
 
         #endregion

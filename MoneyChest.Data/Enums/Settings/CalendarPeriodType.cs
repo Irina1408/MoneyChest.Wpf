@@ -8,7 +8,7 @@ namespace MoneyChest.Data.Enums
 {
     public enum CalendarPeriodType
     {
-        Month,
-        Week
+        Week = 0,
+        Month = 1
     }
 }

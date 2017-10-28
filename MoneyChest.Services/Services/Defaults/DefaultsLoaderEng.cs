@@ -103,20 +103,10 @@ namespace MoneyChest.Services.Services.Defaults
 
         public void LoadSettings()
         {
-            var debtsCategory = _context.Categories.FirstOrDefault(item => item.UserId == _userId && item.Name == "Debts");
-            var commissionCategory = _context.Categories.FirstOrDefault(item => item.UserId == _userId && item.Name == "Commission");
-
-            if (debtsCategory == null)
-                debtsCategory = AddCategory("Debts");
-            if(commissionCategory == null)
-                commissionCategory = AddCategory("Commission");
-
             _context.GeneralSettings.Add(new GeneralSetting()
             {
                 Language = Language.English,
-                UserId = _userId,
-                ComissionCategory = commissionCategory,
-                DebtCategory = debtsCategory
+                UserId = _userId
             });
 
             _context.CalendarSettings.Add(new CalendarSetting() { UserId = _userId });

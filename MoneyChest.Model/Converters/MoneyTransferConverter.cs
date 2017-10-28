@@ -18,13 +18,14 @@ namespace MoneyChest.Model.Converters
                 Date = model.Date,
                 CurrencyExchangeRate = model.CurrencyExchangeRate,
                 Value = model.Value,
+                Description = model.Description,
                 Commission = model.Commission,
                 CommissionType = model?.CommissionType,
                 TakeComissionFromReceiver = model.TakeComissionFromReceiver,
-                TakeComissionCurrencyFromReceiver = model.TakeComissionCurrencyFromReceiver,
                 Remark = model.Remark,
                 StorageFromId = model.StorageFromId,
-                StorageToId = model.StorageToId
+                StorageToId = model.StorageToId,
+                CategoryId = model.CategoryId
             };
         }
 
@@ -36,15 +37,17 @@ namespace MoneyChest.Model.Converters
                 Date = entity.Date,
                 CurrencyExchangeRate = entity.CurrencyExchangeRate,
                 Value = entity.Value,
+                Description = entity.Description,
                 Commission = entity.Commission,
                 CommissionType = entity?.CommissionType,
                 TakeComissionFromReceiver = entity.TakeComissionFromReceiver,
-                TakeComissionCurrencyFromReceiver = entity.TakeComissionCurrencyFromReceiver,
                 Remark = entity.Remark,
                 StorageFromId = entity.StorageFromId,
                 StorageToId = entity.StorageToId,
+                CategoryId = entity.CategoryId,
                 StorageFrom = entity.StorageFrom.ToReferenceView(),
-                StorageTo = entity.StorageTo.ToReferenceView()
+                StorageTo = entity.StorageTo.ToReferenceView(),
+                Category = entity?.Category.ToReferenceView()
             };
         }
 
@@ -53,13 +56,14 @@ namespace MoneyChest.Model.Converters
             entity.Date = model.Date;
             entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
             entity.Value = model.Value;
+            entity.Description = model.Description;
             entity.Commission = model.Commission;
             entity.CommissionType = model?.CommissionType;
             entity.TakeComissionFromReceiver = model.TakeComissionFromReceiver;
-            entity.TakeComissionCurrencyFromReceiver = model.TakeComissionCurrencyFromReceiver;
             entity.Remark = model.Remark;
             entity.StorageFromId = model.StorageFromId;
             entity.StorageToId = model.StorageToId;
+            entity.CategoryId = model.CategoryId;
 
             return entity;
         }
