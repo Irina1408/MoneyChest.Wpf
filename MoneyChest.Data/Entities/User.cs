@@ -17,7 +17,6 @@ namespace MoneyChest.Data.Entities
         public User()
         {
             FirstUsageDate = DateTime.Now;
-            LastUsageDate = DateTime.Now;
 
             Categories = new List<Category>();
             Currencies = new List<Currency>();

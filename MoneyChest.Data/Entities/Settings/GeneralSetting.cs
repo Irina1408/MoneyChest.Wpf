@@ -14,12 +14,6 @@ namespace MoneyChest.Data.Entities
 {
     public class GeneralSetting : IHasUserId
     {
-        public GeneralSetting()
-        {
-            Language = Language.English;
-            FirstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }

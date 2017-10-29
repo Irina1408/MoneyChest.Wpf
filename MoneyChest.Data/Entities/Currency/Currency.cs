@@ -38,11 +38,9 @@ namespace MoneyChest.Data.Entities
         public string Name { get; set; }
 
         [StringLength(10)]
-        [Required]
         public string Code { get; set; }
 
         [StringLength(10)]
-        [Required]
         public string Symbol { get; set; }
         
         public bool IsUsed { get; set; }

@@ -13,14 +13,8 @@ namespace MoneyChest.Data.Entities
     [Table(nameof(ReportSetting))]
     public class ReportSetting : IHasUserId
     {
-        public ReportSetting() : base()
+        public ReportSetting()
         {
-            PeriodFilterType = PeriodFilterType.ThisMonth;
-            ReportType = ReportType.PieChart;
-            CategoryLevel = -1;
-            AllCategories = true;
-            IncludeRecordsWithoutCategory = true;
-
             Categories = new List<Category>();
         }
 

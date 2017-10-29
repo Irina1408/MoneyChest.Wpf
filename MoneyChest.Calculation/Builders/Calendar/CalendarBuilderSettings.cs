@@ -12,7 +12,6 @@ namespace MoneyChest.Calculation.Builders.Calendar
         public DateTime From { get; set; }
         public DateTime Until { get; set; }
         public bool ShowLimits { get; set; }
-        public List<int> StorageGroupIds { get; set; } = new List<int>();
 
         public void SetPeriod(int month, int year)
         {

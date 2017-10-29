@@ -10,6 +10,17 @@ namespace MoneyChest.Model.Model
 {
     public class ReportSettingModel : IHasUserId
     {
+        public ReportSettingModel()
+        {
+            PeriodFilterType = PeriodFilterType.ThisMonth;
+            ReportType = ReportType.PieChart;
+            CategoryLevel = -1;
+            AllCategories = true;
+            IncludeRecordsWithoutCategory = true;
+
+            CategoryIds = new List<int>();
+        }
+
         public int UserId { get; set; }
 
         public bool IncludeRecordsWithoutCategory { get; set; }

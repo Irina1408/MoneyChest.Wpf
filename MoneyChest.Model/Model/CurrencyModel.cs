@@ -9,6 +9,12 @@ namespace MoneyChest.Model.Model
 {
     public class CurrencyModel : IHasId, IHasUserId
     {
+        public CurrencyModel()
+        {
+            IsUsed = true;
+            SymbolAlignmentIsRight = true;
+        }
+
         public int Id { get; set; }
         
         public string Name { get; set; }

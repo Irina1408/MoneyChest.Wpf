@@ -21,7 +21,7 @@ namespace MoneyChest.Tests.Services.Events
     {
         #region Overrides 
 
-        protected override IQueryable<MoneyTransferEvent> Scope => Entities.Include(_ => _.StorageFrom).Include(_ => _.StorageTo);
+        protected override IQueryable<MoneyTransferEvent> Scope => Entities.Include(_ => _.StorageFrom.Currency).Include(_ => _.StorageTo.Currency).Include(_ => _.Category);
         protected override void ChangeEntity(MoneyTransferEventModel entity) => entity.Description = "Some other description";
         protected override void SetUserId(MoneyTransferEvent entity, int userId)
         {

@@ -8,6 +8,11 @@ namespace MoneyChest.Model.Model
 {
     public class CurrencyExchangeRateModel
     {
+        public CurrencyExchangeRateModel()
+        {
+            Rate = 1;
+        }
+
         public decimal Rate { get; set; }
 
 

@@ -12,12 +12,12 @@ namespace MoneyChest.Model.Convert
     {
         public static CurrencyReference ToReferenceView(this Currency entity)
         {
-            return new CurrencyReference { Id = entity.Id, Code = entity.Code };
+            return new CurrencyReference { Id = entity.Id, Symbol = entity.Symbol };
         }
 
         public static CurrencyReference ToReferenceView(this CurrencyModel entity)
         {
-            return new CurrencyReference { Id = entity.Id, Code = entity.Code };
+            return new CurrencyReference { Id = entity.Id, Symbol = entity.Symbol };
         }
 
         public static StorageGroupReference ToReferenceView(this StorageGroup entity)

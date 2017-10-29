@@ -11,6 +11,11 @@ namespace MoneyChest.Model.Model
 {
     public class RecordModel : IHasId, IHasUserId
     {
+        public RecordModel()
+        {
+            Date = DateTime.Now;
+            TransactionType = TransactionType.Expense;
+        }
         public int Id { get; set; }
 
         public DateTime Date { get; set; }

@@ -14,10 +14,6 @@ namespace MoneyChest.Data.Entities
     {
         public ForecastSetting()
         {
-            AllCategories = true;
-            RepeatsCount = 5;
-            ActualDays = 100;
-
             Categories = new List<Category>();
         }
 

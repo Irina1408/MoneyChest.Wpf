@@ -15,12 +15,6 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(MoneyTransferHistory))]
     public class MoneyTransfer : IHasId
     {
-        public MoneyTransfer()
-        {
-            CurrencyExchangeRate = 1;
-            TakeComissionFromReceiver = false;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -36,13 +30,14 @@ namespace MoneyChest.Data.Entities
 
         public decimal Commission { get; set; } // always in StorageFrom currency
 
-        public CommissionType? CommissionType { get; set; }
+        public CommissionType CommissionType { get; set; }
 
         public bool TakeComissionFromReceiver { get; set; }
 
         public string Remark { get; set; }
 
         public int StorageFromId { get; set; }
+
 
         public int StorageToId { get; set; }
 

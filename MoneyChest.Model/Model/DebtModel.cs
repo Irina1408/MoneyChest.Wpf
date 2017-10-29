@@ -10,6 +10,12 @@ namespace MoneyChest.Model.Model
 {
     public class DebtModel : IHasId, IHasUserId
     {
+        public DebtModel()
+        {
+            TakingDate = DateTime.Today;
+            IsRepaid = false;
+        }
+
         public int Id { get; set; }
 
         public string Description { get; set; }

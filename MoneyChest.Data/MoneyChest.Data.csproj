@@ -118,9 +118,9 @@
     <Compile Include="Enums\TransactionType.cs" />
     <Compile Include="Exceptions\ReferenceConstraintException.cs" />
     <Compile Include="Exceptions\ViolationOfConstraintException.cs" />
-    <Compile Include="Migrations\201710282028243_initial_migration.cs" />
-    <Compile Include="Migrations\201710282028243_initial_migration.Designer.cs">
-      <DependentUpon>201710282028243_initial_migration.cs</DependentUpon>
+    <Compile Include="Migrations\201710291005306_initial_migration.cs" />
+    <Compile Include="Migrations\201710291005306_initial_migration.Designer.cs">
+      <DependentUpon>201710291005306_initial_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,8 +130,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201710282028243_initial_migration.resx">
-      <DependentUpon>201710282028243_initial_migration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201710291005306_initial_migration.resx">
+      <DependentUpon>201710291005306_initial_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

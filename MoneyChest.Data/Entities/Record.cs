@@ -15,12 +15,6 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(RecordHistory))]
     public class Record : IHasId, IHasUserId
     {
-        public Record()
-        {
-            Date = DateTime.Now;
-            TransactionType = TransactionType.Expense;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

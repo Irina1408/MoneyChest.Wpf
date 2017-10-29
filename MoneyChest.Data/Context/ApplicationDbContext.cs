@@ -213,6 +213,11 @@ namespace MoneyChest.Data.Context
                 .WithMany()
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<MoneyTransferEvent>()
+                .HasOptional(e => e.Category)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
             // RepayDebtEvent
             modelBuilder.Entity<RepayDebtEvent>()
                 .HasRequired(e => e.Storage)

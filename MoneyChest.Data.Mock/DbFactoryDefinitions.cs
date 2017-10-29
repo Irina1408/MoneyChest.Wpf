@@ -4,6 +4,7 @@ using MoneyChest.Data.Mock.Utils;
 using MoneyChest.Model.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,11 +25,13 @@ namespace MoneyChest.Data.Mock
             {
                 e.Name = Moniker.UserName;
                 e.Password = Moniker.UserPassword;
+                e.LastUsageDate = DateTime.Now;
             });
 
             f.Define<Category>(e =>
             {
                 e.Name = Moniker.Category;
+                e.InHistory = false;
             });
 
             f.Define<Currency>(e =>
@@ -38,6 +41,12 @@ namespace MoneyChest.Data.Mock
                 e.Symbol = Moniker.CurrencySymbol;
                 e.IsUsed = true;
                 e.IsMain = false;
+                e.SymbolAlignmentIsRight = true;
+            });
+
+            f.Define<CurrencyExchangeRate>(e =>
+            {
+                e.Rate = Moniker.LimitedDigit(30);
             });
 
             f.Define<StorageGroup>(e =>
@@ -49,11 +58,7 @@ namespace MoneyChest.Data.Mock
             {
                 e.Name = "Storage";
                 e.Value = Moniker.Digit;
-            });
-
-            f.Define<CurrencyExchangeRate>(e =>
-            {
-                e.Rate = Moniker.LimitedDigit(30);
+                e.IsHidden = false;
             });
 
             f.Define<Debt>(e =>
@@ -62,6 +67,7 @@ namespace MoneyChest.Data.Mock
                 e.DebtType = DebtType.TakeBorrow;
                 e.TakingDate = DateTime.Today;
                 e.Value = Moniker.Digit;
+                e.IsRepaid = false;
             });
 
             f.Define<Record>(e =>
@@ -72,10 +78,30 @@ namespace MoneyChest.Data.Mock
                 e.Value = Moniker.Digit;
             });
 
+            f.Define<MoneyTransfer>(e =>
+            {
+                e.Description = "MoneyTransfer";
+                e.Value = Moniker.Digit;
+                e.CurrencyExchangeRate = 1;
+                e.TakeComissionFromReceiver = false;
+                e.CommissionType = CommissionType.Currency;
+            });
+
             f.Define<Limit>(e =>
             {
                 e.Value = Moniker.Digit;
+                e.DateFrom = DateTime.Today.AddDays(1);
+                e.DateUntil = e.DateFrom.Date;
+                e.LimitState = LimitState.Planned;
             });
+
+            DefineEventEntities(f);
+            DefineScheduleEntities(f);
+            DefineSettingsEntities(f);
+        }
+
+        private static void DefineEventEntities(DbFactory f)
+        {
 
             f.Define<MoneyTransferEvent>(e =>
             {
@@ -103,6 +129,75 @@ namespace MoneyChest.Data.Mock
                 e.AutoExecution = false;
                 e.ConfirmBeforeExecute = false;
                 e.TransactionType = TransactionType.Expense;
+            });
+        }
+
+        private static void DefineScheduleEntities(DbFactory f)
+        {
+            f.Define<DailySchedule>(e =>
+            {
+                e.DateFrom = DateTime.Today.AddDays(1);
+                e.DateUntil = e.DateFrom.Date;
+                e.Period = 1;
+                e.ScheduleType = Data.Enums.ScheduleType.Daily;
+            });
+
+            f.Define<MonthlySchedule>(e =>
+            {
+                e.DateFrom = DateTime.Today.AddDays(1);
+                e.DateUntil = DateTime.Today.AddMonths(2);
+                e.ScheduleType = Data.Enums.ScheduleType.Monthly;
+            });
+
+            f.Define<OnceSchedule>(e =>
+            {
+                e.Date = DateTime.Today.AddDays(1);
+                e.ScheduleType = Data.Enums.ScheduleType.Once;
+            });
+
+            f.Define<WeeklySchedule>(e =>
+            {
+                e.DateFrom = DateTime.Today.AddDays(1);
+                e.DateUntil = DateTime.Today.AddMonths(2);
+                e.Period = 1;
+                e.ScheduleType = Data.Enums.ScheduleType.Weekly;
+            });
+        }
+
+        private static void DefineSettingsEntities(DbFactory f)
+        {
+            f.Define<CalendarSetting>(e =>
+            {
+                e.PeriodType = CalendarPeriodType.Month;
+                e.ShowLimits = false;
+            });
+
+            f.Define<ForecastSetting>(e =>
+            {
+                e.AllCategories = true;
+                e.RepeatsCount = 5;
+                e.ActualDays = 100;
+            });
+
+            f.Define<GeneralSetting>(e =>
+            {
+                e.Language = Language.English;
+                e.FirstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+            });
+
+            f.Define<RecordsViewFilter>(e =>
+            {
+                e.AllCategories = true;
+                e.PeriodFilterType = PeriodFilterType.ThisMonth;
+            });
+
+            f.Define<ReportSetting>(e =>
+            {
+                e.PeriodFilterType = PeriodFilterType.ThisMonth;
+                e.ReportType = ReportType.PieChart;
+                e.CategoryLevel = -1;
+                e.AllCategories = true;
+                e.IncludeRecordsWithoutCategory = true;
             });
         }
 

@@ -29,9 +29,10 @@ namespace MoneyChest.Model.Converters
                 CurrencyExchangeRate = model.CurrencyExchangeRate,
                 Commission = model.Commission,
                 TakeComissionFromReceiver = model.TakeComissionFromReceiver,
-                CommissionType = model?.CommissionType,
+                CommissionType = model.CommissionType,
                 StorageFromId = model.StorageFromId,
-                StorageToId = model.StorageToId
+                StorageToId = model.StorageToId,
+                CategoryId = model.CategoryId
             };
         }
 
@@ -54,11 +55,14 @@ namespace MoneyChest.Model.Converters
                 CurrencyExchangeRate = entity.CurrencyExchangeRate,
                 Commission = entity.Commission,
                 TakeComissionFromReceiver = entity.TakeComissionFromReceiver,
-                CommissionType = entity?.CommissionType,
+                CommissionType = entity.CommissionType,
                 StorageFromId = entity.StorageFromId,
                 StorageToId = entity.StorageToId,
                 StorageFrom = entity.StorageFrom.ToReferenceView(),
-                StorageTo = entity.StorageTo.ToReferenceView()
+                StorageTo = entity.StorageTo.ToReferenceView(),
+                StorageFromCurrency = entity.StorageFrom.Currency.ToReferenceView(),
+                StorageToCurrency = entity.StorageTo.Currency.ToReferenceView(),
+                Category = entity?.Category?.ToReferenceView()
             };
         }
 
@@ -79,9 +83,10 @@ namespace MoneyChest.Model.Converters
             entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
             entity.Commission = model.Commission;
             entity.TakeComissionFromReceiver = model.TakeComissionFromReceiver;
-            entity.CommissionType = model?.CommissionType;
+            entity.CommissionType = model.CommissionType;
             entity.StorageFromId = model.StorageFromId;
             entity.StorageToId = model.StorageToId;
+            entity.CategoryId = model?.CategoryId;
 
             return entity;
         }

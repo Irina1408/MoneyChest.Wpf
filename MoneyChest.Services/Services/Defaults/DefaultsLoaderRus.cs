@@ -81,12 +81,18 @@ namespace MoneyChest.Services.Services.Defaults
                     if (_context.Currencies
                         .FirstOrDefault(item => item.Name == name && item.UserId == _userId) == null)
                     {
+                        var code = csvReader.CurrentRowValues["Code"];
+                        var symbol = csvReader.CurrentRowValues["Symbol"];
+
+                        if (string.IsNullOrEmpty(symbol))
+                            symbol = code;
+
                         // create new currency
                         var currency = new Currency
                         {
                             Name = name,
-                            Code = csvReader.CurrentRowValues["Code"],
-                            Symbol = csvReader.CurrentRowValues["Symbol"],
+                            Code = code,
+                            Symbol = symbol,
                             IsUsed = csvReader.CurrentRowValues["Used"] == "+",
                             IsMain = csvReader.CurrentRowValues["Main"] == "+",
                             UserId = _userId

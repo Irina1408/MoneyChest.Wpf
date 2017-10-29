@@ -9,6 +9,10 @@ namespace MoneyChest.Model.Model
 {
     public class StorageModel : IHasId, IHasUserId
     {
+        public StorageModel()
+        {
+            IsHidden = false;
+        }
         public int Id { get; set; }
 
         public string Name { get; set; }

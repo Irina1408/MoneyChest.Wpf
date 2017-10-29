@@ -5,11 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Entities.Base;
 using MoneyChest.Data.Enums;
+using System.Globalization;
 
 namespace MoneyChest.Model.Model
 {
     public class GeneralSettingModel : IHasUserId
     {
+        public GeneralSettingModel()
+        {
+            Language = Language.English;
+            FirstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+        }
+
         public int UserId { get; set; }
 
         public Language Language { get; set; }

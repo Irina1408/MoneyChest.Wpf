@@ -55,13 +55,7 @@ namespace MoneyChest.Services.Services
 
         #region Overrides
 
-        public override MoneyTransferModel Add(MoneyTransferModel model)
-        {
-            return base.Add(model);
-            // TODO: add record if comission exists
-        }
-
-        protected override IQueryable<MoneyTransfer> Scope => Entities.Include(_ => _.StorageFrom).Include(_ => _.StorageTo).Include(_ => _.Category);
+        protected override IQueryable<MoneyTransfer> Scope => Entities.Include(_ => _.StorageFrom.Currency).Include(_ => _.StorageTo.Currency).Include(_ => _.Category);
 
         protected override int UserId(MoneyTransfer entity)
         {

@@ -8,13 +8,19 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Calculation.Builders.Calendar
 {
-    public class MoneyTransferLegendUnit
+    public class MoneyTransferLegendUnit //: LegendUnit
     {
+        public string Description { get; set; }
+
         public StorageReference StorageFrom { get; set; }
         public StorageReference StorageTo { get; set; }
         public ValueUnit ValueCurrencyFrom { get; set; }
+        // TODO: include CurrencyExchangeRate
         public ValueUnit ValueCurrencyTo { get; set; }
+        public ValueUnit Comission { get; set; }
+        public bool TakeComissionFromReceiver { get; set; }
 
-        public string Description => $"{StorageFrom.Name} -> {StorageTo.Name}";
+        public CategoryReference Category { get; set; }
+        public bool IsPlanned { get; set; } = false;
     }
 }

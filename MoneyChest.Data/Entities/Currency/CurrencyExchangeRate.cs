@@ -14,11 +14,6 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(CurrencyExchangeRateHistory))]
     public class CurrencyExchangeRate
     {
-        public CurrencyExchangeRate()
-        {
-            Rate = 1;
-        }
-
         [Key]
         [Column(Order = 1)]
         public int CurrencyFromId { get; set; }

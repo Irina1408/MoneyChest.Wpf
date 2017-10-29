@@ -20,7 +20,7 @@ namespace MoneyChest.Model.Converters
                 Value = model.Value,
                 Description = model.Description,
                 Commission = model.Commission,
-                CommissionType = model?.CommissionType,
+                CommissionType = model.CommissionType,
                 TakeComissionFromReceiver = model.TakeComissionFromReceiver,
                 Remark = model.Remark,
                 StorageFromId = model.StorageFromId,
@@ -39,7 +39,7 @@ namespace MoneyChest.Model.Converters
                 Value = entity.Value,
                 Description = entity.Description,
                 Commission = entity.Commission,
-                CommissionType = entity?.CommissionType,
+                CommissionType = entity.CommissionType,
                 TakeComissionFromReceiver = entity.TakeComissionFromReceiver,
                 Remark = entity.Remark,
                 StorageFromId = entity.StorageFromId,
@@ -47,7 +47,9 @@ namespace MoneyChest.Model.Converters
                 CategoryId = entity.CategoryId,
                 StorageFrom = entity.StorageFrom.ToReferenceView(),
                 StorageTo = entity.StorageTo.ToReferenceView(),
-                Category = entity?.Category.ToReferenceView()
+                StorageFromCurrency = entity.StorageFrom.Currency.ToReferenceView(),
+                StorageToCurrency = entity.StorageTo.Currency.ToReferenceView(),
+                Category = entity?.Category?.ToReferenceView()
             };
         }
 
@@ -58,7 +60,7 @@ namespace MoneyChest.Model.Converters
             entity.Value = model.Value;
             entity.Description = model.Description;
             entity.Commission = model.Commission;
-            entity.CommissionType = model?.CommissionType;
+            entity.CommissionType = model.CommissionType;
             entity.TakeComissionFromReceiver = model.TakeComissionFromReceiver;
             entity.Remark = model.Remark;
             entity.StorageFromId = model.StorageFromId;

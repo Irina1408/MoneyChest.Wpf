@@ -18,9 +18,6 @@ namespace MoneyChest.Data.Entities
     {
         public Debt()
         {
-            TakingDate = DateTime.Today;
-            IsRepaid = false;
-
             RepayDebtEvents = new List<RepayDebtEvent>();
             Records = new List<Record>();
         }

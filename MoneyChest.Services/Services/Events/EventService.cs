@@ -44,10 +44,11 @@ namespace MoneyChest.Services.Services.Events
 
         public EventsScopeModel Get(List<int> ids)
         {
+            // TODO: includes
             return new EventsScopeModel()
             {
                 MoneyTransferEvents = _context.MoneyTransferEvents
-                    .Include(_ => _.StorageFrom).Include(_ => _.StorageTo)
+                    .Include(_ => _.StorageFrom).Include(_ => _.StorageTo).Include(_ => _.Category)
                     .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_moneyTransferEventConverter.ToModel),
 
                 RepayDebtEvents = _context.RepayDebtEvents

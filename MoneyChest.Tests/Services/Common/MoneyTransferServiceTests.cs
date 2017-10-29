@@ -20,7 +20,7 @@ namespace MoneyChest.Tests.Services
     {
         #region Overrides 
 
-        protected override IQueryable<MoneyTransfer> Scope => Entities.Include(_ => _.StorageFrom).Include(_ => _.StorageTo).Include(_ => _.Category);
+        protected override IQueryable<MoneyTransfer> Scope => Entities.Include(_ => _.StorageFrom.Currency).Include(_ => _.StorageTo.Currency).Include(_ => _.Category);
         protected override void ChangeEntity(MoneyTransferModel entity) => entity.Value += 100;
         protected override void SetUserId(MoneyTransfer entity, int userId)
         {

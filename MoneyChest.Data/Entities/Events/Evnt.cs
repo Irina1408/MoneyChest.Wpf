@@ -18,10 +18,6 @@ namespace MoneyChest.Data.Entities
     {
         public Evnt()
         {
-            EventState = EventState.Active;
-            AutoExecution = false;
-            ConfirmBeforeExecute = false;
-
             Schedules = new List<Schedule>();
             OnceSchedules = new List<OnceSchedule>();
             DailySchedules = new List<DailySchedule>();
@@ -44,6 +40,7 @@ namespace MoneyChest.Data.Entities
 
         public bool AutoExecution { get; set; }
 
+        // TODO: remove if it is unused
         [Column(TypeName = "time")]
         public TimeSpan? AutoExecutionTime { get; set; }
 

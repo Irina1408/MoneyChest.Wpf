@@ -13,14 +13,6 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(MoneyTransferEventHistory))]
     public class MoneyTransferEvent : Evnt
     {
-        public MoneyTransferEvent() : base()
-        {
-            TakeExistingCurrencyExchangeRate = true;
-            CurrencyExchangeRate = 1;
-            TakeComissionFromReceiver = false;
-            EventType = EventType.MoneyTransfer;
-        }
-
         public bool TakeExistingCurrencyExchangeRate { get; set; }
 
         public decimal CurrencyExchangeRate { get; set; }
@@ -29,12 +21,14 @@ namespace MoneyChest.Data.Entities
 
         public bool TakeComissionFromReceiver { get; set; }
 
-        public CommissionType? CommissionType { get; set; }
+        public CommissionType CommissionType { get; set; }
 
 
         public int StorageFromId { get; set; }
 
         public int StorageToId { get; set; }
+
+        public int? CategoryId { get; set; }
 
 
         [ForeignKey(nameof(StorageFromId))]
@@ -42,5 +36,8 @@ namespace MoneyChest.Data.Entities
 
         [ForeignKey(nameof(StorageToId))]
         public virtual Storage StorageTo { get; set; }
+
+        [ForeignKey(nameof(CategoryId))]
+        public virtual Category Category { get; set; }
     }
 }

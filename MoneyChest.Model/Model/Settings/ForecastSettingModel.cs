@@ -9,6 +9,15 @@ namespace MoneyChest.Model.Model
 {
     public class ForecastSettingModel : IHasUserId
     {
+        public ForecastSettingModel()
+        {
+            AllCategories = true;
+            RepeatsCount = 5;
+            ActualDays = 100;
+
+            CategoryIds = new List<int>();
+        }
+
         public int UserId { get; set; }
 
         public bool AllCategories { get; set; }

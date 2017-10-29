@@ -15,10 +15,6 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(ScheduleHistory))]
     public class Schedule : IHasId
     {
-        public Schedule()
-        {
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

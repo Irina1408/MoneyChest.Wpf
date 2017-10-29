@@ -13,11 +13,6 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(RepayDebtEventHistory))]
     public class RepayDebtEvent : Evnt
     {
-        public RepayDebtEvent() : base()
-        {
-            EventType = EventType.RepayDebt;
-        }
-
         public int StorageId { get; set; }  // take currency from storage
 
         public int DebtId { get; set; }     // currency of debt should be the same of currency of storage

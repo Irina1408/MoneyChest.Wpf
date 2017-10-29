@@ -20,7 +20,7 @@ namespace MoneyChest.Tests.Services
     {
         #region Overrides 
 
-        protected override IQueryable<Debt> Scope => Entities.Include(_ => _.Currency);
+        protected override IQueryable<Debt> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category);
         protected override void ChangeEntity(DebtModel entity) => entity.Description = "Some other name";
         protected override void SetUserId(Debt entity, int userId)
         {

@@ -13,12 +13,6 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(SimpleEventHistory))]
     public class SimpleEvent : Evnt
     {
-        public SimpleEvent() : base()
-        {
-            TransactionType = TransactionType.Expense;
-            EventType = EventType.Simple;
-        }
-
         public TransactionType TransactionType { get; set; }
 
         public int CurrencyId { get; set; }

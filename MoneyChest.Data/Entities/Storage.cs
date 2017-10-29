@@ -17,8 +17,6 @@ namespace MoneyChest.Data.Entities
     {
         public Storage()
         {
-            IsHidden = false;
-
             StorageFromMoneyTransferEvents = new List<MoneyTransferEvent>();
             StorageToMoneyTransferEvents = new List<MoneyTransferEvent>();
             StorageFromMoneyTransfers = new List<MoneyTransfer>();

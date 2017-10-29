@@ -35,7 +35,7 @@ namespace MoneyChest.Services.Services
 
         #region Overrides
 
-        protected override IQueryable<Debt> Scope => Entities.Include(_ => _.Currency);
+        protected override IQueryable<Debt> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category);
 
         #endregion
     }

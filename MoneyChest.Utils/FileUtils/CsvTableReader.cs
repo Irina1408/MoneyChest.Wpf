@@ -85,7 +85,7 @@ namespace MoneyChest.Utils.FileUtils
 
         public string this[string columnName]
         {
-            get { return values.ContainsKey(columnName.ToUpper()) ? values[columnName.ToUpper()] : string.Empty; }
+            get { return values.ContainsKey(columnName.ToUpper()) ? values[columnName.ToUpper()] : null; }
         }
     }
 }

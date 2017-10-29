@@ -10,6 +10,13 @@ namespace MoneyChest.Model.Model
 {
     public class LimitModel : IHasId, IHasUserId
     {
+        public LimitModel()
+        {
+            DateFrom = DateTime.Today.AddDays(1);
+            DateUntil = DateFrom.Date;
+            LimitState = LimitState.Planned;
+        }
+
         public int Id { get; set; }
         
         public DateTime DateFrom { get; set; }

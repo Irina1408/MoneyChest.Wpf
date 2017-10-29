@@ -14,11 +14,8 @@ namespace MoneyChest.Data.Entities
     public class RecordsViewFilter : IHasUserId
     {
         // TODO: create RecordsViewSettings. Store there period, grouping
-        public RecordsViewFilter() : base()
+        public RecordsViewFilter()
         {
-            AllCategories = true;
-            PeriodFilterType = PeriodFilterType.ThisMonth;
-
             Categories = new List<Category>();
         }
 

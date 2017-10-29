@@ -15,8 +15,6 @@ namespace MoneyChest.Data.Entities
         // TODO: create CalendarFilter. Store there IsFilterApplied, StorageGroups, Storages, Categories. Apply filter after data is generated
         public CalendarSetting()
         {
-            PeriodType = CalendarPeriodType.Month;
-            ShowLimits = false;
             StorageGroups = new List<StorageGroup>();
         }
 

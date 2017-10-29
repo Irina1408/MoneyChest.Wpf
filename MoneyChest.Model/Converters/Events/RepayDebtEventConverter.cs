@@ -48,7 +48,9 @@ namespace MoneyChest.Model.Converters
                 StorageId = entity.StorageId,
                 DebtId = entity.DebtId,
                 Storage = entity.Storage.ToReferenceView(),
-                Debt = entity.Debt.ToReferenceView()
+                Debt = entity.Debt.ToReferenceView(),
+                Currency = entity.Debt.Currency.ToReferenceView(),
+                DebtCategory = entity.Debt?.Category?.ToReferenceView()
             };
         }
 

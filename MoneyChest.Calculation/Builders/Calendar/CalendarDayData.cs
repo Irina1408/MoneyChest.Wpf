@@ -10,9 +10,11 @@ namespace MoneyChest.Calculation.Builders.Calendar
 {
     public class CalendarDayData
     {
+        #region Initialization
+
         public CalendarDayData()
         {
-            Legend = new List<LegendUnit>();
+            RecordLegend = new List<RecordLegendUnit>();
             MoneyTransferLegend = new List<MoneyTransferLegendUnit>();
             LimitLegend = new List<LimitLegendUnit>();
         }
@@ -25,33 +27,39 @@ namespace MoneyChest.Calculation.Builders.Calendar
             Year = year;
         }
 
+        #endregion
+
+        #region Required part
+
         public int DayOfMonth { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
-        
-        public decimal TotalExpences { get; set; }
-        public decimal TotalIncomes { get; set; }
-        public decimal Balance { get; set; }
-        public CurrencyReference Currency { get; set; }
 
-        /// <summary>
-        /// All expences and incomes (planned if it's day after today) in this day 
-        /// </summary>
-        public List<LegendUnit> Legend { get; set; }
+        #endregion
 
-        /// <summary>
-        /// Money transfers between user accounts
-        /// </summary>
+        #region Full legends
+
+        public List<RecordLegendUnit> RecordLegend { get; set; }
         public List<MoneyTransferLegendUnit> MoneyTransferLegend { get; set; }
-        
-        /// <summary>
-        /// All limits for this day
-        /// </summary>
         public List<LimitLegendUnit> LimitLegend { get; set; }
+
+        #endregion
+
+        #region Totals
+
+        #endregion
+
+        // TODO: remove bottom properties
+        //public decimal TotalExpences { get; set; }
+        //public decimal TotalIncomes { get; set; }
+        //public decimal Balance { get; set; }
+        //public CurrencyReference Currency { get; set; }
+        
+        //public List<LegendUnit> RecordLegend { get; set; }
 
         /// <summary>
         /// Calculated by limits recommended to spent value 
         /// </summary>
-        public decimal? LimitCurrentState { get; set; }
+        //public decimal? LimitCurrentState { get; set; }
     }
 }

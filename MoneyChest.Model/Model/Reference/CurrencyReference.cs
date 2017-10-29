@@ -9,6 +9,6 @@ namespace MoneyChest.Model.Model
     public class CurrencyReference
     {
         public int Id { get; set; }
-        public string Code { get; set; }
+        public string Symbol { get; set; }
     }
 }

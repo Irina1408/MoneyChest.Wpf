@@ -9,6 +9,12 @@ namespace MoneyChest.Model.Model
 {
     public class SimpleEventModel : EventModel
     {
+        public SimpleEventModel() : base()
+        {
+            TransactionType = TransactionType.Expense;
+            EventType = EventType.Simple;
+        }
+
         public TransactionType TransactionType { get; set; }
 
         public int CurrencyId { get; set; }

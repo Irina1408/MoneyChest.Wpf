@@ -10,22 +10,21 @@ namespace MoneyChest.Model.Model
 {
     public class MoneyTransferModel : IHasId
     {
+        public MoneyTransferModel()
+        {
+            CurrencyExchangeRate = 1;
+            TakeComissionFromReceiver = false;
+            CommissionType = CommissionType.Currency;
+        }
+
         public int Id { get; set; }
-
         public string Description { get; set; }
-
         public DateTime Date { get; set; }
-
         public decimal Value { get; set; }
-
         public decimal CurrencyExchangeRate { get; set; }
-
         public decimal Commission { get; set; }
-
-        public CommissionType? CommissionType { get; set; }
-
+        public CommissionType CommissionType { get; set; }
         public bool TakeComissionFromReceiver { get; set; }
-
         public string Remark { get; set; }
 
 
@@ -36,6 +35,10 @@ namespace MoneyChest.Model.Model
         
         public StorageReference StorageFrom { get; set; }
         public StorageReference StorageTo { get; set; }
+        public CurrencyReference StorageFromCurrency { get; set; }
+        public CurrencyReference StorageToCurrency { get; set; }
         public CategoryReference Category { get; set; }
+
+        public decimal CommisionValue => CommissionType == CommissionType.Currency ? Commission : Commission * Value;
     }
 }

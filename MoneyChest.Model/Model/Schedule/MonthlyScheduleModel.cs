@@ -9,12 +9,20 @@ namespace MoneyChest.Model.Model
 {
     public class MonthlyScheduleModel : ScheduleModel
     {
+        public MonthlyScheduleModel() : base()
+        {
+            DateFrom = DateTime.Today.AddDays(1);
+            ScheduleType = Data.Enums.ScheduleType.Monthly;
+
+            Months = new List<Month>();
+        }
+
         public DateTime DateFrom { get; set; }
         
         public DateTime? DateUntil { get; set; }
 
         public int DayOfMonth { get; set; }
 
-        public List<Month> Months { get; set; } = new List<Month>();
+        public List<Month> Months { get; set; }
     }
 }

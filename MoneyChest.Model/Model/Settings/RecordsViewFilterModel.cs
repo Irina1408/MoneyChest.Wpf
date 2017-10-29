@@ -10,6 +10,14 @@ namespace MoneyChest.Model.Model
 {
     public class RecordsViewFilterModel : IHasUserId
     {
+        public RecordsViewFilterModel()
+        {
+            AllCategories = true;
+            PeriodFilterType = PeriodFilterType.ThisMonth;
+
+            CategoryIds = new List<int>();
+        }
+
         public int UserId { get; set; }
 
         public bool AllCategories { get; set; }

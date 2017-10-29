@@ -23,6 +23,6 @@ namespace MoneyChest.Services.Services.Events
         {
         }
 
-        protected override IQueryable<MoneyTransferEvent> Scope => Entities.Include(_ => _.StorageFrom).Include(_ => _.StorageTo);
+        protected override IQueryable<MoneyTransferEvent> Scope => Entities.Include(_ => _.StorageFrom.Currency).Include(_ => _.StorageTo.Currency).Include(_ => _.Category);
     }
 }

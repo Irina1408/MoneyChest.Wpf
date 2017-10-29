@@ -10,6 +10,12 @@ namespace MoneyChest.Model.Model
 {
     public class CalendarSettingModel : IHasUserId
     {
+        public CalendarSettingModel()
+        {
+            PeriodType = CalendarPeriodType.Month;
+            ShowLimits = false;
+        }
+
         public int UserId { get; set; }
 
         public CalendarPeriodType PeriodType { get; set; }

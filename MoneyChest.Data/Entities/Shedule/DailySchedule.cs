@@ -12,13 +12,6 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(DailyScheduleHistory))]
     public class DailySchedule : Schedule
     {
-        public DailySchedule() : base()
-        {
-            Period = 1;
-            DateFrom = DateTime.Today.AddDays(1);
-            ScheduleType = Enums.ScheduleType.Daily;
-        }
-
         [Column(TypeName = "date")]
         public DateTime DateFrom { get; set; }
 

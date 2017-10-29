@@ -15,13 +15,6 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(LimitHistory))]
     public class Limit : IHasId, IHasUserId
     {
-        public Limit()
-        {
-            DateFrom = DateTime.Today.AddDays(1);
-            DateUntil = DateFrom.Date;
-            LimitState = LimitState.Planned;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

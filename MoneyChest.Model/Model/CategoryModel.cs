@@ -10,6 +10,11 @@ namespace MoneyChest.Model.Model
 {
     public class CategoryModel : IHasId, IHasUserId
     {
+        public CategoryModel()
+        {
+            InHistory = false;
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }
