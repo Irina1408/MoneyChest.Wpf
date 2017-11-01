@@ -9,11 +9,11 @@ using MoneyChest.Data.Entities;
 using MoneyChest.Data.Entities.History;
 using MoneyChest.Services.Services;
 using MoneyChest.Data.Mock;
-using MoneyChest.Data.Enums;
 using MoneyChest.Services.Services.Settings;
 using MoneyChest.Model.Model;
-using MoneyChest.Model.Converters;
+using MoneyChest.Data.Converters;
 using System.Data.Entity;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Tests.Services
 {

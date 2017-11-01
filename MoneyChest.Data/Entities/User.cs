@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
-using MoneyChest.Data.Entities.Base;
+using MoneyChest.Model.Base;
 
 namespace MoneyChest.Data.Entities
 {

@@ -8,11 +8,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyChest.Data.Entities;
 using MoneyChest.Data.Entities.History;
 using MoneyChest.Services.Services;
-using MoneyChest.Data.Enums;
+using MoneyChest.Model.Enums;
 using System.Linq.Expressions;
 using System.Data.Entity;
 using MoneyChest.Model.Model;
-using MoneyChest.Model.Converters;
+using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Tests.Services
 {

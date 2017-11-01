@@ -1,4 +1,4 @@
-﻿using MoneyChest.Data.Enums;
+﻿using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace MoneyChest.Model.Model
         public MonthlyScheduleModel() : base()
         {
             DateFrom = DateTime.Today.AddDays(1);
-            ScheduleType = Data.Enums.ScheduleType.Monthly;
+            ScheduleType = ScheduleType.Monthly;
 
             Months = new List<Month>();
         }

@@ -11,14 +11,16 @@ using System.Data.Entity;
 using MoneyChest.Data.Enums;
 using MoneyChest.Services.Services.Defaults;
 using MoneyChest.Model.Model;
-using MoneyChest.Model.Convert;
-using MoneyChest.Model.Converters;
+using MoneyChest.Model.Extensions;
+using MoneyChest.Model.Enums;
+using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
     public interface IUserService : IBaseIdManagableService<UserModel>
     {
         UserModel Add(UserModel model, Language language);
+        UserModel Get(string name, string password);
     }
 
     public class UserService : BaseHistoricizedIdManageableService<User, UserModel, UserConverter>, IUserService
@@ -33,6 +35,12 @@ namespace MoneyChest.Services.Services
             User entity = base.Add(_converter.ToEntity(model));
             LoadDefaults(entity, language);
             return _converter.ToModel(entity);
+        }
+
+        public UserModel Get(string name, string password)
+        {
+            var user = Scope.FirstOrDefault(_ => _.Name == name && _.Password == password);
+            return user != null ? _converter.ToModel(user) : null;
         }
 
         #endregion

@@ -1,5 +1,5 @@
-﻿using MoneyChest.Data.Entities.Base;
-using MoneyChest.Data.Enums;
+﻿using MoneyChest.Model.Base;
+using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

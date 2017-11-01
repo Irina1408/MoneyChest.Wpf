@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.Data", "MoneyChest.Data\MoneyChest.Data.csproj", "{367772A1-B49C-49DA-B5CB-AAE5BF696947}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.Calculation", "MoneyChest.Calculation\MoneyChest.Calculation.csproj", "{DB809B22-130F-4FB6-A8AD-2B50B56C6098}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.Model", "MoneyChest.Model\MoneyChest.Model.csproj", "{AA3CD891-1018-489D-A0C5-16C295C2E636}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.View", "MoneyChest.View\MoneyChest.View.csproj", "{EFC6D301-9EE1-4056-8034-AC2035BF1246}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyChest.Shared", "MoneyChest.Shared\MoneyChest.Shared.csproj", "{1D514398-D24C-4E14-A326-A1C48D788782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,8 +61,19 @@ Global
 		{AA3CD891-1018-489D-A0C5-16C295C2E636}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA3CD891-1018-489D-A0C5-16C295C2E636}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA3CD891-1018-489D-A0C5-16C295C2E636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFC6D301-9EE1-4056-8034-AC2035BF1246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFC6D301-9EE1-4056-8034-AC2035BF1246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFC6D301-9EE1-4056-8034-AC2035BF1246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFC6D301-9EE1-4056-8034-AC2035BF1246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D514398-D24C-4E14-A326-A1C48D788782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D514398-D24C-4E14-A326-A1C48D788782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D514398-D24C-4E14-A326-A1C48D788782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D514398-D24C-4E14-A326-A1C48D788782}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CD9521A-EC86-4D2D-977D-6E994CD103CC}
 	EndGlobalSection
 EndGlobal

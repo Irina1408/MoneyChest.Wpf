@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MoneyChest.Data.Enums;
 using System.Reflection;
 using System.IO;
 using MoneyChest.Utils.FileUtils;
 using System.Data.Entity;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Services.Services.Defaults
 {

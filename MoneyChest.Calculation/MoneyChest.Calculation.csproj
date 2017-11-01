@@ -48,25 +48,21 @@
     <Compile Include="Builders\Calendar\LimitLegendUnit.cs" />
     <Compile Include="Builders\Calendar\MoneyTransferLegendUnit.cs" />
     <Compile Include="Builders\Calendar\RecordLegendUnit.cs" />
-    <Compile Include="Calculators\Summary\SimpleStorageSummary.cs" />
+    <Compile Include="SummaryCalculators\Summary\SimpleStorageSummary.cs" />
     <Compile Include="Common\CalculationHelper.cs" />
     <Compile Include="Common\Units\GroupedValueUnitCollection.cs" />
     <Compile Include="Common\Units\LegendUnit.cs" />
     <Compile Include="Common\Units\ValueUnit.cs" />
     <Compile Include="Common\Units\ValueUnitCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Calculators\DebtsSummaryCalculator.cs" />
-    <Compile Include="Calculators\StorageSummaryCalculator.cs" />
+    <Compile Include="SummaryCalculators\DebtsSummaryCalculator.cs" />
+    <Compile Include="SummaryCalculators\StorageSummaryCalculator.cs" />
     <Compile Include="Builders\Reports\ReportBuilder.cs" />
     <Compile Include="Builders\Reports\ReportUnit.cs" />
-    <Compile Include="Calculators\Summary\DebtsSummary.cs" />
-    <Compile Include="Calculators\Summary\StorageSummary.cs" />
+    <Compile Include="SummaryCalculators\Summary\DebtsSummary.cs" />
+    <Compile Include="SummaryCalculators\Summary\StorageSummary.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MoneyChest.Data\MoneyChest.Data.csproj">
-      <Project>{367772a1-b49c-49da-b5cb-aae5bf696947}</Project>
-      <Name>MoneyChest.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MoneyChest.Model\MoneyChest.Model.csproj">
       <Project>{aa3cd891-1018-489d-a0c5-16c295c2e636}</Project>
       <Name>MoneyChest.Model</Name>

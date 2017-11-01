@@ -40,30 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\Base\IEntityModelConverter.cs" />
-    <Compile Include="Converters\CategoryConverter.cs" />
-    <Compile Include="Converters\CurrencyConverter.cs" />
-    <Compile Include="Converters\CurrencyExchangeRateConverter.cs" />
-    <Compile Include="Converters\DebtConverter.cs" />
-    <Compile Include="Converters\Events\SimpleEventConverter.cs" />
-    <Compile Include="Converters\Events\RepayDebtEventConverter.cs" />
-    <Compile Include="Converters\Events\MoneyTransferEventConverter.cs" />
-    <Compile Include="Converters\LimitConverter.cs" />
-    <Compile Include="Converters\MoneyTransferConverter.cs" />
-    <Compile Include="Converters\RecordConverter.cs" />
-    <Compile Include="Converters\Schedule\WeeklyScheduleConverter.cs" />
-    <Compile Include="Converters\Schedule\OnceScheduleConverter.cs" />
-    <Compile Include="Converters\Schedule\MonthlyScheduleConverter.cs" />
-    <Compile Include="Converters\Schedule\DailyScheduleConverter.cs" />
-    <Compile Include="Converters\Settings\ReportSettingConverter.cs" />
-    <Compile Include="Converters\Settings\RecordsViewFilterConverter.cs" />
-    <Compile Include="Converters\Settings\GeneralSettingConverter.cs" />
-    <Compile Include="Converters\Settings\ForecastSettingConverter.cs" />
-    <Compile Include="Converters\Settings\CalendarSettingConverter.cs" />
-    <Compile Include="Converters\StorageConverter.cs" />
-    <Compile Include="Converters\StorageGroupConverter.cs" />
-    <Compile Include="Converters\UserConverter.cs" />
-    <Compile Include="Converters\Reference\ToReferenceView.cs" />
+    <Compile Include="Extensions\ToReferenceView.cs" />
+    <Compile Include="Enums\CommissionType.cs" />
+    <Compile Include="Enums\DebtType.cs" />
+    <Compile Include="Enums\EventState.cs" />
+    <Compile Include="Enums\EventType.cs" />
+    <Compile Include="Enums\LimitPeriodType.cs" />
+    <Compile Include="Enums\LimitState.cs" />
+    <Compile Include="Enums\ScheduleType.cs" />
+    <Compile Include="Enums\Settings\CalendarPeriodType.cs" />
+    <Compile Include="Enums\Settings\Language.cs" />
+    <Compile Include="Enums\Settings\Month.cs" />
+    <Compile Include="Enums\Settings\PeriodFilterType.cs" />
+    <Compile Include="Enums\Settings\ReportType.cs" />
+    <Compile Include="Enums\TransactionType.cs" />
+    <Compile Include="Model\Base\IHasId.cs" />
+    <Compile Include="Model\Base\IHasUserId.cs" />
     <Compile Include="Model\CategoryModel.cs" />
     <Compile Include="Model\CurrencyExchangeRateModel.cs" />
     <Compile Include="Model\CurrencyModel.cs" />
@@ -97,12 +89,6 @@
     <Compile Include="Model\StorageModel.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MoneyChest.Data\MoneyChest.Data.csproj">
-      <Project>{367772a1-b49c-49da-b5cb-aae5bf696947}</Project>
-      <Name>MoneyChest.Data</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

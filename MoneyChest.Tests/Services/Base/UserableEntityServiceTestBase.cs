@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyChest.Data.Entities;
-using MoneyChest.Data.Entities.Base;
-using MoneyChest.Model.Converters;
+using MoneyChest.Model.Base;
+using MoneyChest.Data.Converters;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Base;

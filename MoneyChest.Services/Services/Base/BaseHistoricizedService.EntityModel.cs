@@ -8,7 +8,7 @@ using MoneyChest.Data.Enums;
 using MoneyChest.Data.Entities.History;
 using System.Data.Entity;
 using MoneyChest.Services.Services.History;
-using MoneyChest.Model.Converters;
+using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services.Base
 {

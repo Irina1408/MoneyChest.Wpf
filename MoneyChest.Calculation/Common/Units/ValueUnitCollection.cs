@@ -1,5 +1,4 @@
-﻿using MoneyChest.Data.Entities;
-using MoneyChest.Model.Convert;
+﻿using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Model;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ namespace MoneyChest.Calculation.Common
 {
     public class ValueUnitCollection : List<ValueUnit>
     {
-        internal void Update(Currency currency, decimal value)
+        internal void Update(CurrencyModel currency, decimal value)
         {
             var bal = this.FirstOrDefault(_ => _.Currency.Id == currency.Id);
             if (bal == null)

@@ -11,8 +11,9 @@ using MoneyChest.Data.Enums;
 using MoneyChest.Services.Utils;
 using MoneyChest.Model.Model;
 using System.Data.Entity;
-using MoneyChest.Model.Convert;
-using MoneyChest.Model.Converters;
+using MoneyChest.Model.Extensions;
+using MoneyChest.Data.Converters;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Services.Services
 {

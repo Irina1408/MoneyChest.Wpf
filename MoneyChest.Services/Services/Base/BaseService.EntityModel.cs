@@ -1,5 +1,5 @@
 ﻿using MoneyChest.Data.Context;
-using MoneyChest.Model.Converters;
+using MoneyChest.Data.Converters;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

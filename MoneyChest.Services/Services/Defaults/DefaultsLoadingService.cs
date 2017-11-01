@@ -1,5 +1,5 @@
 ﻿using MoneyChest.Data.Context;
-using MoneyChest.Data.Enums;
+using MoneyChest.Model.Enums;
 using MoneyChest.Services.Services.Base;
 using System;
 using System.Collections.Generic;

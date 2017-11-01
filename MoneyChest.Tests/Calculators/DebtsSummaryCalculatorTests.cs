@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyChest.Calculation.Calculators;
 using MoneyChest.Data.Mock;
+using MoneyChest.Model.Enums;
 using MoneyChest.Services.Services;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace MoneyChest.Tests.Calculators
             // create entity
             var entity = App.Factory.CreateDebt(user.Id, item =>
             {
-                item.DebtType = Data.Enums.DebtType.TakeBorrow;
+                item.DebtType = DebtType.TakeBorrow;
                 item.Value = 1000;
             });
             var service = new DebtService(App.Db);
@@ -38,7 +39,7 @@ namespace MoneyChest.Tests.Calculators
             // create entity
             var entity = App.Factory.CreateDebt(user.Id, item =>
             {
-                item.DebtType = Data.Enums.DebtType.GiveBorrow;
+                item.DebtType = DebtType.GiveBorrow;
                 item.Value = 1000;
             });
             var service = new DebtService(App.Db);

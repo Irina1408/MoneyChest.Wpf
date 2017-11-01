@@ -8,7 +8,7 @@ using FluentAssertions;
 using MoneyChest.Calculation.Calculators;
 using MoneyChest.Data.Mock;
 using MoneyChest.Services.Services;
-using MoneyChest.Data.Enums;
+using MoneyChest.Model.Enums;
 using MoneyChest.Data.Entities;
 using MoneyChest.Services.Services.Settings;
 using MoneyChest.Calculation.Reports;

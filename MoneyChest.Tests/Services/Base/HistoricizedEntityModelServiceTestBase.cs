@@ -1,13 +1,14 @@
 ﻿using FluentAssertions;
 using MoneyChest.Data.Entities.History;
-using MoneyChest.Data.Enums;
-using MoneyChest.Model.Converters;
+using MoneyChest.Model.Enums;
+using MoneyChest.Data.Converters;
 using MoneyChest.Services.Services.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoneyChest.Data.Enums;
 
 namespace MoneyChest.Tests.Services
 {

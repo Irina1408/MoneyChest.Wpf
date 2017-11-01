@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Model.Model
 {
@@ -11,7 +12,7 @@ namespace MoneyChest.Model.Model
         public OnceScheduleModel() : base()
         {
             Date = DateTime.Today.AddDays(1);
-            ScheduleType = Data.Enums.ScheduleType.Once;
+            ScheduleType = ScheduleType.Once;
         }
 
         public DateTime Date { get; set; }

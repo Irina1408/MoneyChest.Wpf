@@ -9,6 +9,7 @@ using MoneyChest.Data.Enums;
 using System.Reflection;
 using System.IO;
 using MoneyChest.Utils.FileUtils;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Services.Services.Defaults
 {

@@ -1,7 +1,6 @@
 ﻿using MoneyChest.Calculation.Builders.Base;
 using MoneyChest.Calculation.Common;
-using MoneyChest.Data.Entities;
-using MoneyChest.Data.Enums;
+using MoneyChest.Model.Enums;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Services;
 using System;

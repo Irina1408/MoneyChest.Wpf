@@ -1,11 +1,10 @@
-﻿using MoneyChest.Data.Enums;
+﻿using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MoneyChest.Data.Entities;
-using MoneyChest.Data.Entities.Base;
+using MoneyChest.Model.Base;
 
 namespace MoneyChest.Model.Model
 {

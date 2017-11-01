@@ -14,7 +14,6 @@ namespace MoneyChest.Calculation.Common
     {
         public ValueUnit()
         {
-
         }
 
         public ValueUnit(CurrencyReference currency)

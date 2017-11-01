@@ -12,8 +12,8 @@ using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
 using MoneyChest.Services.Services.Settings;
 using MoneyChest.Model.Model;
-using MoneyChest.Model.Converters;
 using System.Data.Entity;
+using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Tests.Services.Settings
 {

@@ -1,7 +1,7 @@
 ﻿using MoneyChest.Data.Context;
 using MoneyChest.Data.Entities;
-using MoneyChest.Model.Convert;
-using MoneyChest.Model.Converters;
+using MoneyChest.Model.Extensions;
+using MoneyChest.Data.Converters;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Services.Base;
 using System;

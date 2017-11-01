@@ -1,5 +1,4 @@
-﻿using MoneyChest.Data.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
 using MoneyChest.Data.Entities.History;
-using MoneyChest.Data.Entities.Base;
+using MoneyChest.Model.Base;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Data.Entities
 {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MoneyChest.Data.Entities.Base;
-using MoneyChest.Data.Enums;
+using MoneyChest.Model.Base;
+using MoneyChest.Model.Enums;
 using System.Globalization;
 
 namespace MoneyChest.Model.Model

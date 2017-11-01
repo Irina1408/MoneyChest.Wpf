@@ -1,5 +1,4 @@
-﻿using MoneyChest.Data.Entities;
-using MoneyChest.Model.Model;
+﻿using MoneyChest.Model.Model;
 using MoneyChest.Services.Services;
 using System;
 using System.Collections.Generic;

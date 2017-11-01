@@ -10,7 +10,8 @@ using System.Linq.Expressions;
 using System.Data.Entity;
 using MoneyChest.Data.Enums;
 using MoneyChest.Model.Model;
-using MoneyChest.Model.Converters;
+using MoneyChest.Data.Converters;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Services.Services.Events
 {

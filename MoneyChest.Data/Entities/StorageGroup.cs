@@ -1,5 +1,5 @@
 ﻿using MoneyChest.Data.Attributes;
-using MoneyChest.Data.Entities.Base;
+using MoneyChest.Model.Base;
 using MoneyChest.Data.Entities.History;
 using System;
 using System.Collections.Generic;

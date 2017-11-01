@@ -1,5 +1,4 @@
-﻿using MoneyChest.Data.Entities;
-using MoneyChest.Model.Convert;
+﻿using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Model;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ namespace MoneyChest.Calculation.Common
 {
     public class GroupedValueUnitCollection<TKey> : Dictionary<TKey, ValueUnitCollection>
     {
-        internal virtual void Update(TKey key, Currency currency, decimal value)
+        internal virtual void Update(TKey key, CurrencyModel currency, decimal value)
         {
             if (!this.ContainsKey(key))
             {

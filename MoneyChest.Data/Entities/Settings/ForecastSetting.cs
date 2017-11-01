@@ -1,4 +1,4 @@
-﻿using MoneyChest.Data.Entities.Base;
+﻿using MoneyChest.Model.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

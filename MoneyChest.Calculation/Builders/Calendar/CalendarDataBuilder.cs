@@ -1,5 +1,4 @@
 ﻿using MoneyChest.Calculation.Builders.Base;
-using MoneyChest.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +7,11 @@ using System.Threading.Tasks;
 using MoneyChest.Services.Services;
 using MoneyChest.Calculation.Calculators;
 using MoneyChest.Calculation.Common;
-using MoneyChest.Data.Enums;
 using MoneyChest.Services.Services.Events;
 using MoneyChest.Calculation.Summary;
-using MoneyChest.Model.Convert;
+using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Model;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Calculation.Builders.Calendar
 {

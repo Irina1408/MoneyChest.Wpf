@@ -1,6 +1,6 @@
 ﻿using MoneyChest.Data.Attributes;
 using MoneyChest.Data.Entities.History;
-using MoneyChest.Data.Enums;
+using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

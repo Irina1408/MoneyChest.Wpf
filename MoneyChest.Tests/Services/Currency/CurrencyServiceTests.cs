@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MoneyChest.Model.Model;
-using MoneyChest.Model.Converters;
+using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Tests.Services
 {

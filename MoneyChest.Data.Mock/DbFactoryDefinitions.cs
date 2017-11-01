@@ -1,6 +1,7 @@
 ﻿using MoneyChest.Data.Entities;
 using MoneyChest.Data.Enums;
 using MoneyChest.Data.Mock.Utils;
+using MoneyChest.Model.Enums;
 using MoneyChest.Model.Model;
 using System;
 using System.Collections.Generic;
@@ -107,7 +108,7 @@ namespace MoneyChest.Data.Mock
             {
                 e.Description = "MoneyTransferEvent";
                 e.Value = Moniker.Digit;
-                e.EventState = Enums.EventState.Active;
+                e.EventState = EventState.Active;
                 e.AutoExecution = false;
                 e.ConfirmBeforeExecute = false;
             });
@@ -139,20 +140,20 @@ namespace MoneyChest.Data.Mock
                 e.DateFrom = DateTime.Today.AddDays(1);
                 e.DateUntil = e.DateFrom.Date;
                 e.Period = 1;
-                e.ScheduleType = Data.Enums.ScheduleType.Daily;
+                e.ScheduleType = ScheduleType.Daily;
             });
 
             f.Define<MonthlySchedule>(e =>
             {
                 e.DateFrom = DateTime.Today.AddDays(1);
                 e.DateUntil = DateTime.Today.AddMonths(2);
-                e.ScheduleType = Data.Enums.ScheduleType.Monthly;
+                e.ScheduleType = ScheduleType.Monthly;
             });
 
             f.Define<OnceSchedule>(e =>
             {
                 e.Date = DateTime.Today.AddDays(1);
-                e.ScheduleType = Data.Enums.ScheduleType.Once;
+                e.ScheduleType = ScheduleType.Once;
             });
 
             f.Define<WeeklySchedule>(e =>
@@ -160,7 +161,7 @@ namespace MoneyChest.Data.Mock
                 e.DateFrom = DateTime.Today.AddDays(1);
                 e.DateUntil = DateTime.Today.AddMonths(2);
                 e.Period = 1;
-                e.ScheduleType = Data.Enums.ScheduleType.Weekly;
+                e.ScheduleType = ScheduleType.Weekly;
             });
         }
 
@@ -264,7 +265,7 @@ namespace MoneyChest.Data.Mock
             {
                 e.Description = "MoneyTransferEvent";
                 e.Value = Moniker.Digit;
-                e.EventState = Enums.EventState.Active;
+                e.EventState = EventState.Active;
                 e.AutoExecution = false;
                 e.ConfirmBeforeExecute = false;
             });
