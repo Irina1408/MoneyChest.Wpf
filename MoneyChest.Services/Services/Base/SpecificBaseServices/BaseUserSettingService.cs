@@ -38,6 +38,8 @@ namespace MoneyChest.Services.Services.Base
             dbEntity = Update(dbEntity, model);
             // update entity in database
             dbEntity = Update(dbEntity);
+            // save changes
+            SaveChanges();
 
             return _converter.ToModel(dbEntity);
         }

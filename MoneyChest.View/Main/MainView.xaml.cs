@@ -1,4 +1,6 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.IconPacks;
+using MoneyChest.View.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,29 +23,44 @@ namespace MoneyChest.View.Main
     /// </summary>
     public partial class MainView : UserControl
     {
+        #region Private fields
+
+
+        #endregion
+
+        #region Initialization
+
         public MainView()
         {
             InitializeComponent();
         }
-    }
 
-    public class HamburgerMenuBorderItem : HamburgerMenuGlyphItem
-    {
-        public static readonly DependencyProperty BorderThicknessProperty = DependencyProperty.Register(nameof(BorderThickness), typeof(Thickness), typeof(HamburgerMenuBorderItem), new PropertyMetadata(null));
+        #endregion
 
-        public Thickness BorderThickness
+        #region Event handlers
+
+        private void MainView_Loaded(object sender, RoutedEventArgs e)
         {
-            get
-            {
-                return (Thickness)GetValue(BorderThicknessProperty);
-            }
+            // get all application pages
+            var pages = new List<IPage>();
+            System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+                .Where(mytype => mytype.GetInterfaces().Contains(typeof(IPage)))
+                .ToList()
+                .ForEach(t => pages.Add(Activator.CreateInstance(t) as IPage));
 
-            set
+            // build hamburger menu
+            foreach (var page in pages.OrderBy(_ => _.Order))
             {
-                SetValue(BorderThicknessProperty, value);
+                HamburgerMenuControl.Items.Add(new CustomHamburgerMenuItem()
+                {
+                    Label = page.Label,
+                    Tag = page.Icon,
+                    BorderThickness = page.ShowTopBorder ? new Thickness(0, 1, 0, 0) : new Thickness(),
+                    View = page.View
+                });
             }
         }
 
-
+        #endregion
     }
 }

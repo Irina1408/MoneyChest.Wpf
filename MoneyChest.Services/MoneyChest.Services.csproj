@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ServiceManager.cs" />
     <Compile Include="Services\Base\InterfaceImplementationsBase\BaseHistoricizedIdManageableService.cs" />
     <Compile Include="Services\Base\InterfaceImplementationsBase\BaseHistoricizedIdManageableUserableListService.cs" />
     <Compile Include="Services\Base\InterfaceImplementationsBase\IBaseIdManagableService.cs" />

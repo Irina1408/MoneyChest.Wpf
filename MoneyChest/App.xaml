@@ -7,6 +7,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- Material Design Theme -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToolBar.xaml" />
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
@@ -18,6 +21,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Languages/LangEnglish.xaml" />
                 <!-- Local styles -->
                 <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.PackIcon.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

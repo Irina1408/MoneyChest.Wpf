@@ -27,6 +27,8 @@ namespace MoneyChest.Services.Services.Base
             var entity = _converter.ToEntity(model);
             // add to database
             entity = Add(entity);
+            // save changes
+            SaveChanges();
 
             return _converter.ToModel(entity);
         }
@@ -39,11 +41,17 @@ namespace MoneyChest.Services.Services.Base
             dbEntity = _converter.Update(dbEntity, model);
             // update entity in database
             dbEntity = Update(dbEntity);
+            // save changes
+            SaveChanges();
 
             return _converter.ToModel(dbEntity);
         }
 
-        public virtual void Delete(TModel model) => Delete(GetSingleDb(model));
+        public virtual void Delete(TModel model)
+        {
+            Delete(GetSingleDb(model));
+            SaveChanges();
+        }
 
         protected abstract T GetSingleDb(TModel model);
     }

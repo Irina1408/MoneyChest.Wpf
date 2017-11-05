@@ -3,19 +3,22 @@
                     xmlns:local="clr-namespace:MoneyChest.Style"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
+    <!-- Constants -->
     <Thickness x:Key="ControlMargin">5</Thickness>
     <system:Double x:Key="DefaultFontSize">16</system:Double>
+    <system:Double x:Key="ToolBarButtonSize">40</system:Double>
 
     <Style TargetType="{x:Type Control}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
-    
+
     <Style x:Key="DefaultButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource AccentedSquareButtonStyle}">
         <Setter Property="Width" Value="100"/>
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="IsDefault" Value="True"/>
     </Style>
 
+    <!-- Default controls style -->
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SquareButtonStyle}">
         <Setter Property="Width" Value="100"/>
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
@@ -31,6 +34,10 @@
 
     <Style TargetType="{x:Type Label}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+    </Style>
+
+    <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource MetroDataGrid}">
+
     </Style>
 
 </ResourceDictionary>

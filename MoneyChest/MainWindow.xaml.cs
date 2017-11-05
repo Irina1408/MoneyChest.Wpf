@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MoneyChest.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,11 @@ namespace MoneyChest
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ServiceManager.Dispose();
         }
     }
 }

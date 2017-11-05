@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using MoneyChest.Data.Context;
+using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
 using MoneyChest.Shared.Settings;
@@ -27,8 +28,9 @@ namespace MoneyChest
     public partial class LoginWindow : MetroWindow
     {
         #region Private fields
-
-        private IUserService userService;
+        
+        private IUserService _userService;
+        private bool _dispose;
 
         #endregion
 
@@ -37,48 +39,59 @@ namespace MoneyChest
         public LoginWindow()
         {
             InitializeComponent();
+
+            // init service
+            ServiceManager.Initialize();
+            _userService = ServiceManager.ConfigureService<UserService>();
+            _dispose = true;
         }
 
         #endregion
 
         #region Event handlers
 
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        private void LoginWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // TODO: replace ApplicationDbContext initialization
-            var context = ApplicationDbContext.Create();
-            userService = new UserService(context);
-            txtName.Text = UserSettings.Instance.LastLogin;
+            // prepare controls data
+            txtName.Text = AppSettings.Instance.LastLogin;
             txtPassword.Focus();
+        }
 
-            // TODO: to be removed
-            btnOk.IsEnabled = true;
+        private void LoginWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if(_dispose)
+                ServiceManager.Dispose();
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: EntityFramework reference
-            //var user = userService.Get(txtName.Text, txtPassword.Password);
-            //if(user == null)
-            //{
-            //    // TODO: show login failed
-            //    user = userService.Add(new Model.Model.UserModel()
-            //    {
-            //        Name = txtPassword.Name,
-            //        Password = txtPassword.Password
-            //    }, Data.Enums.Language.English);
-            //}
+            var user = _userService.Get(txtName.Text, txtPassword.Password);
+            if (user == null)
+            {
+                // TODO: show login failed
+                user = _userService.Add(new Model.Model.UserModel()
+                {
+                    Name = txtName.Text,
+                    Password = txtPassword.Password
+                }, Model.Enums.Language.English);
+            }
 
-            //GlobalVariables.UserId = user.Id;
+            // save global variables
+            GlobalVariables.UserId = user.Id;
             GlobalVariables.Language = Model.Enums.Language.English;
 
             // save settings
-            UserSettings.Instance.LastLogin = txtName.Text;
-            UserSettings.Instance.Save();
+            AppSettings.Instance.LastLogin = txtName.Text;
+            AppSettings.Instance.Save();
+
+            // update user last usage
+            user.LastUsageDate = DateTime.Today;
+            _userService.Update(user);
 
             // show main window
             var mainWindow = new MainWindow();
             mainWindow.Show();
+            _dispose = false;
             this.Close();
         }
 

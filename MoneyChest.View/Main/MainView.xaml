@@ -7,9 +7,10 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Loaded="MainView_Loaded">
     <UserControl.Resources>
-        <DataTemplate x:Key="HamburgerMenuItem" DataType="{x:Type controls:HamburgerMenuItem}">
+        <DataTemplate x:Key="HamburgerOptionsMenuImageItem" DataType="{x:Type controls:HamburgerMenuItem}">
             <Grid Height="48" Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
@@ -24,13 +25,13 @@
                 
                 <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
-                           FontSize="16"
+                           FontSize="{DynamicResource DefaultFontSize}"
                            Text="{Binding Label}" />
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="HamburgerMenuBorderImageItem" DataType="{x:Type controls:HamburgerMenuGlyphItem}">
-            <Border BorderBrush="WhiteSmoke" BorderThickness="{Binding BorderThickness}">
+        <DataTemplate x:Key="HamburgerMenuImageItem" DataType="{x:Type controls:HamburgerMenuGlyphItem}">
+            <Border BorderThickness="{Binding BorderThickness}" BorderBrush="White">
                 <Grid Height="48" Background="Transparent">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="48" />
@@ -38,12 +39,12 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0" ToolTip="{Binding Label}" Background="Transparent">
-                        <ContentControl Content="{Binding Tag}" />
+                        <ContentControl Content="{Binding Tag}"/>
                     </Grid>
-                    
+
                     <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
-                           FontSize="16"
+                           FontSize="{DynamicResource DefaultFontSize}"
                            Text="{Binding Label}" />
                 </Grid>
             </Border>
@@ -54,8 +55,9 @@
         <controls:HamburgerMenu x:Name="HamburgerMenuControl"
                                 HamburgerWidth="48"
                                 IsPaneOpen="true"
-                                ItemTemplate="{StaticResource HamburgerMenuBorderImageItem}"
-                                OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
+                                ItemTemplate="{StaticResource HamburgerMenuImageItem}"
+                                OptionsItemTemplate="{StaticResource HamburgerOptionsMenuImageItem}"
+                                Content="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay, Path=SelectedItem}"
                                 SelectedIndex="0"
                                 VerticalScrollBarOnLeftSide="False">
             <!--  Header  -->
@@ -63,109 +65,18 @@
                 <DataTemplate>
                     <TextBlock HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               FontSize="16"
+                               FontSize="{DynamicResource DefaultFontSize}"
                                Foreground="White"
                                Text="Menu" />
                 </DataTemplate>
             </controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
-            
-            <!--  Items  -->
-            <controls:HamburgerMenu.ItemsSource>
-                <controls:HamburgerMenuItemCollection>
-                    <local:HamburgerMenuBorderItem Label="{DynamicResource lDashboard}">
-                        <local:HamburgerMenuBorderItem.Tag>
-                            <iconpacks:PackIconMaterial Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="ViewDashboard" />
-                        </local:HamburgerMenuBorderItem.Tag>
-                    </local:HamburgerMenuBorderItem>
-                    <local:HamburgerMenuBorderItem Label="{DynamicResource lTransactions}">
-                        <local:HamburgerMenuBorderItem.Tag>
-                            <iconpacks:PackIconModern Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="BookList" />
-                        </local:HamburgerMenuBorderItem.Tag>
-                    </local:HamburgerMenuBorderItem>
-                    <local:HamburgerMenuBorderItem Label="{DynamicResource lCalendar}">
-                        <local:HamburgerMenuBorderItem.Tag>
-                            <iconpacks:PackIconModern Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="CalendarMonth" />
-                        </local:HamburgerMenuBorderItem.Tag>
-                    </local:HamburgerMenuBorderItem>
-                    <local:HamburgerMenuBorderItem Label="{DynamicResource lPlanning}">
-                        <local:HamburgerMenuBorderItem.Tag>
-                            <iconpacks:PackIconMaterial Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="CalendarClock" />
-                        </local:HamburgerMenuBorderItem.Tag>
-                    </local:HamburgerMenuBorderItem>
-                    <local:HamburgerMenuBorderItem Label="{DynamicResource lDebts}" >
-                        <local:HamburgerMenuBorderItem.Tag>
-                            <iconpacks:PackIconModern Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="CalendarDollar" />
-                        </local:HamburgerMenuBorderItem.Tag>
-                    </local:HamburgerMenuBorderItem>
-                    <local:HamburgerMenuBorderItem Label="{DynamicResource lReports}">
-                        <local:HamburgerMenuBorderItem.Tag>
-                            <iconpacks:PackIconFontAwesome Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="PieChart" />
-                        </local:HamburgerMenuBorderItem.Tag>
-                    </local:HamburgerMenuBorderItem>
-                    <local:HamburgerMenuBorderItem Label="{DynamicResource lStorages}" BorderThickness="0 1 0 0">
-                        <local:HamburgerMenuBorderItem.Tag>
-                            <iconpacks:PackIconMaterial Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="Bank" />
-                        </local:HamburgerMenuBorderItem.Tag>
-                    </local:HamburgerMenuBorderItem>
-                    <local:HamburgerMenuBorderItem Label="{DynamicResource lCurrencies}">
-                        <local:HamburgerMenuBorderItem.Tag>
-                            <iconpacks:PackIconModern Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="CurrencyDollar" />
-                        </local:HamburgerMenuBorderItem.Tag>
-                    </local:HamburgerMenuBorderItem>
-                    <local:HamburgerMenuBorderItem Label="{DynamicResource lCategories}">
-                        <local:HamburgerMenuBorderItem.Tag>
-                            <iconpacks:PackIconEntypo Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="FlowTree" />
-                        </local:HamburgerMenuBorderItem.Tag>
-                    </local:HamburgerMenuBorderItem>
-                </controls:HamburgerMenuItemCollection>
-            </controls:HamburgerMenu.ItemsSource>
 
             <!--  Settings  -->
             <controls:HamburgerMenu.OptionsItemsSource>
                 <controls:HamburgerMenuItemCollection>
                     <controls:HamburgerMenuGlyphItem Label="{DynamicResource lSettings}">
                         <controls:HamburgerMenuGlyphItem.Tag>
-                            <iconpacks:PackIconMaterial Width="22"
-                                                        Height="22"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Kind="Settings" />
+                            <iconpacks:PackIconMaterial Kind="Settings" />
                         </controls:HamburgerMenuGlyphItem.Tag>
                     </controls:HamburgerMenuGlyphItem>
                 </controls:HamburgerMenuItemCollection>
@@ -187,16 +98,10 @@
                                        Foreground="White"
                                        Text="{Binding Label}" />
                         </Border>
-                        <!--<controls:TransitioningContentControl Grid.Row="1"
-                                                              Content="{Binding Glyph}"
+                        <controls:TransitioningContentControl Grid.Row="1"
+                                                              Content="{Binding View}"
                                                               RestartTransitionOnContentChange="True"
-                                                              Transition="Default">
-                            <controls:TransitioningContentControl.ContentTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Mode=OneWay, Converter={converters:NullToUnsetValueConverter}}" />
-                                </DataTemplate>
-                            </controls:TransitioningContentControl.ContentTemplate>
-                        </controls:TransitioningContentControl>-->
+                                                              Transition="Default"/>
                     </Grid>
                 </DataTemplate>
             </controls:HamburgerMenu.ContentTemplate>
