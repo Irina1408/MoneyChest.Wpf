@@ -14,13 +14,13 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IMoneyTransferService : IBaseIdManagableService<MoneyTransferModel>, IUserableListService<MoneyTransferModel>
+    public interface IMoneyTransferService : IIdManagableServiceBase<MoneyTransferModel>, IUserableListService<MoneyTransferModel>
     {
         List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds);
         List<MoneyTransferModel> GetAfterDate(int userId, DateTime date, List<int> storageGroupIds);
     }
 
-    public class MoneyTransferService : BaseHistoricizedIdManageableService<MoneyTransfer, MoneyTransferModel, MoneyTransferConverter>, IMoneyTransferService
+    public class MoneyTransferService : HistoricizedIdManageableServiceBase<MoneyTransfer, MoneyTransferModel, MoneyTransferConverter>, IMoneyTransferService
     {
         public MoneyTransferService(ApplicationDbContext context) : base(context)
         {

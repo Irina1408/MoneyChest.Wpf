@@ -10,49 +10,9 @@ using MoneyChest.Data.Extensions;
 
 namespace MoneyChest.Data.Converters
 {
-    public class DebtConverter : IEntityModelConverter<Debt, DebtModel>
+    public class DebtConverter : EntityModelConverterBase<Debt, DebtModel>
     {
-        public Debt ToEntity(DebtModel model)
-        {
-            return new Debt()
-            {
-                Description = model.Description,
-                DebtType = model.DebtType,
-                TakingDate = model.TakingDate,
-                Value = model.Value,
-                PaidValue = model.PaidValue,
-                IsRepaid = model.IsRepaid,
-                RepayingDate = model?.RepayingDate,
-                Remark = model.Remark,
-                CurrencyId = model.CurrencyId,
-                CategoryId = model?.CategoryId,
-                StorageId = model?.StorageId,
-                UserId = model.UserId
-            };
-        }
-
-        public DebtModel ToModel(Debt entity)
-        {
-            return new DebtModel()
-            {
-                Id = entity.Id,
-                Description = entity.Description,
-                DebtType = entity.DebtType,
-                TakingDate = entity.TakingDate,
-                Value = entity.Value,
-                PaidValue = entity.PaidValue,
-                IsRepaid = entity.IsRepaid,
-                RepayingDate = entity?.RepayingDate,
-                Remark = entity.Remark,
-                CurrencyId = entity.CurrencyId,
-                CategoryId = entity?.CategoryId,
-                StorageId = entity?.StorageId,
-                UserId = entity.UserId,
-                Currency = entity.Currency.ToReferenceView()
-            };
-        }
-
-        public Debt Update(Debt entity, DebtModel model)
+        protected override void FillEntity(Debt entity, DebtModel model)
         {
             entity.Description = model.Description;
             entity.DebtType = model.DebtType;
@@ -66,8 +26,24 @@ namespace MoneyChest.Data.Converters
             entity.CategoryId = model?.CategoryId;
             entity.StorageId = model?.StorageId;
             entity.UserId = model.UserId;
+        }
 
-            return entity;
+        protected override void FillModel(Debt entity, DebtModel model)
+        {
+            model.Id = entity.Id;
+            model.Description = entity.Description;
+            model.DebtType = entity.DebtType;
+            model.TakingDate = entity.TakingDate;
+            model.Value = entity.Value;
+            model.PaidValue = entity.PaidValue;
+            model.IsRepaid = entity.IsRepaid;
+            model.RepayingDate = entity?.RepayingDate;
+            model.Remark = entity.Remark;
+            model.CurrencyId = entity.CurrencyId;
+            model.CategoryId = entity?.CategoryId;
+            model.StorageId = entity?.StorageId;
+            model.UserId = entity.UserId;
+            model.Currency = entity.Currency.ToReferenceView();
         }
     }
 }

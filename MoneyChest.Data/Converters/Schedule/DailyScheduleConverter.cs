@@ -9,42 +9,25 @@ using MoneyChest.Model.Extensions;
 
 namespace MoneyChest.Data.Converters
 {
-    public class DailyScheduleConverter : IEntityModelConverter<DailySchedule, DailyScheduleModel>
+    public class DailyScheduleConverter : EntityModelConverterBase<DailySchedule, DailyScheduleModel>
     {
-        public DailySchedule ToEntity(DailyScheduleModel model)
-        {
-            return new DailySchedule()
-            {
-                ScheduleType = model.ScheduleType,
-                EventId = model.EventId,
-                DateFrom = model.DateFrom,
-                DateUntil = model?.DateUntil,
-                Period = model.Period
-            };
-        }
-
-        public DailyScheduleModel ToModel(DailySchedule entity)
-        {
-            return new DailyScheduleModel()
-            {
-                Id = entity.Id,
-                ScheduleType = entity.ScheduleType,
-                EventId = entity.EventId,
-                DateFrom = entity.DateFrom,
-                DateUntil = entity?.DateUntil,
-                Period = entity.Period
-            };
-        }
-
-        public DailySchedule Update(DailySchedule entity, DailyScheduleModel model)
+        protected override void FillEntity(DailySchedule entity, DailyScheduleModel model)
         {
             entity.ScheduleType = model.ScheduleType;
             entity.EventId = model.EventId;
             entity.DateFrom = model.DateFrom;
             entity.DateUntil = model?.DateUntil;
             entity.Period = model.Period;
+        }
 
-            return entity;
+        protected override void FillModel(DailySchedule entity, DailyScheduleModel model)
+        {
+            model.Id = entity.Id;
+            model.ScheduleType = entity.ScheduleType;
+            model.EventId = entity.EventId;
+            model.DateFrom = entity.DateFrom;
+            model.DateUntil = entity?.DateUntil;
+            model.Period = entity.Period;
         }
     }
 }

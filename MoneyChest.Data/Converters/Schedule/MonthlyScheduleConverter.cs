@@ -9,43 +9,26 @@ using MoneyChest.Model.Extensions;
 
 namespace MoneyChest.Data.Converters
 {
-    public class MonthlyScheduleConverter : IEntityModelConverter<MonthlySchedule, MonthlyScheduleModel>
+    public class MonthlyScheduleConverter : EntityModelConverterBase<MonthlySchedule, MonthlyScheduleModel>
     {
-        public MonthlySchedule ToEntity(MonthlyScheduleModel model)
-        {
-            return new MonthlySchedule()
-            {
-                ScheduleType = model.ScheduleType,
-                EventId = model.EventId,
-                DateFrom = model.DateFrom,
-                DateUntil = model?.DateUntil,
-                DayOfMonth = model.DayOfMonth
-            };
-        }
-
-        public MonthlyScheduleModel ToModel(MonthlySchedule entity)
-        {
-            return new MonthlyScheduleModel()
-            {
-                Id = entity.Id,
-                ScheduleType = entity.ScheduleType,
-                EventId = entity.EventId,
-                DateFrom = entity.DateFrom,
-                DateUntil = entity?.DateUntil,
-                DayOfMonth = entity.DayOfMonth,
-                Months = entity.MonthlyScheduleMonths.Select(e => e.Month).ToList()
-            };
-        }
-
-        public MonthlySchedule Update(MonthlySchedule entity, MonthlyScheduleModel model)
+        protected override void FillEntity(MonthlySchedule entity, MonthlyScheduleModel model)
         {
             entity.ScheduleType = model.ScheduleType;
             entity.EventId = model.EventId;
             entity.DateFrom = model.DateFrom;
             entity.DateUntil = model?.DateUntil;
             entity.DayOfMonth = model.DayOfMonth;
+        }
 
-            return entity;
+        protected override void FillModel(MonthlySchedule entity, MonthlyScheduleModel model)
+        {
+            model.Id = entity.Id;
+            model.ScheduleType = entity.ScheduleType;
+            model.EventId = entity.EventId;
+            model.DateFrom = entity.DateFrom;
+            model.DateUntil = entity?.DateUntil;
+            model.DayOfMonth = entity.DayOfMonth;
+            model.Months = entity.MonthlyScheduleMonths.Select(e => e.Month).ToList();
         }
     }
 }

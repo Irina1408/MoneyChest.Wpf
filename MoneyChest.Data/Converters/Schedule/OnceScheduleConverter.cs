@@ -9,36 +9,21 @@ using MoneyChest.Model.Extensions;
 
 namespace MoneyChest.Data.Converters
 {
-    public class OnceScheduleConverter : IEntityModelConverter<OnceSchedule, OnceScheduleModel>
+    public class OnceScheduleConverter : EntityModelConverterBase<OnceSchedule, OnceScheduleModel>
     {
-        public OnceSchedule ToEntity(OnceScheduleModel model)
-        {
-            return new OnceSchedule()
-            {
-                ScheduleType = model.ScheduleType,
-                EventId = model.EventId,
-                Date = model.Date
-            };
-        }
-
-        public OnceScheduleModel ToModel(OnceSchedule entity)
-        {
-            return new OnceScheduleModel()
-            {
-                Id = entity.Id,
-                ScheduleType = entity.ScheduleType,
-                EventId = entity.EventId,
-                Date = entity.Date
-            };
-        }
-
-        public OnceSchedule Update(OnceSchedule entity, OnceScheduleModel model)
+        protected override void FillEntity(OnceSchedule entity, OnceScheduleModel model)
         {
             entity.ScheduleType = model.ScheduleType;
             entity.EventId = model.EventId;
             entity.Date = model.Date;
+        }
 
-            return entity;
+        protected override void FillModel(OnceSchedule entity, OnceScheduleModel model)
+        {
+            model.Id = entity.Id;
+            model.ScheduleType = entity.ScheduleType;
+            model.EventId = entity.EventId;
+            model.Date = entity.Date;
         }
     }
 }

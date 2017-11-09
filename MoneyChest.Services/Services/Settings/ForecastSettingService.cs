@@ -17,7 +17,7 @@ namespace MoneyChest.Services.Services
     {
     }
 
-    public class ForecastSettingService : BaseUserSettingService<ForecastSetting, ForecastSettingModel, ForecastSettingConverter>, IForecastSettingService
+    public class ForecastSettingService : UserSettingServiceBase<ForecastSetting, ForecastSettingModel, ForecastSettingConverter>, IForecastSettingService
     {
         public ForecastSettingService(ApplicationDbContext context) : base(context)
         {

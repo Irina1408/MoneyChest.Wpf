@@ -8,39 +8,23 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Converters
 {
-    public class ForecastSettingConverter : IEntityModelConverter<ForecastSetting, ForecastSettingModel>
+    public class ForecastSettingConverter : EntityModelConverterBase<ForecastSetting, ForecastSettingModel>
     {
-        public ForecastSetting ToEntity(ForecastSettingModel model)
-        {
-            return new ForecastSetting()
-            {
-                UserId = model.UserId,
-                AllCategories = model.AllCategories,
-                RepeatsCount = model.RepeatsCount,
-                ActualDays = model.ActualDays
-            };
-        }
-
-        public ForecastSettingModel ToModel(ForecastSetting entity)
-        {
-            return new ForecastSettingModel()
-            {
-                UserId = entity.UserId,
-                AllCategories = entity.AllCategories,
-                RepeatsCount = entity.RepeatsCount,
-                ActualDays = entity.ActualDays,
-                CategoryIds = entity.Categories.Select(e => e.Id).ToList()
-            };
-        }
-
-        public ForecastSetting Update(ForecastSetting entity, ForecastSettingModel model)
+        protected override void FillEntity(ForecastSetting entity, ForecastSettingModel model)
         {
             entity.UserId = model.UserId;
             entity.AllCategories = model.AllCategories;
             entity.RepeatsCount = model.RepeatsCount;
             entity.ActualDays = model.ActualDays;
+        }
 
-            return entity;
+        protected override void FillModel(ForecastSetting entity, ForecastSettingModel model)
+        {
+            model.UserId = entity.UserId;
+            model.AllCategories = entity.AllCategories;
+            model.RepeatsCount = entity.RepeatsCount;
+            model.ActualDays = entity.ActualDays;
+            model.CategoryIds = entity.Categories.Select(e => e.Id).ToList();
         }
     }
 }

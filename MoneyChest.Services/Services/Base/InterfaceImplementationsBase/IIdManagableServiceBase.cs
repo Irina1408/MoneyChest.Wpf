@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public interface IBaseIdManagableUserableListService<T> : IBaseIdManagableService<T>, IUserableListService<T>
+    public interface IIdManagableServiceBase<T> : IServiceBase<T>, IIdManageable<T>, IIdListManageable<T>
         where T : class
     {
     }

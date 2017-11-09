@@ -15,14 +15,14 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface ICurrencyService : IBaseIdManagableUserableListService<CurrencyModel>
+    public interface ICurrencyService : IIdManagableUserableListServiceBase<CurrencyModel>
     {
         CurrencyModel GetMain(int userId);
         void SetMain(int userId, int currencyId);
         List<CurrencyModel> GetUsed(int userId);
     }
 
-    public class CurrencyService : BaseHistoricizedIdManageableUserableListService<Currency, CurrencyModel, CurrencyConverter>, ICurrencyService
+    public class CurrencyService : HistoricizedIdManageableUserableListServiceBase<Currency, CurrencyModel, CurrencyConverter>, ICurrencyService
     {
         #region Initialization
 

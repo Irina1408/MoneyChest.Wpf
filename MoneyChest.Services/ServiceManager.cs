@@ -13,7 +13,7 @@ namespace MoneyChest.Services
         private static ApplicationDbContext _context;
         
         public static TService ConfigureService<TService>()
-            where TService : BaseService
+            where TService : ServiceBase
         {
             //if (_context == null) Initialize();
             return Activator.CreateInstance(typeof(TService), _context) as TService;

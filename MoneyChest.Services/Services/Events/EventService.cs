@@ -19,7 +19,7 @@ namespace MoneyChest.Services.Services.Events
         EventsScopeModel Get(List<int> ids);
     }
 
-    public class EventService : BaseService, IEventService
+    public class EventService : ServiceBase, IEventService
     {
         #region Private fields
 

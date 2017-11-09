@@ -17,13 +17,13 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IUserService : IBaseIdManagableService<UserModel>
+    public interface IUserService : IIdManagableServiceBase<UserModel>
     {
         UserModel Add(UserModel model, Language language);
         UserModel Get(string name, string password);
     }
 
-    public class UserService : BaseHistoricizedIdManageableService<User, UserModel, UserConverter>, IUserService
+    public class UserService : HistoricizedIdManageableServiceBase<User, UserModel, UserConverter>, IUserService
     {
         public UserService(ApplicationDbContext context) : base(context)
         { }

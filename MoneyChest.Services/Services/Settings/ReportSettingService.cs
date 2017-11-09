@@ -17,7 +17,7 @@ namespace MoneyChest.Services.Services.Settings
     {
     }
 
-    public class ReportSettingService : BaseUserSettingService<ReportSetting, ReportSettingModel, ReportSettingConverter>, IReportSettingService
+    public class ReportSettingService : UserSettingServiceBase<ReportSetting, ReportSettingModel, ReportSettingConverter>, IReportSettingService
     {
         public ReportSettingService(ApplicationDbContext context) : base(context)
         {

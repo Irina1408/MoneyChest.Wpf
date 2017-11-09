@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Services.Services.Defaults
 {
-    public class DefaultsLoadingService : BaseService
+    public class DefaultsLoadingService : ServiceBase
     {
         public DefaultsLoadingService(ApplicationDbContext context) : base(context)
         {

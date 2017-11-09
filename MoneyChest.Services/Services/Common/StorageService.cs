@@ -14,12 +14,12 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IStorageService : IBaseIdManagableUserableListService<StorageModel>
+    public interface IStorageService : IIdManagableUserableListServiceBase<StorageModel>
     {
         List<StorageModel> GetList(int userId, List<int> storageGroupIds);
     }
 
-    public class StorageService : BaseHistoricizedIdManageableUserableListService<Storage, StorageModel, StorageConverter>, IStorageService
+    public class StorageService : HistoricizedIdManageableUserableListServiceBase<Storage, StorageModel, StorageConverter>, IStorageService
     {
         public StorageService(ApplicationDbContext context) : base(context)
         {

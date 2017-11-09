@@ -10,6 +10,7 @@ namespace MoneyChest.Data.Converters
     {
         TEntity ToEntity(TModel model);
         TModel ToModel(TEntity entity);
-        TEntity Update(TEntity entity, TModel model);
+        TEntity UpdateEntity(TEntity entity, TModel model);
+        TModel UpdateModel(TEntity entity, TModel model);
     }
 }

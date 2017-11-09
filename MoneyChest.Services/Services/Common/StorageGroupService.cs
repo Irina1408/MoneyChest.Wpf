@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IStorageGroupService : IBaseIdManagableUserableListService<StorageGroupModel>
+    public interface IStorageGroupService : IIdManagableUserableListServiceBase<StorageGroupModel>
     {
     }
 
-    public class StorageGroupService : BaseHistoricizedIdManageableUserableListService<StorageGroup, StorageGroupModel, StorageGroupConverter>, IStorageGroupService
+    public class StorageGroupService : HistoricizedIdManageableUserableListServiceBase<StorageGroup, StorageGroupModel, StorageGroupConverter>, IStorageGroupService
     {
         public StorageGroupService(ApplicationDbContext context) : base(context)
         {

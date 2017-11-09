@@ -32,12 +32,20 @@ namespace MoneyChest.Data.Converters
             return model;
         }
 
-        public virtual TEntity Update(TEntity entity, TModel model)
+        public virtual TEntity UpdateEntity(TEntity entity, TModel model)
         {
             // update all entity fields
             FillEntity(entity, model);
 
             return entity;
+        }
+
+        public virtual TModel UpdateModel(TEntity entity, TModel model)
+        {
+            // update all model fields
+            FillModel(entity, model);
+
+            return model;
         }
 
         protected abstract void FillEntity(TEntity entity, TModel model);

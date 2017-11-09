@@ -13,11 +13,11 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services.Events
 {
-    public interface IRepayDebtEventService : IBaseIdManagableUserableListService<RepayDebtEventModel>
+    public interface IRepayDebtEventService : IIdManagableUserableListServiceBase<RepayDebtEventModel>
     {
     }
 
-    public class RepayDebtEventService : BaseHistoricizedIdManageableUserableListService<RepayDebtEvent, RepayDebtEventModel, RepayDebtEventConverter>, IRepayDebtEventService
+    public class RepayDebtEventService : HistoricizedIdManageableUserableListServiceBase<RepayDebtEvent, RepayDebtEventModel, RepayDebtEventConverter>, IRepayDebtEventService
     {
         public RepayDebtEventService(ApplicationDbContext context) : base(context)
         {

@@ -17,7 +17,7 @@ namespace MoneyChest.Services.Services
     {
     }
 
-    public class CalendarSettingService : BaseUserSettingService<CalendarSetting, CalendarSettingModel, CalendarSettingConverter>, ICalendarSettingService
+    public class CalendarSettingService : UserSettingServiceBase<CalendarSetting, CalendarSettingModel, CalendarSettingConverter>, ICalendarSettingService
     {
         public CalendarSettingService(ApplicationDbContext context) : base(context)
         {

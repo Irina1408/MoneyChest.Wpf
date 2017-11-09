@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public abstract class BaseService<T, TModel, TConverter> : BaseService<T>, IBaseService<TModel>
+    public abstract class ServiceBase<T, TModel, TConverter> : ServiceBase<T>, IServiceBase<TModel>
         where T : class
         where TModel : class
         where TConverter : IEntityModelConverter<T, TModel>, new()
     {
         protected IEntityModelConverter<T, TModel> _converter;
 
-        public BaseService(ApplicationDbContext context) : base(context)
+        public ServiceBase(ApplicationDbContext context) : base(context)
         {
             _converter = new TConverter();
         }
@@ -38,13 +38,13 @@ namespace MoneyChest.Services.Services.Base
             // get from database
             var dbEntity = GetSingleDb(model);
             // update entity by converter
-            dbEntity = _converter.Update(dbEntity, model);
+            dbEntity = _converter.UpdateEntity(dbEntity, model);
             // update entity in database
             dbEntity = Update(dbEntity);
             // save changes
             SaveChanges();
 
-            return _converter.ToModel(dbEntity);
+            return _converter.UpdateModel(dbEntity, model);
         }
 
         public virtual void Delete(TModel model)

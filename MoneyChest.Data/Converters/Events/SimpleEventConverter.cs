@@ -10,57 +10,10 @@ using MoneyChest.Data.Extensions;
 
 namespace MoneyChest.Data.Converters
 {
-    public class SimpleEventConverter : IEntityModelConverter<SimpleEvent, SimpleEventModel>
+    public class SimpleEventConverter : EntityModelConverterBase<SimpleEvent, SimpleEventModel>
     {
-        public SimpleEvent ToEntity(SimpleEventModel model)
+        protected override void FillEntity(SimpleEvent entity, SimpleEventModel model)
         {
-            return new SimpleEvent()
-            {
-                Description = model.Description,
-                Value = model.Value,
-                EventState = model.EventState,
-                PausedToDate = model?.PausedToDate,
-                AutoExecution = model.AutoExecution,
-                AutoExecutionTime = model?.AutoExecutionTime,
-                ConfirmBeforeExecute = model.ConfirmBeforeExecute,
-                EventType = model.EventType,
-                Remark = model.Remark,
-                UserId = model.UserId,
-                StorageId = model.StorageId,
-                TransactionType = model.TransactionType,
-                CategoryId = model.CategoryId,
-                CurrencyId = model.CurrencyId
-            };
-        }
-
-        public SimpleEventModel ToModel(SimpleEvent entity)
-        {
-            return new SimpleEventModel()
-            {
-                Id = entity.Id,
-                Description = entity.Description,
-                Value = entity.Value,
-                EventState = entity.EventState,
-                PausedToDate = entity?.PausedToDate,
-                AutoExecution = entity.AutoExecution,
-                AutoExecutionTime = entity?.AutoExecutionTime,
-                ConfirmBeforeExecute = entity.ConfirmBeforeExecute,
-                EventType = entity.EventType,
-                Remark = entity.Remark,
-                UserId = entity.UserId,
-                StorageId = entity.StorageId,
-                TransactionType = entity.TransactionType,
-                CategoryId = entity.CategoryId,
-                CurrencyId = entity.CurrencyId,
-                Storage = entity.Storage.ToReferenceView(),
-                Currency = entity.Currency.ToReferenceView(),
-                Category = entity?.Category.ToReferenceView()
-            };
-        }
-
-        public SimpleEvent Update(SimpleEvent entity, SimpleEventModel model)
-        {
-            entity.Id = model.Id;
             entity.Description = model.Description;
             entity.Value = model.Value;
             entity.EventState = model.EventState;
@@ -75,8 +28,28 @@ namespace MoneyChest.Data.Converters
             entity.TransactionType = model.TransactionType;
             entity.CurrencyId = model.CurrencyId;
             entity.CategoryId = model.CategoryId;
+        }
 
-            return entity;
+        protected override void FillModel(SimpleEvent entity, SimpleEventModel model)
+        {
+            model.Id = entity.Id;
+            model.Description = entity.Description;
+            model.Value = entity.Value;
+            model.EventState = entity.EventState;
+            model.PausedToDate = entity?.PausedToDate;
+            model.AutoExecution = entity.AutoExecution;
+            model.AutoExecutionTime = entity?.AutoExecutionTime;
+            model.ConfirmBeforeExecute = entity.ConfirmBeforeExecute;
+            model.EventType = entity.EventType;
+            model.Remark = entity.Remark;
+            model.UserId = entity.UserId;
+            model.StorageId = entity.StorageId;
+            model.TransactionType = entity.TransactionType;
+            model.CategoryId = entity.CategoryId;
+            model.CurrencyId = entity.CurrencyId;
+            model.Storage = entity.Storage.ToReferenceView();
+            model.Currency = entity.Currency.ToReferenceView();
+            model.Category = entity?.Category.ToReferenceView();
         }
     }
 }

@@ -13,11 +13,11 @@ using System.Data.Entity;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IWeeklyScheduleService : IBaseIdManagableService<WeeklyScheduleModel>
+    public interface IWeeklyScheduleService : IIdManagableServiceBase<WeeklyScheduleModel>
     {
     }
 
-    public class WeeklyScheduleService : BaseHistoricizedIdManageableService<WeeklySchedule, WeeklyScheduleModel, WeeklyScheduleConverter>, IWeeklyScheduleService
+    public class WeeklyScheduleService : HistoricizedIdManageableServiceBase<WeeklySchedule, WeeklyScheduleModel, WeeklyScheduleConverter>, IWeeklyScheduleService
     {
         public WeeklyScheduleService(ApplicationDbContext context) : base(context)
         {
@@ -45,7 +45,7 @@ namespace MoneyChest.Services.Services
             // get from database
             var dbEntity = GetSingleDb(model);
             // update entity by converter
-            dbEntity = _converter.Update(dbEntity, model);
+            dbEntity = _converter.UpdateEntity(dbEntity, model);
             // update entity in database
             dbEntity = Update(dbEntity);
             // clear days of week

@@ -17,7 +17,7 @@ namespace MoneyChest.Services.Services.Settings
     {
     }
 
-    public class RecordsViewFilterService : BaseUserSettingService<RecordsViewFilter, RecordsViewFilterModel, RecordsViewFilterConverter>, IRecordsViewFilterService
+    public class RecordsViewFilterService : UserSettingServiceBase<RecordsViewFilter, RecordsViewFilterModel, RecordsViewFilterConverter>, IRecordsViewFilterService
     {
         public RecordsViewFilterService(ApplicationDbContext context) : base(context)
         {

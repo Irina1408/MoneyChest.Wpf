@@ -10,40 +10,9 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Converters
 {
-    public class StorageConverter : IEntityModelConverter<Storage, StorageModel>
+    public class StorageConverter : EntityModelConverterBase<Storage, StorageModel>
     {
-        public Storage ToEntity(StorageModel model)
-        {
-            return new Storage()
-            {
-                Name = model.Name,
-                Value = model.Value,
-                IsHidden = model.IsHidden,
-                Remark = model.Remark,
-                CurrencyId = model.CurrencyId,
-                StorageGroupId = model.StorageGroupId,
-                UserId = model.UserId
-            };
-        }
-
-        public StorageModel ToModel(Storage entity)
-        {
-            return new StorageModel()
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                Value = entity.Value,
-                IsHidden = entity.IsHidden,
-                Remark = entity.Remark,
-                CurrencyId = entity.CurrencyId,
-                StorageGroupId = entity.StorageGroupId,
-                UserId = entity.UserId,
-                Currency = entity.Currency.ToReferenceView(),
-                StorageGroup = entity.StorageGroup.ToReferenceView()
-            };
-        }
-
-        public Storage Update(Storage entity, StorageModel model)
+        protected override void FillEntity(Storage entity, StorageModel model)
         {
             entity.Name = model.Name;
             entity.Value = model.Value;
@@ -52,8 +21,20 @@ namespace MoneyChest.Data.Converters
             entity.StorageGroupId = model.StorageGroupId;
             entity.CurrencyId = model.CurrencyId;
             entity.UserId = model.UserId;
+        }
 
-            return entity;
+        protected override void FillModel(Storage entity, StorageModel model)
+        {
+            model.Id = entity.Id;
+            model.Name = entity.Name;
+            model.Value = entity.Value;
+            model.IsHidden = entity.IsHidden;
+            model.Remark = entity.Remark;
+            model.CurrencyId = entity.CurrencyId;
+            model.StorageGroupId = entity.StorageGroupId;
+            model.UserId = entity.UserId;
+            model.Currency = entity.Currency.ToReferenceView();
+            model.StorageGroup = entity.StorageGroup.ToReferenceView();
         }
     }
 }

@@ -12,11 +12,11 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IDailyScheduleService : IBaseIdManagableService<DailyScheduleModel>
+    public interface IDailyScheduleService : IIdManagableServiceBase<DailyScheduleModel>
     {
     }
 
-    public class DailyScheduleService : BaseHistoricizedIdManageableService<DailySchedule, DailyScheduleModel, DailyScheduleConverter>, IDailyScheduleService
+    public class DailyScheduleService : HistoricizedIdManageableServiceBase<DailySchedule, DailyScheduleModel, DailyScheduleConverter>, IDailyScheduleService
     {
         public DailyScheduleService(ApplicationDbContext context) : base(context)
         {

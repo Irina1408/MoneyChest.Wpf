@@ -16,7 +16,7 @@ namespace MoneyChest.Tests.Services
         where T : class, new()
         where TModel : class, new()
         where TConverter : IEntityModelConverter<T, TModel>, new()
-        where TService : BaseHistoricizedService<T, TModel, TConverter>
+        where TService : HistoricizedServiceBase<T, TModel, TConverter>
         where THistory : class, IUserActionHistory, new()
     {
         #region Overrides

@@ -10,48 +10,9 @@ using MoneyChest.Data.Extensions;
 
 namespace MoneyChest.Data.Converters
 {
-    public class RecordConverter : IEntityModelConverter<Record, RecordModel>
+    public class RecordConverter : EntityModelConverterBase<Record, RecordModel>
     {
-        public Record ToEntity(RecordModel model)
-        {
-            return new Record()
-            {
-                Date = model.Date,
-                Description = model.Description,
-                TransactionType = model.TransactionType,
-                Value = model.Value,
-                Remark = model.Remark,
-                CategoryId = model?.CategoryId,
-                CurrencyId = model.CurrencyId,
-                StorageId = model?.StorageId,
-                DebtId = model?.DebtId,
-                UserId = model.UserId
-            };
-        }
-
-        public RecordModel ToModel(Record entity)
-        {
-            return new RecordModel()
-            {
-                Id = entity.Id,
-                Date = entity.Date,
-                Description = entity.Description,
-                TransactionType = entity.TransactionType,
-                Value = entity.Value,
-                Remark = entity.Remark,
-                CategoryId = entity?.CategoryId,
-                CurrencyId = entity.CurrencyId,
-                StorageId = entity?.StorageId,
-                DebtId = entity?.DebtId,
-                UserId = entity.UserId,
-                Category = entity?.Category?.ToReferenceView(),
-                Currency = entity.Currency.ToReferenceView(),
-                Storage = entity?.Storage?.ToReferenceView(),
-                Debt = entity?.Debt?.ToReferenceView()
-            };
-        }
-
-        public Record Update(Record entity, RecordModel model)
+        protected override void FillEntity(Record entity, RecordModel model)
         {
             entity.Date = model.Date;
             entity.Description = model.Description;
@@ -63,8 +24,25 @@ namespace MoneyChest.Data.Converters
             entity.StorageId = model?.StorageId;
             entity.DebtId = model?.DebtId;
             entity.UserId = model.UserId;
+        }
 
-            return entity;
+        protected override void FillModel(Record entity, RecordModel model)
+        {
+            model.Id = entity.Id;
+            model.Date = entity.Date;
+            model.Description = entity.Description;
+            model.TransactionType = entity.TransactionType;
+            model.Value = entity.Value;
+            model.Remark = entity.Remark;
+            model.CategoryId = entity?.CategoryId;
+            model.CurrencyId = entity.CurrencyId;
+            model.StorageId = entity?.StorageId;
+            model.DebtId = entity?.DebtId;
+            model.UserId = entity.UserId;
+            model.Category = entity?.Category?.ToReferenceView();
+            model.Currency = entity.Currency.ToReferenceView();
+            model.Storage = entity?.Storage?.ToReferenceView();
+            model.Debt = entity?.Debt?.ToReferenceView();
         }
     }
 }

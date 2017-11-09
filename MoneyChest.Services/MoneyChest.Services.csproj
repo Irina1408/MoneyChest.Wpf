@@ -50,23 +50,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ServiceManager.cs" />
-    <Compile Include="Services\Base\InterfaceImplementationsBase\BaseHistoricizedIdManageableService.cs" />
-    <Compile Include="Services\Base\InterfaceImplementationsBase\BaseHistoricizedIdManageableUserableListService.cs" />
-    <Compile Include="Services\Base\InterfaceImplementationsBase\IBaseIdManagableService.cs" />
-    <Compile Include="Services\Base\InterfaceImplementationsBase\IBaseIdManagableUserableListService.cs" />
-    <Compile Include="Services\Base\BaseHistoricizedService.EntityModel.cs" />
-    <Compile Include="Services\Base\BaseService.Entity.cs" />
-    <Compile Include="Services\Base\BaseService.EntityModel.cs" />
-    <Compile Include="Services\Base\Interfaces\IBaseService.cs" />
+    <Compile Include="Services\Base\InterfaceImplementationsBase\HistoricizedIdManageableServiceBase.cs" />
+    <Compile Include="Services\Base\InterfaceImplementationsBase\HistoricizedIdManageableUserableListServiceBase.cs" />
+    <Compile Include="Services\Base\InterfaceImplementationsBase\IIdManagableServiceBase.cs" />
+    <Compile Include="Services\Base\InterfaceImplementationsBase\IIdManagableUserableListServiceBase.cs" />
+    <Compile Include="Services\Base\HistoricizedServiceBase.EntityModel.cs" />
+    <Compile Include="Services\Base\ServiceBase.Entity.cs" />
+    <Compile Include="Services\Base\ServiceBase.EntityModel.cs" />
+    <Compile Include="Services\Base\Interfaces\IServiceBase.cs" />
     <Compile Include="Services\Base\Interfaces\IUserableService.cs" />
-    <Compile Include="Services\Base\SpecificBaseServices\BaseUserSettingService.cs" />
+    <Compile Include="Services\Base\SpecificBaseServices\UserSettingServiceBase.cs" />
     <Compile Include="Services\Defaults\DefaultsLoadingService.cs" />
     <Compile Include="Services\Defaults\DefaultsLoaderEng.cs" />
     <Compile Include="Services\Defaults\DefaultsLoaderRus.cs" />
     <Compile Include="Services\Defaults\IDefaultsLoader.cs" />
     <Compile Include="Exceptions\WriteHistoryException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Base\BaseService.cs" />
+    <Compile Include="Services\Base\ServiceBase.cs" />
     <Compile Include="Services\Base\Interfaces\IIdManageable.cs" />
     <Compile Include="Services\Common\CategoryService.cs" />
     <Compile Include="Services\Currency\CurrencyExchangeRateService.cs" />

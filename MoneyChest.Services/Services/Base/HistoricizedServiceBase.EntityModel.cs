@@ -12,14 +12,14 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public abstract class BaseHistoricizedService<T, TModel, TConverter> : BaseService<T, TModel, TConverter>
+    public abstract class HistoricizedServiceBase<T, TModel, TConverter> : ServiceBase<T, TModel, TConverter>
         where T : class
         where TModel : class
         where TConverter : IEntityModelConverter<T, TModel>, new()
     {
         private HistoryService _historyService;
 
-        public BaseHistoricizedService(ApplicationDbContext context) : base(context)
+        public HistoricizedServiceBase(ApplicationDbContext context) : base(context)
         {
             _historyService = new HistoryService(context);
         }

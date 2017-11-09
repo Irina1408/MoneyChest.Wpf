@@ -13,7 +13,7 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface ICategoryService : IBaseIdManagableUserableListService<CategoryModel>
+    public interface ICategoryService : IIdManagableUserableListServiceBase<CategoryModel>
     {
         int GetLowestCategoryLevel(int userId);
 
@@ -32,7 +32,7 @@ namespace MoneyChest.Services.Services
         Dictionary<int, int> GetCategoryLevelMapping(int userId);
     }
 
-    public class CategoryService : BaseHistoricizedIdManageableUserableListService<Category, CategoryModel, CategoryConverter>, ICategoryService
+    public class CategoryService : HistoricizedIdManageableUserableListServiceBase<Category, CategoryModel, CategoryConverter>, ICategoryService
     {
         #region Initialization
 

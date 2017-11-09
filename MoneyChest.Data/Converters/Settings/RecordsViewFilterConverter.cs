@@ -8,40 +8,9 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Converters
 {
-    public class RecordsViewFilterConverter : IEntityModelConverter<RecordsViewFilter, RecordsViewFilterModel>
+    public class RecordsViewFilterConverter : EntityModelConverterBase<RecordsViewFilter, RecordsViewFilterModel>
     {
-        public RecordsViewFilter ToEntity(RecordsViewFilterModel model)
-        {
-            return new RecordsViewFilter()
-            {
-                UserId = model.UserId,
-                AllCategories = model.AllCategories,
-                Description = model.Description,
-                Remark = model.Remark,
-                PeriodFilterType = model.PeriodFilterType,
-                TransactionType = model.TransactionType,
-                DateFrom = model?.DateFrom,
-                DateUntil = model?.DateUntil
-            };
-        }
-
-        public RecordsViewFilterModel ToModel(RecordsViewFilter entity)
-        {
-            return new RecordsViewFilterModel()
-            {
-                UserId = entity.UserId,
-                AllCategories = entity.AllCategories,
-                Description = entity.Description,
-                Remark = entity.Remark,
-                PeriodFilterType = entity.PeriodFilterType,
-                TransactionType = entity.TransactionType,
-                DateFrom = entity?.DateFrom,
-                DateUntil = entity?.DateUntil,
-                CategoryIds = entity.Categories.Select(e => e.Id).ToList()
-            };
-        }
-
-        public RecordsViewFilter Update(RecordsViewFilter entity, RecordsViewFilterModel model)
+        protected override void FillEntity(RecordsViewFilter entity, RecordsViewFilterModel model)
         {
             entity.UserId = model.UserId;
             entity.AllCategories = model.AllCategories;
@@ -51,8 +20,19 @@ namespace MoneyChest.Data.Converters
             entity.TransactionType = model.TransactionType;
             entity.DateFrom = model?.DateFrom;
             entity.DateUntil = model?.DateUntil;
+        }
 
-            return entity;
+        protected override void FillModel(RecordsViewFilter entity, RecordsViewFilterModel model)
+        {
+            model.UserId = entity.UserId;
+            model.AllCategories = entity.AllCategories;
+            model.Description = entity.Description;
+            model.Remark = entity.Remark;
+            model.PeriodFilterType = entity.PeriodFilterType;
+            model.TransactionType = entity.TransactionType;
+            model.DateFrom = entity?.DateFrom;
+            model.DateUntil = entity?.DateUntil;
+            model.CategoryIds = entity.Categories.Select(e => e.Id).ToList();
         }
     }
 }

@@ -13,11 +13,11 @@ using System.Data.Entity;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IMonthlyScheduleService : IBaseIdManagableService<MonthlyScheduleModel>
+    public interface IMonthlyScheduleService : IIdManagableServiceBase<MonthlyScheduleModel>
     {
     }
 
-    public class MonthlyScheduleService : BaseHistoricizedIdManageableService<MonthlySchedule, MonthlyScheduleModel, MonthlyScheduleConverter>, IMonthlyScheduleService
+    public class MonthlyScheduleService : HistoricizedIdManageableServiceBase<MonthlySchedule, MonthlyScheduleModel, MonthlyScheduleConverter>, IMonthlyScheduleService
     {
         public MonthlyScheduleService(ApplicationDbContext context) : base(context)
         {
@@ -45,7 +45,7 @@ namespace MoneyChest.Services.Services
             // get from database
             var dbEntity = GetSingleDb(model);
             // update entity by converter
-            dbEntity = _converter.Update(dbEntity, model);
+            dbEntity = _converter.UpdateEntity(dbEntity, model);
             // update entity in database
             dbEntity = Update(dbEntity);
             // clear monthes

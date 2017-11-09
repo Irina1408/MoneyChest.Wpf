@@ -16,10 +16,10 @@ namespace MoneyChest.Tests.Services
         where T : class, IHasId, IHasUserId, new()
         where TModel : class, IHasId, IHasUserId, new()
         where TConverter : IEntityModelConverter<T, TModel>, new()
-        where TService : BaseHistoricizedIdManageableUserableListService<T, TModel, TConverter>
+        where TService : HistoricizedIdManageableUserableListServiceBase<T, TModel, TConverter>
         where THistory : class, IUserActionHistory, new()
     {
-        protected BaseHistoricizedIdManageableUserableListService<T, TModel, TConverter> serviceUserableList;
+        protected HistoricizedIdManageableUserableListServiceBase<T, TModel, TConverter> serviceUserableList;
 
         [TestInitialize]
         public override void Init()

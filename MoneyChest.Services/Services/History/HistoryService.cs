@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Services.Services.History
 {
-    internal interface IHistoryService : IBaseService
+    internal interface IHistoryService : IServiceBase
     {
         void WriteHistory(object entity, ActionType actionType, int userId);
         void WriteHistory<T, THistory>(T entity, ActionType actionType, int userId, Action<THistory> overrides = null)
@@ -21,7 +21,7 @@ namespace MoneyChest.Services.Services.History
         where THistory : class, IUserActionHistory, new();
     }
 
-    internal class HistoryService : BaseService, IHistoryService
+    internal class HistoryService : ServiceBase, IHistoryService
     {
         #region Private fields
 

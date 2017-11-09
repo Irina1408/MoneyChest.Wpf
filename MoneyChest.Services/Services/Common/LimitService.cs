@@ -14,11 +14,11 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface ILimitService : IBaseIdManagableUserableListService<LimitModel>
+    public interface ILimitService : IIdManagableUserableListServiceBase<LimitModel>
     {
     }
 
-    public class LimitService : BaseHistoricizedIdManageableUserableListService<Limit, LimitModel, LimitConverter>, ILimitService
+    public class LimitService : HistoricizedIdManageableUserableListServiceBase<Limit, LimitModel, LimitConverter>, ILimitService
     {
         public LimitService(ApplicationDbContext context) : base(context)
         {

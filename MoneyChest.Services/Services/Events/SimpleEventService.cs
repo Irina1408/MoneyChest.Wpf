@@ -15,11 +15,11 @@ using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Services.Services.Events
 {
-    public interface ISimpleEventService : IBaseIdManagableUserableListService<SimpleEventModel>
+    public interface ISimpleEventService : IIdManagableUserableListServiceBase<SimpleEventModel>
     {
     }
 
-    public class SimpleEventService : BaseHistoricizedIdManageableUserableListService<SimpleEvent, SimpleEventModel, SimpleEventConverter>, ISimpleEventService
+    public class SimpleEventService : HistoricizedIdManageableUserableListServiceBase<SimpleEvent, SimpleEventModel, SimpleEventConverter>, ISimpleEventService
     {
         public SimpleEventService(ApplicationDbContext context) : base(context)
         {

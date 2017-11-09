@@ -21,7 +21,7 @@ namespace MoneyChest.Services.Services
         SchedulesScopeModel GetActiveForDate(int userId, DateTime date);
     }
 
-    public class ScheduleService : BaseService, IScheduleService
+    public class ScheduleService : ServiceBase, IScheduleService
     {
         #region Private fields
 

@@ -14,12 +14,12 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface ICurrencyExchangeRateService : IBaseService<CurrencyExchangeRateModel>, IUserableListService<CurrencyExchangeRateModel>
+    public interface ICurrencyExchangeRateService : IServiceBase<CurrencyExchangeRateModel>, IUserableListService<CurrencyExchangeRateModel>
     {
         List<CurrencyExchangeRateModel> GetList(int userId, int currencyToId);
     }
 
-    public class CurrencyExchangeRateService : BaseHistoricizedService<CurrencyExchangeRate, CurrencyExchangeRateModel, CurrencyExchangeRateConverter>, ICurrencyExchangeRateService
+    public class CurrencyExchangeRateService : HistoricizedServiceBase<CurrencyExchangeRate, CurrencyExchangeRateModel, CurrencyExchangeRateConverter>, ICurrencyExchangeRateService
     {
         public CurrencyExchangeRateService(ApplicationDbContext context) : base(context)
         {

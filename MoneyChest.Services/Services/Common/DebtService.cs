@@ -14,12 +14,12 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IDebtService : IBaseIdManagableUserableListService<DebtModel>
+    public interface IDebtService : IIdManagableUserableListServiceBase<DebtModel>
     {
         List<DebtModel> GetActive(int userId);
     }
 
-    public class DebtService : BaseHistoricizedIdManageableUserableListService<Debt, DebtModel, DebtConverter>, IDebtService
+    public class DebtService : HistoricizedIdManageableUserableListServiceBase<Debt, DebtModel, DebtConverter>, IDebtService
     {
         public DebtService(ApplicationDbContext context) : base(context)
         { }

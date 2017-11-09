@@ -18,9 +18,9 @@ namespace MoneyChest.Tests.Services
         where T : class, IHasUserId, new()
         where TModel : class, IHasUserId
         where TConverter : IEntityModelConverter<T, TModel>, new()
-        where TService : BaseUserSettingService<T, TModel, TConverter>
+        where TService : UserSettingServiceBase<T, TModel, TConverter>
     {
-        protected BaseUserSettingService<T, TModel, TConverter> service;
+        protected UserSettingServiceBase<T, TModel, TConverter> service;
         protected IEntityModelConverter<T, TModel> converter;
         protected UserModel user;
 

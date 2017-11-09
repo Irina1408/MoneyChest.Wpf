@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public interface IBaseService : IDisposable
+    public interface IServiceBase : IDisposable
     {
         void SaveChanges();
         Task SaveChangesAsync();
     }
 
-    public interface IBaseService<T>
+    public interface IServiceBase<T>
         where T : class
     {
         T Add(T entity);

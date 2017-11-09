@@ -9,38 +9,9 @@ using MoneyChest.Model.Model;
 
 namespace MoneyChest.Data.Converters
 {
-    public class CurrencyConverter : IEntityModelConverter<Currency, CurrencyModel>
+    public class CurrencyConverter : EntityModelConverterBase<Currency, CurrencyModel>
     {
-        public Currency ToEntity(CurrencyModel model)
-        {
-            return new Currency()
-            {
-                Name = model.Name,
-                Code = model.Code,
-                Symbol = model.Symbol,
-                IsUsed = model.IsUsed,
-                IsMain = model.IsMain,
-                SymbolAlignmentIsRight = model.SymbolAlignmentIsRight,
-                UserId = model.UserId
-            };
-        }
-
-        public CurrencyModel ToModel(Currency entity)
-        {
-            return new CurrencyModel()
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                Code = entity.Code,
-                Symbol = entity.Symbol,
-                IsUsed = entity.IsUsed,
-                IsMain = entity.IsMain,
-                SymbolAlignmentIsRight = entity.SymbolAlignmentIsRight,
-                UserId = entity.UserId
-            };
-        }
-
-        public Currency Update(Currency entity, CurrencyModel model)
+        protected override void FillEntity(Currency entity, CurrencyModel model)
         {
             entity.Name = model.Name;
             entity.Code = model.Code;
@@ -49,8 +20,18 @@ namespace MoneyChest.Data.Converters
             entity.IsMain = model.IsMain;
             entity.SymbolAlignmentIsRight = model.SymbolAlignmentIsRight;
             entity.UserId = model.UserId;
+        }
 
-            return entity;
+        protected override void FillModel(Currency entity, CurrencyModel model)
+        {
+            model.Id = entity.Id;
+            model.Name = entity.Name;
+            model.Code = entity.Code;
+            model.Symbol = entity.Symbol;
+            model.IsUsed = entity.IsUsed;
+            model.IsMain = entity.IsMain;
+            model.SymbolAlignmentIsRight = entity.SymbolAlignmentIsRight;
+            model.UserId = entity.UserId;
         }
     }
 }

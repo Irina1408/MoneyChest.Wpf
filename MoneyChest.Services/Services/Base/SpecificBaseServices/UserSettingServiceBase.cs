@@ -14,14 +14,14 @@ namespace MoneyChest.Services.Services.Base
         TModel Update(TModel model);
     }
 
-    public abstract class BaseUserSettingService<T, TModel, TConverter> : BaseService<T>, IUserSettingsService<TModel>
+    public abstract class UserSettingServiceBase<T, TModel, TConverter> : ServiceBase<T>, IUserSettingsService<TModel>
         where T : class, IHasUserId
         where TModel : class, IHasUserId
         where TConverter : IEntityModelConverter<T, TModel>, new()
     {
         protected IEntityModelConverter<T, TModel> _converter;
 
-        public BaseUserSettingService(ApplicationDbContext context) : base(context)
+        public UserSettingServiceBase(ApplicationDbContext context) : base(context)
         {
             _converter = new TConverter();
         }
@@ -33,7 +33,7 @@ namespace MoneyChest.Services.Services.Base
             // get from database
             var dbEntity = Scope.FirstOrDefault(e => e.UserId == model.UserId);
             // update entity by converter (update fields)
-            dbEntity = _converter.Update(dbEntity, model);
+            dbEntity = _converter.UpdateEntity(dbEntity, model);
             // update related entities
             dbEntity = Update(dbEntity, model);
             // update entity in database

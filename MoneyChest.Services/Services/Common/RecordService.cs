@@ -17,14 +17,14 @@ using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IRecordService : IBaseIdManagableUserableListService<RecordModel>
+    public interface IRecordService : IIdManagableUserableListServiceBase<RecordModel>
     {
         List<RecordModel> Get(int userId, PeriodFilterType period, TransactionType transactionType, bool includeWithoutCategory, List<int> categoryIds = null);
         List<RecordModel> Get(int userId, DateTime from, DateTime until, TransactionType transactionType, bool includeWithoutCategory, List<int> categoryIds = null);
         List<RecordModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds);
     }
 
-    public class RecordService : BaseHistoricizedIdManageableUserableListService<Record, RecordModel, RecordConverter>, IRecordService
+    public class RecordService : HistoricizedIdManageableUserableListServiceBase<Record, RecordModel, RecordConverter>, IRecordService
     {
         #region Initialization
 

@@ -17,7 +17,7 @@ namespace MoneyChest.Services.Services.Settings
     {
     }
 
-    public class GeneralSettingService : BaseUserSettingService<GeneralSetting, GeneralSettingModel, GeneralSettingConverter>, IGeneralSettingService
+    public class GeneralSettingService : UserSettingServiceBase<GeneralSetting, GeneralSettingModel, GeneralSettingConverter>, IGeneralSettingService
     {
         public GeneralSettingService(ApplicationDbContext context) : base(context)
         {

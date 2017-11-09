@@ -8,42 +8,25 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Converters
 {
-    public class CategoryConverter : IEntityModelConverter<Category, CategoryModel>
+    public class CategoryConverter : EntityModelConverterBase<Category, CategoryModel>
     {
-        public Category ToEntity(CategoryModel model)
-        {
-            return new Category()
-            {
-                Name = model.Name,
-                InHistory = model.InHistory,
-                TransactionType = model?.TransactionType,
-                ParentCategoryId = model?.ParentCategoryId,
-                UserId = model.UserId
-            };
-        }
-
-        public CategoryModel ToModel(Category entity)
-        {
-            return new CategoryModel()
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                InHistory = entity.InHistory,
-                TransactionType = entity?.TransactionType,
-                ParentCategoryId = entity?.ParentCategoryId,
-                UserId = entity.UserId
-            };
-        }
-
-        public Category Update(Category entity, CategoryModel model)
+        protected override void FillEntity(Category entity, CategoryModel model)
         {
             entity.Name = model.Name;
             entity.InHistory = model.InHistory;
             entity.TransactionType = model?.TransactionType;
             entity.ParentCategoryId = model?.ParentCategoryId;
             entity.UserId = model.UserId;
+        }
 
-            return entity;
+        protected override void FillModel(Category entity, CategoryModel model)
+        {
+            model.Id = entity.Id;
+            model.Name = entity.Name;
+            model.InHistory = entity.InHistory;
+            model.TransactionType = entity?.TransactionType;
+            model.ParentCategoryId = entity?.ParentCategoryId;
+            model.UserId = entity.UserId;
         }
     }
 }

@@ -8,42 +8,9 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Data.Converters
 {
-    public class ReportSettingConverter : IEntityModelConverter<ReportSetting, ReportSettingModel>
+    public class ReportSettingConverter : EntityModelConverterBase<ReportSetting, ReportSettingModel>
     {
-        public ReportSetting ToEntity(ReportSettingModel model)
-        {
-            return new ReportSetting()
-            {
-                UserId = model.UserId,
-                AllCategories = model.AllCategories,
-                IncludeRecordsWithoutCategory = model.IncludeRecordsWithoutCategory,
-                ReportType = model.ReportType,
-                PeriodFilterType = model.PeriodFilterType,
-                DataType = model?.DataType,
-                CategoryLevel = model.CategoryLevel,
-                DateFrom = model?.DateFrom,
-                DateUntil = model?.DateUntil
-            };
-        }
-
-        public ReportSettingModel ToModel(ReportSetting entity)
-        {
-            return new ReportSettingModel()
-            {
-                UserId = entity.UserId,
-                AllCategories = entity.AllCategories,
-                IncludeRecordsWithoutCategory = entity.IncludeRecordsWithoutCategory,
-                ReportType = entity.ReportType,
-                PeriodFilterType = entity.PeriodFilterType,
-                DataType = entity?.DataType,
-                CategoryLevel = entity.CategoryLevel,
-                DateFrom = entity?.DateFrom,
-                DateUntil = entity?.DateUntil,
-                CategoryIds = entity.Categories.Select(e => e.Id).ToList()
-            };
-        }
-
-        public ReportSetting Update(ReportSetting entity, ReportSettingModel model)
+        protected override void FillEntity(ReportSetting entity, ReportSettingModel model)
         {
             entity.UserId = model.UserId;
             entity.AllCategories = model.AllCategories;
@@ -54,8 +21,20 @@ namespace MoneyChest.Data.Converters
             entity.CategoryLevel = model.CategoryLevel;
             entity.DateFrom = model?.DateFrom;
             entity.DateUntil = model?.DateUntil;
+        }
 
-            return entity;
+        protected override void FillModel(ReportSetting entity, ReportSettingModel model)
+        {
+            model.UserId = entity.UserId;
+            model.AllCategories = entity.AllCategories;
+            model.IncludeRecordsWithoutCategory = entity.IncludeRecordsWithoutCategory;
+            model.ReportType = entity.ReportType;
+            model.PeriodFilterType = entity.PeriodFilterType;
+            model.DataType = entity?.DataType;
+            model.CategoryLevel = entity.CategoryLevel;
+            model.DateFrom = entity?.DateFrom;
+            model.DateUntil = entity?.DateUntil;
+            model.CategoryIds = entity.Categories.Select(e => e.Id).ToList();
         }
     }
 }

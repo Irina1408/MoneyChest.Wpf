@@ -9,33 +9,19 @@ using MoneyChest.Model.Model;
 
 namespace MoneyChest.Data.Converters
 {
-    public class StorageGroupConverter : IEntityModelConverter<StorageGroup, StorageGroupModel>
+    public class StorageGroupConverter : EntityModelConverterBase<StorageGroup, StorageGroupModel>
     {
-        public StorageGroup ToEntity(StorageGroupModel model)
-        {
-            return new StorageGroup()
-            {
-                Name = model.Name,
-                UserId = model.UserId
-            };
-        }
-
-        public StorageGroupModel ToModel(StorageGroup entity)
-        {
-            return new StorageGroupModel()
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                UserId = entity.UserId
-            };
-        }
-
-        public StorageGroup Update(StorageGroup entity, StorageGroupModel model)
+        protected override void FillEntity(StorageGroup entity, StorageGroupModel model)
         {
             entity.Name = model.Name;
             entity.UserId = model.UserId;
+        }
 
-            return entity;
+        protected override void FillModel(StorageGroup entity, StorageGroupModel model)
+        {
+            model.Id = entity.Id;
+            model.Name = entity.Name;
+            model.UserId = entity.UserId;
         }
     }
 }

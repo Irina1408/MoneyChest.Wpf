@@ -9,12 +9,12 @@ using MoneyChest.Data.Converters;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public abstract class BaseHistoricizedIdManageableService<T, TModel, TConverter> : BaseHistoricizedService<T, TModel, TConverter>, IBaseIdManagableService<TModel>
+    public abstract class HistoricizedIdManageableServiceBase<T, TModel, TConverter> : HistoricizedServiceBase<T, TModel, TConverter>, IIdManagableServiceBase<TModel>
         where T : class, IHasId
         where TModel : class, IHasId
         where TConverter : IEntityModelConverter<T, TModel>, new()
     {
-        public BaseHistoricizedIdManageableService(ApplicationDbContext context) : base(context)
+        public HistoricizedIdManageableServiceBase(ApplicationDbContext context) : base(context)
         {
         }
 

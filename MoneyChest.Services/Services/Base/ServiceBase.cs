@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public abstract class BaseService : IBaseService
+    public abstract class ServiceBase : IServiceBase
     {
         protected ApplicationDbContext _context;
 
-        public BaseService(ApplicationDbContext context)
+        public ServiceBase(ApplicationDbContext context)
         {
             _context = context;
         }

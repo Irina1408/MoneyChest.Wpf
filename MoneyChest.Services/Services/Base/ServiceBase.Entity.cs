@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Services.Services.Base
 {
-    public abstract class BaseService<T> : BaseService//, IBaseService<T>
+    public abstract class ServiceBase<T> : ServiceBase//, IBaseService<T>
         where T : class
     {
-        public BaseService(ApplicationDbContext context) : base(context)
+        public ServiceBase(ApplicationDbContext context) : base(context)
         {
             Entities = context.Set<T>();
         }
