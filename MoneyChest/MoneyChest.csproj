@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>money.ico</ApplicationIcon>
+    <ApplicationIcon>Style\money.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -142,7 +142,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="money.ico" />
+    <Resource Include="Style\money.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoneyChest.Data\MoneyChest.Data.csproj">

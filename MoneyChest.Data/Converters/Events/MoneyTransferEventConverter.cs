@@ -10,66 +10,10 @@ using MoneyChest.Data.Extensions;
 
 namespace MoneyChest.Data.Converters
 {
-    public class MoneyTransferEventConverter : IEntityModelConverter<MoneyTransferEvent, MoneyTransferEventModel>
+    public class MoneyTransferEventConverter : EntityModelConverterBase<MoneyTransferEvent, MoneyTransferEventModel>
     {
-        public MoneyTransferEvent ToEntity(MoneyTransferEventModel model)
+        protected override void FillEntity(MoneyTransferEvent entity, MoneyTransferEventModel model)
         {
-            return new MoneyTransferEvent()
-            {
-                Description = model.Description,
-                Value = model.Value,
-                EventState = model.EventState,
-                PausedToDate = model?.PausedToDate,
-                AutoExecution = model.AutoExecution,
-                AutoExecutionTime = model?.AutoExecutionTime,
-                ConfirmBeforeExecute = model.ConfirmBeforeExecute,
-                EventType = model.EventType,
-                Remark = model.Remark,
-                UserId = model.UserId,
-                TakeExistingCurrencyExchangeRate = model.TakeExistingCurrencyExchangeRate,
-                CurrencyExchangeRate = model.CurrencyExchangeRate,
-                Commission = model.Commission,
-                TakeComissionFromReceiver = model.TakeComissionFromReceiver,
-                CommissionType = model.CommissionType,
-                StorageFromId = model.StorageFromId,
-                StorageToId = model.StorageToId,
-                CategoryId = model.CategoryId
-            };
-        }
-
-        public MoneyTransferEventModel ToModel(MoneyTransferEvent entity)
-        {
-            return new MoneyTransferEventModel()
-            {
-                Id = entity.Id,
-                Description = entity.Description,
-                Value = entity.Value,
-                EventState = entity.EventState,
-                PausedToDate = entity?.PausedToDate,
-                AutoExecution = entity.AutoExecution,
-                AutoExecutionTime = entity?.AutoExecutionTime,
-                ConfirmBeforeExecute = entity.ConfirmBeforeExecute,
-                EventType = entity.EventType,
-                Remark = entity.Remark,
-                UserId = entity.UserId,
-                TakeExistingCurrencyExchangeRate = entity.TakeExistingCurrencyExchangeRate,
-                CurrencyExchangeRate = entity.CurrencyExchangeRate,
-                Commission = entity.Commission,
-                TakeComissionFromReceiver = entity.TakeComissionFromReceiver,
-                CommissionType = entity.CommissionType,
-                StorageFromId = entity.StorageFromId,
-                StorageToId = entity.StorageToId,
-                StorageFrom = entity.StorageFrom.ToReferenceView(),
-                StorageTo = entity.StorageTo.ToReferenceView(),
-                StorageFromCurrency = entity.StorageFrom.Currency.ToReferenceView(),
-                StorageToCurrency = entity.StorageTo.Currency.ToReferenceView(),
-                Category = entity?.Category?.ToReferenceView()
-            };
-        }
-
-        public MoneyTransferEvent Update(MoneyTransferEvent entity, MoneyTransferEventModel model)
-        {
-            entity.Id = model.Id;
             entity.Description = model.Description;
             entity.Value = model.Value;
             entity.EventState = model.EventState;
@@ -88,8 +32,33 @@ namespace MoneyChest.Data.Converters
             entity.StorageFromId = model.StorageFromId;
             entity.StorageToId = model.StorageToId;
             entity.CategoryId = model?.CategoryId;
+        }
 
-            return entity;
+        protected override void FillModel(MoneyTransferEvent entity, MoneyTransferEventModel model)
+        {
+            model.Id = entity.Id;
+            model.Description = entity.Description;
+            model.Value = entity.Value;
+            model.EventState = entity.EventState;
+            model.PausedToDate = entity?.PausedToDate;
+            model.AutoExecution = entity.AutoExecution;
+            model.AutoExecutionTime = entity?.AutoExecutionTime;
+            model.ConfirmBeforeExecute = entity.ConfirmBeforeExecute;
+            model.EventType = entity.EventType;
+            model.Remark = entity.Remark;
+            model.UserId = entity.UserId;
+            model.TakeExistingCurrencyExchangeRate = entity.TakeExistingCurrencyExchangeRate;
+            model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
+            model.Commission = entity.Commission;
+            model.TakeComissionFromReceiver = entity.TakeComissionFromReceiver;
+            model.CommissionType = entity.CommissionType;
+            model.StorageFromId = entity.StorageFromId;
+            model.StorageToId = entity.StorageToId;
+            model.StorageFrom = entity.StorageFrom.ToReferenceView();
+            model.StorageTo = entity.StorageTo.ToReferenceView();
+            model.StorageFromCurrency = entity.StorageFrom.Currency.ToReferenceView();
+            model.StorageToCurrency = entity.StorageTo.Currency.ToReferenceView();
+            model.Category = entity?.Category?.ToReferenceView();
         }
     }
 }

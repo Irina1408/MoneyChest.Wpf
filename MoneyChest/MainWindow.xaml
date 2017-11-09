@@ -7,11 +7,9 @@
         xmlns:local="clr-namespace:MoneyChest"
         xmlns:main="clr-namespace:MoneyChest.View.Main;assembly=MoneyChest.View"
         mc:Ignorable="d"
-        Title="Money Chest" Height="350" Width="525" WindowState="Maximized"
-        ShowIconOnTitleBar="True" Icon="money.ico"
-        Closing="MainWindow_Closing"
-        BorderThickness="1"
-        GlowBrush="{DynamicResource AccentColorBrush}">
+        Height="350" Width="525" WindowState="Maximized"
+        Style="{StaticResource MoneyChestWindowStyle}"
+        Closing="MainWindow_Closing">
     
     <Grid>
         <main:MainView/>

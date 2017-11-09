@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Attributes\HistoricizedAttribute.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
+    <Compile Include="Converters\Base\EntityModelConverterBase.cs" />
     <Compile Include="Converters\Base\IEntityModelConverter.cs" />
     <Compile Include="Converters\CategoryConverter.cs" />
     <Compile Include="Converters\CurrencyConverter.cs" />

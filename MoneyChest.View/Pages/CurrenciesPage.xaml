@@ -61,12 +61,14 @@
                   HeadersVisibility="Column"
                   SelectionUnit="FullRow"
                   IsReadOnly="True"
-                  SelectionChanged="GridCurrencies_SelectionChanged">
+                  SelectionChanged="GridCurrencies_SelectionChanged"
+                  MouseDoubleClick="GridCurrencies_MouseDoubleClick">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add" Command="{Binding AddCommand}"/>
                     <MenuItem Header="Edit" Command="{Binding EditCommand}"/>
                     <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
+                    <Separator/>
                     <MenuItem Header="Set main" Command="{Binding SetMainCommand}"/>
                     <MenuItem Header="{Binding ChangeUsabilityLabel}" Visibility="{Binding ChangeUsabilityVisibility}" Command="{Binding ChangeUsabilityCommand}"/>
                 </ContextMenu>

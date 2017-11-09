@@ -1,25 +1,20 @@
-﻿using MahApps.Metro.IconPacks;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.IconPacks;
 using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
 using MoneyChest.View.Commands;
+using MoneyChest.View.Details;
+using MoneyChest.View.Utils;
+using MoneyChest.View.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MoneyChest.View.Pages
 {
@@ -30,9 +25,9 @@ namespace MoneyChest.View.Pages
     {
         #region Private fields
 
-        private ICurrencyService _currencyService;
+        private ICurrencyService _service;
         private ObservableCollection<CurrencyModel> _currencies;
-        private CurrenciesPageModelView _currenciesPageModelView;
+        private CurrenciesPageViewModel _modelView;
         // TODO: replace to IPage Options
         private bool _reload = true;
 
@@ -45,8 +40,94 @@ namespace MoneyChest.View.Pages
             InitializeComponent();
 
             // init
-            _currencyService = ServiceManager.ConfigureService<CurrencyService>();
+            _service = ServiceManager.ConfigureService<CurrencyService>();
             InitializeViewModel();
+        }
+
+        private void InitializeViewModel()
+        {
+            _modelView = new CurrenciesPageViewModel()
+            {
+                AddCommand = new Command(
+                () =>
+                {
+                    // TODO: on close window ask confirmation
+                    var window = this.InitializeDependWindow(false);
+                    window.Height = 252;
+                    window.Width = 393;
+                    window.Content = new CurrencyDetailsView(_service, new CurrencyModel()
+                    {
+                        UserId = GlobalVariables.UserId
+                    }, true, window.Close);
+                    window.ShowDialog();
+                    //TODO: update grid
+                    _reload = true;
+                }),
+
+                EditCommand = new DataGridSelectedItemCommand<CurrencyModel>(GridCurrencies,
+                (item) =>
+                {
+                    // TODO: on close window ask confirmation
+                    var window = this.InitializeDependWindow(false);
+                    window.Height = 252;
+                    window.Width = 393;
+                    window.Content = new CurrencyDetailsView(_service, item, false, window.Close);
+                    window.ShowDialog();
+                    //TODO: update grid
+                    _reload = true;
+                }),
+
+                DeleteCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
+                (items) =>
+                {
+                    // TODO: confirm before delete
+                    // TODO: remove all items from database
+                    // TODO: remove items from grid
+                },
+                (items) => items.Count() != _currencies.Count),
+
+                SetMainCommand = new DataGridSelectedItemCommand<CurrencyModel>(GridCurrencies,
+                (item) =>
+                {
+                    // save main in database
+                    _service.SetMain(GlobalVariables.UserId, item.Id);
+
+                    // refresh currency data in grid
+                    foreach (var curr in _currencies.Where(_ => _.IsMain))
+                        curr.IsMain = false;
+                    item.IsMain = true;
+
+                    // move currency in grid
+                    var c = _currencies.FirstOrDefault(_ => _.IsUsed == item.IsUsed);
+                    if (c != null)
+                        _currencies.Move(_currencies.IndexOf(item), _currencies.IndexOf(c));
+                },
+                (item) => !item.IsMain),
+
+                ChangeUsabilityCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
+                (items) =>
+                {
+                    // get new place index
+                    var firstNotUsed = _currencies.FirstOrDefault(_ => !_.IsUsed);
+                    var newIndex = firstNotUsed != null ? _currencies.IndexOf(firstNotUsed) : _currencies.Count - 1;
+
+                    // update currencies
+                    foreach (var c in items)
+                    {
+                        c.IsUsed = !c.IsUsed;
+                        // replace in grid
+                        _currencies.Move(_currencies.IndexOf(c), newIndex);
+                    }
+
+                    // TODO: update currencies in database
+
+                    // clear grid selection
+                    GridCurrencies.SelectedItems.Clear();
+                },
+                (items) => items.Select(e => e.IsUsed).Distinct().Count() == 1)
+            };
+
+            this.DataContext = _modelView;
         }
 
         #endregion
@@ -76,92 +157,31 @@ namespace MoneyChest.View.Pages
                 var currencies = GridCurrencies.SelectedItems.OfType<CurrencyModel>();
                 if (currencies.Select(x => x.IsUsed).Distinct().Count() == 1)
                 {
-                    _currenciesPageModelView.ChangeUsabilityVisibility = Visibility.Visible;
-                    // TODO: language
+                    _modelView.ChangeUsabilityVisibility = Visibility.Visible;
                     var isEnable = !currencies.First().IsUsed;
-                    _currenciesPageModelView.EnableVisibility = isEnable ? Visibility.Visible : Visibility.Collapsed;
-                    _currenciesPageModelView.DisableVisibility = isEnable ? Visibility.Collapsed : Visibility.Visible;
-                    _currenciesPageModelView.ChangeUsabilityLabel = isEnable ? "Enable" : "Disable";
+                    _modelView.EnableVisibility = isEnable ? Visibility.Visible : Visibility.Collapsed;
+                    _modelView.DisableVisibility = isEnable ? Visibility.Collapsed : Visibility.Visible;
+                    // TODO: language
+                    _modelView.ChangeUsabilityLabel = isEnable ? "Enable" : "Disable";
                 }
                 else
-                    _currenciesPageModelView.ChangeUsabilityVisibility = Visibility.Collapsed;
+                    _modelView.ChangeUsabilityVisibility = Visibility.Collapsed;
             }
             else
-                _currenciesPageModelView.ChangeUsabilityVisibility = Visibility.Collapsed;
+                _modelView.ChangeUsabilityVisibility = Visibility.Collapsed;
+        }
+
+        private void GridCurrencies_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (GridCurrencies.SelectedItem != null)
+            {
+                _modelView.EditCommand.Execute(GridCurrencies.SelectedItem);
+            }
         }
 
         #endregion
 
         #region Private methods
-
-        private void InitializeViewModel()
-        {
-            _currenciesPageModelView = new CurrenciesPageModelView()
-            {
-                AddCommand = new Command(
-                () =>
-                {
-                    // TODO: open details to add new item
-                }),
-
-                EditCommand = new DataGridSelectedItemCommand<CurrencyModel>(GridCurrencies,
-                (item) =>
-                {
-                    // TODO: open details to edit item
-                }),
-
-                DeleteCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
-                (items) =>
-                {
-                    // TODO: confirm before delete
-                    // TODO: remove all items from database
-                    // TODO: remove items from grid
-                },
-                (items) => items.Count() != _currencies.Count),
-
-                SetMainCommand = new DataGridSelectedItemCommand<CurrencyModel>(GridCurrencies,
-                (item) =>
-                {
-                    // save main in database
-                    _currencyService.SetMain(GlobalVariables.UserId, item.Id);
-
-                    // refresh currency data in grid
-                    foreach(var curr in _currencies.Where(_ => _.IsMain))
-                        curr.IsMain = false;
-                    item.IsMain = true;
-
-                    // move currency in grid
-                    var c = _currencies.FirstOrDefault(_ => _.IsUsed == item.IsUsed);
-                    if(c != null)
-                        _currencies.Move(_currencies.IndexOf(item), _currencies.IndexOf(c));
-                }, 
-                (item) => !item.IsMain),
-
-                ChangeUsabilityCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
-                (items) =>
-                {
-                    // get new place index
-                    var firstNotUsed = _currencies.FirstOrDefault(_ => !_.IsUsed);
-                    var newIndex = firstNotUsed != null ? _currencies.IndexOf(firstNotUsed) : _currencies.Count - 1;
-
-                    // update currencies
-                    foreach (var c in items)
-                    {
-                        c.IsUsed = !c.IsUsed;
-                        // replace in grid
-                        _currencies.Move(_currencies.IndexOf(c), newIndex);
-                    }
-
-                    // TODO: update currencies in database
-
-                    // clear grid selection
-                    GridCurrencies.SelectedItems.Clear();
-                },
-                (items) => items.Select(e => e.IsUsed).Distinct().Count() == 1)
-            };
-
-            this.DataContext = _currenciesPageModelView;
-        }
 
         private void ReloadData()
         {
@@ -174,7 +194,7 @@ namespace MoneyChest.View.Pages
 
             // load currencies
             _currencies = new ObservableCollection<CurrencyModel>(
-                _currencyService.GetListForUser(GlobalVariables.UserId)
+                _service.GetListForUser(GlobalVariables.UserId)
                 .OrderByDescending(_ => _.IsUsed)
                 .ThenByDescending(_ => _.IsMain));
 
@@ -186,22 +206,5 @@ namespace MoneyChest.View.Pages
         }
 
         #endregion
-    }
-
-    public class CurrenciesPageModelView : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public ICommand AddCommand { get; set; }
-        public ICommand EditCommand { get; set; }
-        public ICommand DeleteCommand { get; set; }
-        public ICommand SetMainCommand { get; set; }
-        public ICommand ChangeUsabilityCommand { get; set; }
-
-        // TODO: ChangeUsabilityLabel and ChangeUsabilityVisibility can be replaced to special command
-        public string ChangeUsabilityLabel { get; set; }
-        public Visibility EnableVisibility { get; set; }
-        public Visibility DisableVisibility { get; set; } = Visibility.Collapsed;
-        public Visibility ChangeUsabilityVisibility { get; set; }
     }
 }

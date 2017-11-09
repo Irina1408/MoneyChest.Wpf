@@ -7,12 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:MoneyChest"
     mc:Ignorable="d"
-    Title="Money Chest" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-    ShowIconOnTitleBar="True" Icon="money.ico"
+    Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+    Style="{StaticResource MoneyChestWindowStyle}"
     Loaded="LoginWindow_Loaded"
-    Closing="LoginWindow_Closing"
-    BorderThickness="1"
-    GlowBrush="{DynamicResource AccentColorBrush}">
+    Closing="LoginWindow_Closing">
     
     <Grid>
         <Grid.RowDefinitions>

@@ -10,54 +10,10 @@ using MoneyChest.Data.Extensions;
 
 namespace MoneyChest.Data.Converters
 {
-    public class RepayDebtEventConverter : IEntityModelConverter<RepayDebtEvent, RepayDebtEventModel>
+    public class RepayDebtEventConverter : EntityModelConverterBase<RepayDebtEvent, RepayDebtEventModel>
     {
-        public RepayDebtEvent ToEntity(RepayDebtEventModel model)
+        protected override void FillEntity(RepayDebtEvent entity, RepayDebtEventModel model)
         {
-            return new RepayDebtEvent()
-            {
-                Description = model.Description,
-                Value = model.Value,
-                EventState = model.EventState,
-                PausedToDate = model?.PausedToDate,
-                AutoExecution = model.AutoExecution,
-                AutoExecutionTime = model?.AutoExecutionTime,
-                ConfirmBeforeExecute = model.ConfirmBeforeExecute,
-                EventType = model.EventType,
-                Remark = model.Remark,
-                UserId = model.UserId,
-                StorageId = model.StorageId,
-                DebtId = model.DebtId
-            };
-        }
-
-        public RepayDebtEventModel ToModel(RepayDebtEvent entity)
-        {
-            return new RepayDebtEventModel()
-            {
-                Id = entity.Id,
-                Description = entity.Description,
-                Value = entity.Value,
-                EventState = entity.EventState,
-                PausedToDate = entity?.PausedToDate,
-                AutoExecution = entity.AutoExecution,
-                AutoExecutionTime = entity?.AutoExecutionTime,
-                ConfirmBeforeExecute = entity.ConfirmBeforeExecute,
-                EventType = entity.EventType,
-                Remark = entity.Remark,
-                UserId = entity.UserId,
-                StorageId = entity.StorageId,
-                DebtId = entity.DebtId,
-                Storage = entity.Storage.ToReferenceView(),
-                Debt = entity.Debt.ToReferenceView(),
-                Currency = entity.Debt.Currency.ToReferenceView(),
-                DebtCategory = entity.Debt?.Category?.ToReferenceView()
-            };
-        }
-
-        public RepayDebtEvent Update(RepayDebtEvent entity, RepayDebtEventModel model)
-        {
-            entity.Id = model.Id;
             entity.Description = model.Description;
             entity.Value = model.Value;
             entity.EventState = model.EventState;
@@ -70,8 +26,27 @@ namespace MoneyChest.Data.Converters
             entity.UserId = model.UserId;
             entity.StorageId = model.StorageId;
             entity.DebtId = model.DebtId;
+        }
 
-            return entity;
+        protected override void FillModel(RepayDebtEvent entity, RepayDebtEventModel model)
+        {
+            model.Id = entity.Id;
+            model.Description = entity.Description;
+            model.Value = entity.Value;
+            model.EventState = entity.EventState;
+            model.PausedToDate = entity?.PausedToDate;
+            model.AutoExecution = entity.AutoExecution;
+            model.AutoExecutionTime = entity?.AutoExecutionTime;
+            model.ConfirmBeforeExecute = entity.ConfirmBeforeExecute;
+            model.EventType = entity.EventType;
+            model.Remark = entity.Remark;
+            model.UserId = entity.UserId;
+            model.StorageId = entity.StorageId;
+            model.DebtId = entity.DebtId;
+            model.Storage = entity.Storage.ToReferenceView();
+            model.Debt = entity.Debt.ToReferenceView();
+            model.Currency = entity.Debt.Currency.ToReferenceView();
+            model.DebtCategory = entity.Debt?.Category?.ToReferenceView();
         }
     }
 }

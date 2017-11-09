@@ -94,7 +94,7 @@
                             <TextBlock x:Name="Header"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       FontSize="24"
+                                       FontSize="{DynamicResource LargeFontSize}"
                                        Foreground="White"
                                        Text="{Binding Label}" />
                         </Border>

@@ -56,6 +56,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -78,6 +79,11 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\DataGridSelectedItemCommand.cs" />
     <Compile Include="Commands\DataGridSelectedItemsCommand.cs" />
+    <Compile Include="Commands\Containers\DetailsViewCommandContainer.cs" />
+    <Compile Include="Details\CurrencyDetailsView.xaml.cs">
+      <DependentUpon>CurrencyDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wrappers\EntityWrapper.cs" />
     <Compile Include="Main\CustomHamburgerMenuItem.cs" />
     <Compile Include="Main\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -123,6 +129,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Utils\ViewHelper.cs" />
+    <Compile Include="ViewModels\CurrenciesPageViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -151,6 +159,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Details\CurrencyDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Main\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
