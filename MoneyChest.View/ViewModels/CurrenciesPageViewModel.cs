@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyChest.View.Commands;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,11 +14,12 @@ namespace MoneyChest.View.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand AddCommand { get; set; }
-        public ICommand EditCommand { get; set; }
-        public ICommand DeleteCommand { get; set; }
-        public ICommand SetMainCommand { get; set; }
-        public ICommand ChangeUsabilityCommand { get; set; }
+        public IMCCommand AddCommand { get; set; }
+        public IMCCommand EditCommand { get; set; }
+        public IMCCommand DeleteCommand { get; set; }
+        public IMCCommand SetMainCommand { get; set; }
+        public bool SelectedCurrenciesAreUsed { get; set; }
+        public IMCCommand ChangeUsabilityCommand { get; set; }
 
         // TODO: ChangeUsabilityLabel and ChangeUsabilityVisibility can be replaced to special command
         public string ChangeUsabilityLabel { get; set; }

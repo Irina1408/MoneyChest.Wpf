@@ -32,6 +32,7 @@ namespace MoneyChest.View.Details
         private bool _isNew;
         private DetailsViewCommandContainer _commands;
         private Action _closeAction;
+        private bool _closeView;
 
         #endregion
 
@@ -44,8 +45,15 @@ namespace MoneyChest.View.Details
             // init
             _service = service;
             _isNew = isNew;
-            _wrappedEntity = new EntityWrapper<CurrencyModel>(entity);
             _closeAction = closeAction;
+
+            // set defauls
+            _closeView = false;
+            LabelHeader.Content = isNew ? "New currency" : "Currency";
+            // if currency is not new and main user cannot change it to not main
+            btnIsMain.IsEnabled = isNew || !entity.IsMain;
+            // initialize datacontexts
+            _wrappedEntity = new EntityWrapper<CurrencyModel>(entity);
             this.DataContext = _wrappedEntity.Entity;
             InitializeCommands();
         }
@@ -56,11 +64,8 @@ namespace MoneyChest.View.Details
             {
                 SaveCommand = new Command(() =>
                 {
-                    if (_isNew)
-                        _service.Add(_wrappedEntity.Entity);
-                    else
-                        _service.Update(_wrappedEntity.Entity);
-
+                    // save changes
+                    SaveChanges();
                     // close control
                     _closeAction?.Invoke();
                 }, 
@@ -68,23 +73,70 @@ namespace MoneyChest.View.Details
 
                 CancelCommand = new Command(() =>
                 {
-                    if(_wrappedEntity.IsChanged)
-                    {
-                        if (MessageBox.Show("Are you sure you want to cancel changes?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                        {
-                            // revert changes
-                            _wrappedEntity.RevertChanges();
-                            // close control
-                            _closeAction?.Invoke();
-                        }
-                    }
-                    else
-                        // close control
+                    if(CloseView())
                         _closeAction?.Invoke();
                 })
             };
 
+            // add events
+            _wrappedEntity.Entity.PropertyChanged += (sender, args) => ((Command)_commands.SaveCommand).ValidateCanExecute();
+            // validate save command now 
+            _commands.SaveCommand.ValidateCanExecute();
+
             CommandsPanel.DataContext = _commands;
+        }
+
+        #endregion
+
+        #region Public
+
+        public bool DialogResult { get; private set; } = false;
+
+        public void SaveChanges()
+        {
+            if (_isNew)
+                _service.Add(_wrappedEntity.Entity);
+            else
+                _service.Update(_wrappedEntity.Entity);
+
+            DialogResult = true;
+            _closeView = true;
+        }
+
+        public void RevertChanges()
+        {
+            _wrappedEntity.RevertChanges();
+
+            DialogResult = false;
+            _closeView = true;
+        }
+
+        public bool CloseView()
+        {
+            // not ask confirmation if it has already asked
+            if (_closeView) return _closeView;
+
+            // ask confirmation only if any changes exists
+            if (_wrappedEntity.IsChanged)
+            {
+                // show confirmation
+                var dialogResult = MessageBox.Show("Do you want to save changes?", "Save changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
+
+                if (dialogResult == MessageBoxResult.Yes)
+                {
+                    // check errors
+                    if (_wrappedEntity.HasErrors)
+                        MessageBox.Show("Some entries are invalid.", "Save failed", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    else
+                        SaveChanges();
+                }
+                else if (dialogResult == MessageBoxResult.No)
+                    RevertChanges();
+            }
+            else
+                _closeView = true;
+
+            return _closeView;
         }
 
         #endregion

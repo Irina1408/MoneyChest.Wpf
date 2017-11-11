@@ -20,7 +20,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="0" Content="New currency"
+        <Label x:Name="LabelHeader" Grid.Column="0" Grid.Row="0"
                FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
         
         <Grid Grid.Column="0" Grid.Row="1">
@@ -45,10 +45,10 @@
         </Grid>
 
         <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
-            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsMain}">
+            <ToggleButton x:Name="btnIsMain" Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsMain}" ToolTip="Currency is main">
                 <iconPacks:PackIconMaterial Kind="Star" />
             </ToggleButton>
-            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsUsed}">
+            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsUsed}" ToolTip="Currency is used">
                 <iconPacks:PackIconModern Kind="Checkmark" />
             </ToggleButton>
         </StackPanel>

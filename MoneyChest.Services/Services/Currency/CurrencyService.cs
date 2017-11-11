@@ -18,7 +18,9 @@ namespace MoneyChest.Services.Services
     public interface ICurrencyService : IIdManagableUserableListServiceBase<CurrencyModel>
     {
         CurrencyModel GetMain(int userId);
+        // TODO: should be removed
         void SetMain(int userId, int currencyId);
+        void SetMain(CurrencyModel model);
         List<CurrencyModel> GetUsed(int userId);
     }
 
@@ -41,14 +43,83 @@ namespace MoneyChest.Services.Services
 
         public void SetMain(int userId, int currencyId)
         {
-            Entities.Where(e => e.UserId == userId).ToList().ForEach(c => c.IsMain = c.Id == currencyId);
+            SetMainInternal(userId, currencyId);
             SaveChanges();
+        }
+
+        public void SetMain(CurrencyModel model)
+        {
+            // update model
+            model.IsMain = true;
+            // set new main currency
+            SetMain(model.UserId, model.Id);
         }
 
         public List<CurrencyModel> GetUsed(int userId)
         {
             return Scope.Where(e => e.IsUsed || e.Records.Any() || e.SimpleEvents.Any() || e.Storages.Any() || e.Limits.Any() || e.Debts.Any())
                 .ToList().ConvertAll(_converter.ToModel);
+        }
+
+        #endregion
+
+        #region Overrides
+
+        internal override Currency Add(Currency entity)
+        {
+            entity = base.Add(entity);
+
+            // check new currency is main
+            if (entity.IsMain)
+                SetMain(entity.UserId, entity.Id);
+
+            return entity;
+        }
+
+        internal override Currency Update(Currency entity)
+        {
+            var isMainOriginal = _context.Entry(entity).OriginalValues.GetValue<bool>(nameof(Currency.IsMain));
+            var isMainCurrent = _context.Entry(entity).CurrentValues.GetValue<bool>(nameof(Currency.IsMain));
+
+            if (isMainOriginal != isMainCurrent)
+            {
+                // if currency was updated to main, set new main, else revert main currency
+                if (isMainCurrent)
+                    SetMainInternal(entity.UserId, entity.Id);
+                else
+                    entity.IsMain = true;
+            }
+            return base.Update(entity);
+        }
+
+        internal override void Delete(Currency entity)
+        {
+            if (entity.IsMain)
+                throw new Exception("Main currency cannot be removed");
+            
+            base.Delete(entity);
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private void SetMainInternal(int userId, int currencyId)
+        {
+            // set current main currency as not main
+            Entities.Where(e => e.UserId == userId && e.IsMain)
+                .ToList()
+                .ForEach(entity =>
+                {
+                    entity.IsMain = false;
+                    base.Update(entity);
+                });
+
+            // set new main currency
+            var newMain = Entities.FirstOrDefault(e => e.Id == currencyId);
+            newMain.IsMain = true;
+            // update history
+            base.Update(newMain);
         }
 
         #endregion

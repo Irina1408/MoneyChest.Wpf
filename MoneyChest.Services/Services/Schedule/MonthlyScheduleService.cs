@@ -43,7 +43,7 @@ namespace MoneyChest.Services.Services
         public override MonthlyScheduleModel Update(MonthlyScheduleModel model)
         {
             // get from database
-            var dbEntity = GetSingleDb(model);
+            var dbEntity = GetDbEntity(model);
             // update entity by converter
             dbEntity = _converter.UpdateEntity(dbEntity, model);
             // update entity in database

@@ -35,22 +35,16 @@
 
                 <Separator/>
 
-                <Button Command="{Binding SetMainCommand}" ToolTip="Set main" 
+                <Button Command="{Binding SetMainCommand}" ToolTip="Set as main" 
                         Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
                     <iconpacks:PackIconMaterial Kind="Star"/>
                 </Button>
 
-                <Button Command="{Binding ChangeUsabilityCommand}" ToolTip="{Binding ChangeUsabilityLabel}"
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}"
-                        Visibility="{Binding EnableVisibility}">
+                <ToggleButton IsChecked="{Binding SelectedCurrenciesAreUsed, UpdateSourceTrigger=PropertyChanged}" 
+                              Command="{Binding ChangeUsabilityCommand}" ToolTip="Selected currencies are used"
+                              Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
                     <iconpacks:PackIconModern Kind="Checkmark"/>
-                </Button>
-
-                <Button Command="{Binding ChangeUsabilityCommand}" ToolTip="{Binding ChangeUsabilityLabel}"
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}"
-                        Visibility="{Binding DisableVisibility}">
-                    <iconpacks:PackIconModern Kind="CheckmarkCross"/>
-                </Button>
+                </ToggleButton>
             </ToolBar>
         </ToolBarTray>
 
@@ -70,7 +64,7 @@
                     <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
                     <Separator/>
                     <MenuItem Header="Set main" Command="{Binding SetMainCommand}"/>
-                    <MenuItem Header="{Binding ChangeUsabilityLabel}" Visibility="{Binding ChangeUsabilityVisibility}" Command="{Binding ChangeUsabilityCommand}"/>
+                    <MenuItem IsChecked="{Binding SelectedCurrenciesAreUsed, UpdateSourceTrigger=PropertyChanged}" Header="Selected currencies are used" Command="{Binding ChangeUsabilityCommand}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
@@ -88,22 +82,22 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                <DataGridTextColumn Binding="{Binding Code}" Header="Code">
+                <DataGridTextColumn Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Header="Name" />
+                <DataGridTextColumn Binding="{Binding Code, UpdateSourceTrigger=PropertyChanged}" Header="Code">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Symbol}" Header="Symbol">
+                <DataGridTextColumn Binding="{Binding Symbol, UpdateSourceTrigger=PropertyChanged}" Header="Symbol">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding CurrencySymbolAlignment}" Header="Currency symbol alignment" />
+                <DataGridTextColumn Binding="{Binding CurrencySymbolAlignment, UpdateSourceTrigger=PropertyChanged}" Header="Currency symbol alignment" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">

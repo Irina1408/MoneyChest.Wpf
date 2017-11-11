@@ -17,6 +17,7 @@ namespace MoneyChest.View.Utils
             {
                 Style = Application.Current.FindResource("MoneyChestWindowStyle") as System.Windows.Style,
                 Owner = Window.GetWindow(control),
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 ResizeMode = resizable ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize
             };
         }

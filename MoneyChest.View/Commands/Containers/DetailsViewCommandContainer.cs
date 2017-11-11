@@ -12,7 +12,7 @@ namespace MoneyChest.View.Commands
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand SaveCommand { get; set; }
-        public ICommand CancelCommand { get; set; }
+        public IMCCommand SaveCommand { get; set; }
+        public IMCCommand CancelCommand { get; set; }
     }
 }

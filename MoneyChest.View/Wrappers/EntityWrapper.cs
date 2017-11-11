@@ -26,9 +26,9 @@ namespace MoneyChest.View.Wrappers
 
         public EntityWrapper(T entity)
         {
-            IsChanged = false;
             Entity = entity;
             InitializePropertyOriginalValues(entity);
+            IsChanged = false;
             Entity.PropertyChanged += (sender, args) =>
             {
                 IsChanged = true;

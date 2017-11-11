@@ -7,7 +7,12 @@ using System.Windows.Input;
 
 namespace MoneyChest.View.Commands
 {
-    public class Command : ICommand
+    public interface IMCCommand : ICommand
+    {
+        void ValidateCanExecute();
+    }
+
+    public class Command : IMCCommand
     {
         #region Private fields
 

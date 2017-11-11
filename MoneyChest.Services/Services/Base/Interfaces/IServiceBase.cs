@@ -17,6 +17,8 @@ namespace MoneyChest.Services.Services.Base
     {
         T Add(T entity);
         T Update(T entity);
+        List<T> Update(IEnumerable<T> entities);
         void Delete(T entity);
+        void Delete(IEnumerable<T> entities);
     }
 }

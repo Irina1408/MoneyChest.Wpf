@@ -28,6 +28,12 @@ namespace MoneyChest.Services.Services.Base
 
         public void Delete(int id) => Delete(Entities.FirstOrDefault(e => e.Id == id));
 
-        protected override T GetSingleDb(TModel model) => Entities.FirstOrDefault(e => e.Id == model.Id);
+        protected override T GetDbEntity(TModel model) => Entities.FirstOrDefault(e => e.Id == model.Id);
+        protected override T GetDbDetailedEntity(T entity) => Scope.FirstOrDefault(e => e.Id == entity.Id);
+        protected override List<T> GetDbEntities(IEnumerable<TModel> models)
+        {
+            var ids = models.Select(_ => _.Id).ToList();
+            return Entities.Where(e => ids.Contains(e.Id)).ToList();
+        }
     }
 }

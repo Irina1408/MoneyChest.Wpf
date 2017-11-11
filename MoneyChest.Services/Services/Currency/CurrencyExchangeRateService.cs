@@ -46,7 +46,20 @@ namespace MoneyChest.Services.Services
         #region Overrides
 
         protected override IQueryable<CurrencyExchangeRate> Scope => Entities.Include(_ => _.CurrencyFrom).Include(_ => _.CurrencyTo);
-        protected override CurrencyExchangeRate GetSingleDb(CurrencyExchangeRateModel model) => Entities.FirstOrDefault(e => e.CurrencyFromId == model.CurrencyFromId && e.CurrencyToId == model.CurrencyToId);
+        protected override CurrencyExchangeRate GetDbEntity(CurrencyExchangeRateModel model) => Entities.FirstOrDefault(e => e.CurrencyFromId == model.CurrencyFromId && e.CurrencyToId == model.CurrencyToId);
+        protected override CurrencyExchangeRate GetDbDetailedEntity(CurrencyExchangeRate entity) => Scope.FirstOrDefault(e => e.CurrencyFromId == entity.CurrencyFromId && e.CurrencyToId == entity.CurrencyToId);
+        protected override List<CurrencyExchangeRate> GetDbEntities(IEnumerable<CurrencyExchangeRateModel> models)
+        {
+            var result = new List<CurrencyExchangeRate>();
+            foreach(var model in models)
+            {
+                var entity = Entities.FirstOrDefault(e => e.CurrencyFromId == model.CurrencyFromId && e.CurrencyToId == model.CurrencyToId);
+                if (entity != null)
+                    result.Add(entity);
+            }
+
+            return result;
+        }
         protected override int UserId(CurrencyExchangeRate entity)
         {
             if (entity.CurrencyFrom != null) return entity.CurrencyFrom.UserId;

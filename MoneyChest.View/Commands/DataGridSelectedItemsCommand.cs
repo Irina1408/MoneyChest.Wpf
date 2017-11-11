@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace MoneyChest.View.Commands
 {
-    public class DataGridSelectedItemsCommand<T> : ICommand, IDisposable
+    public class DataGridSelectedItemsCommand<T> : IMCCommand, IDisposable
         where T : class
     {
         #region Private fields
@@ -36,7 +36,7 @@ namespace MoneyChest.View.Commands
 
         #endregion
 
-        #region Public methods
+        #region IMCCommand implementation
 
         public void ValidateCanExecute()
         {
