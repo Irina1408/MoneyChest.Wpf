@@ -34,6 +34,7 @@ namespace MoneyChest.Data.Entities.History
 
         #endregion
 
+        [StringLength(100)]
         public string Name { get; set; }
         
         public string Password { get; set; }

@@ -2,6 +2,7 @@
 using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace MoneyChest.Model.Model
         }
 
         public int Id { get; set; }
+
+        [StringLength(1000)]
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public decimal Value { get; set; }
@@ -25,6 +28,8 @@ namespace MoneyChest.Model.Model
         public decimal Commission { get; set; }
         public CommissionType CommissionType { get; set; }
         public bool TakeComissionFromReceiver { get; set; }
+
+        [StringLength(4000)]
         public string Remark { get; set; }
 
 

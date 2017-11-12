@@ -40,12 +40,14 @@ namespace MoneyChest.Data.Entities.History
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
 
         public TransactionType TransactionType { get; set; }
 
         public decimal Value { get; set; }
 
+        [StringLength(4000)]
         public string Remark { get; set; }
 
         public int CategoryId { get; set; }

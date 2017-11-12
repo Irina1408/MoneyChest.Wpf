@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyChest.Model.Base;
 using MoneyChest.Data.Entities.History;
-using MoneyChest.Data.Converters;
+using MoneyChest.Services.Converters;
 using MoneyChest.Services.Services.Base;
 using System;
 using System.Collections.Generic;

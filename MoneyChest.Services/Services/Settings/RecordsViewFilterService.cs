@@ -8,7 +8,7 @@ using MoneyChest.Services.Services.Base;
 using MoneyChest.Data.Context;
 using System.Linq.Expressions;
 using MoneyChest.Model.Model;
-using MoneyChest.Data.Converters;
+using MoneyChest.Services.Converters;
 using System.Data.Entity;
 
 namespace MoneyChest.Services.Services.Settings

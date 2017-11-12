@@ -9,7 +9,7 @@ using MoneyChest.Data.Entities;
 using System.Linq.Expressions;
 using MoneyChest.Model.Model;
 using MoneyChest.Model.Extensions;
-using MoneyChest.Data.Converters;
+using MoneyChest.Services.Converters;
 
 namespace MoneyChest.Services.Services
 {

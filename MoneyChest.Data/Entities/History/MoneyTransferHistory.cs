@@ -37,6 +37,7 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
 
         [Column(TypeName = "date")]
@@ -52,6 +53,7 @@ namespace MoneyChest.Data.Entities.History
 
         public bool TakeComissionFromReceiver { get; set; }
 
+        [StringLength(4000)]
         public string Remark { get; set; }
 
 

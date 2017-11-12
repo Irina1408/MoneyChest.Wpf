@@ -37,6 +37,7 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
 
         public DebtType DebtType { get; set; }
@@ -56,6 +57,7 @@ namespace MoneyChest.Data.Entities.History
         [Column(TypeName = "date")]
         public DateTime? DueDate { get; set; }
 
+        [StringLength(4000)]
         public string Remark { get; set; }
 
 

@@ -52,13 +52,6 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<GeneralSetting> GeneralSettings { get; set; }
         public virtual DbSet<RecordsViewFilter> RecordsViewFilters { get; set; }
         public virtual DbSet<ReportSetting> ReportSettings { get; set; }
-        public virtual DbSet<DailySchedule> DailySchedules { get; set; }
-        public virtual DbSet<MonthlySchedule> MonthlySchedules { get; set; }
-        public virtual DbSet<MonthlyScheduleMonth> MonthlyScheduleMonths { get; set; }
-        public virtual DbSet<OnceSchedule> OnceSchedules { get; set; }
-        public virtual DbSet<Schedule> Schedules { get; set; }
-        public virtual DbSet<WeeklySchedule> WeeklySchedules { get; set; }
-        public virtual DbSet<WeeklyScheduleDayOfWeek> WeeklyScheduleDayOfWeeks { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Debt> Debts { get; set; }
         public virtual DbSet<Limit> Limits { get; set; }
@@ -73,13 +66,6 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<MoneyTransferEventHistory> MoneyTransferEventsHistory { get; set; }
         public virtual DbSet<RepayDebtEventHistory> RepayDebtEventsHistory { get; set; }
         public virtual DbSet<SimpleEventHistory> SimpleEventsHistory { get; set; }
-        public virtual DbSet<DailyScheduleHistory> DailySchedulesHistory { get; set; }
-        public virtual DbSet<MonthlyScheduleHistory> MonthlySchedulesHistory { get; set; }
-        public virtual DbSet<MonthlyScheduleMonthHistory> MonthlyScheduleMonthsHistory { get; set; }
-        public virtual DbSet<OnceScheduleHistory> OnceSchedulesHistory { get; set; }
-        public virtual DbSet<ScheduleHistory> ScheduleHistory { get; set; }
-        public virtual DbSet<WeeklyScheduleHistory> WeeklySchedulesHistory { get; set; }
-        public virtual DbSet<WeeklyScheduleDayOfWeekHistory> WeeklyScheduleDayOfWeeksHistory { get; set; }
         public virtual DbSet<CategoryHistory> CategoriesHistory { get; set; }
         public virtual DbSet<DebtHistory> DebtsHistory { get; set; }
         public virtual DbSet<LimitHistory> LimitsHistory { get; set; }
@@ -180,12 +166,6 @@ namespace MoneyChest.Data.Context
                 .WithRequired(e => e.Currency)
                 .WillCascadeOnDelete(false);
 
-            // Event
-            modelBuilder.Entity<Evnt>()
-                .HasMany(e => e.Schedules)
-                .WithRequired(e => e.Event)
-                .WillCascadeOnDelete(false);
-
             // MoneyTransfer
             modelBuilder.Entity<MoneyTransfer>()
                 .HasRequired(e => e.StorageFrom)
@@ -238,18 +218,6 @@ namespace MoneyChest.Data.Context
             modelBuilder.Entity<SimpleEvent>()
                 .HasOptional(e => e.Category)
                 .WithMany()
-                .WillCascadeOnDelete(false);
-
-            // MonthlyScheduleMonth
-            modelBuilder.Entity<MonthlyScheduleMonth>()
-                .HasRequired(e => e.MonthlySchedule)
-                .WithMany(e => e.MonthlyScheduleMonths)
-                .WillCascadeOnDelete(false);
-
-            // WeeklyScheduleDayOfWeek
-            modelBuilder.Entity<WeeklyScheduleDayOfWeek>()
-                .HasRequired(e => e.WeeklySchedule)
-                .WithMany(e => e.WeeklyScheduleDaysOfWeek)
                 .WillCascadeOnDelete(false);
 
             // Record

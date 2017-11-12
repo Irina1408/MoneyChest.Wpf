@@ -94,10 +94,6 @@
     <Compile Include="Services\Common\LimitServiceTests.cs" />
     <Compile Include="Services\Common\MoneyTransferServiceTests.cs" />
     <Compile Include="Services\Common\RecordServiceTests.cs" />
-    <Compile Include="Services\Schedule\DailyScheduleServiceTests.cs" />
-    <Compile Include="Services\Schedule\MonthlyScheduleServiceTests.cs" />
-    <Compile Include="Services\Schedule\OnceScheduleServiceTests.cs" />
-    <Compile Include="Services\Schedule\WeeklyScheduleServiceTests.cs" />
     <Compile Include="Services\Settings\CalendarSettingServiceTests.cs" />
     <Compile Include="Services\Settings\ForecastSettingServiceTests.cs" />
     <Compile Include="Services\Settings\GeneralSettingServiceTests.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Model.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace MoneyChest.Model.Model
 {
@@ -19,12 +20,14 @@ namespace MoneyChest.Model.Model
 
         public DateTime Date { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
 
         public TransactionType TransactionType { get; set; }
 
         public decimal Value { get; set; }
 
+        [StringLength(4000)]
         public string Remark { get; set; }
 
 

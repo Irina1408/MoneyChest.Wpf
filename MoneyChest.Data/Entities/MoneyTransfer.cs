@@ -19,6 +19,7 @@ namespace MoneyChest.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
 
         [Column(TypeName = "date")]
@@ -34,6 +35,7 @@ namespace MoneyChest.Data.Entities
 
         public bool TakeComissionFromReceiver { get; set; }
 
+        [StringLength(4000)]
         public string Remark { get; set; }
 
         public int StorageFromId { get; set; }

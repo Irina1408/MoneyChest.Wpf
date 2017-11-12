@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using MoneyChest.Model.Model;
 using MoneyChest.Model.Extensions;
 using System.Data.Entity;
-using MoneyChest.Data.Converters;
+using MoneyChest.Services.Converters;
 
 namespace MoneyChest.Services.Services
 {

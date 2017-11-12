@@ -38,8 +38,7 @@ namespace MoneyChest.Model.Model
         public bool IsUsed { get; set; }
 
         public bool IsMain { get; set; }
-
-        // TODO: remove and replace CurrencySymbolAlignment to database
+        
         public bool SymbolAlignmentIsRight
         {
             get => symbolAlignmentIsRight;
@@ -49,8 +48,7 @@ namespace MoneyChest.Model.Model
                 currencySymbolAlignment = symbolAlignmentIsRight ? CurrencySymbolAlignment.Right : CurrencySymbolAlignment.Left;
             }
         }
-
-        // TODO: replace CurrencySymbolAlignment to database
+        
         public CurrencySymbolAlignment CurrencySymbolAlignment
         {
             get => currencySymbolAlignment;

@@ -49,6 +49,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Base\EntityModelConverterBase.cs" />
+    <Compile Include="Converters\Base\IEntityModelConverter.cs" />
+    <Compile Include="Converters\CategoryConverter.cs" />
+    <Compile Include="Converters\CurrencyConverter.cs" />
+    <Compile Include="Converters\CurrencyExchangeRateConverter.cs" />
+    <Compile Include="Converters\DebtConverter.cs" />
+    <Compile Include="Converters\Events\MoneyTransferEventConverter.cs" />
+    <Compile Include="Converters\Events\RepayDebtEventConverter.cs" />
+    <Compile Include="Converters\Events\SimpleEventConverter.cs" />
+    <Compile Include="Converters\Extensions\ToReferenceView.cs" />
+    <Compile Include="Converters\LimitConverter.cs" />
+    <Compile Include="Converters\MoneyTransferConverter.cs" />
+    <Compile Include="Converters\RecordConverter.cs" />
+    <Compile Include="Converters\Settings\CalendarSettingConverter.cs" />
+    <Compile Include="Converters\Settings\ForecastSettingConverter.cs" />
+    <Compile Include="Converters\Settings\GeneralSettingConverter.cs" />
+    <Compile Include="Converters\Settings\RecordsViewFilterConverter.cs" />
+    <Compile Include="Converters\Settings\ReportSettingConverter.cs" />
+    <Compile Include="Converters\StorageConverter.cs" />
+    <Compile Include="Converters\StorageGroupConverter.cs" />
+    <Compile Include="Converters\UserConverter.cs" />
     <Compile Include="ServiceManager.cs" />
     <Compile Include="Services\Base\InterfaceImplementationsBase\HistoricizedIdManageableServiceBase.cs" />
     <Compile Include="Services\Base\InterfaceImplementationsBase\HistoricizedIdManageableUserableListServiceBase.cs" />
@@ -80,11 +101,6 @@
     <Compile Include="Services\Common\LimitService.cs" />
     <Compile Include="Services\Common\MoneyTransferService.cs" />
     <Compile Include="Services\Common\RecordService.cs" />
-    <Compile Include="Services\Schedule\DailyScheduleService.cs" />
-    <Compile Include="Services\Schedule\MonthlyScheduleService.cs" />
-    <Compile Include="Services\Schedule\OnceScheduleService.cs" />
-    <Compile Include="Services\Schedule\ScheduleService.cs" />
-    <Compile Include="Services\Schedule\WeeklyScheduleService.cs" />
     <Compile Include="Services\Settings\CalendarSettingService.cs" />
     <Compile Include="Services\Settings\ForecastSettingService.cs" />
     <Compile Include="Services\Settings\GeneralSettingService.cs" />

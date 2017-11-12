@@ -13,7 +13,7 @@ using MoneyChest.Services.Services.Defaults;
 using MoneyChest.Model.Model;
 using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Enums;
-using MoneyChest.Data.Converters;
+using MoneyChest.Services.Converters;
 
 namespace MoneyChest.Services.Services
 {

@@ -37,6 +37,7 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
+        [StringLength(100)]
         public string Name { get; set; }
 
         public TransactionType? TransactionType { get; set; }
@@ -44,5 +45,8 @@ namespace MoneyChest.Data.Entities.History
         public bool InHistory { get; set; }
 
         public int? ParentCategoryId { get; set; }
+
+        [StringLength(4000)]
+        public string Remark { get; set; }
     }
 }

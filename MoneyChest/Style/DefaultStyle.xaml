@@ -7,8 +7,8 @@
 
     <!--*********************************** Constants ***********************************-->
     <Thickness x:Key="ControlMargin">5</Thickness>
-    <system:Double x:Key="DefaultFontSize">16</system:Double>
-    <system:Double x:Key="LargeFontSize">16</system:Double>
+    <system:Double x:Key="DefaultFontSize">14</system:Double>
+    <system:Double x:Key="LargeFontSize">24</system:Double>
     <system:Double x:Key="ToolBarButtonSize">40</system:Double>
 
     <Style TargetType="{x:Type Control}">
@@ -23,6 +23,7 @@
         <Setter Property="ShowIconOnTitleBar" Value="True"/>
         <Setter Property="Icon" Value="money.ico"/>
         <Setter Property="Title" Value="Money Chest"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
     
@@ -31,11 +32,13 @@
         <Setter Property="Width" Value="100"/>
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="IsDefault" Value="True"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SquareButtonStyle}">
         <Setter Property="Width" Value="100"/>
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
     <Style x:Key="CircleToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}">
@@ -46,6 +49,7 @@
 
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
     
@@ -53,20 +57,27 @@
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="150"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
     <Style TargetType="{x:Type PasswordBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="150"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
     
     <!--*********************************** Labels ***********************************-->
     <Style TargetType="{x:Type Label}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
-    
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+
     <!--*********************************** Group boxes ***********************************-->
     <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignGroupBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
@@ -75,7 +86,7 @@
     
     <!--*********************************** Data grid ***********************************-->
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource MetroDataGrid}">
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
 </ResourceDictionary>

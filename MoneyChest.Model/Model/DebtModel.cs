@@ -2,6 +2,7 @@
 using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace MoneyChest.Model.Model
 
         public int Id { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
 
         public DebtType DebtType { get; set; }
@@ -34,6 +36,7 @@ namespace MoneyChest.Model.Model
 
         public DateTime? DueDate { get; set; }
 
+        [StringLength(4000)]
         public string Remark { get; set; }
         
 

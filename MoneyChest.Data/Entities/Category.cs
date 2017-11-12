@@ -32,12 +32,16 @@ namespace MoneyChest.Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
+        [StringLength(100)]
         public string Name { get; set; }
         
         public TransactionType? TransactionType { get; set; }
         
         public bool InHistory { get; set; }
+
+        [StringLength(4000)]
+        public string Remark { get; set; }
 
         public int? ParentCategoryId { get; set; }
 

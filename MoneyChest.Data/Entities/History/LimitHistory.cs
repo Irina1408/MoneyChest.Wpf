@@ -49,6 +49,7 @@ namespace MoneyChest.Data.Entities.History
 
         public decimal SpentValue { get; set; }
 
+        [StringLength(4000)]
         public string Remark { get; set; }
 
         public int CurrencyId { get; set; }

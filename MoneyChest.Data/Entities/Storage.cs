@@ -30,12 +30,14 @@ namespace MoneyChest.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [StringLength(100)]
         public string Name { get; set; }
 
         public decimal Value { get; set; }
 
         public bool IsHidden { get; set; }
 
+        [StringLength(4000)]
         public string Remark { get; set; }
 
         public int CurrencyId { get; set; }

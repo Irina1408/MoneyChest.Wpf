@@ -52,31 +52,6 @@
   <ItemGroup>
     <Compile Include="Attributes\HistoricizedAttribute.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
-    <Compile Include="Converters\Base\EntityModelConverterBase.cs" />
-    <Compile Include="Converters\Base\IEntityModelConverter.cs" />
-    <Compile Include="Converters\CategoryConverter.cs" />
-    <Compile Include="Converters\CurrencyConverter.cs" />
-    <Compile Include="Converters\CurrencyExchangeRateConverter.cs" />
-    <Compile Include="Converters\DebtConverter.cs" />
-    <Compile Include="Converters\Events\MoneyTransferEventConverter.cs" />
-    <Compile Include="Converters\Events\RepayDebtEventConverter.cs" />
-    <Compile Include="Converters\Events\SimpleEventConverter.cs" />
-    <Compile Include="Converters\Extensions\ToReferenceView.cs" />
-    <Compile Include="Converters\LimitConverter.cs" />
-    <Compile Include="Converters\MoneyTransferConverter.cs" />
-    <Compile Include="Converters\RecordConverter.cs" />
-    <Compile Include="Converters\Schedule\DailyScheduleConverter.cs" />
-    <Compile Include="Converters\Schedule\MonthlyScheduleConverter.cs" />
-    <Compile Include="Converters\Schedule\OnceScheduleConverter.cs" />
-    <Compile Include="Converters\Schedule\WeeklyScheduleConverter.cs" />
-    <Compile Include="Converters\Settings\CalendarSettingConverter.cs" />
-    <Compile Include="Converters\Settings\ForecastSettingConverter.cs" />
-    <Compile Include="Converters\Settings\GeneralSettingConverter.cs" />
-    <Compile Include="Converters\Settings\RecordsViewFilterConverter.cs" />
-    <Compile Include="Converters\Settings\ReportSettingConverter.cs" />
-    <Compile Include="Converters\StorageConverter.cs" />
-    <Compile Include="Converters\StorageGroupConverter.cs" />
-    <Compile Include="Converters\UserConverter.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Currency\Currency.cs" />
     <Compile Include="Entities\Currency\CurrencyExchangeRate.cs" />
@@ -95,13 +70,6 @@
     <Compile Include="Entities\History\LimitHistory.cs" />
     <Compile Include="Entities\History\MoneyTransferHistory.cs" />
     <Compile Include="Entities\History\RecordHistory.cs" />
-    <Compile Include="Entities\History\Shedule\DailyScheduleHistory.cs" />
-    <Compile Include="Entities\History\Shedule\MonthlyScheduleHistory.cs" />
-    <Compile Include="Entities\History\Shedule\MonthlyScheduleMonthHistory.cs" />
-    <Compile Include="Entities\History\Shedule\OnceScheduleHistory.cs" />
-    <Compile Include="Entities\History\Shedule\ScheduleHistory.cs" />
-    <Compile Include="Entities\History\Shedule\WeeklySchedule.cs" />
-    <Compile Include="Entities\History\Shedule\WeeklyScheduleDayOfWeek.cs" />
     <Compile Include="Entities\History\StorageGroupHistory.cs" />
     <Compile Include="Entities\History\StorageHistory.cs" />
     <Compile Include="Entities\History\Base\IUserActionHistory.cs" />
@@ -111,26 +79,19 @@
     <Compile Include="Entities\Settings\GeneralSetting.cs" />
     <Compile Include="Entities\Settings\RecordsViewFilter.cs" />
     <Compile Include="Entities\Settings\ReportSetting.cs" />
-    <Compile Include="Entities\Shedule\DailySchedule.cs" />
     <Compile Include="Entities\Limit.cs" />
     <Compile Include="Entities\MoneyTransfer.cs" />
-    <Compile Include="Entities\Shedule\MonthlySchedule.cs" />
     <Compile Include="Entities\Record.cs" />
-    <Compile Include="Entities\Shedule\OnceSchedule.cs" />
-    <Compile Include="Entities\Shedule\WeeklyScheduleDayOfWeek.cs" />
     <Compile Include="Entities\Debt.cs" />
-    <Compile Include="Entities\Shedule\Schedule.cs" />
-    <Compile Include="Entities\Shedule\MonthlyScheduleMonth.cs" />
     <Compile Include="Entities\Storage.cs" />
-    <Compile Include="Entities\Shedule\WeeklySchedule.cs" />
     <Compile Include="Entities\StorageGroup.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\ActionType.cs" />
     <Compile Include="Exceptions\ReferenceConstraintException.cs" />
     <Compile Include="Exceptions\ViolationOfConstraintException.cs" />
-    <Compile Include="Migrations\201710291005306_initial_migration.cs" />
-    <Compile Include="Migrations\201710291005306_initial_migration.Designer.cs">
-      <DependentUpon>201710291005306_initial_migration.cs</DependentUpon>
+    <Compile Include="Migrations\201711121203158_initial_migration.cs" />
+    <Compile Include="Migrations\201711121203158_initial_migration.Designer.cs">
+      <DependentUpon>201711121203158_initial_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -140,15 +101,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201710291005306_initial_migration.resx">
-      <DependentUpon>201710291005306_initial_migration.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MoneyChest.Model\MoneyChest.Model.csproj">
       <Project>{aa3cd891-1018-489d-a0c5-16c295c2e636}</Project>
       <Name>MoneyChest.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711121203158_initial_migration.resx">
+      <DependentUpon>201711121203158_initial_migration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

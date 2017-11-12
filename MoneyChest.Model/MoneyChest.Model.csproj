@@ -70,6 +70,7 @@
     <Compile Include="Model\DebtModel.cs" />
     <Compile Include="Model\Events\EventModel.cs" />
     <Compile Include="Model\Events\EventsScopeModel.cs" />
+    <Compile Include="Model\Events\ScheduleModel.cs" />
     <Compile Include="Model\Events\SimpleEventModel.cs" />
     <Compile Include="Model\Events\RepayDebtEventModel.cs" />
     <Compile Include="Model\Events\MoneyTransferEventModel.cs" />
@@ -82,12 +83,6 @@
     <Compile Include="Model\Reference\MoneyTransferReference.cs" />
     <Compile Include="Model\Reference\StorageGroupReference.cs" />
     <Compile Include="Model\Reference\StorageReference.cs" />
-    <Compile Include="Model\Schedule\SchedulesScopeModel.cs" />
-    <Compile Include="Model\Schedule\WeeklyScheduleModel.cs" />
-    <Compile Include="Model\Schedule\OnceScheduleModel.cs" />
-    <Compile Include="Model\Schedule\MonthlyScheduleModel.cs" />
-    <Compile Include="Model\Schedule\DailyScheduleModel.cs" />
-    <Compile Include="Model\Schedule\ScheduleModel.cs" />
     <Compile Include="Model\Settings\CalendarSettingModel.cs" />
     <Compile Include="Model\Settings\ReportSettingModel.cs" />
     <Compile Include="Model\Settings\RecordsViewFilterModel.cs" />

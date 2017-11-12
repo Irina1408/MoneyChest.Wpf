@@ -17,38 +17,39 @@ namespace MoneyChest.Data.Entities
     [Table("Events")]
     public class Evnt : IHasId, IHasUserId
     {
-        public Evnt()
-        {
-            Schedules = new List<Schedule>();
-            OnceSchedules = new List<OnceSchedule>();
-            DailySchedules = new List<DailySchedule>();
-            WeeklySchedules = new List<WeeklySchedule>();
-            MonthlySchedules = new List<MonthlySchedule>();
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
 
         public decimal Value { get; set; }
 
         public EventState EventState { get; set; }
+
+        public EventType EventType { get; set; }
         
+        public string Schedule { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime DateFrom { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? DateUntil { get; set; }
+
         [Column(TypeName = "date")]
         public DateTime? PausedToDate { get; set; }
 
         public bool AutoExecution { get; set; }
 
-        // TODO: remove if it is unused
+        // TODO: remove if it's unused
         [Column(TypeName = "time")]
         public TimeSpan? AutoExecutionTime { get; set; }
 
         public bool ConfirmBeforeExecute { get; set; }
 
-        public EventType EventType { get; set; }
-
+        [StringLength(4000)]
         public string Remark { get; set; }
 
         [Required]
@@ -57,11 +58,5 @@ namespace MoneyChest.Data.Entities
         
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
-
-        public virtual ICollection<Schedule> Schedules { get; set; }
-        public virtual ICollection<OnceSchedule> OnceSchedules { get; set; }
-        public virtual ICollection<DailySchedule> DailySchedules { get; set; }
-        public virtual ICollection<WeeklySchedule> WeeklySchedules { get; set; }
-        public virtual ICollection<MonthlySchedule> MonthlySchedules { get; set; }
     }
 }

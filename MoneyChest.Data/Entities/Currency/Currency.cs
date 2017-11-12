@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Data.Entities
 {
@@ -17,9 +18,6 @@ namespace MoneyChest.Data.Entities
     {
         public Currency()
         {
-            IsUsed = true;
-            SymbolAlignmentIsRight = true;
-
             CurrencyExchangeRateFroms = new List<CurrencyExchangeRate>();
             CurrencyExchangeRateTos = new List<CurrencyExchangeRate>();
             Debts = new List<Debt>();
@@ -47,7 +45,7 @@ namespace MoneyChest.Data.Entities
         
         public bool IsMain { get; set; }
 
-        public bool SymbolAlignmentIsRight { get; set; }
+        public CurrencySymbolAlignment CurrencySymbolAlignment { get; set; }
 
         [Required]
         public int UserId { get; set; }

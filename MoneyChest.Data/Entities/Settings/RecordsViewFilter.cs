@@ -25,8 +25,10 @@ namespace MoneyChest.Data.Entities
 
         public bool AllCategories { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
 
+        [StringLength(4000)]
         public string Remark { get; set; }
 
         public PeriodFilterType PeriodFilterType { get; set; }

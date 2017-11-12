@@ -21,7 +21,6 @@ namespace MoneyChest.Calculation.Builders.Calendar
 
         private IStorageService _storageService;
         private IMoneyTransferService _moneyTransferService;
-        private IScheduleService _scheduleService;
         private IEventService _eventService;
 
         private StorageSummaryCalculator _storageSummaryCalculator;
@@ -37,13 +36,11 @@ namespace MoneyChest.Calculation.Builders.Calendar
             ICurrencyExchangeRateService currencyExchangeRateService,
             IStorageService storageService,
             IMoneyTransferService moneyTransferService,
-            IScheduleService scheduleService,
             IEventService eventService) 
             : base(userId, recordService, currencyService, currencyExchangeRateService)
         {
             _storageService = storageService;
             _moneyTransferService = moneyTransferService;
-            _scheduleService = scheduleService;
             _eventService = eventService;
             _storageSummaryCalculator = new StorageSummaryCalculator(_storageService, _userId);
             _preloadedData = new PreloadedData();
@@ -161,39 +158,39 @@ namespace MoneyChest.Calculation.Builders.Calendar
         {
             // TODO: write events in order
             // write every month events
-            foreach (var schedule in _preloadedData.Schedules.MonthlySchedules.Where(e => e.DayOfMonth == date.Day
-                && e.Months.Contains((Month)date.Month)).Distinct())
-            {
-                // write event
-                WriteEvent(data, schedule.EventId);
-            }
+            //foreach (var schedule in _preloadedData.Schedules.MonthlySchedules.Where(e => e.DayOfMonth == date.Day
+            //    && e.Months.Contains((Month)date.Month)).Distinct())
+            //{
+            //    // write event
+            //    WriteEvent(data, schedule.EventId);
+            //}
 
-            // write every week events
-            foreach (var schedule in _preloadedData.Schedules.WeeklySchedules.Where(item => item.DaysOfWeek.Contains(date.DayOfWeek)))
-            {
-                // write event
-                WriteEvent(data, schedule.EventId);
-            }
+            //// write every week events
+            //foreach (var schedule in _preloadedData.Schedules.WeeklySchedules.Where(item => item.DaysOfWeek.Contains(date.DayOfWeek)))
+            //{
+            //    // write event
+            //    WriteEvent(data, schedule.EventId);
+            //}
 
-            // write every day events
-            foreach (var schedule in _preloadedData.Schedules.DailySchedules.Where(item => item.Period > 0))
-            {
-                // check this event will in this day
-                DateTime evntDate = schedule.DateFrom;
-                while (evntDate < date)
-                    evntDate = evntDate.AddDays(schedule.Period);
-                if (evntDate != date) continue;
+            //// write every day events
+            //foreach (var schedule in _preloadedData.Schedules.DailySchedules.Where(item => item.Period > 0))
+            //{
+            //    // check this event will in this day
+            //    DateTime evntDate = schedule.DateFrom;
+            //    while (evntDate < date)
+            //        evntDate = evntDate.AddDays(schedule.Period);
+            //    if (evntDate != date) continue;
 
-                // write event
-                WriteEvent(data, schedule.EventId);
-            }
+            //    // write event
+            //    WriteEvent(data, schedule.EventId);
+            //}
 
-            // write once events
-            foreach (var schedule in _preloadedData.Schedules.OnceSchedules.Where(item => item.Date.Year == data.Year && item.Date.Month == data.Month && item.Date.Day == data.DayOfMonth))
-            {
-                // write event
-                WriteEvent(data, schedule.EventId);
-            }
+            //// write once events
+            //foreach (var schedule in _preloadedData.Schedules.OnceSchedules.Where(item => item.Date.Year == data.Year && item.Date.Month == data.Month && item.Date.Day == data.DayOfMonth))
+            //{
+            //    // write event
+            //    WriteEvent(data, schedule.EventId);
+            //}
         }
 
         private void WriteEvent(CalendarDayData data, int eventId)
@@ -266,7 +263,6 @@ namespace MoneyChest.Calculation.Builders.Calendar
             public decimal StorageSummary { get; set; }
             public List<RecordModel> Records { get; set; }
             public List<MoneyTransferModel> MoneyTransfers { get; set; }
-            public SchedulesScopeModel Schedules { get; set; }
             public EventsScopeModel Events { get; set; }
         }
 

@@ -30,7 +30,8 @@ namespace MoneyChest.Data.Entities
         public decimal Value { get; set; }
 
         public decimal SpentValue { get; set; }
-        
+
+        [StringLength(4000)]
         public string Remark { get; set; }
 
         public int CurrencyId { get; set; }

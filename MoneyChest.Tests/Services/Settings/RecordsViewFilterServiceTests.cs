@@ -13,7 +13,7 @@ using MoneyChest.Data.Mock;
 using MoneyChest.Services.Services.Settings;
 using MoneyChest.Model.Model;
 using System.Data.Entity;
-using MoneyChest.Data.Converters;
+using MoneyChest.Services.Converters;
 
 namespace MoneyChest.Tests.Services.Settings
 {

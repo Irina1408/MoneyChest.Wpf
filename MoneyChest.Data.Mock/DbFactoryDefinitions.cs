@@ -42,7 +42,7 @@ namespace MoneyChest.Data.Mock
                 e.Symbol = Moniker.CurrencySymbol;
                 e.IsUsed = true;
                 e.IsMain = false;
-                e.SymbolAlignmentIsRight = true;
+                e.CurrencySymbolAlignment = CurrencySymbolAlignment.Right;
             });
 
             f.Define<CurrencyExchangeRate>(e =>
@@ -97,7 +97,6 @@ namespace MoneyChest.Data.Mock
             });
 
             DefineEventEntities(f);
-            DefineScheduleEntities(f);
             DefineSettingsEntities(f);
         }
 
@@ -130,38 +129,6 @@ namespace MoneyChest.Data.Mock
                 e.AutoExecution = false;
                 e.ConfirmBeforeExecute = false;
                 e.TransactionType = TransactionType.Expense;
-            });
-        }
-
-        private static void DefineScheduleEntities(DbFactory f)
-        {
-            f.Define<DailySchedule>(e =>
-            {
-                e.DateFrom = DateTime.Today.AddDays(1);
-                e.DateUntil = e.DateFrom.Date;
-                e.Period = 1;
-                e.ScheduleType = ScheduleType.Daily;
-            });
-
-            f.Define<MonthlySchedule>(e =>
-            {
-                e.DateFrom = DateTime.Today.AddDays(1);
-                e.DateUntil = DateTime.Today.AddMonths(2);
-                e.ScheduleType = ScheduleType.Monthly;
-            });
-
-            f.Define<OnceSchedule>(e =>
-            {
-                e.Date = DateTime.Today.AddDays(1);
-                e.ScheduleType = ScheduleType.Once;
-            });
-
-            f.Define<WeeklySchedule>(e =>
-            {
-                e.DateFrom = DateTime.Today.AddDays(1);
-                e.DateUntil = DateTime.Today.AddMonths(2);
-                e.Period = 1;
-                e.ScheduleType = ScheduleType.Weekly;
             });
         }
 
