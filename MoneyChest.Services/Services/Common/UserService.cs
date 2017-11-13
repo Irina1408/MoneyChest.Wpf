@@ -19,8 +19,10 @@ namespace MoneyChest.Services.Services
 {
     public interface IUserService : IIdManagableServiceBase<UserModel>
     {
+        // TODO: obsolete. remove
         UserModel Add(UserModel model, Language language);
         UserModel Get(string name, string password);
+        UserModel Get(string name);
     }
 
     public class UserService : HistoricizedIdManageableServiceBase<User, UserModel, UserConverter>, IUserService
@@ -43,16 +45,31 @@ namespace MoneyChest.Services.Services
             return user != null ? _converter.ToModel(user) : null;
         }
 
+        public UserModel Get(string name)
+        {
+            var user = Scope.FirstOrDefault(_ => _.Name == name);
+            return user != null ? _converter.ToModel(user) : null;
+        }
+
         #endregion
 
         #region Overrides
 
-        internal override User Add(User entity)
+        public override UserModel Add(UserModel model)
         {
-            entity = base.Add(entity);
-            LoadDefaults(entity, Language.English);
-            return entity;
+            // convert to Db entity
+            var entity = _converter.ToEntity(model);
+            // add to database
+            entity = Add(entity);
+            // save changes
+            SaveChanges();
+            // load defaults
+            LoadDefaults(entity, model.Language);
+
+            return _converter.UpdateModel(GetDbDetailedEntity(entity), model);
         }
+
+        protected override IQueryable<User> Scope => Entities.Include(_ => _.GeneralSettings);
         protected override int UserId(User entity) => entity.Id;
 
         #endregion

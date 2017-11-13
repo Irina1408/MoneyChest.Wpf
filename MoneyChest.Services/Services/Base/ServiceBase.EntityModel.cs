@@ -29,6 +29,7 @@ namespace MoneyChest.Services.Services.Base
             entity = Add(entity);
             // save changes
             SaveChanges();
+            // TODO: add OnAdd method. Check UserService
 
             return _converter.UpdateModel(GetDbDetailedEntity(entity), model);
         }
@@ -43,6 +44,7 @@ namespace MoneyChest.Services.Services.Base
             dbEntity = Update(dbEntity);
             // save changes
             SaveChanges();
+            // TODO: add OnUpdate method
 
             // TODO: check if related entity foreign key was changed related entity will be updated automatically or not. For now implementation like "not"
             return _converter.UpdateModel(GetDbDetailedEntity(dbEntity), model);
@@ -76,12 +78,14 @@ namespace MoneyChest.Services.Services.Base
         {
             Delete(GetDbEntity(model));
             SaveChanges();
+            // TODO: add OnDelete method
         }
 
         public virtual void Delete(IEnumerable<TModel> models)
         {
             GetDbEntities(models).ForEach(entity => Delete(entity));
             SaveChanges();
+            // TODO: add OnDelete method
         }
 
 

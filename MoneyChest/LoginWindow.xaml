@@ -5,45 +5,98 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:local="clr-namespace:MoneyChest"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     mc:Ignorable="d"
-    Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+    Height="300" Width="550" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
     Style="{StaticResource MoneyChestWindowStyle}"
     Loaded="LoginWindow_Loaded"
     Closing="LoginWindow_Closing">
-    
-    <Grid>
+
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource lName}"/>
-            <TextBox x:Name="txtName" Grid.Row="0" Grid.Column="1" TextChanged="SequrityData_Changed"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource lPassword}"/>
-            <PasswordBox x:Name="txtPassword" Grid.Row="1" Grid.Column="1" PasswordChanged="SequrityData_Changed"/>
-        </Grid>
+        <metroControls:FlipView Grid.Row="0" Orientation="Horizontal" SelectedIndex="{Binding FlipViewIndex}" IsBannerEnabled="False"
+                                MouseOverGlowEnabled="False" CircularNavigation="False" IsNavigationEnabled="False">
+            <metroControls:FlipView.Items>
+                <!-- Log In form -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.Column="0" Source="money.png"/>
+
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Width="Auto"
+                                Grid.Column="1">
+                        <Label Content="Log in" FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <iconPacks:PackIconMaterial Kind="Account" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <TextBox Style="{DynamicResource HintTextBoxStyle}" materialDesign:HintAssist.Hint="{DynamicResource lName}" 
+                                     Text="{Binding Name}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <iconPacks:PackIconMaterial Kind="Key" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <PasswordBox x:Name="txtPassword1" materialDesign:HintAssist.Hint="{DynamicResource lPassword}" 
+                                         PasswordChanged="Password_Changed"/>
+                        </StackPanel>
+                        <Button HorizontalAlignment="Right" Style="{DynamicResource LinkButtonStyle}" Content="Register" 
+                                Command="{Binding ChangeViewCommand}" Margin="5 10 5 5"/>
+                    </StackPanel>
+
+                </Grid>
+                
+                <!-- Register form -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Grid.Row="0" Style="{DynamicResource CircleButtonStyle}" Command="{Binding ChangeViewCommand}"
+                            VerticalAlignment="Top">
+                        <iconPacks:PackIconMaterial Kind="ArrowLeft"/>
+                    </Button>
+
+                    <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center">
+                        <Label Content="Register" FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <iconPacks:PackIconMaterial Kind="Account" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <TextBox Style="{DynamicResource HintTextBoxStyle}" materialDesign:HintAssist.Hint="{DynamicResource lName}" 
+                                     Text="{Binding Name}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <iconPacks:PackIconMaterial Kind="Key" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <PasswordBox x:Name="txtPassword2" materialDesign:HintAssist.Hint="{DynamicResource lPassword}" PasswordChanged="Password_Changed"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <iconPacks:PackIconMaterial Kind="Key" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <PasswordBox x:Name="txtConfirmPassword" materialDesign:HintAssist.Hint="Confirm password" PasswordChanged="ConfirmPassword_Changed"/>
+                            <iconPacks:PackIconFontAwesome Kind="ExclamationCircle" Foreground="Red" 
+                                                           Visibility="{Binding ExclamationConfirmPasswordVisibility}"
+                                                           ToolTip="Please confirm your password"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </metroControls:FlipView.Items>
+        </metroControls:FlipView>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
-            <Button x:Name="btnOk" Content="{DynamicResource lOk}"
-                    Style="{DynamicResource DefaultButtonStyle}"
-                    Click="OkButton_Click"
-                    IsEnabled="False"/>
+            <Button Content="{Binding LoginButtonLabel}" Style="{DynamicResource DefaultButtonStyle}"
+                                Command="{Binding LoginCommand}"/>
 
-            <Button Content="{DynamicResource lCancel}" IsCancel="True"
-                    Click="CancelButton_Click"/>
+            <Button Content="{DynamicResource lCancel}" IsCancel="True" Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </controls:MetroWindow>

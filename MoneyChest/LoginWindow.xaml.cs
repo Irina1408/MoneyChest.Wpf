@@ -1,9 +1,12 @@
 ﻿using MahApps.Metro.Controls;
 using MoneyChest.Data.Context;
+using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
 using MoneyChest.Shared.Settings;
+using MoneyChest.View.Commands;
+using MoneyChest.View.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +33,7 @@ namespace MoneyChest
         #region Private fields
         
         private IUserService _userService;
+        private LoginWindowViewModel _viewModel;
         private bool _dispose;
 
         #endregion
@@ -43,7 +47,56 @@ namespace MoneyChest
             // init service
             ServiceManager.Initialize();
             _userService = ServiceManager.ConfigureService<UserService>();
+            InitializeViewModel();
             _dispose = true;
+        }
+
+        private void InitializeViewModel()
+        {
+            // init model
+            _viewModel = new LoginWindowViewModel()
+            {
+                ChangeViewCommand = new Command(() =>
+                {
+                    _viewModel.FlipViewIndex = _viewModel.FlipViewIndex == 0 ? 1 : 0;
+
+                    txtPassword1.Password = null;
+                    txtPassword2.Password = null;
+                    txtConfirmPassword.Password = null;
+                }),
+                LoginCommand = new Command(() =>
+                {
+                    var user = _viewModel.FlipViewIndex == 0 ? Login() : Register();
+                    if (user == null) return;
+
+                    // save global variables
+                    GlobalVariables.UserId = user.Id;
+                    GlobalVariables.Language = user.Language;
+
+                    // save settings
+                    AppSettings.Instance.LastLogin = user.Name;
+                    AppSettings.Instance.Save();
+
+                    // update user last usage
+                    user.LastUsageDate = DateTime.Today;
+                    _userService.Update(user);
+
+                    // show main window
+                    var mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    _dispose = false;
+                    this.Close();
+                },
+                () => !string.IsNullOrEmpty(_viewModel.Name) && !string.IsNullOrEmpty(_viewModel.Password)
+                    && (_viewModel.FlipViewIndex == 0 || _viewModel.Password == _viewModel.ConfirmPassword)),
+
+                CancelCommand = new Command(() => this.Close())
+            };
+
+            // add command validation on property changed
+            _viewModel.PropertyChanged += (sender, e) => _viewModel.LoginCommand.ValidateCanExecute();
+            // set datacontext 
+            this.DataContext = _viewModel;
         }
 
         #endregion
@@ -53,8 +106,8 @@ namespace MoneyChest
         private void LoginWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // prepare controls data
-            txtName.Text = AppSettings.Instance.LastLogin;
-            txtPassword.Focus();
+            _viewModel.Name = AppSettings.Instance.LastLogin;
+            txtPassword1.Focus();
         }
 
         private void LoginWindow_Closing(object sender, CancelEventArgs e)
@@ -62,47 +115,52 @@ namespace MoneyChest
             if(_dispose)
                 ServiceManager.Dispose();
         }
-
-        private void OkButton_Click(object sender, RoutedEventArgs e)
+        
+        private void Password_Changed(object sender, RoutedEventArgs e)
         {
-            var user = _userService.Get(txtName.Text, txtPassword.Password);
+            var passwordBox = sender as PasswordBox;
+            _viewModel.Password = passwordBox.Password;
+        }
+
+        private void ConfirmPassword_Changed(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+            _viewModel.ConfirmPassword = passwordBox.Password;
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private UserModel Login()
+        {
+            var user = _userService.Get(_viewModel.Name, _viewModel.Password);
             if (user == null)
             {
-                // TODO: show login failed
-                user = _userService.Add(new Model.Model.UserModel()
-                {
-                    Name = txtName.Text,
-                    Password = txtPassword.Password
-                }, Model.Enums.Language.English);
+                MessageBox.Show("Login failed. Please verify your Name and Password.", "Login failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
             }
 
-            // save global variables
-            GlobalVariables.UserId = user.Id;
-            GlobalVariables.Language = Model.Enums.Language.English;
-
-            // save settings
-            AppSettings.Instance.LastLogin = txtName.Text;
-            AppSettings.Instance.Save();
-
-            // update user last usage
-            user.LastUsageDate = DateTime.Today;
-            _userService.Update(user);
-
-            // show main window
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
-            _dispose = false;
-            this.Close();
+            return user;
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private UserModel Register()
         {
-            this.Close();
-        }
+            // TODO: check ConfirmPassword
 
-        private void SequrityData_Changed(object sender, RoutedEventArgs e)
-        {
-            btnOk.IsEnabled = !string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtPassword.Password);
+            var user = _userService.Get(_viewModel.Name);
+            if (user != null)
+            {
+                MessageBox.Show("Registration failed. User with the same Name already exists. Please enter other Name.", "Registration failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+
+            return _userService.Add(new Model.Model.UserModel()
+            {
+                Name = _viewModel.Name,
+                Password = _viewModel.Password,
+                Language = _viewModel.Language
+            });
         }
 
         #endregion

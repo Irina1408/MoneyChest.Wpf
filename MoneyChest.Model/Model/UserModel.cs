@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Base;
+using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,7 @@ namespace MoneyChest.Model.Model
         public UserModel()
         {
             LastUsageDate = DateTime.Now;
+            Language = Language.English;
         }
 
         public int Id { get; set; }
@@ -25,6 +27,8 @@ namespace MoneyChest.Model.Model
         public DateTime LastUsageDate { get; set; }
 
         public DateTime? LastSynchronizationDate { get; set; }
+
+        public Language Language { get; set; }
 
         public string ServerUserId { get; set; }
     }

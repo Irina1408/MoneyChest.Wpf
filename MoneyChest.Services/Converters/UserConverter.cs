@@ -28,6 +28,7 @@ namespace MoneyChest.Services.Converters
             model.LastUsageDate = entity.LastUsageDate;
             model.LastSynchronizationDate = entity?.LastSynchronizationDate;
             model.ServerUserId = entity?.ServerUserId;
+            model.Language = entity.GeneralSettings.Language;
         }
     }
 }

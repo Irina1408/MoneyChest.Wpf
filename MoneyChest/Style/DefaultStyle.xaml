@@ -15,6 +15,10 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
+    <Style x:Key="TextBoxIconStyle" TargetType="{x:Type FrameworkElement}">
+        <Setter Property="Margin" Value="0 0 3 -5"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
     
     <!--*********************************** Window ***********************************-->
     <Style x:Key="MoneyChestWindowStyle" TargetType="{x:Type controls:MetroWindow}">
@@ -41,12 +45,37 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
+    <Style x:Key="CircleButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}">
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="Width" Value="36"/>
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+    </Style>
+
     <Style x:Key="CircleToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}">
         <Setter Property="Height" Value="36"/>
         <Setter Property="Width" Value="36"/>
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
     </Style>
 
+    <Style x:Key="LinkButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock TextDecorations="Underline">
+                <ContentPresenter /></TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}" />
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="Red" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
@@ -54,19 +83,24 @@
 
     
     <!--*********************************** Text boxes ***********************************-->
-    <Style TargetType="{x:Type TextBox}">
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="150"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
-
-    <Style TargetType="{x:Type PasswordBox}">
-        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
-        <Setter Property="Width" Value="150"/>
-        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
-    </Style>
-
     
+    <Style x:Key="HintTextBoxStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+    <Style TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
     <!--*********************************** Labels ***********************************-->
     <Style TargetType="{x:Type Label}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
@@ -76,7 +110,6 @@
     <Style TargetType="{x:Type ToolTip}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
-
 
     <!--*********************************** Group boxes ***********************************-->
     <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignGroupBox}">
