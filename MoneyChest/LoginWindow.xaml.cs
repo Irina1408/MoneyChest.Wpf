@@ -1,10 +1,12 @@
 ﻿using MahApps.Metro.Controls;
 using MoneyChest.Data.Context;
+using MoneyChest.Model.Enums;
 using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
 using MoneyChest.Shared.Settings;
+using MoneyChest.Utils;
 using MoneyChest.View.Commands;
 using MoneyChest.View.ViewModels;
 using System;
@@ -47,6 +49,7 @@ namespace MoneyChest
             // init service
             ServiceManager.Initialize();
             _userService = ServiceManager.ConfigureService<UserService>();
+            comboLanguages.ItemsSource = EnumHelper.ToListOfOriginalValueAndDescription(typeof(Language));
             InitializeViewModel();
             _dispose = true;
         }
@@ -151,7 +154,7 @@ namespace MoneyChest
             var user = _userService.Get(_viewModel.Name);
             if (user != null)
             {
-                MessageBox.Show("Registration failed. User with the same Name already exists. Please enter other Name.", "Registration failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("User with the same Name already exists. Please enter other Name.", "Registration failed", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
 

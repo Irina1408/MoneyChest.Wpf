@@ -10,7 +10,7 @@
     xmlns:local="clr-namespace:MoneyChest"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     mc:Ignorable="d"
-    Height="300" Width="550" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+    Height="350" Width="550" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
     Style="{StaticResource MoneyChestWindowStyle}"
     Loaded="LoginWindow_Loaded"
     Closing="LoginWindow_Closing">
@@ -86,6 +86,12 @@
                             <iconPacks:PackIconFontAwesome Kind="ExclamationCircle" Foreground="Red" 
                                                            Visibility="{Binding ExclamationConfirmPasswordVisibility}"
                                                            ToolTip="Please confirm your password"/>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <iconPacks:PackIconEntypo Kind="Language" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <ComboBox x:Name="comboLanguages" Style="{DynamicResource HintComboBoxStyle}" materialDesign:HintAssist.Hint="Language" DisplayMemberPath="Description" SelectedValuePath="Value"
+                                     SelectedValue="{Binding Language}"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>

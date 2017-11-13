@@ -30,8 +30,7 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
-    
-    <!--*********************************** Buttons ***********************************-->
+    <!--*********************************** Button ***********************************-->
     <Style x:Key="DefaultButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource AccentedSquareButtonStyle}">
         <Setter Property="Width" Value="100"/>
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
@@ -81,8 +80,7 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
-    
-    <!--*********************************** Text boxes ***********************************-->
+    <!--*********************************** Text box ***********************************-->
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="150"/>
@@ -101,7 +99,20 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
-    <!--*********************************** Labels ***********************************-->
+    <!--*********************************** Combo box ***********************************-->
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignComboBox}">
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+    <Style x:Key="HintComboBoxStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+    <!--*********************************** Label ***********************************-->
     <Style TargetType="{x:Type Label}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
@@ -111,12 +122,11 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
-    <!--*********************************** Group boxes ***********************************-->
+    <!--*********************************** Group box ***********************************-->
     <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignGroupBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
     </Style>
 
-    
     <!--*********************************** Data grid ***********************************-->
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource MetroDataGrid}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
