@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.IconPacks;
+using MoneyChest.Shared.MultiLang;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace MoneyChest.View.Pages
 
         #region IPage implementation
 
-        public string Label => "Reports";
+        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Reports];
         public FrameworkElement Icon { get; private set; } = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.PieChart };
         public int Order => 6;
         public bool ShowTopBorder => false;

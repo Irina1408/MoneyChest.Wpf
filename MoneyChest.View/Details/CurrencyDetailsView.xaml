@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MoneyChest.View.Details"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Margin="5">
@@ -34,38 +35,38 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Column="0" Grid.Row="0" Content="Name"/>
+            <Label Grid.Column="0" Grid.Row="0" Content="{moneyChestView:MultiLangBinding General_Name}"/>
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
 
-            <Label Grid.Column="0" Grid.Row="1" Content="Code"/>
+            <Label Grid.Column="0" Grid.Row="1" Content="{moneyChestView:MultiLangBinding Currency_Code}"/>
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
 
-            <Label Grid.Column="0" Grid.Row="2" Content="Symbol"/>
+            <Label Grid.Column="0" Grid.Row="2" Content="{moneyChestView:MultiLangBinding Currency_Symbol}"/>
             <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Symbol, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
         </Grid>
 
         <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
-            <ToggleButton x:Name="btnIsMain" Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsMain}" ToolTip="Currency is main">
+            <ToggleButton x:Name="btnIsMain" Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsMain}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsMain}">
                 <iconPacks:PackIconMaterial Kind="Star" />
             </ToggleButton>
-            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsUsed}" ToolTip="Currency is used">
+            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsUsed}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsUsed}">
                 <iconPacks:PackIconModern Kind="Checkmark" />
             </ToggleButton>
         </StackPanel>
 
-        <GroupBox Grid.Column="1" Grid.Row="1" Header="Symbol alignment">
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}">
             <StackPanel>
-                <RadioButton Content="Right (100$)" IsChecked="{Binding SymbolAlignmentIsRight}"/>
-                <RadioButton Content="Left ($100)" IsChecked="True"/>
+                <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Right}" IsChecked="{Binding SymbolAlignmentIsRight}"/>
+                <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Left}" IsChecked="True"/>
             </StackPanel>
         </GroupBox>
 
         <StackPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <!-- TODO: create style for Ok/Cancel buttons -->
-            <Button Content="{DynamicResource lOk}" Command="{Binding SaveCommand}"
+            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
                     Style="{DynamicResource DefaultButtonStyle}"/>
 
-            <Button Content="{DynamicResource lCancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
+            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
         </StackPanel>
     </Grid>
 </UserControl>

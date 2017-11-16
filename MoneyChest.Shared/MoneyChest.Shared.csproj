@@ -41,9 +41,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalVariables.cs" />
-    <Compile Include="Text\ITextPack.cs" />
-    <Compile Include="Text\TextPack.cs" />
+    <Compile Include="MultiLang\MultiLangEnumHelper.cs" />
+    <Compile Include="MultiLang\MultiLangResource.cs" />
+    <Compile Include="MultiLang\MultiLangResourceManager.cs" />
+    <Compile Include="MultiLang\MultiLangResourceName.cs" />
+    <Compile Include="MultiLang\MultiLangUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.en-US.Designer.cs">
+      <DependentUpon>Resources.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.ru-RU.Designer.cs">
+      <DependentUpon>Resources.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Settings\AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +73,21 @@
       <Project>{DC7D4636-AEAA-4101-92D7-98F43E7D0B97}</Project>
       <Name>MoneyChest.Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ru-RU.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.ru-RU.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

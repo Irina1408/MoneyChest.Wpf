@@ -3,6 +3,7 @@ using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
+using MoneyChest.Shared.MultiLang;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace MoneyChest.View.Pages
 
         #region IPage implementation
 
-        public string Label => "Categories";
+        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Categories];
         public FrameworkElement Icon { get; private set; } = new PackIconEntypo() { Kind = PackIconEntypoKind.FlowTree };
         public int Order => 9;
         public bool ShowTopBorder => false;

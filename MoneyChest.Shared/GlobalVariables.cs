@@ -10,6 +10,5 @@ namespace MoneyChest.Shared
     public static class GlobalVariables
     {
         public static int UserId { get; set; }
-        public static Language Language { get; set; }
     }
 }

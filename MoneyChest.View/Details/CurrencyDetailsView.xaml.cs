@@ -1,6 +1,7 @@
 ﻿using MoneyChest.Model.Model;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
+using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Commands;
 using MoneyChest.View.Wrappers;
 using System;
@@ -49,7 +50,9 @@ namespace MoneyChest.View.Details
 
             // set defauls
             _closeView = false;
-            LabelHeader.Content = isNew ? "New currency" : "Currency";
+            LabelHeader.Content = isNew 
+                ? MultiLangResourceManager.Instance[MultiLangResourceName.New(typeof(CurrencyModel))]
+                : MultiLangResourceManager.Instance[MultiLangResourceName.Singular(typeof(CurrencyModel))];
             // if currency is not new and main user cannot change it to not main
             btnIsMain.IsEnabled = isNew || !entity.IsMain;
             // initialize datacontexts
@@ -120,13 +123,13 @@ namespace MoneyChest.View.Details
             if (_wrappedEntity.IsChanged)
             {
                 // show confirmation
-                var dialogResult = MessageBox.Show("Do you want to save changes?", "Save changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
+                var dialogResult = MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmationMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmation], MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
 
                 if (dialogResult == MessageBoxResult.Yes)
                 {
                     // check errors
                     if (_wrappedEntity.HasErrors)
-                        MessageBox.Show("Some entries are invalid.", "Save failed", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailedMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailed], MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     else
                         SaveChanges();
                 }

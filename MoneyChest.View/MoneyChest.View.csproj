@@ -83,6 +83,7 @@
     <Compile Include="Details\CurrencyDetailsView.xaml.cs">
       <DependentUpon>CurrencyDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\MultiLangBinding.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="Wrappers\EntityWrapper.cs" />
     <Compile Include="Main\CustomHamburgerMenuItem.cs" />

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:MoneyChest.View.Main"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Loaded="MainView_Loaded">
@@ -67,14 +68,14 @@
                                VerticalAlignment="Center"
                                FontSize="{DynamicResource DefaultFontSize}"
                                Foreground="White"
-                               Text="Menu" />
+                               Text="{moneyChestView:MultiLangBinding General_Menu}" />
                 </DataTemplate>
             </controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
 
             <!--  Settings  -->
             <controls:HamburgerMenu.OptionsItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuGlyphItem Label="{DynamicResource lSettings}">
+                    <controls:HamburgerMenuGlyphItem Label="{moneyChestView:MultiLangBinding MainManu_Settings}">
                         <controls:HamburgerMenuGlyphItem.Tag>
                             <iconpacks:PackIconMaterial Kind="Settings" />
                         </controls:HamburgerMenuGlyphItem.Tag>

@@ -27,10 +27,7 @@
                 <!-- Accent and AppTheme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Violet.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-                
-                <!-- Label names -->
-                <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Languages/LangEnglish.xaml" />
-                
+
                 <!-- Local styles -->
                 <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.PackIcon.xaml"/>

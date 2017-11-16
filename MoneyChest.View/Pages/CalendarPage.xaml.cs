@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.IconPacks;
+using MoneyChest.Shared.MultiLang;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace MoneyChest.View.Pages
 
         #region IPage implementation
 
-        public string Label => "Calendar";
+        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Calendar];
         public FrameworkElement Icon { get; private set; } = new PackIconModern() { Kind = PackIconModernKind.CalendarMonth };
         public int Order => 3;
         public bool ShowTopBorder => false;

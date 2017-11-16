@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Enums;
+using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Commands;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace MoneyChest.View.ViewModels
         public Language Language { get; set; }
 
         public int FlipViewIndex { get; set; }
-        public string LoginButtonLabel => FlipViewIndex == 0 ? "Log In" : "Register";    // TODO: language
+        public string LoginButtonLabel => FlipViewIndex == 0 ? MultiLangResourceManager.Instance[MultiLangResourceName.LogIn] : MultiLangResourceManager.Instance[MultiLangResourceName.Register];
         public Visibility ExclamationConfirmPasswordVisibility => 
             string.IsNullOrEmpty(Password) || Password == ConfirmPassword ? Visibility.Hidden : Visibility.Visible;
 

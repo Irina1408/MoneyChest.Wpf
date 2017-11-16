@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Utils
 {
+    // TODO: obsolete. remove it
     public static class EnumHelper
     {
         /// <summary>

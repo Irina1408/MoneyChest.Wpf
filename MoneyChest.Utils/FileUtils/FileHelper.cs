@@ -30,6 +30,5 @@ namespace MoneyChest.Utils.FileUtils
             if (File.Exists(fileFullPath))
                 File.Delete(fileFullPath);
         }
-
     }
 }

@@ -1,9 +1,11 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
+using MoneyChest.Model.Enums;
 using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
+using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Commands;
 using MoneyChest.View.Details;
 using MoneyChest.View.Utils;
@@ -58,11 +60,10 @@ namespace MoneyChest.View.Pages
                 DeleteCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
                 (items) =>
                 {
-                    var currencyNames = string.Join(";", items.Select(_ => _.Name));
-                    var message = string.Format("Are you sure you want to delete currenc{0} {1}?", items.Count() == 1 ? "y" : "ies", currencyNames);
+                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(CurrencyModel), items.Select(_ => _.Name));
 
-                    if (MessageBox.Show(message, "Deletion confirmation", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) 
-                        == MessageBoxResult.Yes)
+                    if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation], 
+                        MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                     {
                         // remove in database
                         _service.Delete(items);
@@ -109,13 +110,14 @@ namespace MoneyChest.View.Pages
             };
 
             this.DataContext = _modelView;
+            SymbolAlignmentColumn.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(CurrencySymbolAlignment));
         }
 
         #endregion
 
         #region IPage implementation
 
-        public string Label => "Currencies";
+        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Currencies];
         public FrameworkElement Icon { get; private set; } = new PackIconModern() { Kind = PackIconModernKind.CurrencyDollar };
         public int Order => 8;
         public bool ShowTopBorder => false;

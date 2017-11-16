@@ -1,4 +1,5 @@
-﻿using MoneyChest.Utils.SerializationUtils;
+﻿using MoneyChest.Model.Enums;
+using MoneyChest.Utils.SerializationUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +14,15 @@ namespace MoneyChest.Shared.Settings
 
         private static AppSettings currentSettings;
 
-        public static AppSettings Instance
-        {
-            get
-            {
-                return currentSettings ?? (currentSettings = ObjectSerializer.Load<AppSettings>() ?? new AppSettings());
-            }
-        }
+        public static AppSettings Instance => 
+            currentSettings ?? (currentSettings = ObjectSerializer.Load<AppSettings>() ?? new AppSettings());
 
         #endregion
 
         #region Public properties
 
         public string LastLogin { get; set; }
+        public Language? LastLanguage { get; set; }
 
         #endregion
 

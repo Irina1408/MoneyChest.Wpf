@@ -5,6 +5,7 @@ using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
+using MoneyChest.Shared.MultiLang;
 using MoneyChest.Shared.Settings;
 using MoneyChest.Utils;
 using MoneyChest.View.Commands;
@@ -12,6 +13,7 @@ using MoneyChest.View.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -49,7 +51,7 @@ namespace MoneyChest
             // init service
             ServiceManager.Initialize();
             _userService = ServiceManager.ConfigureService<UserService>();
-            comboLanguages.ItemsSource = EnumHelper.ToListOfOriginalValueAndDescription(typeof(Language));
+            comboLanguages.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(Language));
             InitializeViewModel();
             _dispose = true;
         }
@@ -74,10 +76,10 @@ namespace MoneyChest
 
                     // save global variables
                     GlobalVariables.UserId = user.Id;
-                    GlobalVariables.Language = user.Language;
 
                     // save settings
                     AppSettings.Instance.LastLogin = user.Name;
+                    AppSettings.Instance.LastLanguage = user.Language;
                     AppSettings.Instance.Save();
 
                     // update user last usage
@@ -110,6 +112,16 @@ namespace MoneyChest
         {
             // prepare controls data
             _viewModel.Name = AppSettings.Instance.LastLogin;
+            if(AppSettings.Instance.LastLanguage.HasValue)
+            {
+                _viewModel.Language = AppSettings.Instance.LastLanguage.Value;
+                MultiLangResourceManager.Instance.SetLanguage(AppSettings.Instance.LastLanguage.Value);
+            }
+            else
+            {
+                _viewModel.Language = MultiLangUtils.GetLanguage(CultureInfo.CurrentUICulture.Name);
+                MultiLangResourceManager.Instance.SetLanguage(_viewModel.Language);
+            }
             txtPassword1.Focus();
         }
 
@@ -131,6 +143,12 @@ namespace MoneyChest
             _viewModel.ConfirmPassword = passwordBox.Password;
         }
 
+        private void comboLanguages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(comboLanguages.SelectedValue != null)
+                MultiLangResourceManager.Instance.SetLanguage((Language)comboLanguages.SelectedValue);
+        }
+
         #endregion
 
         #region Private methods
@@ -140,9 +158,11 @@ namespace MoneyChest
             var user = _userService.Get(_viewModel.Name, _viewModel.Password);
             if (user == null)
             {
-                MessageBox.Show("Login failed. Please verify your Name and Password.", "Login failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.LoginFailedMessage], MultiLangResourceManager.Instance[MultiLangResourceName.LoginFailed], MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
+
+            MultiLangResourceManager.Instance.SetLanguage(user.Language);
 
             return user;
         }
@@ -154,7 +174,7 @@ namespace MoneyChest
             var user = _userService.Get(_viewModel.Name);
             if (user != null)
             {
-                MessageBox.Show("User with the same Name already exists. Please enter other Name.", "Registration failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.RegistrationFailedMessage], MultiLangResourceManager.Instance[MultiLangResourceName.RegistrationFailed], MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
 

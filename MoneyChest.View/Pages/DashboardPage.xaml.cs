@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.IconPacks;
+using MoneyChest.Shared.MultiLang;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace MoneyChest.View.Pages
 
         #region IPage implementation
 
-        public string Label => "Dashboard";
+        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Dashboard];
         public FrameworkElement Icon { get; private set; } = new PackIconMaterial() { Kind = PackIconMaterialKind.ViewDashboard };
         public int Order => 1;
         public bool ShowTopBorder => false;
