@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MoneyChest.View.Commands
+namespace MoneyChest.ViewModel.Commands
 {
     public class DetailsViewCommandContainer : INotifyPropertyChanged
     {

@@ -2,8 +2,8 @@
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
-using MoneyChest.View.Commands;
-using MoneyChest.View.Wrappers;
+using MoneyChest.ViewModel.Commands;
+using MoneyChest.ViewModel.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

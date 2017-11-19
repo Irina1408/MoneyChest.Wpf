@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MoneyChest.View.Commands
+namespace MoneyChest.ViewModel.Commands
 {
     public class DataGridSelectedItemsCommand<T> : IMCCommand, IDisposable
         where T : class

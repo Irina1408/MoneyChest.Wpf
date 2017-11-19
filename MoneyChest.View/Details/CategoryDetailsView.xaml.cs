@@ -2,9 +2,9 @@
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared.MultiLang;
-using MoneyChest.View.Commands;
-using MoneyChest.View.ViewModel;
-using MoneyChest.View.Wrappers;
+using MoneyChest.ViewModel.Commands;
+using MoneyChest.ViewModel.ViewModel;
+using MoneyChest.ViewModel.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

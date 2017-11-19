@@ -1,5 +1,5 @@
 ﻿using MoneyChest.Model.Model;
-using MoneyChest.View.Commands;
+using MoneyChest.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace MoneyChest.View.ViewModel
+namespace MoneyChest.ViewModel.ViewModel
 {
     public class CurrenciesPageViewModel : INotifyPropertyChanged
     {

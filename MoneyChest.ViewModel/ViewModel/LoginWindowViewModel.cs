@@ -1,6 +1,6 @@
 ﻿using MoneyChest.Model.Enums;
 using MoneyChest.Shared.MultiLang;
-using MoneyChest.View.Commands;
+using MoneyChest.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MoneyChest.View.ViewModel
+namespace MoneyChest.ViewModel.ViewModel
 {
     public class LoginWindowViewModel : INotifyPropertyChanged
     {

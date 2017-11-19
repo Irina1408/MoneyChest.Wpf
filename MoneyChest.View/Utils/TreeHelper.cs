@@ -1,5 +1,5 @@
 ﻿using MoneyChest.Model.Model;
-using MoneyChest.View.ViewModel;
+using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

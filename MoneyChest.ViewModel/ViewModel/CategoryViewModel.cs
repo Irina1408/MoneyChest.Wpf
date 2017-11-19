@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoneyChest.View.ViewModel
+namespace MoneyChest.ViewModel.ViewModel
 {
     public class CategoryViewModel : CategoryModel
     {

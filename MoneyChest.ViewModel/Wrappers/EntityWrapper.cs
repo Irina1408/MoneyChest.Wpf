@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoneyChest.View.Wrappers
+namespace MoneyChest.ViewModel.Wrappers
 {
     public class EntityWrapper<T> : INotifyPropertyChanged, IDataErrorInfo
         where T : class, INotifyPropertyChanged

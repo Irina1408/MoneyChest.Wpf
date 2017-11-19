@@ -76,11 +76,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\DataGridSelectedItemCommand.cs" />
-    <Compile Include="Commands\DataGridSelectedItemsCommand.cs" />
-    <Compile Include="Commands\Containers\DetailsViewCommandContainer.cs" />
-    <Compile Include="Commands\TreeViewSelectedItemCommand.cs" />
     <Compile Include="Details\CategoryDetailsView.xaml.cs">
       <DependentUpon>CategoryDetailsView.xaml</DependentUpon>
     </Compile>
@@ -89,11 +84,6 @@
     </Compile>
     <Compile Include="Utils\MultiLangBinding.cs" />
     <Compile Include="Utils\TreeHelper.cs" />
-    <Compile Include="ViewModel\CategoriesPageViewModel.cs" />
-    <Compile Include="ViewModel\CategoryViewModel.cs" />
-    <Compile Include="ViewModel\CategoryViewModelCollection.cs" />
-    <Compile Include="ViewModel\LoginWindowViewModel.cs" />
-    <Compile Include="Wrappers\EntityWrapper.cs" />
     <Compile Include="Main\CustomHamburgerMenuItem.cs" />
     <Compile Include="Main\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -140,7 +130,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Utils\ViewHelper.cs" />
-    <Compile Include="ViewModel\CurrenciesPageViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -166,6 +155,10 @@
     <ProjectReference Include="..\MoneyChest.Shared\MoneyChest.Shared.csproj">
       <Project>{1d514398-d24c-4e14-a326-a1c48d788782}</Project>
       <Name>MoneyChest.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MoneyChest.ViewModel\MoneyChest.ViewModel.csproj">
+      <Project>{f4e3c2ac-30d1-4024-8a6c-7f7f76b78b89}</Project>
+      <Name>MoneyChest.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

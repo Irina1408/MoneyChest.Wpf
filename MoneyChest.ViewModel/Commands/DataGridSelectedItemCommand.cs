@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MoneyChest.View.Commands
+namespace MoneyChest.ViewModel.Commands
 {
-    public class TreeViewSelectedItemCommand<T> : IMCCommand, IDisposable
+    public class DataGridSelectedItemCommand<T> : IMCCommand, IDisposable
          where T : class
     {
         #region Private fields
 
-        private TreeView treeView;
+        private DataGrid dataGrid;
         private Action<T> execute;
         private Func<T, bool> canExecute;
 
@@ -21,22 +21,22 @@ namespace MoneyChest.View.Commands
 
         #region Initialization
 
-        public TreeViewSelectedItemCommand(TreeView treeView, Action<T> execute, Func<T, bool> canExecute = null)
+        public DataGridSelectedItemCommand(DataGrid dataGrid, Action<T> execute, Func<T, bool> canExecute = null)
         {
-            this.treeView = treeView;
+            this.dataGrid = dataGrid;
             this.execute = execute;
             this.canExecute = canExecute;
-            this.treeView.SelectedItemChanged += treeView_SelectedItemChanged;
+            this.dataGrid.SelectionChanged += dataGrid_SelectionChanged;
         }
 
-        private void treeView_SelectedItemChanged(object sender, EventArgs e)
+        private void dataGrid_SelectionChanged(object sender, EventArgs e)
         {
             ValidateCanExecute();
         }
 
         #endregion
 
-        #region Public methods
+        #region IMCCommand implementation
 
         public void ValidateCanExecute()
         {
@@ -49,18 +49,17 @@ namespace MoneyChest.View.Commands
 
         public bool CanExecute(object parameter)
         {
-            if (treeView.SelectedItem as T == null)
+            if (dataGrid.SelectedItem == null || dataGrid.SelectedItems == null || dataGrid.SelectedItems.Count != 1)
                 return false;
-
-            return canExecute?.Invoke(treeView.SelectedItem as T) ?? true;
+            return canExecute?.Invoke(dataGrid.SelectedItem as T) ?? true;
         }
 
         public event EventHandler CanExecuteChanged;
 
         public void Execute(object parameter)
         {
-            if (treeView.SelectedItem as T != null)
-                execute?.Invoke(treeView.SelectedItem as T);
+            if (dataGrid.SelectedItem as T != null)
+                execute?.Invoke(dataGrid.SelectedItem as T);
         }
 
         #endregion
@@ -69,7 +68,7 @@ namespace MoneyChest.View.Commands
 
         public void Dispose()
         {
-            this.treeView.SelectedItemChanged -= treeView_SelectedItemChanged;
+            this.dataGrid.SelectionChanged -= dataGrid_SelectionChanged;
         }
 
         #endregion
