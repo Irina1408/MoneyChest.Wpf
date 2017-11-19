@@ -83,8 +83,8 @@ namespace MoneyChest.View.Pages
                     item.InHistory = !item.InHistory;
                     // save to database
                     _service.Update(item);
-                    // update place in tree
-                    ActivityChanged(item);
+                    // reload data
+                    ReloadData();
                 })
             };
 
@@ -133,21 +133,34 @@ namespace MoneyChest.View.Pages
 
         private void ReloadData()
         {
+            // TODO: save old 
+            var oldCategoryCollection = _viewModel.Categories?.GetDescendants();
+
             _viewModel.Categories = TreeHelper.BuildTree(_service.GetListForUser(GlobalVariables.UserId)
                 .OrderBy(_ => _.InHistory)
                 .ThenByDescending(_ => _.TransactionType)
                 .ThenBy(_ => _.Name)
                 .ToList());
 
+            // update selected and expanded items
+            if(oldCategoryCollection != null)
+            {
+                foreach (var cat in _viewModel.Categories.GetDescendants())
+                {
+                    var old = oldCategoryCollection.FirstOrDefault(_ => _.Id == cat.Id);
+                    if(old != null)
+                    {
+                        cat.IsExpandedMainView = old.IsExpandedMainView;
+                        cat.IsSelectedMainView = old.IsSelectedMainView;
+                    }
+                }
+            }
+            
             _reloadData = false;
         }
 
         private void OpenDetails(CategoryViewModel model, bool isNew = false)
         {
-            // keep old parameters
-            var oldParentId = model.ParentCategoryId;
-            var oldInHistory = model.InHistory;
-            var oldTransactionType = model.TransactionType;
             // init window and details view
             var window = this.InitializeDependWindow(false);
             var detailsView = new CategoryDetailsView(_service, model, isNew, window.Close, _viewModel.Categories);
@@ -164,92 +177,15 @@ namespace MoneyChest.View.Pages
             window.ShowDialog();
             if (detailsView.DialogResult)
             {
-                // update tree
-                if (isNew || model.ParentCategoryId != oldParentId)
-                    Replace(model, oldParentId, isNew);
-                else if (oldInHistory != model.InHistory)
-                    ActivityChanged(model);
-
-                // refrech background
-                if(!isNew && oldTransactionType != model.TransactionType)
-                    TreeViewCategories.Items.Refresh();
-
                 // set expanded branch where category was changed
                 _viewModel.Categories.ExpandMainViewToDescendant(model, true);
                 model.IsSelectedMainView = true;
+
+                // reload data
+                ReloadData();
                 // refresh commands
                 RefreshCommandsState();
             }
-        }
-
-        private void Replace(CategoryViewModel model, int? oldParentId, bool isNew)
-        {
-            // remove entity from previous parent collection
-            if (!isNew)
-            {
-                if (oldParentId.HasValue)
-                {
-                    var oldParent = _viewModel.Categories.GetDescendants().FirstOrDefault(_ => _.Id == oldParentId.Value);
-                    oldParent.Children.Remove(model);
-                }
-                else
-                    _viewModel.Categories.Remove(model);
-            }
-
-            if (model.ParentCategoryId.HasValue)
-            {
-                // find parent and add new child
-                var parent = _viewModel.Categories.GetDescendants().FirstOrDefault(_ => _.Id == model.ParentCategoryId.Value);
-                parent.Children.Add(model);
-            }
-            else
-            {
-                // get last in tree with the same transaction type and activity
-                var lastInTree = _viewModel.Categories.LastOrDefault(_ => _.TransactionType == model.TransactionType && _.InHistory == model.InHistory);
-                if (lastInTree != null)
-                {
-                    // insert after found item
-                    _viewModel.Categories.Insert(_viewModel.Categories.IndexOf(lastInTree) + 1, model);
-                }
-                else
-                {
-                    // if it is income category insert into the start of collection
-                    if (model.IsPlus) _viewModel.Categories.Insert(0, model);
-                    // if it is expense category insert into the middle of collection
-                    else if (model.IsMinus)
-                    {
-                        // get last income category
-                        var firstIncome = _viewModel.Categories.LastOrDefault(_ => _.IsPlus);
-                        if (firstIncome != null)
-                        {
-                            // insert after last income
-                            _viewModel.Categories.Insert(_viewModel.Categories.IndexOf(firstIncome) + 1, model);
-                        }
-                        else
-                            // else insert in start
-                            _viewModel.Categories.Insert(0, model);
-                    }
-                    // if it for all types category insert it into the end of collection
-                    else
-                        _viewModel.Categories.Add(model);
-                }
-            }
-        }
-
-        private void ActivityChanged(CategoryViewModel model)
-        {
-            // replace
-            if (model.ParentCategoryId.HasValue)
-            {
-                var parent = _viewModel.Categories.GetDescendants().FirstOrDefault(_ => _.Id == model.ParentCategoryId.Value);
-                parent.Children.Move(parent.Children.IndexOf(model), model.InHistory ? parent.Children.Count - 1 : 0);
-            }
-            else
-                _viewModel.Categories.Move(_viewModel.Categories.IndexOf(model), model.InHistory ? _viewModel.Categories.Count - 1 : 0);
-
-            // update children activity
-            foreach (var child in model.Children)
-                child.InHistory = model.InHistory;
         }
 
         private void RefreshCommandsState()
