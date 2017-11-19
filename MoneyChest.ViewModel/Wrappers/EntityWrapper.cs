@@ -125,7 +125,7 @@ namespace MoneyChest.ViewModel.Wrappers
             {
                 // validate the whole object
                 var validationContext = new ValidationContext(Entity);
-                var validationResults = new List<ValidationResult>();
+                var validationResults = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
                 if (!Validator.TryValidateObject(Entity, validationContext, validationResults, true))
                 {
                     if (validationResults.Count > 0)

@@ -39,6 +39,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -65,6 +66,10 @@
     <ProjectReference Include="..\MoneyChest.Model\MoneyChest.Model.csproj">
       <Project>{aa3cd891-1018-489d-a0c5-16c295c2e636}</Project>
       <Name>MoneyChest.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MoneyChest.Shared\MoneyChest.Shared.csproj">
+      <Project>{1d514398-d24c-4e14-a326-a1c48d788782}</Project>
+      <Name>MoneyChest.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

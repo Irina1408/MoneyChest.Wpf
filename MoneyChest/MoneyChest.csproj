@@ -165,6 +165,10 @@
       <Project>{DC7D4636-AEAA-4101-92D7-98F43E7D0B97}</Project>
       <Name>MoneyChest.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MoneyChest.ViewModel\MoneyChest.ViewModel.csproj">
+      <Project>{F4E3C2AC-30D1-4024-8A6C-7F7F76B78B89}</Project>
+      <Name>MoneyChest.ViewModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MoneyChest.View\MoneyChest.View.csproj">
       <Project>{efc6d301-9ee1-4056-8034-ac2035bf1246}</Project>
       <Name>MoneyChest.View</Name>
