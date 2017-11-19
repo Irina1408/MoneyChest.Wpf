@@ -42,6 +42,35 @@ namespace MoneyChest.Services.Services
 
         #endregion
 
+        #region Overrides
+
+        internal override Category Update(Category entity)
+        {
+            var inHistoryOriginal = _context.Entry(entity).OriginalValues.GetValue<bool>(nameof(Category.InHistory));
+            var inHistoryCurrent = _context.Entry(entity).CurrentValues.GetValue<bool>(nameof(Category.InHistory));
+
+            if (inHistoryOriginal != inHistoryCurrent)
+            {
+                // update all child categories
+                var categories = Entities.Where(e => e.UserId == entity.UserId).ToList();
+                void UpdateChildrenInHistory(Category category, bool inHistory)
+                {
+                    category.InHistory = inHistory;
+                    base.Update(category);
+
+                    foreach(var childCategory in categories.Where(_ => _.ParentCategoryId.HasValue && _.ParentCategoryId.Value == category.Id))
+                    {
+                        UpdateChildrenInHistory(childCategory, inHistory);
+                    }
+                }
+
+                UpdateChildrenInHistory(entity, inHistoryCurrent);
+            }
+            return base.Update(entity);
+        }
+
+        #endregion
+
         #region ICategoryService implementation
 
         public int GetLowestCategoryLevel(int userId)

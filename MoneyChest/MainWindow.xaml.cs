@@ -26,10 +26,5 @@ namespace MoneyChest
         {
             InitializeComponent();
         }
-
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            ServiceManager.Dispose();
-        }
     }
 }

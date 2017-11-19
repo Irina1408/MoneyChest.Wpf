@@ -45,23 +45,23 @@
             <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Symbol, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
         </Grid>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
             <ToggleButton x:Name="btnIsMain" Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsMain}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsMain}">
                 <iconPacks:PackIconMaterial Kind="Star" />
             </ToggleButton>
-            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsUsed}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsUsed}">
+            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsUsed}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsActive}">
                 <iconPacks:PackIconModern Kind="Checkmark" />
             </ToggleButton>
         </StackPanel>
 
-        <GroupBox Grid.Column="1" Grid.Row="1" Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}">
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}">
             <StackPanel>
                 <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Right}" IsChecked="{Binding SymbolAlignmentIsRight}"/>
                 <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Left}" IsChecked="True"/>
             </StackPanel>
         </GroupBox>
 
-        <StackPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <!-- TODO: create style for Ok/Cancel buttons -->
             <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
                     Style="{DynamicResource DefaultButtonStyle}"/>

@@ -9,7 +9,7 @@ using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Commands;
 using MoneyChest.View.Details;
 using MoneyChest.View.Utils;
-using MoneyChest.View.ViewModels;
+using MoneyChest.View.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,8 +28,7 @@ namespace MoneyChest.View.Pages
         #region Private fields
 
         private ICurrencyService _service;
-        private ObservableCollection<CurrencyModel> _currencies;
-        private CurrenciesPageViewModel _modelView;
+        private CurrenciesPageViewModel _viewModel;
         // TODO: replace to IPage Options
         private bool _reload = true;
 
@@ -48,14 +47,13 @@ namespace MoneyChest.View.Pages
 
         private void InitializeViewModel()
         {
-            _modelView = new CurrenciesPageViewModel()
+            _viewModel = new CurrenciesPageViewModel()
             {
                 AddCommand = new Command(
                 () => OpenDetails(new CurrencyModel() { UserId = GlobalVariables.UserId }, true)),
 
                 EditCommand = new DataGridSelectedItemCommand<CurrencyModel>(GridCurrencies,
-                (item) => OpenDetails(item),
-                (item) => true),
+                (item) => OpenDetails(item)),
 
                 DeleteCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
                 (items) =>
@@ -69,7 +67,7 @@ namespace MoneyChest.View.Pages
                         _service.Delete(items);
                         // remove in grid
                         foreach (var item in items.ToList())
-                            _currencies.Remove(item);
+                            _viewModel.Currencies.Remove(item);
                     }
                 },
                 (items) => !items.Any(_ => _.IsMain)),
@@ -86,19 +84,19 @@ namespace MoneyChest.View.Pages
                 },
                 (item) => !item.IsMain),
 
-                ChangeUsabilityCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
+                ChangeActivityCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
                 (items) =>
                 {
                     // get new place index
-                    var firstNotUsed = _currencies.FirstOrDefault(_ => !_.IsUsed);
-                    var newIndex = firstNotUsed != null ? _currencies.IndexOf(firstNotUsed) : _currencies.Count - 1;
+                    var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsUsed);
+                    var newIndex = firstNotUsed != null ? _viewModel.Currencies.IndexOf(firstNotUsed) : _viewModel.Currencies.Count - 1;
 
                     // update currencies
                     foreach (var c in items)
                     {
                         c.IsUsed = !c.IsUsed;
                         // replace in grid
-                        _currencies.Move(_currencies.IndexOf(c), newIndex);
+                        _viewModel.Currencies.Move(_viewModel.Currencies.IndexOf(c), newIndex);
                         if (c.IsUsed) newIndex++;
                     }
 
@@ -109,7 +107,7 @@ namespace MoneyChest.View.Pages
                 (items) => items.Select(e => e.IsUsed).Distinct().Count() == 1)
             };
 
-            this.DataContext = _modelView;
+            this.DataContext = _viewModel;
             SymbolAlignmentColumn.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(CurrencySymbolAlignment));
         }
 
@@ -138,7 +136,7 @@ namespace MoneyChest.View.Pages
             if (GridCurrencies.SelectedItems != null && GridCurrencies.SelectedItems.Count > 0)
             {
                 var currencies = GridCurrencies.SelectedItems.OfType<CurrencyModel>();
-                _modelView.SelectedCurrenciesAreUsed = currencies.Select(_ => _.IsUsed).First();
+                _viewModel.SelectedCurrenciesAreActive = currencies.Select(_ => _.IsUsed).First();
             }
         }
 
@@ -146,7 +144,7 @@ namespace MoneyChest.View.Pages
         {
             if (GridCurrencies.SelectedItem != null)
             {
-                _modelView.EditCommand.Execute(GridCurrencies.SelectedItem);
+                _viewModel.EditCommand.Execute(GridCurrencies.SelectedItem);
             }
         }
 
@@ -156,21 +154,11 @@ namespace MoneyChest.View.Pages
 
         private void ReloadData()
         {
-            // remove handlers
-            GridCurrencies.ItemsSource = null;
-
-            // clear currenct list if it exists
-            if (_currencies != null)
-                _currencies.Clear();
-
-            // load currencies
-            _currencies = new ObservableCollection<CurrencyModel>(
+            // reload currencies
+            _viewModel.Currencies = new ObservableCollection<CurrencyModel>(
                 _service.GetListForUser(GlobalVariables.UserId)
                 .OrderByDescending(_ => _.IsUsed)
                 .ThenByDescending(_ => _.IsMain));
-            
-            // fill grid
-            GridCurrencies.ItemsSource = _currencies;
 
             // mark as reloaded
             _reload = false;
@@ -198,19 +186,19 @@ namespace MoneyChest.View.Pages
                 if(isNew)
                 {
                     // insert new currency
-                    var firstNotUsed = _currencies.FirstOrDefault(_ => !_.IsUsed);
-                    var newIndex = firstNotUsed != null ? _currencies.IndexOf(firstNotUsed) : _currencies.Count - 1;
-                    _currencies.Insert(newIndex, model);
+                    var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsUsed);
+                    var newIndex = firstNotUsed != null ? _viewModel.Currencies.IndexOf(firstNotUsed) : _viewModel.Currencies.Count - 1;
+                    _viewModel.Currencies.Insert(newIndex, model);
                 }
                 else
                 {
                     // check current place
-                    var firstNotUsed = _currencies.FirstOrDefault(_ => !_.IsUsed && _.Id != model.Id);
-                    var firstNotUsedIndex = firstNotUsed != null ? _currencies.IndexOf(firstNotUsed) : _currencies.Count - 1;
-                    var currenctIndex = _currencies.IndexOf(model);
+                    var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsUsed && _.Id != model.Id);
+                    var firstNotUsedIndex = firstNotUsed != null ? _viewModel.Currencies.IndexOf(firstNotUsed) : _viewModel.Currencies.Count - 1;
+                    var currenctIndex = _viewModel.Currencies.IndexOf(model);
 
                     if ((model.IsUsed && currenctIndex > firstNotUsedIndex) || (!model.IsUsed && currenctIndex < firstNotUsedIndex))
-                        _currencies.Move(currenctIndex, firstNotUsedIndex);
+                        _viewModel.Currencies.Move(currenctIndex, firstNotUsedIndex);
                 }
 
                 if (model.IsMain)
@@ -223,26 +211,26 @@ namespace MoneyChest.View.Pages
 
         private void UpdateMainCurrencyLocal(CurrencyModel model)
         {
-            foreach(var currency in _currencies)
+            foreach(var currency in _viewModel.Currencies)
                 currency.IsMain = currency.Id == model.Id;
 
             // move currency in grid
-            var c = _currencies.FirstOrDefault(_ => _.IsUsed == model.IsUsed);
+            var c = _viewModel.Currencies.FirstOrDefault(_ => _.IsUsed == model.IsUsed);
             if (c != null)
-                _currencies.Move(_currencies.IndexOf(model), _currencies.IndexOf(c));
+                _viewModel.Currencies.Move(_viewModel.Currencies.IndexOf(model), _viewModel.Currencies.IndexOf(c));
         }
 
         private void RefreshCommandsState()
         {
-            _modelView.EditCommand.ValidateCanExecute();
-            _modelView.DeleteCommand.ValidateCanExecute();
-            _modelView.SetMainCommand.ValidateCanExecute();
-            _modelView.ChangeUsabilityCommand.ValidateCanExecute();
+            _viewModel.EditCommand.ValidateCanExecute();
+            _viewModel.DeleteCommand.ValidateCanExecute();
+            _viewModel.SetMainCommand.ValidateCanExecute();
+            _viewModel.ChangeActivityCommand.ValidateCanExecute();
 
             if (GridCurrencies.SelectedItems != null && GridCurrencies.SelectedItems.Count > 0)
             {
                 var currencies = GridCurrencies.SelectedItems.OfType<CurrencyModel>();
-                _modelView.SelectedCurrenciesAreUsed = currencies.Select(_ => _.IsUsed).First();
+                _viewModel.SelectedCurrenciesAreActive = currencies.Select(_ => _.IsUsed).First();
             }
         }
 

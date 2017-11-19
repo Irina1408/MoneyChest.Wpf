@@ -9,7 +9,7 @@ using MoneyChest.Shared.MultiLang;
 using MoneyChest.Shared.Settings;
 using MoneyChest.Utils;
 using MoneyChest.View.Commands;
-using MoneyChest.View.ViewModels;
+using MoneyChest.View.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,7 +38,6 @@ namespace MoneyChest
         
         private IUserService _userService;
         private LoginWindowViewModel _viewModel;
-        private bool _dispose;
 
         #endregion
 
@@ -49,11 +48,9 @@ namespace MoneyChest
             InitializeComponent();
 
             // init service
-            ServiceManager.Initialize();
             _userService = ServiceManager.ConfigureService<UserService>();
             comboLanguages.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(Language));
             InitializeViewModel();
-            _dispose = true;
         }
 
         private void InitializeViewModel()
@@ -89,7 +86,6 @@ namespace MoneyChest
                     // show main window
                     var mainWindow = new MainWindow();
                     mainWindow.Show();
-                    _dispose = false;
                     this.Close();
                 },
                 () => !string.IsNullOrEmpty(_viewModel.Name) && !string.IsNullOrEmpty(_viewModel.Password)
@@ -123,12 +119,6 @@ namespace MoneyChest
                 MultiLangResourceManager.Instance.SetLanguage(_viewModel.Language);
             }
             txtPassword1.Focus();
-        }
-
-        private void LoginWindow_Closing(object sender, CancelEventArgs e)
-        {
-            if(_dispose)
-                ServiceManager.Dispose();
         }
         
         private void Password_Changed(object sender, RoutedEventArgs e)

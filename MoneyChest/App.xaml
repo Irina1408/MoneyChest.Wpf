@@ -31,6 +31,7 @@
                 <!-- Local styles -->
                 <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.PackIcon.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.Specific.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

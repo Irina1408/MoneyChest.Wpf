@@ -15,7 +15,6 @@ namespace MoneyChest.Services
         public static TService ConfigureService<TService>()
             where TService : ServiceBase
         {
-            //if (_context == null) Initialize();
             return Activator.CreateInstance(typeof(TService), _context) as TService;
         }
 
@@ -27,7 +26,11 @@ namespace MoneyChest.Services
 
         public static void Dispose()
         {
-            _context.Dispose();
+            if(_context != null)
+            {
+                _context.Dispose();
+                _context = null;
+            }
         }
     }
 }

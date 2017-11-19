@@ -4,21 +4,78 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MoneyChest.View.Pages"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Loaded="CategoriesPage_Loaded">
     <Grid>
-        <!--<TreeView ItemsSource="{Binding Categories}" Style="{StaticResource VirtualisedMetroTreeView}">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Albums}">
-                    <TextBlock Text="{Binding Name}" />
-                    <HierarchicalDataTemplate.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}" />
-                        </DataTemplate>
-                    </HierarchicalDataTemplate.ItemTemplate>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu -->
+        <ToolBarTray ClipToBounds="True" VerticalAlignment="Top" Background="{DynamicResource MaterialDesignToolBarBackground}">
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconMaterial Kind="Plus"/>
+                </Button>
+
+                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="Edit"/>
+                </Button>
+
+                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="Delete"/>
+                </Button>
+
+                <Separator/>
+
+                <ToggleButton IsChecked="{Binding SelectedCategoryIsActive, UpdateSourceTrigger=PropertyChanged}" 
+                              Command="{Binding ChangeActivityCommand}" 
+                              Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="Checkmark"/>
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+                            <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Category_IsActive}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Category_IsInactive}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </ToolBar>
+        </ToolBarTray>
+
+        <TreeView x:Name="TreeViewCategories" Grid.Row="1" ItemsSource="{Binding Categories}" MouseDoubleClick="TreeView_MouseDoubleClick"
+                  SelectedItemChanged="TreeViewCategories_SelectedItemChanged"
+                  ItemContainerStyle="{DynamicResource CategoryTreeViewMainViewItemContainerStyle}"
+                  ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
+                    <Separator/>
+                    <MenuItem Command="{Binding ChangeActivityCommand}">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                                <Setter Property="Header" Value="{moneyChestView:MultiLangBinding Category_SetInactive}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedCategoryIsActive, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                        <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Category_SetActive}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+                </ContextMenu>
+            </TreeView.ContextMenu>
+        </TreeView>
     </Grid>
 </UserControl>

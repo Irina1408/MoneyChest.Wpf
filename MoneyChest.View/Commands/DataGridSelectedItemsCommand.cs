@@ -40,8 +40,7 @@ namespace MoneyChest.View.Commands
 
         public void ValidateCanExecute()
         {
-            if (canExecute != null && CanExecuteChanged != null)
-                CanExecuteChanged(this, EventArgs.Empty);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion
@@ -52,7 +51,7 @@ namespace MoneyChest.View.Commands
         {
             if (dataGrid.SelectedItems == null || dataGrid.SelectedItems.Count == 0)
                 return false;
-            return canExecute == null || canExecute(dataGrid.SelectedItems.OfType<T>());
+            return canExecute?.Invoke(dataGrid.SelectedItems.OfType<T>()) ?? true;
         }
 
         public event EventHandler CanExecuteChanged;

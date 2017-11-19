@@ -41,11 +41,20 @@
                     <iconpacks:PackIconMaterial Kind="Star"/>
                 </Button>
 
-                <ToggleButton IsChecked="{Binding SelectedCurrenciesAreUsed, UpdateSourceTrigger=PropertyChanged}" 
-                              Command="{Binding ChangeUsabilityCommand}" 
-                              ToolTip="{moneyChestView:MultiLangBinding Currencies_SelectedAreUsed}"
+                <ToggleButton IsChecked="{Binding SelectedCurrenciesAreActive, UpdateSourceTrigger=PropertyChanged}" 
+                              Command="{Binding ChangeActivityCommand}" 
                               Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
                     <iconpacks:PackIconModern Kind="Checkmark"/>
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+                            <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Currencies_SelectedAreActive}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Currencies_SelectedAreInactive}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
                 </ToggleButton>
             </ToolBar>
         </ToolBarTray>
@@ -58,7 +67,8 @@
                   SelectionUnit="FullRow"
                   IsReadOnly="True"
                   SelectionChanged="GridCurrencies_SelectionChanged"
-                  MouseDoubleClick="GridCurrencies_MouseDoubleClick">
+                  MouseDoubleClick="GridCurrencies_MouseDoubleClick"
+                  ItemsSource="{Binding Currencies}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
@@ -66,9 +76,18 @@
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
                     <Separator/>
                     <MenuItem Header="{moneyChestView:MultiLangBinding Currencies_SetAsMain}" Command="{Binding SetMainCommand}"/>
-                    <MenuItem IsChecked="{Binding SelectedCurrenciesAreUsed, UpdateSourceTrigger=PropertyChanged}" 
-                              Header="{moneyChestView:MultiLangBinding Currencies_SelectedAreUsed}" 
-                              Command="{Binding ChangeUsabilityCommand}"/>
+                    <MenuItem Command="{Binding ChangeActivityCommand}">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                                <Setter Property="Header" Value="{moneyChestView:MultiLangBinding Currencies_SetInactive}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedCurrenciesAreActive, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                        <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Currencies_SetActive}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
@@ -101,8 +120,6 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <!--<DataGridTextColumn Binding="{Binding CurrencySymbolAlignment, UpdateSourceTrigger=PropertyChanged}" 
-                                    Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}" />-->
                 <DataGridComboBoxColumn x:Name="SymbolAlignmentColumn" SelectedValueBinding ="{Binding CurrencySymbolAlignment, UpdateSourceTrigger=PropertyChanged}" 
                                     Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}"
                                     SelectedValuePath="Value" DisplayMemberPath="Description"/>

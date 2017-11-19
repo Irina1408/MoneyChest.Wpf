@@ -80,11 +80,19 @@
     <Compile Include="Commands\DataGridSelectedItemCommand.cs" />
     <Compile Include="Commands\DataGridSelectedItemsCommand.cs" />
     <Compile Include="Commands\Containers\DetailsViewCommandContainer.cs" />
+    <Compile Include="Commands\TreeViewSelectedItemCommand.cs" />
+    <Compile Include="Details\CategoryDetailsView.xaml.cs">
+      <DependentUpon>CategoryDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Details\CurrencyDetailsView.xaml.cs">
       <DependentUpon>CurrencyDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\MultiLangBinding.cs" />
-    <Compile Include="ViewModels\LoginWindowViewModel.cs" />
+    <Compile Include="Utils\TreeHelper.cs" />
+    <Compile Include="ViewModel\CategoriesPageViewModel.cs" />
+    <Compile Include="ViewModel\CategoryViewModel.cs" />
+    <Compile Include="ViewModel\CategoryViewModelCollection.cs" />
+    <Compile Include="ViewModel\LoginWindowViewModel.cs" />
     <Compile Include="Wrappers\EntityWrapper.cs" />
     <Compile Include="Main\CustomHamburgerMenuItem.cs" />
     <Compile Include="Main\MainView.xaml.cs">
@@ -132,7 +140,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Utils\ViewHelper.cs" />
-    <Compile Include="ViewModels\CurrenciesPageViewModel.cs" />
+    <Compile Include="ViewModel\CurrenciesPageViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -161,6 +169,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Details\CategoryDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Details\CurrencyDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

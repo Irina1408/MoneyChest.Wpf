@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyChest.Services;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,16 @@ namespace MoneyChest
     /// </summary>
     public partial class App : Application
     {
+        public App() : base()
+        {
+            // init global service manager
+            ServiceManager.Initialize();
+
+            Exit += (sender, e) =>
+            {
+                // dispose global service manager
+                ServiceManager.Dispose();
+            };
+        }
     }
 }
