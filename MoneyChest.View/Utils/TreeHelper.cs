@@ -29,7 +29,7 @@ namespace MoneyChest.View.Utils
             {
                 Id = category.Id,
                 Name = category.Name,
-                InHistory = category.InHistory,
+                IsActive = category.IsActive,
                 TransactionType = category.TransactionType,
                 ParentCategoryId = category.ParentCategoryId,
                 Remark = category.Remark,

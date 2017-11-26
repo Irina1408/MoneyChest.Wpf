@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="MoneyChest.View.Details.StorageDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MoneyChest.View.Details"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left" Orientation="Horizontal">
+            <ToggleButton IsChecked="{Binding IsVisible}">
+                <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CircleToggleButtonStyle}">
+                        <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Storage_Visible}"/>
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <iconPacks:PackIconMaterial Kind="Eye"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Storage_Hidden}"/>
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <iconPacks:PackIconMaterial Kind="EyeOff"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+            <Label x:Name="LabelHeader"
+               FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="5 0 5 0">
+            <!-- Name -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
+                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+            </StackPanel>
+
+            <!-- Storage group -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <iconPacks:PackIconMaterial Kind="Group" Style="{DynamicResource TextBoxIconStyle}"/>
+                <ComboBox x:Name="comboStorageGroups" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding StorageGroup_Singular}"
+                                      DisplayMemberPath="Name" SelectedValuePath="Id"
+                                      SelectedValue="{Binding StorageGroupId}"/>
+            </StackPanel>
+
+            <!-- Currency -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
+                <ComboBox x:Name="comboCurrencies" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
+                                      DisplayMemberPath="Name" SelectedValuePath="Id"
+                                      SelectedValue="{Binding CurrencyId}"/>
+            </StackPanel>
+
+            <!-- Remark -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
+                <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
+                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
+                                     Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel x:Name="CommandsPanel" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <!-- TODO: create style for Ok/Cancel buttons -->
+            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
+                    Style="{DynamicResource AccentedButtonStyle}"/>
+
+            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

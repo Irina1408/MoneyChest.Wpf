@@ -38,7 +38,7 @@ namespace MoneyChest.Data.Entities
         
         public TransactionType? TransactionType { get; set; }
         
-        public bool InHistory { get; set; }
+        public bool IsActive { get; set; }
 
         [StringLength(4000)]
         public string Remark { get; set; }

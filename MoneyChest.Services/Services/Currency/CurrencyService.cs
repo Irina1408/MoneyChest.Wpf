@@ -21,7 +21,7 @@ namespace MoneyChest.Services.Services
         // TODO: should be removed
         void SetMain(int userId, int currencyId);
         void SetMain(CurrencyModel model);
-        List<CurrencyModel> GetUsed(int userId);
+        List<CurrencyModel> GetActive(int userId);
     }
 
     public class CurrencyService : HistoricizedIdManageableUserableListServiceBase<Currency, CurrencyModel, CurrencyConverter>, ICurrencyService
@@ -55,9 +55,9 @@ namespace MoneyChest.Services.Services
             SetMain(model.UserId, model.Id);
         }
 
-        public List<CurrencyModel> GetUsed(int userId)
+        public List<CurrencyModel> GetActive(int userId)
         {
-            return Scope.Where(e => e.IsUsed || e.Records.Any() || e.SimpleEvents.Any() || e.Storages.Any() || e.Limits.Any() || e.Debts.Any())
+            return Scope.Where(e => e.IsActive || e.Records.Any() || e.SimpleEvents.Any() || e.Storages.Any() || e.Limits.Any() || e.Debts.Any())
                 .ToList().ConvertAll(_converter.ToModel);
         }
 

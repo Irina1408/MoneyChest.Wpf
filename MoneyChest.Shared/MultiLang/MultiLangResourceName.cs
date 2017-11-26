@@ -27,9 +27,9 @@ namespace MoneyChest.Shared.MultiLang
 
         public static string EnumName(Type enumType) => $"{enumType.Name}_Name";
 
-        public static string Singular(Type entityType) => Singular(entityType.Name.Replace("Model", ""));
-        public static string Plural(Type entityType) => Plural(entityType.Name.Replace("Model", ""));
-        public static string New(Type entityType) => New(entityType.Name.Replace("Model", ""));
+        public static string Singular(Type entityType) => Singular(entityType.Name.Replace("ViewModel", "").Replace("Model", ""));
+        public static string Plural(Type entityType) => Plural(entityType.Name.Replace("ViewModel", "").Replace("Model", ""));
+        public static string New(Type entityType) => New(entityType.Name.Replace("ViewModel", "").Replace("Model", ""));
 
         public static string Singular(string entityName) => $"{entityName}_Singular";
         public static string Plural(string entityName) => $"{entityName}_Plural";
@@ -53,7 +53,7 @@ namespace MoneyChest.Shared.MultiLang
         public static string Dashboard => "MainManu_Dashboard";
         public static string Transactions => "MainManu_Transactions";
         public static string Calendar => "MainManu_Calendar";
-        public static string Accounts => "MainManu_Accounts";
+        public static string Storages => "MainManu_Storages";
         public static string Planning => "MainManu_Planning";
         public static string Debts => "MainManu_Debts";
         public static string Reports => "MainManu_Reports";

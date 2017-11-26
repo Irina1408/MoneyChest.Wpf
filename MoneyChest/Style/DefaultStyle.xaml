@@ -35,6 +35,18 @@
         <Setter Property="Icon" Value="money.ico"/>
         <Setter Property="Title" Value="Money Chest"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="IconTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <controls:MultiFrameImage Width="{TemplateBinding Width}" Margin="5 0 0 0"
+                                                      Height="{TemplateBinding Height}"
+                                                      MultiFrameImageMode="{Binding IconScalingMode, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}}"
+                                                      RenderOptions.BitmapScalingMode="{Binding IconBitmapScalingMode, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}}"
+                                                      RenderOptions.EdgeMode="{Binding IconEdgeMode, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}}"
+                                                      Source="{TemplateBinding Content}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!--*********************************** Button ***********************************-->
@@ -43,8 +55,8 @@
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
-    
-    <Style x:Key="DefaultButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource AccentedSquareButtonStyle}">
+
+    <Style x:Key="AccentedButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource AccentedSquareButtonStyle}">
         <Setter Property="Width" Value="100"/>
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="IsDefault" Value="True"/>
@@ -91,6 +103,14 @@
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
     </Style>
 
+    <Style x:Key="CircleActionToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MaterialDesignActionToggleButton}">
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="Width" Value="36"/>
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="Foreground" Value="{DynamicResource IdealForegroundColorBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+    </Style>
+
     <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MetroRadioButton}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
@@ -103,13 +123,13 @@
     </Style>
 
     <!--*********************************** Text box ***********************************-->
-    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
-    
-    <Style x:Key="HintTextBoxStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+
+    <Style x:Key="SimpleTextBoxStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
@@ -139,30 +159,24 @@
     </Style>
 
     <!--*********************************** Combo box ***********************************-->
-    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignComboBox}">
-        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
-        <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
-        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
-    </Style>
-
-    <Style x:Key="HintComboBoxStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
     <!--*********************************** Label ***********************************-->
-    <Style TargetType="{x:Type Label}">
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MetroLabel}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
-    <Style TargetType="{x:Type ToolTip}">
+    <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource MaterialDesignToolTip}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
     <!--*********************************** Group box ***********************************-->
-    <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignGroupBox}">
+    <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MetroGroupBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
     </Style>
 
@@ -175,5 +189,5 @@
     <Style TargetType="{x:Type TreeView}" BasedOn="{StaticResource VirtualisedMetroTreeView}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
-    
+
 </ResourceDictionary>

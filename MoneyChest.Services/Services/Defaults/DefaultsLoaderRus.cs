@@ -94,7 +94,7 @@ namespace MoneyChest.Services.Services.Defaults
                             Name = name,
                             Code = code,
                             Symbol = symbol,
-                            IsUsed = csvReader.CurrentRowValues["Used"] == "+",
+                            IsActive = csvReader.CurrentRowValues["Used"] == "+",
                             IsMain = csvReader.CurrentRowValues["Main"] == "+",
                             UserId = _userId
                         };
@@ -127,7 +127,7 @@ namespace MoneyChest.Services.Services.Defaults
             var walletStoreGroup = _context.StorageGroups.Add(new StorageGroup() { Name = "Кошелек", UserId = _userId });
             var coinBoxStoreGroup = _context.StorageGroups.Add(new StorageGroup() { Name = "Копилка", UserId = _userId });
 
-            foreach (var currency in _context.Currencies.Where(item => item.UserId == _userId && item.IsUsed).ToList())
+            foreach (var currency in _context.Currencies.Where(item => item.UserId == _userId && item.IsActive).ToList())
             {
                 AddStorage(walletStoreGroup, currency);
                 AddStorage(coinBoxStoreGroup, currency);
@@ -141,6 +141,7 @@ namespace MoneyChest.Services.Services.Defaults
                 Name = name,
                 TransactionType = transactionType,
                 ParentCategory = parent,
+                IsActive = true,
                 UserId = _userId
             };
 
@@ -158,6 +159,7 @@ namespace MoneyChest.Services.Services.Defaults
                 Name = string.Format("{0} {1}", currency.Name, storageGroup.Name),
                 StorageGroup = storageGroup,
                 UserId = _userId,
+                IsVisible = true,
                 Value = 0
             };
 

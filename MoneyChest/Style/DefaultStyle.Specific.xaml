@@ -3,83 +3,77 @@
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     xmlns:local="clr-namespace:MoneyChest.Style">
 
-  <Style x:Key="CategoryTreeViewItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
-    <Style.Triggers>
-      <DataTrigger Binding="{Binding IsPlus}" Value="True">
-        <Setter Property="Background" Value="#CFECC6"/>
-      </DataTrigger>
-            <DataTrigger Binding="{Binding IsMinus}" Value="True">
-        <Setter Property="Background" Value="#ECC7C6"/>
-      </DataTrigger>
-      <MultiDataTrigger>
-        <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding IsPlus}" Value="False"/>
-                    <Condition Binding="{Binding IsMinus}" Value="False"/>
-        </MultiDataTrigger.Conditions>
-        <MultiDataTrigger.Setters>
-          <Setter Property="Background" Value="#F3F3F1"/>
-        </MultiDataTrigger.Setters>
-      </MultiDataTrigger>
-    </Style.Triggers>
-  </Style>
-
-    <Style x:Key="CategoryTreeViewMainViewItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource CategoryTreeViewItemContainerStyle}">
+    <Style x:Key="CategoryTreeViewMainViewItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
         <Setter Property="IsSelected" Value="{Binding IsSelectedMainView, Mode=TwoWay}" />
         <Setter Property="IsExpanded" Value="{Binding IsExpandedMainView, Mode=TwoWay}" />
     </Style>
 
-    <Style x:Key="CategoryTreeViewSelectableItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource CategoryTreeViewItemContainerStyle}">
-    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-  </Style>
+    <Style x:Key="CategoryTreeViewSelectableItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
+        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+    </Style>
 
-  <HierarchicalDataTemplate x:Key="CategoryTreeViewItemTemplate" ItemsSource="{Binding Path=Children}">
-    <StackPanel Name="panel" Orientation="Horizontal" Margin="0">
-      <iconPacks:PackIconOcticons Name="IconPlus" Kind="Plus" Visibility="Collapsed" Margin="3 7 0 7"
+    <HierarchicalDataTemplate x:Key="CategoryTreeViewItemTemplate" ItemsSource="{Binding Path=Children}">
+        <StackPanel Name="panel" Orientation="Horizontal" Margin="0">
+            <iconPacks:PackIconOcticons Name="IconPlus" Kind="Plus" Visibility="Collapsed" Margin="3 7 0 7"
+                                  Height="10" Width="10" Foreground="Green"/>
+            <iconPacks:PackIconModern Name="IconMinus" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
+                                  Height="10" Width="10" Foreground="Red"/>
+            <iconPacks:PackIconMaterial Name="EmptyPlace" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
                                   Height="10" Width="10"/>
-      <iconPacks:PackIconModern Name="IconMinus" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
-                                  Height="10" Width="10"/>
-      <iconPacks:PackIconMaterial Name="EmptyPlace" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
-                                  Height="10" Width="10"/>
-      <TextBlock Text="{Binding Name}" Margin="3 7 3 7"/>
-      <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="Gray"/>
-    </StackPanel>
-    <HierarchicalDataTemplate.Triggers>
-            <DataTrigger Binding="{Binding InHistory}" Value="True">
-        <Setter Property="Opacity" TargetName="panel" Value="0.5" />
-      </DataTrigger>
+            <TextBlock x:Name="txtName" Text="{Binding Name}" Margin="3 7 3 7"/>
+            <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="Gray"/>
+        </StackPanel>
+        
+        <HierarchicalDataTemplate.Triggers>
+            
+            <!-- Opacity trigger -->
+            <DataTrigger Binding="{Binding IsActive}" Value="False">
+                <Setter Property="Opacity" TargetName="panel" Value="0.5" />
+            </DataTrigger>
       
-      <MultiDataTrigger>
-        <MultiDataTrigger.Conditions>
+            <!-- Icon Plus trigger -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsPlus}" Value="True"/>
                     <Condition Binding="{Binding HasParent}" Value="False"/>
-        </MultiDataTrigger.Conditions>
-        <MultiDataTrigger.Setters>
-          <Setter Property="Visibility" TargetName="IconPlus" Value="Visible" />
-        </MultiDataTrigger.Setters>
-      </MultiDataTrigger>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility" TargetName="IconPlus" Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
 
-      <MultiDataTrigger>
-        <MultiDataTrigger.Conditions>
+            <!-- Icon Minus trigger -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsMinus}" Value="True"/>
                     <Condition Binding="{Binding HasParent}" Value="False"/>
-        </MultiDataTrigger.Conditions>
-        <MultiDataTrigger.Setters>
-          <Setter Property="Visibility" TargetName="IconMinus" Value="Visible" />
-        </MultiDataTrigger.Setters>
-      </MultiDataTrigger>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility" TargetName="IconMinus" Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
 
-      <MultiDataTrigger>
-        <MultiDataTrigger.Conditions>
+            <!-- Empty space trigger -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsPlus}" Value="False"/>
                     <Condition Binding="{Binding IsMinus}" Value="False"/>
                     <Condition Binding="{Binding HasParent}" Value="False"/>
-        </MultiDataTrigger.Conditions>
-        <MultiDataTrigger.Setters>
-          <Setter Property="Visibility" TargetName="EmptyPlace" Value="Hidden" />
-        </MultiDataTrigger.Setters>
-      </MultiDataTrigger>
-    </HierarchicalDataTemplate.Triggers>
-  </HierarchicalDataTemplate>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility" TargetName="EmptyPlace" Value="Hidden" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            
+            <!-- Foreground -->
+            <DataTrigger Binding="{Binding IsPlus}" Value="True">
+                <Setter Property="Foreground" TargetName="txtName" Value="Green"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsMinus}" Value="True">
+                <Setter Property="Foreground" TargetName="txtName" Value="Red"/>
+            </DataTrigger>
+        </HierarchicalDataTemplate.Triggers>
+    </HierarchicalDataTemplate>
 
 </ResourceDictionary>

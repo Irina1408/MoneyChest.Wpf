@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyChest.Model.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace MoneyChest.Model.Model
     {
         public int Id { get; set; }
         public string Symbol { get; set; }
+        public CurrencySymbolAlignment SymbolAlignment { get; set; }
     }
 }

@@ -171,6 +171,9 @@
   <data name="Currency_IsActive" xml:space="preserve">
     <value>Currency is active</value>
   </data>
+  <data name="Currency_IsInactive" xml:space="preserve">
+    <value>Currency is inactive</value>
+  </data>
   <data name="Currency_IsMain" xml:space="preserve">
     <value>Currency is main</value>
   </data>
@@ -276,9 +279,6 @@
   <data name="LoginWindow_RegistrationFailedMessage" xml:space="preserve">
     <value>User with the same Name already exists. Please enter other Name.</value>
   </data>
-  <data name="MainManu_Accounts" xml:space="preserve">
-    <value>Accounts</value>
-  </data>
   <data name="MainManu_Calendar" xml:space="preserve">
     <value>Calendar</value>
   </data>
@@ -303,8 +303,41 @@
   <data name="MainManu_Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="MainManu_Storages" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
   <data name="MainManu_Transactions" xml:space="preserve">
     <value>Transactions</value>
+  </data>
+  <data name="StorageGroup_Add" xml:space="preserve">
+    <value>Add group</value>
+  </data>
+  <data name="StorageGroup_Delete" xml:space="preserve">
+    <value>Delete group</value>
+  </data>
+  <data name="StorageGroup_Plural" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="StorageGroup_Singular" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Storage_Add" xml:space="preserve">
+    <value>Add account</value>
+  </data>
+  <data name="Storage_Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="Storage_New" xml:space="preserve">
+    <value>New account</value>
+  </data>
+  <data name="Storage_Plural" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="Storage_Singular" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Storage_Visible" xml:space="preserve">
+    <value>Visible</value>
   </data>
   <data name="TransactionType_Expense" xml:space="preserve">
     <value>Expence (-)</value>

@@ -16,7 +16,7 @@ namespace MoneyChest.Services.Converters
             entity.Name = model.Name;
             entity.Code = model.Code;
             entity.Symbol = model.Symbol;
-            entity.IsUsed = model.IsUsed;
+            entity.IsActive = model.IsActive;
             entity.IsMain = model.IsMain;
             entity.CurrencySymbolAlignment = model.CurrencySymbolAlignment;
             entity.UserId = model.UserId;
@@ -28,7 +28,7 @@ namespace MoneyChest.Services.Converters
             model.Name = entity.Name;
             model.Code = entity.Code;
             model.Symbol = entity.Symbol;
-            model.IsUsed = entity.IsUsed;
+            model.IsActive = entity.IsActive;
             model.IsMain = entity.IsMain;
             model.CurrencySymbolAlignment = entity.CurrencySymbolAlignment;
             model.UserId = entity.UserId;

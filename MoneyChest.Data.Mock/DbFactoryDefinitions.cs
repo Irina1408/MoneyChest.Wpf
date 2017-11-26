@@ -32,7 +32,7 @@ namespace MoneyChest.Data.Mock
             f.Define<Category>(e =>
             {
                 e.Name = Moniker.Category;
-                e.InHistory = false;
+                e.IsActive = true;
             });
 
             f.Define<Currency>(e =>
@@ -40,7 +40,7 @@ namespace MoneyChest.Data.Mock
                 e.Name = Moniker.Currency;
                 e.Code = Moniker.CurrencyCode;
                 e.Symbol = Moniker.CurrencySymbol;
-                e.IsUsed = true;
+                e.IsActive = true;
                 e.IsMain = false;
                 e.CurrencySymbolAlignment = CurrencySymbolAlignment.Right;
             });
@@ -59,7 +59,7 @@ namespace MoneyChest.Data.Mock
             {
                 e.Name = "Storage";
                 e.Value = Moniker.Digit;
-                e.IsHidden = false;
+                e.IsVisible = true;
             });
 
             f.Define<Debt>(e =>
@@ -187,7 +187,7 @@ namespace MoneyChest.Data.Mock
                 e.Name = Moniker.Currency;
                 e.Code = Moniker.CurrencyCode;
                 e.Symbol = Moniker.CurrencySymbol;
-                e.IsUsed = true;
+                e.IsActive = true;
                 e.IsMain = false;
             });
 

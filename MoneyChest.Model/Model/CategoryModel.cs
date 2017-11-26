@@ -16,7 +16,7 @@ namespace MoneyChest.Model.Model
 
         public CategoryModel()
         {
-            InHistory = false;
+            IsActive = true;
         }
 
         public int Id { get; set; }
@@ -26,7 +26,7 @@ namespace MoneyChest.Model.Model
 
         public TransactionType? TransactionType { get; set; }
 
-        public bool InHistory { get; set; }
+        public bool IsActive { get; set; }
 
         [StringLength(4000)]
         public string Remark { get; set; }
@@ -34,14 +34,7 @@ namespace MoneyChest.Model.Model
         public int? ParentCategoryId { get; set; }
         public int UserId { get; set; }
 
-
-        // TODO: remove. should be IsActive
-        public bool NotInHistory
-        {
-            get => !InHistory;
-            set => InHistory = !value;
-        }
-
+        
         public bool TransactionTypeEnabled
         {
             get => TransactionType.HasValue;

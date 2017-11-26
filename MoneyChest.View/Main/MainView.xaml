@@ -32,7 +32,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="HamburgerMenuImageItem" DataType="{x:Type controls:HamburgerMenuGlyphItem}">
-            <Border BorderThickness="{Binding BorderThickness}" BorderBrush="White">
+            <Border BorderThickness="{Binding BorderThickness}" BorderBrush="Gray">
                 <Grid Height="48" Background="Transparent">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="48" />

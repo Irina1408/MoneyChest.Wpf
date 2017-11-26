@@ -61,11 +61,101 @@ namespace MoneyChest.Shared.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected currencies are used.
+        ///   Looks up a localized string similar to Category is active.
         /// </summary>
-        internal static string Currencies_SelectedAreUsed {
+        internal static string Category_IsActive {
             get {
-                return ResourceManager.GetString("Currencies_SelectedAreUsed", resourceCulture);
+                return ResourceManager.GetString("Category_IsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category is inactive.
+        /// </summary>
+        internal static string Category_IsInactive {
+            get {
+                return ResourceManager.GetString("Category_IsInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New category.
+        /// </summary>
+        internal static string Category_New {
+            get {
+                return ResourceManager.GetString("Category_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent category.
+        /// </summary>
+        internal static string Category_ParentCategory {
+            get {
+                return ResourceManager.GetString("Category_ParentCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Categories.
+        /// </summary>
+        internal static string Category_Plural {
+            get {
+                return ResourceManager.GetString("Category_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set as active.
+        /// </summary>
+        internal static string Category_SetActive {
+            get {
+                return ResourceManager.GetString("Category_SetActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set as inactive.
+        /// </summary>
+        internal static string Category_SetInactive {
+            get {
+                return ResourceManager.GetString("Category_SetInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        internal static string Category_Singular {
+            get {
+                return ResourceManager.GetString("Category_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        internal static string Currencies_SelectedAreActive {
+            get {
+                return ResourceManager.GetString("Currencies_SelectedAreActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inactive.
+        /// </summary>
+        internal static string Currencies_SelectedAreInactive {
+            get {
+                return ResourceManager.GetString("Currencies_SelectedAreInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set as active.
+        /// </summary>
+        internal static string Currencies_SetActive {
+            get {
+                return ResourceManager.GetString("Currencies_SetActive", resourceCulture);
             }
         }
         
@@ -79,6 +169,15 @@ namespace MoneyChest.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set as inactive.
+        /// </summary>
+        internal static string Currencies_SetInactive {
+            get {
+                return ResourceManager.GetString("Currencies_SetInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Code.
         /// </summary>
         internal static string Currency_Code {
@@ -88,20 +187,20 @@ namespace MoneyChest.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Currency is active.
+        /// </summary>
+        internal static string Currency_IsActive {
+            get {
+                return ResourceManager.GetString("Currency_IsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Currency is main.
         /// </summary>
         internal static string Currency_IsMain {
             get {
                 return ResourceManager.GetString("Currency_IsMain", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Currency is used.
-        /// </summary>
-        internal static string Currency_IsUsed {
-            get {
-                return ResourceManager.GetString("Currency_IsUsed", resourceCulture);
             }
         }
         
@@ -268,6 +367,15 @@ namespace MoneyChest.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string General_None {
+            get {
+                return ResourceManager.GetString("General_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string General_Ok {
@@ -282,6 +390,15 @@ namespace MoneyChest.Shared.Properties {
         internal static string General_Password {
             get {
                 return ResourceManager.GetString("General_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remark.
+        /// </summary>
+        internal static string General_Remark {
+            get {
+                return ResourceManager.GetString("General_Remark", resourceCulture);
             }
         }
         
@@ -421,15 +538,6 @@ namespace MoneyChest.Shared.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accounts.
-        /// </summary>
-        internal static string MainManu_Accounts {
-            get {
-                return ResourceManager.GetString("MainManu_Accounts", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Calendar.
         /// </summary>
         internal static string MainManu_Calendar {
@@ -502,11 +610,101 @@ namespace MoneyChest.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accounts.
+        /// </summary>
+        internal static string MainManu_Storages {
+            get {
+                return ResourceManager.GetString("MainManu_Storages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transactions.
         /// </summary>
         internal static string MainManu_Transactions {
             get {
                 return ResourceManager.GetString("MainManu_Transactions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hidden.
+        /// </summary>
+        internal static string Storage_Hidden {
+            get {
+                return ResourceManager.GetString("Storage_Hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accounts.
+        /// </summary>
+        internal static string Storage_Plural {
+            get {
+                return ResourceManager.GetString("Storage_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        internal static string Storage_Singular {
+            get {
+                return ResourceManager.GetString("Storage_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visible.
+        /// </summary>
+        internal static string Storage_Visible {
+            get {
+                return ResourceManager.GetString("Storage_Visible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Groups.
+        /// </summary>
+        internal static string StorageGroup_Plural {
+            get {
+                return ResourceManager.GetString("StorageGroup_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group.
+        /// </summary>
+        internal static string StorageGroup_Singular {
+            get {
+                return ResourceManager.GetString("StorageGroup_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expence (-).
+        /// </summary>
+        internal static string TransactionType_Expense {
+            get {
+                return ResourceManager.GetString("TransactionType_Expense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Income (+).
+        /// </summary>
+        internal static string TransactionType_Income {
+            get {
+                return ResourceManager.GetString("TransactionType_Income", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string TransactionType_Name {
+            get {
+                return ResourceManager.GetString("TransactionType_Name", resourceCulture);
             }
         }
     }

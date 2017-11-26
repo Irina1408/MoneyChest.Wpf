@@ -117,11 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Currencies_SelectedAreUsed" xml:space="preserve">
-    <value>Selected currencies are used</value>
+  <data name="Category_IsActive" xml:space="preserve">
+    <value>Category is active</value>
+  </data>
+  <data name="Category_IsInactive" xml:space="preserve">
+    <value>Category is inactive</value>
+  </data>
+  <data name="Category_New" xml:space="preserve">
+    <value>New category</value>
+  </data>
+  <data name="Category_ParentCategory" xml:space="preserve">
+    <value>Parent category</value>
+  </data>
+  <data name="Category_Plural" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="Category_SetActive" xml:space="preserve">
+    <value>Set as active</value>
+  </data>
+  <data name="Category_SetInactive" xml:space="preserve">
+    <value>Set as inactive</value>
+  </data>
+  <data name="Category_Singular" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Currencies_SelectedAreActive" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Currencies_SelectedAreInactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="Currencies_SetActive" xml:space="preserve">
+    <value>Set as active</value>
   </data>
   <data name="Currencies_SetAsMain" xml:space="preserve">
     <value>Set as main</value>
+  </data>
+  <data name="Currencies_SetInactive" xml:space="preserve">
+    <value>Set as inactive</value>
   </data>
   <data name="CurrencySymbolAlignment_EnumName" xml:space="preserve">
     <value>Symbol alignment</value>
@@ -135,11 +168,11 @@
   <data name="Currency_Code" xml:space="preserve">
     <value>Code</value>
   </data>
+  <data name="Currency_IsActive" xml:space="preserve">
+    <value>Currency is active</value>
+  </data>
   <data name="Currency_IsMain" xml:space="preserve">
     <value>Currency is main</value>
-  </data>
-  <data name="Currency_IsUsed" xml:space="preserve">
-    <value>Currency is used</value>
   </data>
   <data name="Currency_New" xml:space="preserve">
     <value>New currency</value>
@@ -186,11 +219,17 @@
   <data name="General_Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="General_None" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="General_Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
   <data name="General_Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="General_Remark" xml:space="preserve">
+    <value>Remark</value>
   </data>
   <data name="General_SaveChangesConfirmation" xml:space="preserve">
     <value>Save changes</value>
@@ -237,9 +276,6 @@
   <data name="LoginWindow_RegistrationFailedMessage" xml:space="preserve">
     <value>User with the same Name already exists. Please enter other Name.</value>
   </data>
-  <data name="MainManu_Accounts" xml:space="preserve">
-    <value>Accounts</value>
-  </data>
   <data name="MainManu_Calendar" xml:space="preserve">
     <value>Calendar</value>
   </data>
@@ -264,7 +300,37 @@
   <data name="MainManu_Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="MainManu_Storages" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
   <data name="MainManu_Transactions" xml:space="preserve">
     <value>Transactions</value>
+  </data>
+  <data name="StorageGroup_Plural" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="StorageGroup_Singular" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Storage_Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="Storage_Plural" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="Storage_Singular" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Storage_Visible" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="TransactionType_Expense" xml:space="preserve">
+    <value>Expence (-)</value>
+  </data>
+  <data name="TransactionType_Income" xml:space="preserve">
+    <value>Income (+)</value>
+  </data>
+  <data name="TransactionType_Name" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>

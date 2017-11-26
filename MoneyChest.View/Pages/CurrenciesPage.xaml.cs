@@ -88,23 +88,23 @@ namespace MoneyChest.View.Pages
                 (items) =>
                 {
                     // get new place index
-                    var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsUsed);
+                    var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsActive);
                     var newIndex = firstNotUsed != null ? _viewModel.Currencies.IndexOf(firstNotUsed) : _viewModel.Currencies.Count - 1;
 
                     // update currencies
                     foreach (var c in items)
                     {
-                        c.IsUsed = !c.IsUsed;
+                        c.IsActive = !c.IsActive;
                         // replace in grid
                         _viewModel.Currencies.Move(_viewModel.Currencies.IndexOf(c), newIndex);
-                        if (c.IsUsed) newIndex++;
+                        if (c.IsActive) newIndex++;
                     }
 
                     // update currencies in database
                     _service.Update(items);
                     RefreshCommandsState();
                 },
-                (items) => items.Select(e => e.IsUsed).Distinct().Count() == 1)
+                (items) => items.Select(e => e.IsActive).Distinct().Count() == 1)
             };
 
             this.DataContext = _viewModel;
@@ -136,7 +136,7 @@ namespace MoneyChest.View.Pages
             if (GridCurrencies.SelectedItems != null && GridCurrencies.SelectedItems.Count > 0)
             {
                 var currencies = GridCurrencies.SelectedItems.OfType<CurrencyModel>();
-                _viewModel.SelectedCurrenciesAreActive = currencies.Select(_ => _.IsUsed).First();
+                _viewModel.SelectedCurrenciesAreActive = currencies.Select(_ => _.IsActive).First();
             }
         }
 
@@ -157,7 +157,7 @@ namespace MoneyChest.View.Pages
             // reload currencies
             _viewModel.Currencies = new ObservableCollection<CurrencyModel>(
                 _service.GetListForUser(GlobalVariables.UserId)
-                .OrderByDescending(_ => _.IsUsed)
+                .OrderByDescending(_ => _.IsActive)
                 .ThenByDescending(_ => _.IsMain));
 
             // mark as reloaded
@@ -170,8 +170,8 @@ namespace MoneyChest.View.Pages
             var window = this.InitializeDependWindow(false);
             var detailsView = new CurrencyDetailsView(_service, model, isNew, window.Close);
             // prepare window
-            window.Height = 252;
-            window.Width = 393;
+            window.Height = 293;
+            window.Width = 400;
             window.Content = detailsView;
             window.Closing += (sender, e) =>
             {
@@ -186,18 +186,18 @@ namespace MoneyChest.View.Pages
                 if(isNew)
                 {
                     // insert new currency
-                    var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsUsed);
+                    var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsActive);
                     var newIndex = firstNotUsed != null ? _viewModel.Currencies.IndexOf(firstNotUsed) : _viewModel.Currencies.Count - 1;
                     _viewModel.Currencies.Insert(newIndex, model);
                 }
                 else
                 {
                     // check current place
-                    var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsUsed && _.Id != model.Id);
+                    var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsActive && _.Id != model.Id);
                     var firstNotUsedIndex = firstNotUsed != null ? _viewModel.Currencies.IndexOf(firstNotUsed) : _viewModel.Currencies.Count - 1;
                     var currenctIndex = _viewModel.Currencies.IndexOf(model);
 
-                    if ((model.IsUsed && currenctIndex > firstNotUsedIndex) || (!model.IsUsed && currenctIndex < firstNotUsedIndex))
+                    if ((model.IsActive && currenctIndex > firstNotUsedIndex) || (!model.IsActive && currenctIndex < firstNotUsedIndex))
                         _viewModel.Currencies.Move(currenctIndex, firstNotUsedIndex);
                 }
 
@@ -215,7 +215,7 @@ namespace MoneyChest.View.Pages
                 currency.IsMain = currency.Id == model.Id;
 
             // move currency in grid
-            var c = _viewModel.Currencies.FirstOrDefault(_ => _.IsUsed == model.IsUsed);
+            var c = _viewModel.Currencies.FirstOrDefault(_ => _.IsActive == model.IsActive);
             if (c != null)
                 _viewModel.Currencies.Move(_viewModel.Currencies.IndexOf(model), _viewModel.Currencies.IndexOf(c));
         }
@@ -230,7 +230,7 @@ namespace MoneyChest.View.Pages
             if (GridCurrencies.SelectedItems != null && GridCurrencies.SelectedItems.Count > 0)
             {
                 var currencies = GridCurrencies.SelectedItems.OfType<CurrencyModel>();
-                _viewModel.SelectedCurrenciesAreActive = currencies.Select(_ => _.IsUsed).First();
+                _viewModel.SelectedCurrenciesAreActive = currencies.Select(_ => _.IsActive).First();
             }
         }
 

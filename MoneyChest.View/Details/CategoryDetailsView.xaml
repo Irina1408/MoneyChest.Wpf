@@ -19,25 +19,25 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <Label x:Name="LabelHeader" Grid.Column="0" Grid.Row="0"
                FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
 
-        <StackPanel Grid.Column="0" Grid.Row="1">
+        <StackPanel Grid.Column="0" Grid.Row="1" Margin="5 0 5 0">
             <!-- Name -->
             <StackPanel Orientation="Horizontal">
                 <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox Style="{DynamicResource HintTextBoxStyle}"
-                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
                                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
             </StackPanel>
 
             <!-- Parent category -->
-            <materialDesign:DialogHost DialogMargin="22" HorizontalAlignment="Right"
+            <materialDesign:DialogHost HorizontalAlignment="Right" VerticalAlignment="Center"
                                        DialogClosing="CategoryDialogClosingEventHandler">
                 <materialDesign:DialogHost.DialogContent>
-                    <Grid Width="370">
+                    <Grid Width="300" Margin="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
@@ -46,9 +46,9 @@
                                   ItemContainerStyle="{DynamicResource CategoryTreeViewSelectableItemContainerStyle}"
                                   ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
                         </TreeView>
-                        <StackPanel Grid.Row="1" Margin="8" HorizontalAlignment="Right" Orientation="Horizontal">
+                        <StackPanel Grid.Row="1" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
                             <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 
-                                    CommandParameter="1" Style="{DynamicResource DefaultButtonStyle}"
+                                    CommandParameter="1" Style="{DynamicResource AccentedButtonStyle}"
                                     Content="{moneyChestView:MultiLangBinding General_Ok}"/>
                             <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0"
                                     Content="{moneyChestView:MultiLangBinding General_Cancel}"/>
@@ -67,7 +67,7 @@
             
             <!-- Remark -->
             <StackPanel Orientation="Horizontal">
-                <iconPacks:PackIconModern Kind="TagLabel"  Style="{DynamicResource TextBoxMultilineIconStyle}"/>
+                <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
                 <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
                                      Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged}"/>
@@ -75,17 +75,16 @@
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
-            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding NotInHistory}" ToolTip="{moneyChestView:MultiLangBinding Category_IsActive}">
+            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsActive}" ToolTip="{moneyChestView:MultiLangBinding Category_IsActive}">
                 <iconPacks:PackIconModern Kind="Checkmark" />
             </ToggleButton>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="1">
+        <StackPanel Grid.Column="2" Grid.Row="1">
             <GroupBox>
                 <GroupBox.Header>
-                    <!-- TODO: find foreground -->
                     <CheckBox Content="{moneyChestView:MultiLangBinding TransactionType_Name}" IsChecked="{Binding TransactionTypeEnabled}"
-                              Foreground="{DynamicResource MahApps.Metro.HamburgerMenu.PaneForegroundBrush}"/>
+                              Foreground="{DynamicResource IdealForegroundColorBrush}"/>
                 </GroupBox.Header>
                 <StackPanel IsEnabled="{Binding TransactionTypeEnabled}">
                     <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_Expense}" IsChecked="{Binding TransactionTypeIsExpense}"/>
@@ -94,10 +93,10 @@
             </GroupBox>
         </StackPanel>
         
-        <StackPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <!-- TODO: create style for Ok/Cancel buttons -->
             <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
-                    Style="{DynamicResource DefaultButtonStyle}"/>
+                    Style="{DynamicResource AccentedButtonStyle}"/>
 
             <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
         </StackPanel>

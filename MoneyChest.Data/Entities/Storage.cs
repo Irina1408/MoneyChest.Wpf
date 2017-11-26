@@ -35,7 +35,7 @@ namespace MoneyChest.Data.Entities
 
         public decimal Value { get; set; }
 
-        public bool IsHidden { get; set; }
+        public bool IsVisible { get; set; }
 
         [StringLength(4000)]
         public string Remark { get; set; }

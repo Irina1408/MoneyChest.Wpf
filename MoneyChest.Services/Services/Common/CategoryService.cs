@@ -46,25 +46,25 @@ namespace MoneyChest.Services.Services
 
         internal override Category Update(Category entity)
         {
-            var inHistoryOriginal = _context.Entry(entity).OriginalValues.GetValue<bool>(nameof(Category.InHistory));
-            var inHistoryCurrent = _context.Entry(entity).CurrentValues.GetValue<bool>(nameof(Category.InHistory));
+            var isActiveOriginal = _context.Entry(entity).OriginalValues.GetValue<bool>(nameof(Category.IsActive));
+            var isActiveCurrent = _context.Entry(entity).CurrentValues.GetValue<bool>(nameof(Category.IsActive));
 
-            if (inHistoryOriginal != inHistoryCurrent)
+            if (isActiveOriginal != isActiveCurrent)
             {
                 // update all child categories
                 var categories = Entities.Where(e => e.UserId == entity.UserId).ToList();
-                void UpdateChildrenInHistory(Category category, bool inHistory)
+                void UpdateChildrenActivity(Category category, bool isActive)
                 {
-                    category.InHistory = inHistory;
+                    category.IsActive = isActive;
                     base.Update(category);
 
                     foreach(var childCategory in categories.Where(_ => _.ParentCategoryId.HasValue && _.ParentCategoryId.Value == category.Id))
                     {
-                        UpdateChildrenInHistory(childCategory, inHistory);
+                        UpdateChildrenActivity(childCategory, isActive);
                     }
                 }
 
-                UpdateChildrenInHistory(entity, inHistoryCurrent);
+                UpdateChildrenActivity(entity, isActiveCurrent);
             }
             return base.Update(entity);
         }

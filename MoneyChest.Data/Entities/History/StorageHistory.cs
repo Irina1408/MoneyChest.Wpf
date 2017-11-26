@@ -39,7 +39,7 @@ namespace MoneyChest.Data.Entities.History
         [StringLength(100)]
         public string Name { get; set; }
 
-        public bool IsHidden { get; set; }
+        public bool IsVisible { get; set; }
 
         public int StorageGroupId { get; set; }
 

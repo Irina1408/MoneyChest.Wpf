@@ -43,8 +43,7 @@
                         <!-- Name -->
                         <StackPanel Orientation="Horizontal" Grid.Row="0">
                             <iconPacks:PackIconMaterial Kind="Account" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <TextBox Style="{DynamicResource HintTextBoxStyle}"
-                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
+                            <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
                                      Text="{Binding Name}"/>
                         </StackPanel>
 
@@ -87,8 +86,7 @@
                         <!-- Name -->
                         <StackPanel Orientation="Horizontal" Grid.Row="0">
                             <iconPacks:PackIconMaterial Kind="Account" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <TextBox Style="{DynamicResource HintTextBoxStyle}" 
-                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
+                            <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
                                      Text="{Binding Name}"/>
                         </StackPanel>
 
@@ -114,7 +112,7 @@
                         <!-- Language -->
                         <StackPanel Orientation="Horizontal" Grid.Row="0">
                             <iconPacks:PackIconEntypo Kind="Language" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <ComboBox x:Name="comboLanguages" Style="{DynamicResource HintComboBoxStyle}" 
+                            <ComboBox x:Name="comboLanguages"
                                       materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Language_EnumName}"
                                       SelectionChanged="comboLanguages_SelectionChanged"
                                       DisplayMemberPath="Description" SelectedValuePath="Value"
@@ -127,7 +125,7 @@
 
         <!-- Login/Register and Cancel buttons -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
-            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Style="{DynamicResource DefaultButtonStyle}"
+            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Style="{DynamicResource AccentedButtonStyle}"
                                 Command="{Binding LoginCommand}"/>
 
             <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" IsCancel="True" Command="{Binding CancelCommand}"/>

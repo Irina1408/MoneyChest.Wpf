@@ -80,7 +80,7 @@ namespace MoneyChest.View.Pages
                 (item) =>
                 {
                     // change activity
-                    item.InHistory = !item.InHistory;
+                    item.IsActive = !item.IsActive;
                     // save to database
                     _service.Update(item);
                     // reload data
@@ -123,7 +123,7 @@ namespace MoneyChest.View.Pages
         {
             if (TreeViewCategories.SelectedItem != null)
             {
-                _viewModel.SelectedCategoryIsActive = !(TreeViewCategories.SelectedItem as CategoryViewModel).InHistory;
+                _viewModel.SelectedCategoryIsActive = !(TreeViewCategories.SelectedItem as CategoryViewModel).IsActive;
             }
         }
 
@@ -137,7 +137,7 @@ namespace MoneyChest.View.Pages
             var oldCategoryCollection = _viewModel.Categories?.GetDescendants();
 
             _viewModel.Categories = TreeHelper.BuildTree(_service.GetListForUser(GlobalVariables.UserId)
-                .OrderBy(_ => _.InHistory)
+                .OrderByDescending(_ => _.IsActive)
                 .ThenByDescending(_ => _.TransactionType)
                 .ThenBy(_ => _.Name)
                 .ToList());
@@ -196,7 +196,7 @@ namespace MoneyChest.View.Pages
 
             if (TreeViewCategories.SelectedItem != null)
             {
-                _viewModel.SelectedCategoryIsActive = !(TreeViewCategories.SelectedItem as CategoryViewModel).InHistory;
+                _viewModel.SelectedCategoryIsActive = !(TreeViewCategories.SelectedItem as CategoryViewModel).IsActive;
             }
         }
 

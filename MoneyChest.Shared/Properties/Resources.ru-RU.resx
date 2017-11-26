@@ -171,6 +171,9 @@
   <data name="Currency_IsActive" xml:space="preserve">
     <value>Активная валюта</value>
   </data>
+  <data name="Currency_IsInactive" xml:space="preserve">
+    <value>Не активная валюта</value>
+  </data>
   <data name="Currency_IsMain" xml:space="preserve">
     <value>Основная валюта</value>
   </data>
@@ -276,9 +279,6 @@
   <data name="LoginWindow_RegistrationFailedMessage" xml:space="preserve">
     <value>Пользователь с таким же именем уже существует. Пожалуйста, введите другое имя</value>
   </data>
-  <data name="MainManu_Accounts" xml:space="preserve">
-    <value>Аккаунты</value>
-  </data>
   <data name="MainManu_Calendar" xml:space="preserve">
     <value>Календарь</value>
   </data>
@@ -303,8 +303,41 @@
   <data name="MainManu_Settings" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="MainManu_Storages" xml:space="preserve">
+    <value>Аккаунты</value>
+  </data>
   <data name="MainManu_Transactions" xml:space="preserve">
     <value>Транзакции</value>
+  </data>
+  <data name="StorageGroup_Add" xml:space="preserve">
+    <value>Добавить группу</value>
+  </data>
+  <data name="StorageGroup_Delete" xml:space="preserve">
+    <value>Удалить группу</value>
+  </data>
+  <data name="StorageGroup_Plural" xml:space="preserve">
+    <value>Группы</value>
+  </data>
+  <data name="StorageGroup_Singular" xml:space="preserve">
+    <value>Группа</value>
+  </data>
+  <data name="Storage_Add" xml:space="preserve">
+    <value>Добавить аккаунт</value>
+  </data>
+  <data name="Storage_Hidden" xml:space="preserve">
+    <value>Скрытый</value>
+  </data>
+  <data name="Storage_New" xml:space="preserve">
+    <value>Новый счет</value>
+  </data>
+  <data name="Storage_Plural" xml:space="preserve">
+    <value>Счета</value>
+  </data>
+  <data name="Storage_Singular" xml:space="preserve">
+    <value>Счет</value>
+  </data>
+  <data name="Storage_Visible" xml:space="preserve">
+    <value>Видимый</value>
   </data>
   <data name="TransactionType_Expense" xml:space="preserve">
     <value>Расход (-)</value>

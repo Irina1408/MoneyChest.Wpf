@@ -76,11 +76,16 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityHideConverter.cs" />
     <Compile Include="Details\CategoryDetailsView.xaml.cs">
       <DependentUpon>CategoryDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Details\CurrencyDetailsView.xaml.cs">
       <DependentUpon>CurrencyDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Details\StorageDetailsView.xaml.cs">
+      <DependentUpon>StorageDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\MultiLangBinding.cs" />
     <Compile Include="Utils\TreeHelper.cs" />
@@ -167,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Details\CurrencyDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Details\StorageDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

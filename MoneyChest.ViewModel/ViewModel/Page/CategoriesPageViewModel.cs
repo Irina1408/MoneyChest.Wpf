@@ -20,5 +20,6 @@ namespace MoneyChest.ViewModel.ViewModel
         public IMCCommand DeleteCommand { get; set; }
         public IMCCommand ChangeActivityCommand { get; set; }
         public bool SelectedCategoryIsActive { get; set; }
+        // TODO: add expandAll/collapseAll commands
     }
 }

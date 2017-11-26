@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MoneyChest.View.Details"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -23,33 +24,35 @@
 
         <Label x:Name="LabelHeader" Grid.Column="0" Grid.Row="0"
                FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
-        
-        <Grid Grid.Column="0" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
 
-            <Label Grid.Column="0" Grid.Row="0" Content="{moneyChestView:MultiLangBinding General_Name}"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+        <StackPanel Grid.Column="0" Grid.Row="1" Margin="5 0 5 0">
+            <!-- Name -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
+                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+            </StackPanel>
 
-            <Label Grid.Column="0" Grid.Row="1" Content="{moneyChestView:MultiLangBinding Currency_Code}"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+            <!-- Code -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterial Kind="LabelOutline" Style="{DynamicResource TextBoxIconStyle}"/>
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Symbol}" 
+                                     Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+            </StackPanel>
 
-            <Label Grid.Column="0" Grid.Row="2" Content="{moneyChestView:MultiLangBinding Currency_Symbol}"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Symbol, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
-        </Grid>
+            <!-- Symbol -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterial Kind="LabelOutline" Style="{DynamicResource TextBoxIconStyle}"/>
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Code}" 
+                                     Text="{Binding Symbol, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+            </StackPanel>
+        </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
             <ToggleButton x:Name="btnIsMain" Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsMain}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsMain}">
                 <iconPacks:PackIconMaterial Kind="Star" />
             </ToggleButton>
-            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsUsed}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsActive}">
+            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsActive}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsActive}">
                 <iconPacks:PackIconModern Kind="Checkmark" />
             </ToggleButton>
         </StackPanel>
@@ -64,7 +67,7 @@
         <StackPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <!-- TODO: create style for Ok/Cancel buttons -->
             <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
-                    Style="{DynamicResource DefaultButtonStyle}"/>
+                    Style="{DynamicResource AccentedButtonStyle}"/>
 
             <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
         </StackPanel>

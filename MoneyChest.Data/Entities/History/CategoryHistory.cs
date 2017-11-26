@@ -42,7 +42,7 @@ namespace MoneyChest.Data.Entities.History
 
         public TransactionType? TransactionType { get; set; }
 
-        public bool InHistory { get; set; }
+        public bool IsActive { get; set; }
 
         public int? ParentCategoryId { get; set; }
 

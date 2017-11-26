@@ -13,7 +13,7 @@ namespace MoneyChest.Data.Extensions
     {
         public static CurrencyReference ToReferenceView(this Currency entity)
         {
-            return new CurrencyReference { Id = entity.Id, Symbol = entity.Symbol };
+            return new CurrencyReference { Id = entity.Id, Symbol = entity.Symbol, SymbolAlignment = entity.CurrencySymbolAlignment };
         }
 
         public static StorageGroupReference ToReferenceView(this StorageGroup entity)

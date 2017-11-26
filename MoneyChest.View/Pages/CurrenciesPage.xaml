@@ -127,7 +127,7 @@
             <DataGrid.RowStyle>
                 <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsUsed}" Value="False">
+                        <DataTrigger Binding="{Binding IsActive}" Value="False">
                             <Setter Property="Opacity" Value="0.5" />
                         </DataTrigger>
                     </Style.Triggers>

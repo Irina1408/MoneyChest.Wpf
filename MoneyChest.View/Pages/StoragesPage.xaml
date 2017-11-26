@@ -4,9 +4,189 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MoneyChest.View.Pages"
+             xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Loaded="StoragesPage_Loaded">
+
+    <UserControl.Resources>
+
+        <ControlTemplate x:Key="StorageItemControlTemplate" TargetType="{x:Type ContentControl}">
+            <Border Width="245" Height="200" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" ClipToBounds="True" Margin="0 7 7 7">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Storage name -->
+                    <materialDesign:ColorZone Grid.Row="0" Mode="PrimaryMid"
+                                              Background="{DynamicResource AccentColorBrush}"
+                                              MinHeight="50">
+                        <Grid Margin="10 5 30 5" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ToggleButton IsChecked="{Binding IsVisible}" Grid.Column="0" Background="Transparent"
+                                          Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center"
+                                          BorderThickness="0" Height="16" Width="20" Margin="0"
+                                          Click="StorageVisibilityToggleButton_Click">
+                                <ToggleButton.Style>
+                                    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CircleToggleButtonStyle}">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <iconpacks:PackIconMaterial Kind="Eye"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="false">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <iconpacks:PackIconMaterial Kind="EyeOff"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+
+                            <TextBlock Grid.Column="1" Margin="5 0 0 0" Text="{Binding Name}" FontSize="{DynamicResource DefaultFontSize}"
+                                    TextWrapping="WrapWithOverflow"/>
+                        </Grid>
+                    </materialDesign:ColorZone>
+
+                    <!-- Storage value-->
+                    <Label Grid.Row="1" FontSize="{DynamicResource LargeFontSize}" Content="{Binding ValueCurrency}" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <!-- Remark -->
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Bottom" Opacity="0.5" Margin="10 0 10 0">
+                        <iconpacks:PackIconModern Kind="TagLabel" Margin="0 0 -5 0"/>
+                        <Label FontSize="{DynamicResource DefaultFontSize}" Content="{Binding Remark}" HorizontalAlignment="Left"
+                               ToolTip="{Binding Remark}"/>
+                        <StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RemarkExists}" Value="false">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+
+                    <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False" HorizontalAlignment="Right"
+                                             VerticalAlignment="Center" Foreground="{DynamicResource IdealForegroundColorBrush}"
+                                             Style="{DynamicResource MaterialDesignPopupBox}">
+                        <StackPanel Orientation="Vertical">
+                            <Button Command="{Binding EditCommand}" Content="{moneyChestView:MultiLangBinding General_Edit}"
+                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                                    Margin="0" BorderThickness="0"/>
+                            <Button Command="{Binding DeleteCommand}" Content="{moneyChestView:MultiLangBinding General_Delete}"
+                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                                    Margin="0" BorderThickness="0"/>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="StorageGroupControlTemplate" TargetType="{x:Type ContentControl}">
+            <Border BorderThickness="0 1 0 0" BorderBrush="{DynamicResource BlackColorBrush}">
+                <Expander IsExpanded="True" Content="{TemplateBinding Content}" Background="{DynamicResource AccentColorBrush}" BorderThickness="0">
+                    <Expander.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Grid.Column="0" Text="{Binding Name}" MaxLength="100" MinWidth="200" Width="Auto"
+                                     LostFocus="StorageGroupName_LostFocus" VerticalAlignment="Center"
+                                     Foreground="{DynamicResource IdealForegroundColorBrush}">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource SimpleTextBoxStyle}">
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsFocused" Value="true">
+                                                <Setter Property="BorderThickness" Value="0 0 0 1"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button Command="{Binding AddStorageCommand}" 
+                                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                                        ToolTip="{moneyChestView:MultiLangBinding Storage_Add}"
+                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
+                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
+
+                                    <iconpacks:PackIconMaterial Kind="Plus"/>
+                                </Button>
+
+                                <Button Command="{Binding DeleteCommand}"
+                                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                                        ToolTip="{moneyChestView:MultiLangBinding StorageGroup_Delete}"
+                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
+                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
+
+                                    <iconpacks:PackIconModern Kind="Delete"/>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Expander.Header>
+                </Expander>
+            </Border>
+        </ControlTemplate>
+
+    </UserControl.Resources>
+    
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- Storage item menu popup -->
+        <Popup x:Name="StorageItemMenuPopup" IsOpen="False" AllowsTransparency="True" PopupAnimation="Scroll" Placement="Mouse"
+               StaysOpen="False" FocusManager.IsFocusScope="False">
+            <StackPanel Orientation="Vertical">
+                <Button Command="{Binding EditCommand}" Content="{moneyChestView:MultiLangBinding General_Edit}"
+                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        Margin="0" BorderThickness="0"/>
+                <Button Command="{Binding DeleteCommand}" Content="{moneyChestView:MultiLangBinding General_Delete}"
+                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        Margin="0" BorderThickness="0"/>
+            </StackPanel>
+        </Popup>
+
+        <!-- Menu -->
+        <ToolBarTray ClipToBounds="True" Background="{DynamicResource MaterialDesignToolBarBackground}"
+                     VerticalAlignment="Top">
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                <Button Command="{Binding AddStorageGroupCommand}" ToolTip="{moneyChestView:MultiLangBinding StorageGroup_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconpacks:PackIconMaterial Kind="Plus"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <!-- Storages grid -->
+        <Grid Grid.Row="1" Margin="5">
+            <ScrollViewer x:Name="StoragesScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="StoragesPanel" Width="{Binding ViewportWidth, ElementName=StoragesScrollViewer}"/>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

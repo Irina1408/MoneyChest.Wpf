@@ -31,7 +31,7 @@ namespace MoneyChest.Tests.Services
             var entity = App.Factory.Create<Currency>(item =>
             {
                 OnCreateOverrides?.Invoke(item);
-                item.IsUsed = true;
+                item.IsActive = true;
             });
 
             currencyService.SetMain(user.Id, entity.Id);
@@ -51,7 +51,7 @@ namespace MoneyChest.Tests.Services
             var entity = App.Factory.Create<Currency>(item => 
             {
                 OnCreateOverrides?.Invoke(item);
-                item.IsUsed = true;
+                item.IsActive = true;
             });
             currencyService.SetMain(user.Id, entity.Id);
 

@@ -7,38 +7,21 @@ using System.Windows.Input;
 
 namespace MoneyChest.ViewModel.Commands
 {
-    public interface IMCCommand : ICommand
-    {
-        void ValidateCanExecute();
-    }
-
-    public class Command : IMCCommand
+    public class ParametrizedCommand<T> : ICommand
     {
         #region Private fields
 
-        private Action execute;
-        private Func<bool> canExecute;
+        private Action<T> execute;
+        private Func<T, bool> canExecute;
 
         #endregion
 
         #region Initialization
 
-        public Command(Action execute, Func<bool> canExecute = null)
+        public ParametrizedCommand(Action<T> execute, Func<T, bool> canExecute = null)
         {
             this.execute = execute;
             this.canExecute = canExecute;
-        }
-
-        #endregion
-
-        #region Public methods
-
-        public void ValidateCanExecute()
-        {
-            if (canExecute != null && CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
         }
 
         #endregion
@@ -47,14 +30,14 @@ namespace MoneyChest.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            return canExecute?.Invoke() ?? true;
+            return canExecute?.Invoke((T)parameter) ?? true;
         }
 
         public event EventHandler CanExecuteChanged;
 
         public void Execute(object parameter)
         {
-            execute?.Invoke();
+            execute?.Invoke((T)parameter);
         }
 
         #endregion

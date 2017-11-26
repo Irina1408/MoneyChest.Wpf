@@ -53,13 +53,17 @@
     <Compile Include="Commands\Containers\DetailsViewCommandContainer.cs" />
     <Compile Include="Commands\DataGridSelectedItemCommand.cs" />
     <Compile Include="Commands\DataGridSelectedItemsCommand.cs" />
+    <Compile Include="Commands\ParametrizedCommand.cs" />
     <Compile Include="Commands\TreeViewSelectedItemCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\CategoriesPageViewModel.cs" />
-    <Compile Include="ViewModel\CategoryViewModel.cs" />
-    <Compile Include="ViewModel\CategoryViewModelCollection.cs" />
-    <Compile Include="ViewModel\CurrenciesPageViewModel.cs" />
+    <Compile Include="ViewModel\Entity\StorageGroupViewModel.cs" />
+    <Compile Include="ViewModel\Page\CategoriesPageViewModel.cs" />
+    <Compile Include="ViewModel\Entity\CategoryViewModel.cs" />
+    <Compile Include="ViewModel\Entity\CategoryViewModelCollection.cs" />
+    <Compile Include="ViewModel\Page\CurrenciesPageViewModel.cs" />
     <Compile Include="ViewModel\LoginWindowViewModel.cs" />
+    <Compile Include="ViewModel\Page\StoragesPageViewModel.cs" />
+    <Compile Include="ViewModel\Entity\StorageViewModel.cs" />
     <Compile Include="Wrappers\EntityWrapper.cs" />
   </ItemGroup>
   <ItemGroup>

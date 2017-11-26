@@ -13,7 +13,7 @@ namespace MoneyChest.Services.Converters
         protected override void FillEntity(Category entity, CategoryModel model)
         {
             entity.Name = model.Name;
-            entity.InHistory = model.InHistory;
+            entity.IsActive = model.IsActive;
             entity.TransactionType = model?.TransactionType;
             entity.Remark = model.Remark;
             entity.ParentCategoryId = model?.ParentCategoryId;
@@ -24,7 +24,7 @@ namespace MoneyChest.Services.Converters
         {
             model.Id = entity.Id;
             model.Name = entity.Name;
-            model.InHistory = entity.InHistory;
+            model.IsActive = entity.IsActive;
             model.TransactionType = entity?.TransactionType;
             model.Remark = entity.Remark;
             model.ParentCategoryId = entity?.ParentCategoryId;

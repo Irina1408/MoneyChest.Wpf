@@ -41,7 +41,7 @@ namespace MoneyChest.Data.Entities
         [StringLength(10)]
         public string Symbol { get; set; }
         
-        public bool IsUsed { get; set; }
+        public bool IsActive { get; set; }
         
         public bool IsMain { get; set; }
 

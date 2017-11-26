@@ -84,7 +84,7 @@ namespace MoneyChest.Calculation.Builders.Calendar
         {
             base.LoadData();
 
-            _preloadedData.Currencies = _currencyService.GetUsed(_userId);
+            _preloadedData.Currencies = _currencyService.GetActive(_userId);
         }
 
         #endregion

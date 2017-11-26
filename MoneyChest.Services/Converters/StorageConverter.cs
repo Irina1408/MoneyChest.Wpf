@@ -16,7 +16,7 @@ namespace MoneyChest.Services.Converters
         {
             entity.Name = model.Name;
             entity.Value = model.Value;
-            entity.IsHidden = model.IsHidden;
+            entity.IsVisible = model.IsVisible;
             entity.Remark = model.Remark;
             entity.StorageGroupId = model.StorageGroupId;
             entity.CurrencyId = model.CurrencyId;
@@ -28,7 +28,7 @@ namespace MoneyChest.Services.Converters
             model.Id = entity.Id;
             model.Name = entity.Name;
             model.Value = entity.Value;
-            model.IsHidden = entity.IsHidden;
+            model.IsVisible = entity.IsVisible;
             model.Remark = entity.Remark;
             model.CurrencyId = entity.CurrencyId;
             model.StorageGroupId = entity.StorageGroupId;
