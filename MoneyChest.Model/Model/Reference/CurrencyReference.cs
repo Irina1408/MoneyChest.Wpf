@@ -10,6 +10,7 @@ namespace MoneyChest.Model.Model
     public class CurrencyReference
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string Symbol { get; set; }
         public CurrencySymbolAlignment SymbolAlignment { get; set; }
     }

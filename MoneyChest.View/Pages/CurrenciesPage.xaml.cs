@@ -28,7 +28,9 @@ namespace MoneyChest.View.Pages
         #region Private fields
 
         private ICurrencyService _service;
+        private ICurrencyExchangeRateService _currencyExchangeRateService;
         private CurrenciesPageViewModel _viewModel;
+        private bool _areCurrencyExchangeRatesLoaded = false;
         // TODO: replace to IPage Options
         private bool _reload = true;
 
@@ -42,6 +44,7 @@ namespace MoneyChest.View.Pages
 
             // init
             _service = ServiceManager.ConfigureService<CurrencyService>();
+            _currencyExchangeRateService = ServiceManager.ConfigureService<CurrencyExchangeRateService>();
             InitializeViewModel();
         }
 
@@ -49,13 +52,14 @@ namespace MoneyChest.View.Pages
         {
             _viewModel = new CurrenciesPageViewModel()
             {
-                AddCommand = new Command(
+                // Currency commands
+                AddCurrencyCommand = new Command(
                 () => OpenDetails(new CurrencyModel() { UserId = GlobalVariables.UserId }, true)),
 
-                EditCommand = new DataGridSelectedItemCommand<CurrencyModel>(GridCurrencies,
+                EditCurrencyCommand = new DataGridSelectedItemCommand<CurrencyModel>(GridCurrencies,
                 (item) => OpenDetails(item)),
 
-                DeleteCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
+                DeleteCurrencyCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
                 (items) =>
                 {
                     var message = MultiLangResource.DeletionConfirmationMessage(typeof(CurrencyModel), items.Select(_ => _.Name));
@@ -80,7 +84,7 @@ namespace MoneyChest.View.Pages
                     // refresh currency data in grid
                     UpdateMainCurrencyLocal(item);
                     // refresh commands
-                    RefreshCommandsState();
+                    RefreshCurrencyCommandsState();
                 },
                 (item) => !item.IsMain),
 
@@ -102,9 +106,33 @@ namespace MoneyChest.View.Pages
 
                     // update currencies in database
                     _service.Update(items);
-                    RefreshCommandsState();
+                    RefreshCurrencyCommandsState();
                 },
-                (items) => items.Select(e => e.IsActive).Distinct().Count() == 1)
+                (items) => items.Select(e => e.IsActive).Distinct().Count() == 1),
+
+                // Currency echange rate commands
+                AddCurrencyExchangeRateCommand = new Command(
+                () => OpenDetails(new CurrencyExchangeRateModel(), true)),
+
+                EditCurrencyExchangeRateCommand = new DataGridSelectedItemCommand<CurrencyExchangeRateModel>(GridCurrencyExchangeRates,
+                (item) => OpenDetails(item)),
+
+                DeleteCurrencyExchangeRateCommand = new DataGridSelectedItemsCommand<CurrencyExchangeRateModel>(GridCurrencyExchangeRates,
+                (items) =>
+                {
+                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(CurrencyExchangeRateModel), 
+                        items.Select(_ => $"{_.CurrencyFrom.Name} -> {_.CurrencyTo.Name}"));
+
+                    if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
+                        MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                    {
+                        // remove in database
+                        _currencyExchangeRateService.Delete(items);
+                        // remove in grid
+                        foreach (var item in items.ToList())
+                            _viewModel.CurrencyExchangeRates.Remove(item);
+                    }
+                })
             };
 
             this.DataContext = _viewModel;
@@ -144,8 +172,22 @@ namespace MoneyChest.View.Pages
         {
             if (GridCurrencies.SelectedItem != null)
             {
-                _viewModel.EditCommand.Execute(GridCurrencies.SelectedItem);
+                _viewModel.EditCurrencyCommand.Execute(GridCurrencies.SelectedItem);
             }
+        }
+
+        private void GridCurrencyExchangeRates_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (GridCurrencyExchangeRates.SelectedItem != null)
+            {
+                _viewModel.EditCurrencyExchangeRateCommand.Execute(GridCurrencyExchangeRates.SelectedItem);
+            }
+        }
+
+        private void ExpanderCurrencyExchangeRate_Expanded(object sender, RoutedEventArgs e)
+        {
+            if (!_areCurrencyExchangeRatesLoaded)
+                LoadCurrencyExchangeRates();
         }
 
         #endregion
@@ -160,8 +202,21 @@ namespace MoneyChest.View.Pages
                 .OrderByDescending(_ => _.IsActive)
                 .ThenByDescending(_ => _.IsMain));
 
+            if (ExpanderCurrencyExchangeRate.IsExpanded)
+                LoadCurrencyExchangeRates();
+            else
+                _areCurrencyExchangeRatesLoaded = false;
+
             // mark as reloaded
             _reload = false;
+        }
+
+        private void LoadCurrencyExchangeRates()
+        {
+            _viewModel.CurrencyExchangeRates = new ObservableCollection<CurrencyExchangeRateModel>(
+                    _currencyExchangeRateService.GetListForUser(GlobalVariables.UserId));
+
+            _areCurrencyExchangeRatesLoaded = true;
         }
 
         private void OpenDetails(CurrencyModel model, bool isNew = false)
@@ -205,7 +260,36 @@ namespace MoneyChest.View.Pages
                     UpdateMainCurrencyLocal(model);
 
                 GridCurrencies.Items.Refresh();
-                RefreshCommandsState();
+                RefreshCurrencyCommandsState();
+            }
+        }
+        
+        private void OpenDetails(CurrencyExchangeRateModel model, bool isNew = false)
+        {
+            // init window and details view
+            var window = this.InitializeDependWindow(false);
+            var detailsView = new CurrencyExchangeRateDetailsView(_currencyExchangeRateService, model, isNew, window.Close, _viewModel.Currencies, _viewModel.CurrencyExchangeRates);
+            // prepare window
+            window.Height = 280;
+            window.Width = 500;
+            window.Content = detailsView;
+            window.Closing += (sender, e) =>
+            {
+                if (!detailsView.CloseView())
+                    e.Cancel = true;
+            };
+            // show window
+            window.ShowDialog();
+            if (detailsView.DialogResult)
+            {
+                // update grid
+                if (isNew && _viewModel.CurrencyExchangeRates.FirstOrDefault(_ => _.CurrencyFromId == model.CurrencyFromId 
+                    && _.CurrencyToId == model.CurrencyToId) == null)
+                {
+                    _viewModel.CurrencyExchangeRates.Add(model);
+                }
+
+                GridCurrencyExchangeRates.Items.Refresh();
             }
         }
 
@@ -220,10 +304,10 @@ namespace MoneyChest.View.Pages
                 _viewModel.Currencies.Move(_viewModel.Currencies.IndexOf(model), _viewModel.Currencies.IndexOf(c));
         }
 
-        private void RefreshCommandsState()
+        private void RefreshCurrencyCommandsState()
         {
-            _viewModel.EditCommand.ValidateCanExecute();
-            _viewModel.DeleteCommand.ValidateCanExecute();
+            _viewModel.EditCurrencyCommand.ValidateCanExecute();
+            _viewModel.DeleteCurrencyCommand.ValidateCanExecute();
             _viewModel.SetMainCommand.ValidateCanExecute();
             _viewModel.ChangeActivityCommand.ValidateCanExecute();
 

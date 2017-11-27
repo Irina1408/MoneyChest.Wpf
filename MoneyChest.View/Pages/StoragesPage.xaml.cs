@@ -283,7 +283,7 @@ namespace MoneyChest.View.Pages
             var window = this.InitializeDependWindow(false);
             var detailsView = new StorageDetailsView(_service, model, isNew, window.Close, _storageGroups.Cast<StorageGroupModel>(), _currencies);
             // prepare window
-            window.Height = 390;
+            window.Height = 440;
             window.Width = 270;
             window.Content = detailsView;
             window.Closing += (sender, e) =>

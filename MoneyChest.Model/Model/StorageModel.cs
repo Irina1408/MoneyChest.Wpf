@@ -37,7 +37,7 @@ namespace MoneyChest.Model.Model
         public virtual StorageGroupReference StorageGroup { get; set; }
 
         public string ValueCurrency => Currency.SymbolAlignment == Enums.CurrencySymbolAlignment.Right 
-            ? $"{Value.ToString("N2")}{Currency.Symbol}"
-            : $"{Currency.Symbol}{Value.ToString("N2")}";
+            ? $"{Value.ToString("0.##")}{Currency.Symbol}"
+            : $"{Currency.Symbol}{Value.ToString("0.##")}";
     }
 }

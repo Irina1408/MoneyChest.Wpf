@@ -156,6 +156,18 @@
   <data name="Currencies_SetInactive" xml:space="preserve">
     <value>Set as inactive</value>
   </data>
+  <data name="CurrencyExchangeRate_New" xml:space="preserve">
+    <value>New currency exchange rate</value>
+  </data>
+  <data name="CurrencyExchangeRate_Plural" xml:space="preserve">
+    <value>Currency exchange rates</value>
+  </data>
+  <data name="CurrencyExchangeRate_Rate" xml:space="preserve">
+    <value>Rate</value>
+  </data>
+  <data name="CurrencyExchangeRate_Singular" xml:space="preserve">
+    <value>Currency exchange rate</value>
+  </data>
   <data name="CurrencySymbolAlignment_EnumName" xml:space="preserve">
     <value>Symbol alignment</value>
   </data>
@@ -192,6 +204,9 @@
   <data name="General_Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="General_Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
   <data name="General_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -200,6 +215,15 @@
   </data>
   <data name="General_ConfirmPasswordError" xml:space="preserve">
     <value>Please confirm your password</value>
+  </data>
+  <data name="General_CurrencyFrom" xml:space="preserve">
+    <value>From currency</value>
+  </data>
+  <data name="General_CurrencyTo" xml:space="preserve">
+    <value>To currency</value>
+  </data>
+  <data name="General_Date" xml:space="preserve">
+    <value>Date</value>
   </data>
   <data name="General_Delete" xml:space="preserve">
     <value>Delete</value>
@@ -309,11 +333,20 @@
   <data name="MainManu_Transactions" xml:space="preserve">
     <value>Transactions</value>
   </data>
+  <data name="MoneyTransfer_Plural" xml:space="preserve">
+    <value>Money transfers</value>
+  </data>
+  <data name="MoneyTransfer_Singular" xml:space="preserve">
+    <value>Money transfer</value>
+  </data>
   <data name="StorageGroup_Add" xml:space="preserve">
     <value>Add group</value>
   </data>
   <data name="StorageGroup_Delete" xml:space="preserve">
     <value>Delete group</value>
+  </data>
+  <data name="StorageGroup_Name" xml:space="preserve">
+    <value>Group name</value>
   </data>
   <data name="StorageGroup_Plural" xml:space="preserve">
     <value>Groups</value>

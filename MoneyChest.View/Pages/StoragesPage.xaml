@@ -53,6 +53,9 @@
                                                     </Setter.Value>
                                                 </Setter>
                                             </Trigger>
+                                            <Trigger Property="IsChecked" Value="true">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                            </Trigger>
                                         </Style.Triggers>
                                     </Style>
                                 </ToggleButton.Style>
@@ -113,6 +116,7 @@
 
                             <TextBox Grid.Column="0" Text="{Binding Name}" MaxLength="100" MinWidth="200" Width="Auto"
                                      LostFocus="StorageGroupName_LostFocus" VerticalAlignment="Center"
+                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding StorageGroup_Name}"
                                      Foreground="{DynamicResource IdealForegroundColorBrush}">
                                 <TextBox.Style>
                                     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource SimpleTextBoxStyle}">
@@ -159,6 +163,11 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
         <!-- Storage item menu popup -->
         <Popup x:Name="StorageItemMenuPopup" IsOpen="False" AllowsTransparency="True" PopupAnimation="Scroll" Placement="Mouse"
                StaysOpen="False" FocusManager.IsFocusScope="False">
@@ -173,7 +182,7 @@
         </Popup>
 
         <!-- Menu -->
-        <ToolBarTray ClipToBounds="True" Background="{DynamicResource MaterialDesignToolBarBackground}"
+        <ToolBarTray Grid.Column="0" ClipToBounds="True" Background="{DynamicResource MaterialDesignToolBarBackground}"
                      VerticalAlignment="Top">
             <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
                 <Button Command="{Binding AddStorageGroupCommand}" ToolTip="{moneyChestView:MultiLangBinding StorageGroup_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
@@ -183,10 +192,66 @@
         </ToolBarTray>
 
         <!-- Storages grid -->
-        <Grid Grid.Row="1" Margin="5">
+        <Grid Grid.Column="0" Grid.Row="1" Margin="5">
             <ScrollViewer x:Name="StoragesScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <StackPanel x:Name="StoragesPanel" Width="{Binding ViewportWidth, ElementName=StoragesScrollViewer}"/>
             </ScrollViewer>
         </Grid>
+        
+        <!-- Money transfers expander --><!--
+        <Expander ExpandDirection="Right" Background="{DynamicResource AccentColorBrush}" BorderThickness="0" IsExpanded="False">
+            <Expander.Header>
+                <TextBlock RenderTransformOrigin=".5,.5" Text="{moneyChestView:MultiLangBinding MoneyTransfer_Plural}">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+            </Expander.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                --><!-- Menu --><!--
+                <ToolBarTray ClipToBounds="True" VerticalAlignment="Top" Background="{DynamicResource MaterialDesignToolBarBackground}">
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                        <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                            <iconpacks:PackIconMaterial Kind="Plus"/>
+                        </Button>
+
+                        <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                            <iconpacks:PackIconModern Kind="Edit"/>
+                        </Button>
+
+                        <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                            <iconpacks:PackIconModern Kind="Delete"/>
+                        </Button>
+                    </ToolBar>
+                </ToolBarTray>
+
+                --><!-- Money transfers grid --><!--
+                <DataGrid x:Name="GridMoneyTransfers" Grid.Row="1"
+                  Margin="5"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="Column"
+                  SelectionUnit="FullRow"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding MoneyTransfers}">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Date, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Date}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Expander>-->
     </Grid>
 </UserControl>

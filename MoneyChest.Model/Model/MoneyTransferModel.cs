@@ -16,6 +16,7 @@ namespace MoneyChest.Model.Model
             CurrencyExchangeRate = 1;
             TakeComissionFromReceiver = false;
             CommissionType = CommissionType.Currency;
+            Date = DateTime.Today;
         }
 
         public int Id { get; set; }

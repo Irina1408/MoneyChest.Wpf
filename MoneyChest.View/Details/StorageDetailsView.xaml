@@ -69,6 +69,13 @@
                                       SelectedValue="{Binding CurrencyId}"/>
             </StackPanel>
 
+            <!-- Value -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Balance}"
+                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
+            </StackPanel>
+
             <!-- Remark -->
             <StackPanel Orientation="Horizontal">
                 <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>

@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class CurrencyExchangeRateModel
+    public class CurrencyExchangeRateModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public CurrencyExchangeRateModel()
         {
             Rate = 1;

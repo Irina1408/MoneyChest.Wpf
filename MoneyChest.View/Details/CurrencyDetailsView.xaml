@@ -57,12 +57,14 @@
             </ToggleButton>
         </StackPanel>
 
-        <GroupBox Grid.Column="2" Grid.Row="1" Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}">
-            <StackPanel>
-                <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Right}" IsChecked="{Binding SymbolAlignmentIsRight}"/>
-                <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Left}" IsChecked="True"/>
-            </StackPanel>
-        </GroupBox>
+        <StackPanel Grid.Column="2" Grid.Row="1">
+            <GroupBox Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}">
+                <StackPanel>
+                    <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Right}" IsChecked="{Binding SymbolAlignmentIsRight}"/>
+                    <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Left}" IsChecked="True"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
 
         <StackPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <!-- TODO: create style for Ok/Cancel buttons -->

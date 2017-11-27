@@ -17,12 +17,17 @@ namespace MoneyChest.ViewModel.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<CurrencyModel> Currencies { get; set; }
+        public ObservableCollection<CurrencyExchangeRateModel> CurrencyExchangeRates { get; set; }
 
-        public IMCCommand AddCommand { get; set; }
-        public IMCCommand EditCommand { get; set; }
-        public IMCCommand DeleteCommand { get; set; }
+        public IMCCommand AddCurrencyCommand { get; set; }
+        public IMCCommand EditCurrencyCommand { get; set; }
+        public IMCCommand DeleteCurrencyCommand { get; set; }
         public IMCCommand SetMainCommand { get; set; }
         public IMCCommand ChangeActivityCommand { get; set; }
         public bool SelectedCurrenciesAreActive { get; set; }
+        
+        public IMCCommand AddCurrencyExchangeRateCommand { get; set; }
+        public IMCCommand EditCurrencyExchangeRateCommand { get; set; }
+        public IMCCommand DeleteCurrencyExchangeRateCommand { get; set; }
     }
 }

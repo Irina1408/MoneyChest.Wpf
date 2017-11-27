@@ -16,6 +16,8 @@ namespace MoneyChest
     {
         public App() : base()
         {
+            System.Windows.FrameworkCompatibilityPreferences.KeepTextBoxDisplaySynchronizedWithTextProperty = false;
+
             // init global service manager
             ServiceManager.Initialize();
 

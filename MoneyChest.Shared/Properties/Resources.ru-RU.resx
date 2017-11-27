@@ -156,6 +156,18 @@
   <data name="Currencies_SetInactive" xml:space="preserve">
     <value>Сделать не активной</value>
   </data>
+  <data name="CurrencyExchangeRate_New" xml:space="preserve">
+    <value>Новый курс обмена валют</value>
+  </data>
+  <data name="CurrencyExchangeRate_Plural" xml:space="preserve">
+    <value>Курсы обмена валют</value>
+  </data>
+  <data name="CurrencyExchangeRate_Rate" xml:space="preserve">
+    <value>Курс</value>
+  </data>
+  <data name="CurrencyExchangeRate_Singular" xml:space="preserve">
+    <value>Курс обмена валют</value>
+  </data>
   <data name="CurrencySymbolAlignment_EnumName" xml:space="preserve">
     <value>Положение символа</value>
   </data>
@@ -192,6 +204,9 @@
   <data name="General_Add" xml:space="preserve">
     <value>Добавить</value>
   </data>
+  <data name="General_Balance" xml:space="preserve">
+    <value>Баланс</value>
+  </data>
   <data name="General_Cancel" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -200,6 +215,15 @@
   </data>
   <data name="General_ConfirmPasswordError" xml:space="preserve">
     <value>Пожалуйста, подтвердите пароль</value>
+  </data>
+  <data name="General_CurrencyFrom" xml:space="preserve">
+    <value>С валюты</value>
+  </data>
+  <data name="General_CurrencyTo" xml:space="preserve">
+    <value>В валюту</value>
+  </data>
+  <data name="General_Date" xml:space="preserve">
+    <value>Дата</value>
   </data>
   <data name="General_Delete" xml:space="preserve">
     <value>Удалить</value>
@@ -309,11 +333,20 @@
   <data name="MainManu_Transactions" xml:space="preserve">
     <value>Транзакции</value>
   </data>
+  <data name="MoneyTransfer_Plural" xml:space="preserve">
+    <value>Денежные переводы</value>
+  </data>
+  <data name="MoneyTransfer_Singular" xml:space="preserve">
+    <value>Денежный перевод</value>
+  </data>
   <data name="StorageGroup_Add" xml:space="preserve">
     <value>Добавить группу</value>
   </data>
   <data name="StorageGroup_Delete" xml:space="preserve">
     <value>Удалить группу</value>
+  </data>
+  <data name="StorageGroup_Name" xml:space="preserve">
+    <value>Имя группы</value>
   </data>
   <data name="StorageGroup_Plural" xml:space="preserve">
     <value>Группы</value>

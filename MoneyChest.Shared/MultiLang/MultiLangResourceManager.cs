@@ -47,6 +47,7 @@ namespace MoneyChest.Shared.MultiLang
             if (CultureInfo.CurrentUICulture.Name == name) return;
 
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(name);
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(name);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
             CultureChanged?.Invoke(this, new CultureChangedEventArgs(name));
         }
