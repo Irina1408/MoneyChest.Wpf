@@ -58,7 +58,11 @@
         </StackPanel>
 
         <StackPanel Grid.Column="2" Grid.Row="1">
-            <GroupBox Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}">
+            <GroupBox>
+                <GroupBox.Header>
+                    <TextBlock Text="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}"
+                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
+                </GroupBox.Header>
                 <StackPanel>
                     <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Right}" IsChecked="{Binding SymbolAlignmentIsRight}"/>
                     <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Left}" IsChecked="True"/>

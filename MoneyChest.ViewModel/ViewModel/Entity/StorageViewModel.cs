@@ -13,18 +13,9 @@ namespace MoneyChest.ViewModel.ViewModel
         public StorageViewModel() : base()
         { }
 
-        public StorageViewModel(StorageModel model) : this()
+        public StorageViewModel(StorageModel storage) : this()
         {
-            Id = model.Id;
-            Name = model.Name;
-            Value = model.Value;
-            base.IsVisible = model.IsVisible;
-            Remark = model.Remark;
-            StorageGroupId = model.StorageGroupId;
-            CurrencyId = model.CurrencyId;
-            UserId = model.UserId;
-            Currency = model.Currency;
-            StorageGroup = model.StorageGroup;
+            UpdateData(storage);
         }
 
         public bool IsHidden => !base.IsVisible;
@@ -32,5 +23,20 @@ namespace MoneyChest.ViewModel.ViewModel
 
         public ICommand EditCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        public ICommand TransferMoneyCommand { get; set; }
+
+        public void UpdateData(StorageModel storage)
+        {
+            Id = storage.Id;
+            Name = storage.Name;
+            Value = storage.Value;
+            base.IsVisible = storage.IsVisible;
+            Remark = storage.Remark;
+            StorageGroupId = storage.StorageGroupId;
+            CurrencyId = storage.CurrencyId;
+            UserId = storage.UserId;
+            Currency = storage.Currency;
+            StorageGroup = storage.StorageGroup;
+        }
     }
 }

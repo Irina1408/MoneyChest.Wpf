@@ -20,7 +20,7 @@ namespace MoneyChest.Data.Entities
 
         public decimal Commission { get; set; } // always in StorageFrom currency (Value too)
 
-        public bool TakeComissionFromReceiver { get; set; }
+        public bool TakeCommissionFromReceiver { get; set; }
 
         public CommissionType CommissionType { get; set; }
 

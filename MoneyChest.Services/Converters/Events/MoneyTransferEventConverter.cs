@@ -32,7 +32,7 @@ namespace MoneyChest.Services.Converters
             entity.TakeExistingCurrencyExchangeRate = model.TakeExistingCurrencyExchangeRate;
             entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
             entity.Commission = model.Commission;
-            entity.TakeComissionFromReceiver = model.TakeComissionFromReceiver;
+            entity.TakeCommissionFromReceiver = model.TakeCommissionFromReceiver;
             entity.CommissionType = model.CommissionType;
             entity.StorageFromId = model.StorageFromId;
             entity.StorageToId = model.StorageToId;
@@ -59,7 +59,7 @@ namespace MoneyChest.Services.Converters
             model.TakeExistingCurrencyExchangeRate = entity.TakeExistingCurrencyExchangeRate;
             model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
             model.Commission = entity.Commission;
-            model.TakeComissionFromReceiver = entity.TakeComissionFromReceiver;
+            model.TakeCommissionFromReceiver = entity.TakeCommissionFromReceiver;
             model.CommissionType = entity.CommissionType;
             model.StorageFromId = entity.StorageFromId;
             model.StorageToId = entity.StorageToId;

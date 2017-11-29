@@ -147,8 +147,8 @@ namespace MoneyChest.Calculation.Builders.Calendar
                     ValueCurrencyTo = new ValueUnit(moneyTransfer.StorageToCurrency, moneyTransfer.Value * moneyTransfer.CurrencyExchangeRate),
                     Category = moneyTransfer?.Category,
                     Description = moneyTransfer.Description,
-                    TakeComissionFromReceiver = moneyTransfer.TakeComissionFromReceiver,
-                    Comission = new ValueUnit(moneyTransfer.StorageFromCurrency, moneyTransfer.CommisionValue),
+                    TakeCommissionFromReceiver = moneyTransfer.TakeCommissionFromReceiver,
+                    //Commission = new ValueUnit(moneyTransfer.StorageFromCurrency, moneyTransfer.CommisionValue),
                     IsPlanned = false
                 });
             }
@@ -245,8 +245,8 @@ namespace MoneyChest.Calculation.Builders.Calendar
                     ValueCurrencyTo = new ValueUnit(evnt.StorageToCurrency, evnt.Value * evnt.CurrencyExchangeRate),
                     Category = evnt?.Category,
                     Description = evnt.Description,
-                    TakeComissionFromReceiver = evnt.TakeComissionFromReceiver,
-                    Comission = new ValueUnit(evnt.StorageFromCurrency, evnt.CommisionValue),
+                    TakeCommissionFromReceiver = evnt.TakeCommissionFromReceiver,
+                    Commission = new ValueUnit(evnt.StorageFromCurrency, evnt.CommisionValue),
                     IsPlanned = true
                 });
             }

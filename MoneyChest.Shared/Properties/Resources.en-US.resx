@@ -204,11 +204,17 @@
   <data name="General_Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="General_Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
   <data name="General_Balance" xml:space="preserve">
     <value>Balance</value>
   </data>
   <data name="General_Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="General_Commission" xml:space="preserve">
+    <value>Commission</value>
   </data>
   <data name="General_ConfirmPassword" xml:space="preserve">
     <value>Confirm password</value>
@@ -333,11 +339,26 @@
   <data name="MainManu_Transactions" xml:space="preserve">
     <value>Transactions</value>
   </data>
+  <data name="MoneyTransfer_ExchangeRate" xml:space="preserve">
+    <value>Exchange rate</value>
+  </data>
+  <data name="MoneyTransfer_New" xml:space="preserve">
+    <value>New money transfer</value>
+  </data>
   <data name="MoneyTransfer_Plural" xml:space="preserve">
     <value>Money transfers</value>
   </data>
   <data name="MoneyTransfer_Singular" xml:space="preserve">
     <value>Money transfer</value>
+  </data>
+  <data name="MoneyTransfer_StorageFrom" xml:space="preserve">
+    <value>From account</value>
+  </data>
+  <data name="MoneyTransfer_StorageTo" xml:space="preserve">
+    <value>To account</value>
+  </data>
+  <data name="MoneyTransfer_TakeCommissionFromReceiver" xml:space="preserve">
+    <value>Take commission from receiver</value>
   </data>
   <data name="StorageGroup_Add" xml:space="preserve">
     <value>Add group</value>
@@ -368,6 +389,9 @@
   </data>
   <data name="Storage_Singular" xml:space="preserve">
     <value>Account</value>
+  </data>
+  <data name="Storage_TransferMoney" xml:space="preserve">
+    <value>Transfer money</value>
   </data>
   <data name="Storage_Visible" xml:space="preserve">
     <value>Visible</value>

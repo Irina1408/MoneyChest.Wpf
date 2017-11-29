@@ -16,7 +16,7 @@ namespace MoneyChest.Data.Entities.History
 
         public decimal Commission { get; set; }
 
-        public bool TakeComissionFromReceiver { get; set; }
+        public bool TakeCommissionFromReceiver { get; set; }
 
         public CommissionType? CommissionType { get; set; }
 

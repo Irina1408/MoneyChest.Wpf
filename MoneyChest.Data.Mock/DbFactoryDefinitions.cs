@@ -84,7 +84,7 @@ namespace MoneyChest.Data.Mock
                 e.Description = "MoneyTransfer";
                 e.Value = Moniker.Digit;
                 e.CurrencyExchangeRate = 1;
-                e.TakeComissionFromReceiver = false;
+                e.TakeCommissionFromReceiver = false;
                 e.CommissionType = CommissionType.Currency;
             });
 

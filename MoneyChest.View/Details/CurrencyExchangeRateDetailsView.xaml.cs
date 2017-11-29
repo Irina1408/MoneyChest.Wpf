@@ -33,6 +33,7 @@ namespace MoneyChest.View.Details
         private DetailsViewCommandContainer _commands;
         private Action _closeAction;
         private bool _closeView;
+
         private IEnumerable<CurrencyExchangeRateModel> _existingCurrencyExchangeRates;
 
         #endregion
@@ -56,12 +57,8 @@ namespace MoneyChest.View.Details
                 ? MultiLangResourceManager.Instance[MultiLangResourceName.New(typeof(CurrencyExchangeRateModel))]
                 : MultiLangResourceManager.Instance[MultiLangResourceName.Singular(typeof(CurrencyExchangeRateModel))];
             // initialize datacontexts
-            IEnumerable<CurrencyModel> activeCurrencies;
-
-            if (isNew)
-                activeCurrencies = currencies.Where(_ => _.IsActive);
-            else
-                activeCurrencies = currencies.Where(_ => _.IsActive || _.Id == entity.CurrencyFromId || _.Id == entity.CurrencyToId);
+            IEnumerable<CurrencyModel> activeCurrencies = 
+                currencies.Where(_ => _.IsActive || _.Id == entity.CurrencyFromId || _.Id == entity.CurrencyToId);
 
             comboFromCurrencies.ItemsSource = activeCurrencies;
             comboToCurrencies.ItemsSource = activeCurrencies;

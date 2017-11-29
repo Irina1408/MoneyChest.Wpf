@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Model;
+using MoneyChest.Shared.MultiLang;
 using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,22 @@ namespace MoneyChest.View.Utils
 {
     public static class TreeHelper
     {
-        public static CategoryViewModelCollection BuildTree(IEnumerable<CategoryModel> categories)
+        public static CategoryViewModelCollection BuildTree(IEnumerable<CategoryModel> categories, bool insertEmpty = false)
         {
             var result = new CategoryViewModelCollection();
 
             foreach (var category in categories.Where(_ => !_.ParentCategoryId.HasValue))
             {
                 result.Add(BuildCategoryBranch(categories, category));
+            }
+
+            if(insertEmpty)
+            {
+                result.Insert(0, new CategoryViewModel()
+                {
+                    Id = -1,
+                    Name = MultiLangResourceManager.Instance[MultiLangResourceName.None]
+                });
             }
 
             return result;

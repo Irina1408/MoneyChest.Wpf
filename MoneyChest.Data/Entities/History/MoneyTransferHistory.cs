@@ -51,7 +51,7 @@ namespace MoneyChest.Data.Entities.History
 
         public CommissionType? CommissionType { get; set; }
 
-        public bool TakeComissionFromReceiver { get; set; }
+        public bool TakeCommissionFromReceiver { get; set; }
 
         [StringLength(4000)]
         public string Remark { get; set; }

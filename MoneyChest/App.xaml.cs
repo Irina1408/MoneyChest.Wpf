@@ -21,11 +21,9 @@ namespace MoneyChest
             // init global service manager
             ServiceManager.Initialize();
 
-            Exit += (sender, e) =>
-            {
-                // dispose global service manager
-                ServiceManager.Dispose();
-            };
+            // dispose global service manager
+            Exit += (sender, e) => ServiceManager.Dispose();
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => ServiceManager.Dispose();
         }
     }
 }

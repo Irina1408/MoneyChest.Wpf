@@ -21,8 +21,7 @@ namespace MoneyChest.Data.Entities
 
         [StringLength(1000)]
         public string Description { get; set; }
-
-        [Column(TypeName = "date")]
+        
         public DateTime Date { get; set; }
 
         public decimal Value { get; set; } // always in StorageFrom currency
@@ -33,7 +32,7 @@ namespace MoneyChest.Data.Entities
 
         public CommissionType CommissionType { get; set; }
 
-        public bool TakeComissionFromReceiver { get; set; }
+        public bool TakeCommissionFromReceiver { get; set; }
 
         [StringLength(4000)]
         public string Remark { get; set; }

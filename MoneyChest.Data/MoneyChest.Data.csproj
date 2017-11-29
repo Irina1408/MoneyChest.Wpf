@@ -97,6 +97,10 @@
     <Compile Include="Migrations\201711261830331_storagegrouphistory_fix.Designer.cs">
       <DependentUpon>201711261830331_storagegrouphistory_fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711282044272_moneytransfer_updatedata.cs" />
+    <Compile Include="Migrations\201711282044272_moneytransfer_updatedata.Designer.cs">
+      <DependentUpon>201711282044272_moneytransfer_updatedata.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -116,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711261830331_storagegrouphistory_fix.resx">
       <DependentUpon>201711261830331_storagegrouphistory_fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711282044272_moneytransfer_updatedata.resx">
+      <DependentUpon>201711282044272_moneytransfer_updatedata.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

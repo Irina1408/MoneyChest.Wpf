@@ -37,6 +37,7 @@ namespace MoneyChest.View.Pages
         private IStorageService _service;
         private IStorageGroupService _storageGroupService;
         private ICurrencyService _currencyService;
+        private IMoneyTransferService _moneyTransferService;
 
         private StoragesPageViewModel _viewModel;
 
@@ -44,12 +45,13 @@ namespace MoneyChest.View.Pages
         private List<StorageGroupViewModel> _storageGroups;
         private List<CurrencyModel> _currencies;
 
-        // view data
+        // storage view data
         private Dictionary<int, WrapPanel> _storageGroupPanel;
         private Dictionary<int, ContentControl> _storageView;
 
         // TODO: replace to IPage Options
         private bool _reload = true;
+        private bool _areMoneyTransfersLoaded = false;
 
         #endregion
 
@@ -63,10 +65,13 @@ namespace MoneyChest.View.Pages
             _service = ServiceManager.ConfigureService<StorageService>();
             _storageGroupService = ServiceManager.ConfigureService<StorageGroupService>();
             _currencyService = ServiceManager.ConfigureService<CurrencyService>();
+            _moneyTransferService = ServiceManager.ConfigureService<MoneyTransferService>();
+
             _storageGroupPanel = new Dictionary<int, WrapPanel>();
             _storageView = new Dictionary<int, ContentControl>();
             _storages = new List<StorageViewModel>();
             _storageGroups = new List<StorageGroupViewModel>();
+
             InitializeViewModel();
         }
 
@@ -100,6 +105,13 @@ namespace MoneyChest.View.Pages
                         }
                     }),
 
+                TransferMoneyCommand = new ParametrizedCommand<StorageViewModel>(
+                    (item) => OpenDetails(new MoneyTransferModel()
+                    {
+                        StorageFromId = item.Id,
+                        StorageFromCurrency = item.Currency
+                    }, true)),
+
                 AddStorageGroupCommand = new Command(
                     () => 
                     {
@@ -131,7 +143,34 @@ namespace MoneyChest.View.Pages
                             // remove in view
                             StoragesPanel.Children.Remove(_storageGroupPanel[item.Id].Parent as ContentControl);
                         }
-                    })
+                    }),
+
+                AddMoneyTransferCommand = new Command(
+                    () => OpenDetails(new MoneyTransferModel(), true)),
+
+                EditMoneyTransferCommand = new DataGridSelectedItemCommand<MoneyTransferModel>(GridMoneyTransfers,
+                (item) => OpenDetails(item)),
+
+                DeleteMoneyTransferCommand = new DataGridSelectedItemsCommand<MoneyTransferModel>(GridMoneyTransfers,
+                (items) =>
+                {
+                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(MoneyTransferModel), 
+                        items.Select(_ => _.Description));
+
+                    if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
+                        MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                    {
+                        // remove in database
+                        _moneyTransferService.Delete(items);
+                        // remove in grid
+                        foreach (var item in items.ToList())
+                        {
+                            _viewModel.MoneyTransfers.Remove(item);
+                            // update existing storages
+                            UpdateStorages(item);
+                        }
+                    }
+                })
             };
 
             this.DataContext = _viewModel;
@@ -179,6 +218,20 @@ namespace MoneyChest.View.Pages
             _service.Update(storageViewModel);
         }
 
+        private void ExpanderMoneyTransfers_Expanded(object sender, RoutedEventArgs e)
+        {
+            if (!_areMoneyTransfersLoaded)
+                LoadMoneyTransfers();
+        }
+
+        private void GridMoneyTransfers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (GridMoneyTransfers.SelectedItem != null)
+            {
+                _viewModel.EditMoneyTransferCommand.Execute(GridMoneyTransfers.SelectedItem);
+            }
+        }
+
         #endregion
 
         #region Private methods
@@ -201,8 +254,22 @@ namespace MoneyChest.View.Pages
                 AddStorageGroupIntoView(storageGroup, storages);
             }
 
+            // reload money transfers
+            if (ExpanderMoneyTransfers.IsExpanded)
+                LoadMoneyTransfers();
+            else
+                _areMoneyTransfersLoaded = false;
+
             // mark as reloaded
             _reload = false;
+        }
+
+        private void LoadMoneyTransfers()
+        {
+            _viewModel.MoneyTransfers = new ObservableCollection<MoneyTransferModel>(
+                _moneyTransferService.GetListForUser(GlobalVariables.UserId).OrderByDescending(_ => _.Date));
+
+            _areMoneyTransfersLoaded = true;
         }
 
         private void AddStorageGroupIntoView(StorageGroupModel storageGroup, List<StorageModel> storages = null)
@@ -245,7 +312,8 @@ namespace MoneyChest.View.Pages
             var storageViewModel = new StorageViewModel(storage)
             {
                 EditCommand = _viewModel.EditStorageCommand,
-                DeleteCommand = _viewModel.DeleteStorageCommand
+                DeleteCommand = _viewModel.DeleteStorageCommand,
+                TransferMoneyCommand = _viewModel.TransferMoneyCommand
             };
 
             var itemView = new ContentControl()
@@ -276,7 +344,7 @@ namespace MoneyChest.View.Pages
 
         private void OpenDetails(StorageViewModel model, bool isNew = false)
         {
-            // keep storage
+            // keep old storage data
             var oldStorageGroupId = model.StorageGroupId;
             var oldCurrencyId = model.CurrencyId;
             // init window and details view
@@ -295,7 +363,7 @@ namespace MoneyChest.View.Pages
             window.ShowDialog();
             if (detailsView.DialogResult)
             {
-                // update grid
+                // update view
                 if (isNew)
                 {
                     // insert new storage into view
@@ -312,6 +380,42 @@ namespace MoneyChest.View.Pages
                 else if(oldCurrencyId != model.CurrencyId)
                     RefreshStoragesSequence(model.StorageGroupId);
             }
+        }
+
+        private void OpenDetails(MoneyTransferModel model, bool isNew = false)
+        {
+            // init window and details view
+            var window = this.InitializeDependWindow(false);
+            var detailsView = new MoneyTransferDetailsView(_moneyTransferService, model, isNew, window.Close, true, 
+                _storages.OrderBy(_ => _.Name));
+            // prepare window
+            window.Height = 450;
+            window.Width = 800;
+            window.Content = detailsView;
+            window.Closing += (sender, e) =>
+            {
+                if (!detailsView.CloseView())
+                    e.Cancel = true;
+            };
+            // show window
+            window.ShowDialog();
+            if (detailsView.DialogResult)
+            {
+                // update grid
+                if (isNew && _areMoneyTransfersLoaded)
+                    _viewModel.MoneyTransfers.Insert(0, model);
+
+                // update storages view
+                UpdateStorages(model);
+            }
+        }
+
+        private void UpdateStorages(MoneyTransferModel moneyTransfer)
+        {
+            var storageFrom = _storages.First(_ => _.Id == moneyTransfer.StorageFromId);
+            storageFrom.UpdateData(_service.Get(storageFrom.Id));
+            var storageTo = _storages.First(_ => _.Id == moneyTransfer.StorageToId);
+            storageTo.UpdateData(_service.Get(storageTo.Id));
         }
 
         #endregion

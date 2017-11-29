@@ -20,7 +20,7 @@ namespace MoneyChest.Services.Converters
             entity.Description = model.Description;
             entity.Commission = model.Commission;
             entity.CommissionType = model.CommissionType;
-            entity.TakeComissionFromReceiver = model.TakeComissionFromReceiver;
+            entity.TakeCommissionFromReceiver = model.TakeCommissionFromReceiver;
             entity.Remark = model.Remark;
             entity.StorageFromId = model.StorageFromId;
             entity.StorageToId = model.StorageToId;
@@ -36,7 +36,7 @@ namespace MoneyChest.Services.Converters
             model.Description = entity.Description;
             model.Commission = entity.Commission;
             model.CommissionType = entity.CommissionType;
-            model.TakeComissionFromReceiver = entity.TakeComissionFromReceiver;
+            model.TakeCommissionFromReceiver = entity.TakeCommissionFromReceiver;
             model.Remark = entity.Remark;
             model.StorageFromId = entity.StorageFromId;
             model.StorageToId = entity.StorageToId;

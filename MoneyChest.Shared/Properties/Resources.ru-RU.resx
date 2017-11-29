@@ -204,11 +204,17 @@
   <data name="General_Add" xml:space="preserve">
     <value>Добавить</value>
   </data>
+  <data name="General_Amount" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
   <data name="General_Balance" xml:space="preserve">
     <value>Баланс</value>
   </data>
   <data name="General_Cancel" xml:space="preserve">
     <value>Отмена</value>
+  </data>
+  <data name="General_Commission" xml:space="preserve">
+    <value>Комиссия</value>
   </data>
   <data name="General_ConfirmPassword" xml:space="preserve">
     <value>Подтверждение пароля</value>
@@ -333,11 +339,26 @@
   <data name="MainManu_Transactions" xml:space="preserve">
     <value>Транзакции</value>
   </data>
+  <data name="MoneyTransfer_ExchangeRate" xml:space="preserve">
+    <value>Курс обмена</value>
+  </data>
+  <data name="MoneyTransfer_New" xml:space="preserve">
+    <value>Новый денежный перевод</value>
+  </data>
   <data name="MoneyTransfer_Plural" xml:space="preserve">
     <value>Денежные переводы</value>
   </data>
   <data name="MoneyTransfer_Singular" xml:space="preserve">
     <value>Денежный перевод</value>
+  </data>
+  <data name="MoneyTransfer_StorageFrom" xml:space="preserve">
+    <value>С аккаунта</value>
+  </data>
+  <data name="MoneyTransfer_StorageTo" xml:space="preserve">
+    <value>В аккаунт</value>
+  </data>
+  <data name="MoneyTransfer_TakeCommissionFromReceiver" xml:space="preserve">
+    <value>Взять комиссию с получателя</value>
   </data>
   <data name="StorageGroup_Add" xml:space="preserve">
     <value>Добавить группу</value>
@@ -368,6 +389,9 @@
   </data>
   <data name="Storage_Singular" xml:space="preserve">
     <value>Счет</value>
+  </data>
+  <data name="Storage_TransferMoney" xml:space="preserve">
+    <value>Перевести средства</value>
   </data>
   <data name="Storage_Visible" xml:space="preserve">
     <value>Видимый</value>

@@ -17,7 +17,7 @@ namespace MoneyChest.Services.Services.Base
         where TModel : class
         where TConverter : IEntityModelConverter<T, TModel>, new()
     {
-        private HistoryService _historyService;
+        internal HistoryService _historyService;
 
         public HistoricizedServiceBase(ApplicationDbContext context) : base(context)
         {

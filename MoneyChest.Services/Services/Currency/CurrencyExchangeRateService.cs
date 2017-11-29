@@ -17,6 +17,7 @@ namespace MoneyChest.Services.Services
     public interface ICurrencyExchangeRateService : IServiceBase<CurrencyExchangeRateModel>, IUserableListService<CurrencyExchangeRateModel>
     {
         List<CurrencyExchangeRateModel> GetList(int userId, int currencyToId);
+        List<CurrencyExchangeRateModel> GetList(List<int> currencyIds);
     }
 
     public class CurrencyExchangeRateService : HistoricizedServiceBase<CurrencyExchangeRate, CurrencyExchangeRateModel, CurrencyExchangeRateConverter>, ICurrencyExchangeRateService
@@ -30,6 +31,12 @@ namespace MoneyChest.Services.Services
         public List<CurrencyExchangeRateModel> GetList(int userId, int currencyToId)
         {
             return Scope.Where(item => item.CurrencyFrom.UserId == userId && item.CurrencyTo.UserId == userId && item.CurrencyToId == currencyToId).ToList().ConvertAll(_converter.ToModel);
+        }
+
+        public List<CurrencyExchangeRateModel> GetList(List<int> currencyIds)
+        {
+            return Scope.Where(item => currencyIds.Contains(item.CurrencyFromId) && currencyIds.Contains(item.CurrencyToId))
+                .ToList().ConvertAll(_converter.ToModel);
         }
 
         #endregion

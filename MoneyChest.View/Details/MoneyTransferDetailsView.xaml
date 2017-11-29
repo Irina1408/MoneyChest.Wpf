@@ -1,0 +1,219 @@
+﻿<UserControl x:Class="MoneyChest.View.Details.MoneyTransferDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MoneyChest.View.Details"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="LabelHeader" Grid.Row="0" Grid.ColumnSpan="2"
+               FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+
+        <!-- Right part (Date, Description, Category, Remark) -->
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="20 5 5 0">
+            <!-- Date -->
+            <DatePicker SelectedDate="{Binding Date}" HorizontalAlignment="Right"
+                        materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
+
+            <!-- Description -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
+                                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+            </StackPanel>
+
+            <!-- Category -->
+            <materialDesign:DialogHost HorizontalAlignment="Right" VerticalAlignment="Center"
+                                       DialogClosing="CategoryDialogClosingEventHandler">
+                <materialDesign:DialogHost.DialogContent>
+                    <Grid Width="300" Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TreeView x:Name="TreeViewCategories" Grid.Row="0" 
+                                  ItemContainerStyle="{DynamicResource CategoryTreeViewSelectableItemContainerStyle}"
+                                  ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
+                        </TreeView>
+                        <StackPanel Grid.Row="1" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 
+                                    CommandParameter="1" Style="{DynamicResource AccentedButtonStyle}"
+                                    Content="{moneyChestView:MultiLangBinding General_Ok}"/>
+                            <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0"
+                                    Content="{moneyChestView:MultiLangBinding General_Cancel}"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:DialogHost.DialogContent>
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}"/>
+                    <TextBox x:Name="txtCategory" Style="{DynamicResource HintButtonTextBoxStyle}" IsReadOnly="True"
+                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Category_Singular}"/>
+                    <Button Content="..." Style="{DynamicResource TextBoxButtonStyle}"
+                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                    </Button>
+                </StackPanel>
+            </materialDesign:DialogHost>
+
+            <!-- Remark -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
+                <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
+                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
+                                     Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Main part -->
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Storages and value -->
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Storage from -->
+                <ComboBox x:Name="comboFromStorage" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Margin="5 5 10 5"
+                          SelectedValue="{Binding StorageFromId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
+                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding MoneyTransfer_StorageFrom}"
+                          SelectionChanged="comboStorage_SelectionChanged"/>
+
+                <!-- Arrow -->
+                <iconPacks:PackIconOcticons Kind="ArrowRight" Grid.Column="1" Grid.Row="0" Height="30" Width="36"/>
+
+                <!-- Storage to -->
+                <ComboBox x:Name="comboToStorage"  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" Margin="10 5 5 5"
+                          SelectedValue="{Binding StorageToId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
+                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding MoneyTransfer_StorageTo}"
+                          SelectionChanged="comboStorage_SelectionChanged"/>
+
+                <!-- Value that should be taken from Storage from -->
+                <TextBox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="5 5 10 5"
+                         materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Amount}"
+                         Text="{Binding StorageFromValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
+
+                <!-- Arrow -->
+                <iconPacks:PackIconOcticons Kind="ArrowRight" Grid.Column="1" Grid.Row="1" Height="30" Width="36"/>
+
+                <!-- Value that should be taken from Storage to -->
+                <TextBox Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" Margin="10 5 5 5"
+                         materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Amount}"
+                         Text="{Binding StorageToValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
+            </Grid>
+
+            <!-- Comission -->
+            <GroupBox Grid.Column="0" Grid.Row="1" Margin="5 20 10 5">
+                <GroupBox.Header>
+                    <CheckBox Content="{moneyChestView:MultiLangBinding General_Commission}" IsChecked="{Binding CommissionEnabled}"
+                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
+                </GroupBox.Header>
+                <Grid IsEnabled="{Binding CommissionEnabled}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Comission type -->
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <RadioButton IsChecked="{Binding CommissionIsPercent}">
+                            <RadioButton.Content>
+                                <iconPacks:PackIconFontAwesome Kind="Percent" />
+                            </RadioButton.Content>
+                        </RadioButton>
+                        <RadioButton IsChecked="{Binding CommissionIsCurrency}">
+                            <RadioButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <iconPacks:PackIconFontAwesome Kind="Money" />
+                                    <TextBlock FontSize="{DynamicResource DefaultFontSize}"
+                                               Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center">
+                                        <Run Text=" ("/>
+                                        <Run Text="{Binding StorageFromCurrency.Symbol}"/>
+                                        <Run Text=")"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </RadioButton.Content>
+                        </RadioButton>
+                    </StackPanel>
+
+                    <!-- Take Commission From Receiver -->
+                    <CheckBox Content="{moneyChestView:MultiLangBinding MoneyTransfer_TakeCommissionFromReceiver}"
+                              ToolTip="{moneyChestView:MultiLangBinding MoneyTransfer_TakeCommissionFromReceiver}"
+                              IsChecked="{Binding TakeCommissionFromReceiver}" Grid.Row="1"/>
+
+                    <!-- Commission value -->
+                    <TextBox Grid.Row="2" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Commission}"
+                                     Text="{Binding Commission, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}" Margin="5 10 5 10" Width="Auto"/>
+                </Grid>
+            </GroupBox>
+
+            <!-- Currency exchange rate -->
+            <GroupBox Grid.Column="1" Grid.Row="1" Margin="10 20 5 5" IsEnabled="{Binding IsDifferentCurrenciesSelected}">
+                <GroupBox.Header>
+                    <TextBlock Text="{moneyChestView:MultiLangBinding MoneyTransfer_ExchangeRate}"
+                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
+                </GroupBox.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Example -->
+                    <TextBlock Grid.Row="0" Text="{Binding ExchangeRateExample}" FontSize="{DynamicResource LargeFontSize}"
+                               Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsDifferentCurrenciesSelected}" Value="false">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <!-- Rate -->
+                    <TextBox Grid.Row="1" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Rate}"
+                                     Text="{Binding CurrencyExchangeRate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.####}}" Margin="5 10 5 10" Width="Auto"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <StackPanel x:Name="CommandsPanel" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <!-- TODO: create style for Ok/Cancel buttons -->
+            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
+                    Style="{DynamicResource AccentedButtonStyle}"/>
+
+            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

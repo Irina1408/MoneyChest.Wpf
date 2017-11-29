@@ -87,6 +87,9 @@
     <Compile Include="Details\CurrencyExchangeRateDetailsView.xaml.cs">
       <DependentUpon>CurrencyExchangeRateDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Details\MoneyTransferDetailsView.xaml.cs">
+      <DependentUpon>MoneyTransferDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Details\StorageDetailsView.xaml.cs">
       <DependentUpon>StorageDetailsView.xaml</DependentUpon>
     </Compile>
@@ -179,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Details\CurrencyExchangeRateDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Details\MoneyTransferDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

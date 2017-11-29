@@ -9,6 +9,7 @@
     <Thickness x:Key="ControlMargin">5</Thickness>
     <system:Double x:Key="DefaultFontSize">14</system:Double>
     <system:Double x:Key="LargeFontSize">24</system:Double>
+    <system:Double x:Key="SmallFontSize">12</system:Double>
     <system:Double x:Key="ToolBarButtonSize">40</system:Double>
     <system:Double x:Key="TextInputControlWidth">200</system:Double>
     <system:Double x:Key="TextButtonInputControlWidth">165</system:Double>
@@ -54,6 +55,7 @@
         <Setter Property="Width" Value="100"/>
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Normal" />
     </Style>
 
     <Style x:Key="AccentedButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource AccentedSquareButtonStyle}">
@@ -61,6 +63,7 @@
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="IsDefault" Value="True"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Normal" />
     </Style>
 
     <Style x:Key="TextBoxButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource AccentedSquareButtonStyle}">
@@ -157,7 +160,14 @@
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
-
+    
+    <!--*********************************** Date picker ***********************************-->
+    <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MaterialDesignFloatingHintDatePicker}">
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
+        <!--<Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>-->
+    </Style>
+    
     <!--*********************************** Combo box ***********************************-->
     <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
@@ -178,11 +188,14 @@
     <!--*********************************** Group box ***********************************-->
     <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MetroGroupBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
     <!--*********************************** Data grid ***********************************-->
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource MetroDataGrid}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <!--<Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Normal" />-->
     </Style>
 
     <!--*********************************** Tree view ***********************************-->
