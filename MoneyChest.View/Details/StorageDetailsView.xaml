@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <!-- IsVisible + header -->
-        <StackPanel Grid.Row="0" HorizontalAlignment="Left" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Orientation="Horizontal">
             <ToggleButton IsChecked="{Binding IsVisible}">
                 <ToggleButton.Style>
                     <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CircleToggleButtonStyle}">

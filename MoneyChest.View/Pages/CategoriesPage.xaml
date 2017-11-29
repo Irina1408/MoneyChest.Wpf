@@ -68,7 +68,7 @@
                                 <Setter Property="Header" Value="{moneyChestView:MultiLangBinding Category_SetInactive}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding SelectedCategoryIsActive, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                        <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Category_SetActive}"/>
+                                        <Setter Property="Header" Value="{moneyChestView:MultiLangBinding Category_SetActive}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

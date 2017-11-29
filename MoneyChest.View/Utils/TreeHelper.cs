@@ -33,6 +33,29 @@ namespace MoneyChest.View.Utils
             return result;
         }
 
+        public static CategoryViewModelCollection BuildTree(IEnumerable<CategoryModel> categories, int? selectCategoryId, 
+            bool insertEmpty = true)
+        {
+            var result = BuildTree(categories, insertEmpty);
+
+            // select category
+            CategoryViewModel category;
+
+            if (selectCategoryId.HasValue)
+                category = result.GetDescendants().FirstOrDefault(_ => _.Id == selectCategoryId.Value);
+            else
+                category = result.GetDescendants().FirstOrDefault(_ => _.Id == -1);
+
+            if (category != null)
+            {
+                category.IsSelected = true;
+                result.ExpandToDescendant(category, true);
+            }
+
+
+            return result;
+        }
+
         private static CategoryViewModel BuildCategoryBranch(IEnumerable<CategoryModel> categories, CategoryModel category)
         {
             var viewModel = new CategoryViewModel()

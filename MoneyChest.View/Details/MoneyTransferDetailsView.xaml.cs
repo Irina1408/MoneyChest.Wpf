@@ -67,7 +67,11 @@ namespace MoneyChest.View.Details
             _categories = TreeHelper.BuildTree(categoryService.GetActiveCategories(GlobalVariables.UserId)
                 .OrderByDescending(_ => _.TransactionType)
                 .ThenBy(_ => _.Name)
-                .ToList(), true);
+                .ToList(), entity.CategoryId, true);
+
+            // update selected category name
+            var selectedCategory = _categories.GetDescendants().FirstOrDefault(_ => _.IsSelected);
+            txtCategory.Text = selectedCategory.Name;
 
             // set defauls
             _closeView = false;
@@ -142,6 +146,9 @@ namespace MoneyChest.View.Details
         {
             if (!_wrappedEntity.IsChanged) return;
 
+            var oldCurrencyFrom = _wrappedEntity.Entity.StorageFromCurrency?.Id;
+            var oldCurrencyTo = _wrappedEntity.Entity.StorageToCurrency?.Id;
+
             // update storages currency
             _wrappedEntity.Entity.StorageFromCurrency = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageFromId)?.Currency;
 
@@ -150,7 +157,11 @@ namespace MoneyChest.View.Details
             if (_wrappedEntity.Entity.StorageFromCurrency != null && _wrappedEntity.Entity.StorageToCurrency != null &&
                 _wrappedEntity.Entity.StorageFromCurrency.Id != _wrappedEntity.Entity.StorageToCurrency.Id)
             {
-                // TODO: load _currencyExchangeRates and set correspond rate
+                // not update currency exchange rate if currencies was not changed
+                if (oldCurrencyFrom != null && oldCurrencyTo != null && oldCurrencyFrom.Value == _wrappedEntity.Entity.StorageFromCurrency.Id && oldCurrencyTo.Value == _wrappedEntity.Entity.StorageToCurrency.Id)
+                    return;
+
+                // load _currencyExchangeRates and set correspond rate
                 if (_currencyExchangeRates == null)
                 {
                     _currencyExchangeRates =

@@ -16,7 +16,7 @@
     <UserControl.Resources>
 
         <ControlTemplate x:Key="StorageItemControlTemplate" TargetType="{x:Type ContentControl}">
-            <Border Width="245" Height="200" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" ClipToBounds="True" Margin="0 7 7 7">
+            <Border Width="238" Height="200" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" ClipToBounds="True" Margin="0 7 7 7">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />

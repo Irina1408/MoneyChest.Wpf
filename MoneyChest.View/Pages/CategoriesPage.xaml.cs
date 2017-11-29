@@ -123,7 +123,7 @@ namespace MoneyChest.View.Pages
         {
             if (TreeViewCategories.SelectedItem != null)
             {
-                _viewModel.SelectedCategoryIsActive = !(TreeViewCategories.SelectedItem as CategoryViewModel).IsActive;
+                _viewModel.SelectedCategoryIsActive = (TreeViewCategories.SelectedItem as CategoryViewModel).IsActive;
             }
         }
 

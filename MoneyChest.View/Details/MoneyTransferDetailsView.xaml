@@ -24,7 +24,7 @@
                FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
 
         <!-- Right part (Date, Description, Category, Remark) -->
-        <StackPanel Grid.Column="1" Grid.Row="1" Margin="20 5 5 0">
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="20 10 5 0">
             <!-- Date -->
             <DatePicker SelectedDate="{Binding Date}" HorizontalAlignment="Right"
                         materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
