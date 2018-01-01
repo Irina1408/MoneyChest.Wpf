@@ -23,7 +23,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Menu -->
-        <ToolBarTray Grid.Column="0" ClipToBounds="True" VerticalAlignment="Top" 
+        <ToolBarTray Grid.Column="0" ClipToBounds="True" VerticalAlignment="Top" IsLocked="True"
                      Background="{DynamicResource MaterialDesignToolBarBackground}">
             <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
                 <Button Command="{Binding AddCurrencyCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">

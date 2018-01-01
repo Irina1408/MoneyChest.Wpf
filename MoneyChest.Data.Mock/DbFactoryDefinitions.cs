@@ -81,6 +81,7 @@ namespace MoneyChest.Data.Mock
 
             f.Define<MoneyTransfer>(e =>
             {
+                e.Date = DateTime.Now;
                 e.Description = "MoneyTransfer";
                 e.Value = Moniker.Digit;
                 e.CurrencyExchangeRate = 1;

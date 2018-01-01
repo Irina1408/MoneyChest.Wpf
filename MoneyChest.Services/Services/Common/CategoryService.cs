@@ -30,7 +30,7 @@ namespace MoneyChest.Services.Services
         /// value -> category level (from 0)
         /// </summary>
         Dictionary<int, int> GetCategoryLevelMapping(int userId);
-        List<CategoryModel> GetActiveCategories(int userId);
+        List<CategoryModel> GetActive(int userId, params int?[] requiredIds);
     }
 
     public class CategoryService : HistoricizedIdManageableUserableListServiceBase<Category, CategoryModel, CategoryConverter>, ICategoryService
@@ -122,9 +122,10 @@ namespace MoneyChest.Services.Services
             return GetCategoryLevelMapping(Entities.Where(_ => _.UserId == userId).ToList());
         }
 
-        public List<CategoryModel> GetActiveCategories(int userId)
+        public List<CategoryModel> GetActive(int userId, params int?[] requiredIds)
         {
-            return Scope.Where(_ => _.UserId == userId && _.IsActive).ToList().ConvertAll(_converter.ToModel);
+            var ids = requiredIds?.Where(e => e.HasValue)?.Select(e => (int)e).ToList() ?? new List<int>();
+            return Scope.Where(e => e.UserId == userId && (e.IsActive || ids.Contains(e.Id))).ToList().ConvertAll(_converter.ToModel);
         }
 
         public void ReplaceRelatedEntities(int categoryIdFrom, int categoryIdTo)

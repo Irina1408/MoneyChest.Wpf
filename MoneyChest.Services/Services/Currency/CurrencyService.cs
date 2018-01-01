@@ -21,7 +21,7 @@ namespace MoneyChest.Services.Services
         // TODO: should be removed
         void SetMain(int userId, int currencyId);
         void SetMain(CurrencyModel model);
-        List<CurrencyModel> GetActive(int userId);
+        List<CurrencyModel> GetActive(int userId, params int?[] requiredIds);
     }
 
     public class CurrencyService : HistoricizedIdManageableUserableListServiceBase<Currency, CurrencyModel, CurrencyConverter>, ICurrencyService
@@ -55,10 +55,13 @@ namespace MoneyChest.Services.Services
             SetMain(model.UserId, model.Id);
         }
 
-        public List<CurrencyModel> GetActive(int userId)
+        public List<CurrencyModel> GetActive(int userId, params int?[] requiredIds)
         {
-            return Scope.Where(e => e.IsActive || e.Records.Any() || e.SimpleEvents.Any() || e.Storages.Any() || e.Limits.Any() || e.Debts.Any())
-                .ToList().ConvertAll(_converter.ToModel);
+            //return Scope.Where(e => e.IsActive || e.Records.Any() || e.SimpleEvents.Any() || e.Storages.Any() || e.Limits.Any() || e.Debts.Any())
+            //    .ToList().ConvertAll(_converter.ToModel);
+
+            var ids = requiredIds?.Where(e => e.HasValue)?.Select(e => (int)e).ToList() ?? new List<int>();
+            return Scope.Where(e => e.UserId == userId && (e.IsActive || ids.Contains(e.Id))).ToList().ConvertAll(_converter.ToModel);
         }
 
         #endregion

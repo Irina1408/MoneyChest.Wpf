@@ -56,12 +56,15 @@
     <Compile Include="Commands\ParametrizedCommand.cs" />
     <Compile Include="Commands\TreeViewSelectedItemCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Entity\DebtPenaltyViewModel.cs" />
     <Compile Include="ViewModel\Entity\StorageGroupViewModel.cs" />
     <Compile Include="ViewModel\Page\CategoriesPageViewModel.cs" />
     <Compile Include="ViewModel\Entity\CategoryViewModel.cs" />
     <Compile Include="ViewModel\Entity\CategoryViewModelCollection.cs" />
     <Compile Include="ViewModel\Page\CurrenciesPageViewModel.cs" />
     <Compile Include="ViewModel\LoginWindowViewModel.cs" />
+    <Compile Include="ViewModel\Page\DebtsPageViewModel.cs" />
+    <Compile Include="ViewModel\Entity\DebtViewModel.cs" />
     <Compile Include="ViewModel\Page\StoragesPageViewModel.cs" />
     <Compile Include="ViewModel\Entity\StorageViewModel.cs" />
     <Compile Include="Wrappers\EntityWrapper.cs" />

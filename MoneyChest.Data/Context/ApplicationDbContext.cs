@@ -53,7 +53,8 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<RecordsViewFilter> RecordsViewFilters { get; set; }
         public virtual DbSet<ReportSetting> ReportSettings { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Debt> Debts { get; set; }
+        public virtual DbSet<Debt> Debts { get; set; } 
+        public virtual DbSet<DebtPenalty> DebtPenalties { get; set; }  
         public virtual DbSet<Limit> Limits { get; set; }
         public virtual DbSet<MoneyTransfer> MoneyTransfers { get; set; }
         public virtual DbSet<Record> Records { get; set; }
@@ -68,6 +69,7 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<SimpleEventHistory> SimpleEventsHistory { get; set; }
         public virtual DbSet<CategoryHistory> CategoriesHistory { get; set; }
         public virtual DbSet<DebtHistory> DebtsHistory { get; set; }
+        public virtual DbSet<DebtPenaltyHistory> DebtPenaltiesHistory { get; set; }
         public virtual DbSet<LimitHistory> LimitsHistory { get; set; }
         public virtual DbSet<MoneyTransferHistory> MoneyTransfersHistory { get; set; }
         public virtual DbSet<RecordHistory> RecordsHistory { get; set; }

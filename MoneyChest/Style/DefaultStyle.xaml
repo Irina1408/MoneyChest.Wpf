@@ -120,9 +120,12 @@
     </Style>
 
     <!--*********************************** Check box ***********************************-->
-    <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MetroCheckBox}">
+    <Style x:Key="MCCheckBoxStyle" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MetroCheckBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+    <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MCCheckBoxStyle}">
     </Style>
 
     <!--*********************************** Text box ***********************************-->
@@ -163,7 +166,8 @@
     
     <!--*********************************** Date picker ***********************************-->
     <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MaterialDesignFloatingHintDatePicker}">
-        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="Margin" Value="25 5 5 5"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <!--<Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>-->
         <Setter Property="Template">
@@ -293,11 +297,23 @@
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource MetroDataGrid}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
         <!--<Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Normal" />-->
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="SelectionUnit" Value="FullRow"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
     </Style>
 
     <!--*********************************** Tree view ***********************************-->
     <Style TargetType="{x:Type TreeView}" BasedOn="{StaticResource VirtualisedMetroTreeView}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+    <!--*********************************** Tool bar ***********************************-->
+    <Style TargetType="{x:Type ToolBarTray}">
+        <Setter Property="IsLocked" Value="True"/>
+        <Setter Property="ClipToBounds" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource MaterialDesignToolBarBackground}" />
     </Style>
 
 </ResourceDictionary>

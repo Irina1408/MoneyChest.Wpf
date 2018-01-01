@@ -55,6 +55,7 @@
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Currency\Currency.cs" />
     <Compile Include="Entities\Currency\CurrencyExchangeRate.cs" />
+    <Compile Include="Entities\DebtPenalty.cs" />
     <Compile Include="Entities\Events\Evnt.cs" />
     <Compile Include="Entities\Events\MoneyTransferEvent.cs" />
     <Compile Include="Entities\Events\RepayDebtEvent.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Entities\History\Currency\CurrencyExchangeRateHistory.cs" />
     <Compile Include="Entities\History\Currency\CurrencyHistory.cs" />
     <Compile Include="Entities\History\DebtHistory.cs" />
+    <Compile Include="Entities\History\DebtPenaltyHistory.cs" />
     <Compile Include="Entities\History\Events\EventHistory.cs" />
     <Compile Include="Entities\History\Events\MoneyTransferEventHistory.cs" />
     <Compile Include="Entities\History\Events\RepayDebtEventHistory.cs" />
@@ -101,6 +103,10 @@
     <Compile Include="Migrations\201711282044272_moneytransfer_updatedata.Designer.cs">
       <DependentUpon>201711282044272_moneytransfer_updatedata.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711301955115_debt_payments.cs" />
+    <Compile Include="Migrations\201711301955115_debt_payments.Designer.cs">
+      <DependentUpon>201711301955115_debt_payments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -123,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711282044272_moneytransfer_updatedata.resx">
       <DependentUpon>201711282044272_moneytransfer_updatedata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711301955115_debt_payments.resx">
+      <DependentUpon>201711301955115_debt_payments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

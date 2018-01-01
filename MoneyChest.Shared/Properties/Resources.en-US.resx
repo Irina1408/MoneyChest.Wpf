@@ -201,6 +201,66 @@
   <data name="Currency_Symbol" xml:space="preserve">
     <value>Symbol</value>
   </data>
+  <data name="DebtPenalty_Plural" xml:space="preserve">
+    <value>Penalties</value>
+  </data>
+  <data name="DebtPenalty_Singular" xml:space="preserve">
+    <value>Penalty</value>
+  </data>
+  <data name="DebtType_GiveBorrow" xml:space="preserve">
+    <value>Lend</value>
+  </data>
+  <data name="DebtType_TakeBorrow" xml:space="preserve">
+    <value>Take borrow</value>
+  </data>
+  <data name="Debt_AddInitialFeeToStorage" xml:space="preserve">
+    <value>Add initial fee into target account</value>
+  </data>
+  <data name="Debt_DueDate" xml:space="preserve">
+    <value>Due date</value>
+  </data>
+  <data name="Debt_InitialFee" xml:space="preserve">
+    <value>Initial fee</value>
+  </data>
+  <data name="Debt_New" xml:space="preserve">
+    <value>New debt</value>
+  </data>
+  <data name="Debt_PaymentConditions" xml:space="preserve">
+    <value>Payment conditions</value>
+  </data>
+  <data name="Debt_PaymentConditions_Annuity" xml:space="preserve">
+    <value>Fixed payments (annuity)</value>
+  </data>
+  <data name="Debt_PaymentConditions_CreditingPeriod" xml:space="preserve">
+    <value>Crediting period</value>
+  </data>
+  <data name="Debt_PaymentConditions_FixedAdditionalAmount" xml:space="preserve">
+    <value>Fixed additional amount</value>
+  </data>
+  <data name="Debt_PaymentConditions_InterestRate" xml:space="preserve">
+    <value>Interest rate</value>
+  </data>
+  <data name="Debt_PaymentConditions_InterestRate_Annual" xml:space="preserve">
+    <value>Annual</value>
+  </data>
+  <data name="Debt_PaymentConditions_InterestRate_Fixed" xml:space="preserve">
+    <value>Fixed</value>
+  </data>
+  <data name="Debt_Plural" xml:space="preserve">
+    <value>Debts</value>
+  </data>
+  <data name="Debt_RemainsToPay" xml:space="preserve">
+    <value>Remains to pay</value>
+  </data>
+  <data name="Debt_Singular" xml:space="preserve">
+    <value>Debt</value>
+  </data>
+  <data name="Debt_TakeInitialFeeFromStorage" xml:space="preserve">
+    <value>Withdraw initial fee from account</value>
+  </data>
+  <data name="Debt_ValueToBePaid" xml:space="preserve">
+    <value>Value to be paid</value>
+  </data>
   <data name="General_Add" xml:space="preserve">
     <value>Add</value>
   </data>
@@ -221,6 +281,9 @@
   </data>
   <data name="General_ConfirmPasswordError" xml:space="preserve">
     <value>Please confirm your password</value>
+  </data>
+  <data name="General_Count_Monthes" xml:space="preserve">
+    <value>monthes</value>
   </data>
   <data name="General_CurrencyFrom" xml:space="preserve">
     <value>From currency</value>
@@ -245,6 +308,9 @@
   </data>
   <data name="General_Edit" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="General_ExchangeRate" xml:space="preserve">
+    <value>Exchange rate</value>
   </data>
   <data name="General_Menu" xml:space="preserve">
     <value>Menu</value>
@@ -275,6 +341,12 @@
   </data>
   <data name="General_SaveFailedMessage" xml:space="preserve">
     <value>Some entries are invalid</value>
+  </data>
+  <data name="General_TargetStorage" xml:space="preserve">
+    <value>Target account</value>
+  </data>
+  <data name="General_WithdrawStorage" xml:space="preserve">
+    <value>Withdraw from</value>
   </data>
   <data name="Language_English" xml:space="preserve">
     <value>English</value>
@@ -352,10 +424,10 @@
     <value>Money transfer</value>
   </data>
   <data name="MoneyTransfer_StorageFrom" xml:space="preserve">
-    <value>From account</value>
+    <value>Withdraw from</value>
   </data>
   <data name="MoneyTransfer_StorageTo" xml:space="preserve">
-    <value>To account</value>
+    <value>Target account</value>
   </data>
   <data name="MoneyTransfer_TakeCommissionFromReceiver" xml:space="preserve">
     <value>Take commission from receiver</value>

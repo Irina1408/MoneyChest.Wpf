@@ -39,30 +39,36 @@ namespace MoneyChest.Data.Entities.History
 
         [StringLength(1000)]
         public string Description { get; set; }
-
         public DebtType DebtType { get; set; }
+
+        public decimal CurrencyExchangeRate { get; set; }   // if exists StorageId -> for add/remove money to/from storage
+        public decimal Value { get; set; }                  // initial value that will be added/removed to/from storage
+        public decimal InitialFee { get; set; }  // initial paid value -> will be removed from Value when Storage value should be changed
+        public decimal PaidValue { get; set; }  // paid value by user records in Money Chest
+
+        // payment conditions
+        public DebtPaymentType PaymentType { get; set; }
+        public decimal FixedAmount { get; set; }
+        public decimal InterestRate { get; set; }     // Percentage
+        public int MonthCount { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime TakingDate { get; set; }
 
-        public decimal Value { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? DueDate { get; set; }  // user sets date when debt should be repaid. just for user notifications
 
-        public decimal PaidValue { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? RepayingDate { get; set; } // date of settings IsRepaid=true
 
         public bool IsRepaid { get; set; }
-
-        [Column(TypeName = "date")]
-        public DateTime? RepayingDate { get; set; }
-
-        [Column(TypeName = "date")]
-        public DateTime? DueDate { get; set; }
 
         [StringLength(4000)]
         public string Remark { get; set; }
 
 
         public int CurrencyId { get; set; }
-
+        public int? CategoryId { get; set; }
         public int? StorageId { get; set; }
     }
 }

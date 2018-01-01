@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\CurrencySymbolAlignment.cs" />
+    <Compile Include="Enums\DebtPaymentType.cs" />
     <Compile Include="Extensions\ToReferenceView.cs" />
     <Compile Include="Enums\CommissionType.cs" />
     <Compile Include="Enums\DebtType.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Model\CurrencyExchangeRateModel.cs" />
     <Compile Include="Model\CurrencyModel.cs" />
     <Compile Include="Model\DebtModel.cs" />
+    <Compile Include="Model\DebtPenaltyModel.cs" />
     <Compile Include="Model\Events\EventModel.cs" />
     <Compile Include="Model\Events\EventsScopeModel.cs" />
     <Compile Include="Model\Events\ScheduleModel.cs" />

@@ -20,6 +20,7 @@ namespace MoneyChest.Data.Entities
         {
             RepayDebtEvents = new List<RepayDebtEvent>();
             Records = new List<Record>();
+            DebtPenalties = new List<DebtPenalty>();
         }
 
         [Key]
@@ -28,34 +29,38 @@ namespace MoneyChest.Data.Entities
 
         [StringLength(1000)]
         public string Description { get; set; }
-        
         public DebtType DebtType { get; set; }
-        
-        public decimal Value { get; set; }
-        
-        public decimal PaidValue { get; set; }
-        
-        public bool IsRepaid { get; set; }
+
+        public decimal CurrencyExchangeRate { get; set; }   // if exists StorageId -> for add/remove money to/from storage
+        public decimal Value { get; set; }                  // initial value that will be added/removed to/from storage
+        public decimal InitialFee { get; set; }  // initial paid value
+        public decimal PaidValue { get; set; }  // paid value by user records in Money Chest
+        public bool TakeInitialFeeFromStorage { get; set; }
+
+        // payment conditions
+        public DebtPaymentType PaymentType { get; set; }
+        public decimal FixedAmount { get; set; }
+        public decimal InterestRate { get; set; }     // Percentage
+        public int MonthCount { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime TakingDate { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime? RepayingDate { get; set; }
+        public DateTime? DueDate { get; set; }  // user sets date when debt should be repaid. just for user notifications
 
         [Column(TypeName = "date")]
-        public DateTime? DueDate { get; set; }
+        public DateTime? RepayingDate { get; set; } // date of settings IsRepaid=true
+
+        public bool IsRepaid { get; set; }
 
         [StringLength(4000)]
         public string Remark { get; set; }
-
-        // TODO: regular payment
+        
         
         public int CurrencyId { get; set; }
-
         public int? CategoryId { get; set; }
-
-        public int? StorageId { get; set; } // if exists always in currency of debt
+        public int? StorageId { get; set; } 
 
         [Required]
         public int UserId { get; set; }
@@ -76,6 +81,7 @@ namespace MoneyChest.Data.Entities
 
         public virtual ICollection<RepayDebtEvent> RepayDebtEvents { get; set; }
         public virtual ICollection<Record> Records { get; set; }
+        public virtual ICollection<DebtPenalty> DebtPenalties { get; set; }
 
         #endregion
     }

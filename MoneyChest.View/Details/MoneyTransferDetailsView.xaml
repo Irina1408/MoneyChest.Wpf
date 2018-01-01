@@ -26,8 +26,7 @@
         <!-- Right part (Date, Description, Category, Remark) -->
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="20 10 5 0">
             <!-- Date -->
-            <DatePicker SelectedDate="{Binding Date}" HorizontalAlignment="Right"
-                        materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
+            <DatePicker SelectedDate="{Binding Date}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
 
             <!-- Description -->
             <StackPanel Orientation="Horizontal">

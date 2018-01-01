@@ -17,6 +17,7 @@ namespace MoneyChest.Services.Services
     public interface IStorageService : IIdManagableUserableListServiceBase<StorageModel>
     {
         List<StorageModel> GetList(int userId, List<int> storageGroupIds);
+        List<StorageModel> GetVisible(int userId, params int?[] requiredIds);
     }
 
     public class StorageService : HistoricizedIdManageableUserableListServiceBase<Storage, StorageModel, StorageConverter>, IStorageService
@@ -30,6 +31,12 @@ namespace MoneyChest.Services.Services
         public List<StorageModel> GetList(int userId, List<int> storageGroupIds)
         {
             return Scope.Where(e => e.UserId == userId && storageGroupIds.Contains(e.StorageGroupId)).ToList().ConvertAll(_converter.ToModel);
+        }
+
+        public List<StorageModel> GetVisible(int userId, params int?[] requiredIds)
+        {
+            var ids = requiredIds?.Where(e => e.HasValue)?.Select(e => (int)e).ToList() ?? new List<int>();
+            return Scope.Where(e => e.UserId == userId && (e.IsVisible || ids.Contains(e.Id))).ToList().ConvertAll(_converter.ToModel);
         }
 
         #endregion

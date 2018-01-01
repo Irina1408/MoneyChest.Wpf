@@ -87,19 +87,15 @@
             <controls:HamburgerMenu.ContentTemplate>
                 <DataTemplate>
                     <Grid x:Name="ContentGrid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="48" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0" Background="#7A7A7A">
+                        <!--<Border Grid.Row="0" Background="#7A7A7A">
                             <TextBlock x:Name="Header"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource LargeFontSize}"
                                        Foreground="White"
                                        Text="{Binding Label}" />
-                        </Border>
-                        <controls:TransitioningContentControl Grid.Row="1"
+                        </Border>-->
+                        <controls:TransitioningContentControl
                                                               Content="{Binding View}"
                                                               RestartTransitionOnContentChange="True"
                                                               Transition="Default"/>

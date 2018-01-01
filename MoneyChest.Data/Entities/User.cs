@@ -30,6 +30,7 @@ namespace MoneyChest.Data.Entities
             CategoriesHistory = new List<CategoryHistory>();
             CurrenciesHistory = new List<CurrencyHistory>();
             DebtsHistory = new List<DebtHistory>();
+            DebtPenaltiesHistory = new List<DebtPenaltyHistory>();
             EventsHistory = new List<EventHistory>();
             LimitsHistory = new List<LimitHistory>();
             RecordsHistory = new List<RecordHistory>();
@@ -76,6 +77,7 @@ namespace MoneyChest.Data.Entities
         public virtual ICollection<CategoryHistory> CategoriesHistory { get; set; }
         public virtual ICollection<CurrencyHistory> CurrenciesHistory { get; set; }
         public virtual ICollection<DebtHistory> DebtsHistory { get; set; }
+        public virtual ICollection<DebtPenaltyHistory> DebtPenaltiesHistory { get; set; }
         public virtual ICollection<EventHistory> EventsHistory { get; set; }
         public virtual ICollection<LimitHistory> LimitsHistory { get; set; }
         public virtual ICollection<RecordHistory> RecordsHistory { get; set; }

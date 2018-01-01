@@ -15,7 +15,7 @@ namespace MoneyChest.ViewModel.ViewModel
 
         }
 
-        public StorageGroupViewModel(StorageGroupModel model) : base()
+        public StorageGroupViewModel(StorageGroupModel model) : this()
         {
             Id = model.Id;
             Name = model.Name;

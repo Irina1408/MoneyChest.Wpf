@@ -4,9 +4,77 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MoneyChest.View.Pages"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Loaded="DebtsPage_Loaded">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu -->
+        <ToolBarTray VerticalAlignment="Top">
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconpacks:PackIconMaterial Kind="Plus"/>
+                </Button>
+
+                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconpacks:PackIconModern Kind="Edit"/>
+                </Button>
+
+                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconpacks:PackIconModern Kind="Delete"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <!-- Debts grid -->
+        <DataGrid x:Name="GridDebts" Grid.Row="1"
+                  MouseDoubleClick="GridDebts_MouseDoubleClick"
+                  ItemsSource="{Binding Debts}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding TakingDate, UpdateSourceTrigger=PropertyChanged, StringFormat=d}"
+                                            Header="{moneyChestView:MultiLangBinding General_Date}"/>
+                <DataGridTextColumn Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
+                                            Header="{moneyChestView:MultiLangBinding General_Description}" />
+                <DataGridTextColumn Binding="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}"
+                                            Header="{moneyChestView:MultiLangBinding Category_Singular}" />
+                <DataGridTextColumn Binding="{Binding ValueCurrency, UpdateSourceTrigger=PropertyChanged}"
+                                            Header="{moneyChestView:MultiLangBinding General_Amount}" />
+                <DataGridTextColumn Binding="{Binding ValueToBePaidCurrency, UpdateSourceTrigger=PropertyChanged}"
+                                            Header="{moneyChestView:MultiLangBinding Debt_ValueToBePaid}" />
+                <DataGridTextColumn Binding="{Binding RemainsToPayCurrency, UpdateSourceTrigger=PropertyChanged}"
+                                            Header="{moneyChestView:MultiLangBinding Debt_RemainsToPay}" />
+                <!-- TODO: progress bar -->
+                <DataGridTextColumn Binding="{Binding Progress, UpdateSourceTrigger=PropertyChanged, StringFormat=p0}"
+                                            Header="{moneyChestView:MultiLangBinding Debt_RemainsToPay}" />
+                <DataGridTextColumn Binding="{Binding DueDate, UpdateSourceTrigger=PropertyChanged, StringFormat=d}"
+                                            Header="{moneyChestView:MultiLangBinding Debt_DueDate}"/>
+                <DataGridTextColumn Binding="{Binding Remark, UpdateSourceTrigger=PropertyChanged}"
+                                            Header="{moneyChestView:MultiLangBinding General_Remark}" />
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MetroDataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsRepaid}" Value="True">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
     </Grid>
 </UserControl>
