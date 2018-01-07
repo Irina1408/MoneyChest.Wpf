@@ -52,7 +52,7 @@ namespace MoneyChest.View.Details
 
         #region Initialization
 
-        public DebtDetailsView(IDebtService service, DebtModel entity, bool isNew, Action closeAction)
+        public DebtDetailsView(IDebtService service, DebtViewModel entity, bool isNew, Action closeAction)
         {
             InitializeComponent();
 
@@ -95,11 +95,16 @@ namespace MoneyChest.View.Details
                 : MultiLangResourceManager.Instance[MultiLangResourceName.Singular(typeof(DebtModel))];
 
             // initialize datacontexts
-            _wrappedEntity = new EntityWrapper<DebtViewModel>(new DebtViewModel(entity));
+            // TODO: should be wrapped the same debt model object
+            _wrappedEntity = new EntityWrapper<DebtViewModel>(entity);
             TreeViewCategories.ItemsSource = _categories;
             this.DataContext = _wrappedEntity.Entity;
             InitializeCommands();
             FillPenalties();
+            // mark as not changed forcibly
+            _wrappedEntity.IsChanged = false;
+            // validate save command now 
+            _commands.SaveCommand.ValidateCanExecute();
         }
 
         private void InitializeCommands()
@@ -309,6 +314,7 @@ namespace MoneyChest.View.Details
 
         private void AddPenaltyToView(DebtPenaltyModel penalty)
         {
+            // TODO: should be updated the same penalty object
             var penaltyViewModel = new DebtPenaltyViewModel(penalty)
             {
                 DeleteCommand = DeletePenaltyCommand

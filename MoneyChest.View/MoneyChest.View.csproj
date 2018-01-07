@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityHideConverter.cs" />
+    <Compile Include="Converters\EnumToBoolConverter.cs" />
     <Compile Include="Details\CategoryDetailsView.xaml.cs">
       <DependentUpon>CategoryDetailsView.xaml</DependentUpon>
     </Compile>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Extensions;
+using System.Collections.ObjectModel;
 
 namespace MoneyChest.Services.Converters
 {
@@ -73,14 +74,14 @@ namespace MoneyChest.Services.Converters
             model.Currency = entity.Currency.ToReferenceView();
             model.Category = entity.Category?.ToReferenceView();
             model.Storage = entity.Storage?.ToReferenceView();
-            model.Penalties = entity.DebtPenalties.Select(e => new DebtPenaltyModel()
+            model.Penalties = new ObservableCollection<DebtPenaltyModel>(entity.DebtPenalties.Select(e => new DebtPenaltyModel()
             {
                 Id = e.Id,
                 Date = e.Date,
                 Description = e.Description,
                 Value = e.Value,
                 DebtId = e.DebtId
-            }).ToList();
+            }));
         }
     }
 }

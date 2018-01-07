@@ -47,9 +47,10 @@ namespace MoneyChest.ViewModel.ViewModel
             Currency = debt.Currency;
             Category = debt.Category;
             Storage = debt.Storage;
-            Penalties = debt.Penalties.ToList();
+            Penalties = debt.Penalties;
         }
 
+        [PropertyChanged.DoNotNotify]
         public ICommand AddPenaltyCommand { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace MoneyChest.Services
         public static TService ConfigureService<TService>()
             where TService : ServiceBase
         {
+            Initialize();
             return Activator.CreateInstance(typeof(TService), _context) as TService;
         }
 

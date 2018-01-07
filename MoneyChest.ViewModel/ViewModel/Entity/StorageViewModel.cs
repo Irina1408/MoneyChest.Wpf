@@ -30,7 +30,7 @@ namespace MoneyChest.ViewModel.ViewModel
             Id = storage.Id;
             Name = storage.Name;
             Value = storage.Value;
-            base.IsVisible = storage.IsVisible;
+            IsVisible = storage.IsVisible;
             Remark = storage.Remark;
             StorageGroupId = storage.StorageGroupId;
             CurrencyId = storage.CurrencyId;

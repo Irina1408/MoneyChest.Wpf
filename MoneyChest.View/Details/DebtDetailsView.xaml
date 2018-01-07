@@ -7,10 +7,13 @@
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
 	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:MoneyChest.View.Converters"
+             xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
+        <converters:EnumToBoolConverter x:Key="EBConverter"/>
         
         <ControlTemplate x:Key="PenaltyItemControlTemplate" TargetType="{x:Type ContentControl}">
             <Border BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="0.5" Padding="5" Margin="0 2 0 0">
@@ -68,9 +71,10 @@
         <!-- Header -->
         <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Label x:Name="LabelHeader" FontSize="{DynamicResource LargeFontSize}"/>
-            <RadioButton Content="{moneyChestView:MultiLangBinding DebtType_TakeBorrow}" IsChecked="{Binding DebtTypeIsTakeBorrow}"
-                         GroupName="1"/>
-            <RadioButton Content="{moneyChestView:MultiLangBinding DebtType_GiveBorrow}" IsChecked="True" GroupName="1"/>
+            <RadioButton Content="{moneyChestView:MultiLangBinding DebtType_TakeBorrow}" GroupName="1"
+                         IsChecked="{Binding DebtType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtType.TakeBorrow}}"/>
+            <RadioButton Content="{moneyChestView:MultiLangBinding DebtType_GiveBorrow}" GroupName="1"
+                         IsChecked="{Binding DebtType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtType.GiveBorrow}}"/>
         </StackPanel>
 
         <!-- Part "Value and details"-->
@@ -174,7 +178,7 @@
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Text" Value="{moneyChestView:MultiLangBinding General_TargetStorage}"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding DebtTypeIsTakeBorrow}" Value="false">
+                                    <DataTrigger Binding="{Binding DebtType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtType.TakeBorrow}}" Value="false">
                                         <Setter Property="Text" Value="{moneyChestView:MultiLangBinding General_WithdrawStorage}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -202,7 +206,7 @@
                                 <Setter Property="Content" Value="{moneyChestView:MultiLangBinding Debt_AddInitialFeeToStorage}"/>
                                 <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Debt_AddInitialFeeToStorage}"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding DebtTypeIsTakeBorrow}" Value="false">
+                                    <DataTrigger Binding="{Binding DebtType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtType.TakeBorrow}}" Value="false">
                                         <Setter Property="Content" Value="{moneyChestView:MultiLangBinding Debt_TakeInitialFeeFromStorage}"/>
                                         <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Debt_TakeInitialFeeFromStorage}"/>
                                     </DataTrigger>
@@ -253,9 +257,11 @@
                               Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
             </GroupBox.Header>
             <StackPanel>
-                <RadioButton Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_FixedAdditionalAmount}" IsChecked="{Binding PaymentTypeIsFixedAmount}" GroupName="2" Margin="0 5 0 5"/>
+                <RadioButton Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_FixedAdditionalAmount}" 
+                             IsChecked="{Binding PaymentType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtPaymentType.FixedAmount}}" GroupName="2" Margin="0 5 0 5"/>
 
-                <StackPanel Margin="10 0 0 0" IsEnabled="{Binding PaymentTypeIsFixedAmount}">
+                <StackPanel Margin="10 0 0 0" IsEnabled="{Binding PaymentType, 
+                    Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtPaymentType.FixedAmount}}">
                     <!-- Value -->
                     <StackPanel Orientation="Horizontal">
                         <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
@@ -264,7 +270,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <RadioButton Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_InterestRate}" IsChecked="{Binding PaymentTypeIsRate, Mode=OneWay}" GroupName="2" Margin="0 30 0 5"/>
+                <RadioButton Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_InterestRate}" IsChecked="{Binding PaymentTypeIsRate}" GroupName="2" Margin="0 30 0 5"/>
 
                 <StackPanel Margin="10 0 0 0" IsEnabled="{Binding PaymentTypeIsRate}">
                     <!-- Rate -->
@@ -276,7 +282,7 @@
 
                     <!-- Fixed/Annual -->
                     <StackPanel Orientation="Horizontal" Margin="10 20 0 0">
-                        <RadioButton Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_InterestRate_Fixed}" IsChecked="{Binding PaymentTypeIsFixedRate}" GroupName="3"/>
+                        <RadioButton Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_InterestRate_Fixed}" IsChecked="{Binding PaymentType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtPaymentType.FixedRate}}" GroupName="3"/>
                         <RadioButton Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_InterestRate_Annual}" IsChecked="{Binding PaymentTypeIsAnnualRate}" GroupName="3"/>
                     </StackPanel>
 
@@ -289,7 +295,7 @@
                             <TextBlock Text="{moneyChestView:MultiLangBinding General_Count_Monthes}" FontSize="{DynamicResource DefaultFontSize}" Margin="10 0 0 5" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                         </StackPanel>
 
-                        <CheckBox Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_Annuity}" IsChecked="{Binding IsAnnuity}"/>
+                        <CheckBox Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_Annuity}" IsChecked="{Binding PaymentType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtPaymentType.AnnuityPayment}}"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

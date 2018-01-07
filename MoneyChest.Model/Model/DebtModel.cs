@@ -2,6 +2,7 @@
 using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,7 +14,8 @@ namespace MoneyChest.Model.Model
     public class DebtModel : IHasId, IHasUserId, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        
+        private ObservableCollection<DebtPenaltyModel> penalties;
+
         #region Initialization
 
         public DebtModel()
@@ -25,7 +27,7 @@ namespace MoneyChest.Model.Model
             MonthCount = 12;
             DebtType = DebtType.TakeBorrow;
             TakeInitialFeeFromStorage = true;
-            Penalties = new List<DebtPenaltyModel>();
+            Penalties = new ObservableCollection<DebtPenaltyModel>();
         }
 
         #endregion
@@ -76,7 +78,42 @@ namespace MoneyChest.Model.Model
         public CategoryReference Category { get; set; }
         public StorageReference Storage { get; set; }
         public CurrencyReference StorageCurrency { get; set; }
-        public List<DebtPenaltyModel> Penalties { get; set; }
+        public ObservableCollection<DebtPenaltyModel> Penalties
+        {
+            get => penalties;
+            set
+            {
+                penalties = value;
+                // add nofitication for every existing penalty on value is changed
+                foreach(var penalty in penalties)
+                    penalty.PropertyChanged += PenaltyPropertyChanged;
+
+                Penalties.CollectionChanged += (sender, e) =>
+                {
+                    // add nofitication for every penalty on value is changed
+                    if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                        foreach (DebtPenaltyModel newItem in e.NewItems)
+                            newItem.PropertyChanged += PenaltyPropertyChanged;
+
+                    // remove nofitication for every removed penalty
+                    else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+                    {
+                        // refresh view
+                        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueToBePaidCurrency)));
+                        // remove event
+                        foreach (DebtPenaltyModel oldItem in e.OldItems)
+                            oldItem.PropertyChanged -= PenaltyPropertyChanged;
+                    }
+                };
+            }
+        }
+
+        private void PenaltyPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // refresh view
+            if (e.PropertyName == nameof(DebtPenaltyModel.Value))
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueToBePaidCurrency)));
+        }
 
         #endregion
 
@@ -142,41 +179,25 @@ namespace MoneyChest.Model.Model
         #endregion
 
         #region Details view properties
-
-        public bool DebtTypeIsTakeBorrow
-        {
-            get => DebtType == DebtType.TakeBorrow;
-            set => DebtType = value ? DebtType.TakeBorrow : DebtType.GiveBorrow;
-        }
-
-        public bool PaymentTypeIsFixedAmount
-        {
-            get => PaymentType == DebtPaymentType.FixedAmount;
-            set => PaymentType = value ? DebtPaymentType.FixedAmount : DebtPaymentType.FixedRate;
-        }
-
+                
         public bool PaymentTypeIsRate
         {
             get => PaymentType != DebtPaymentType.FixedAmount;
-            //set => PaymentType = value ? DebtPaymentType.FixedAmount : DebtPaymentType.FixedRate;
+            set
+            {
+                var newValue = value ? DebtPaymentType.FixedRate : DebtPaymentType.FixedAmount;
+                if (newValue != PaymentType) PaymentType = newValue;
+            }
         }
-
-        public bool PaymentTypeIsFixedRate
-        {
-            get => PaymentType == DebtPaymentType.FixedRate;
-            set => PaymentType = value ? DebtPaymentType.FixedRate : DebtPaymentType.DifferentialPayment;
-        }
-
+        
         public bool PaymentTypeIsAnnualRate
         {
             get => PaymentType == DebtPaymentType.DifferentialPayment || PaymentType == DebtPaymentType.AnnuityPayment;
-            set => PaymentType = value ? DebtPaymentType.DifferentialPayment : DebtPaymentType.FixedRate;
-        }
-
-        public bool IsAnnuity
-        {
-            get => PaymentType == DebtPaymentType.AnnuityPayment;
-            set => PaymentType = value ? DebtPaymentType.AnnuityPayment : DebtPaymentType.DifferentialPayment;
+            set
+            {
+                var newValue = value ? DebtPaymentType.DifferentialPayment : DebtPaymentType.FixedRate;
+                if (newValue != PaymentType) PaymentType = newValue;
+            }
         }
         
         public bool IsDifferentCurrenciesSelected => Currency != null && StorageCurrency != null && CurrencyId != StorageCurrency.Id;

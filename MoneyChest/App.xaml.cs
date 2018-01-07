@@ -19,7 +19,7 @@ namespace MoneyChest
             System.Windows.FrameworkCompatibilityPreferences.KeepTextBoxDisplaySynchronizedWithTextProperty = false;
 
             // init global service manager
-            ServiceManager.Initialize();
+            //ServiceManager.Initialize();
 
             // dispose global service manager
             Exit += (sender, e) => ServiceManager.Dispose();

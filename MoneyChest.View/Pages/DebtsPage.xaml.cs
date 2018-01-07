@@ -57,15 +57,15 @@ namespace MoneyChest.View.Pages
             _viewModel = new DebtsPageViewModel()
             {
                 AddCommand = new Command(
-                () => OpenDetails(new DebtModel() { UserId = GlobalVariables.UserId }, true)),
+                () => OpenDetails(new DebtViewModel() { UserId = GlobalVariables.UserId }, true)),
 
-                EditCommand = new DataGridSelectedItemCommand<DebtModel>(GridDebts,
+                EditCommand = new DataGridSelectedItemCommand<DebtViewModel>(GridDebts,
                 (item) => OpenDetails(item)),
 
-                DeleteCommand = new DataGridSelectedItemsCommand<DebtModel>(GridDebts,
+                DeleteCommand = new DataGridSelectedItemsCommand<DebtViewModel>(GridDebts,
                 (items) =>
                 {
-                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(DebtModel), items.Select(_ => _.Description));
+                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(DebtViewModel), items.Select(_ => _.Description));
 
                     if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
                         MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
@@ -117,8 +117,9 @@ namespace MoneyChest.View.Pages
         private void ReloadData()
         {
             // reload debts
-            _viewModel.Debts = new ObservableCollection<DebtModel>(
+            _viewModel.Debts = new ObservableCollection<DebtViewModel>(
                 _service.GetListForUser(GlobalVariables.UserId)
+                .Select(e => new DebtViewModel(e))
                 .OrderBy(_ => _.IsRepaid)
                 .ThenByDescending(_ => _.TakingDate));
 
@@ -126,7 +127,7 @@ namespace MoneyChest.View.Pages
             _reload = false;
         }
 
-        private void OpenDetails(DebtModel model, bool isNew = false)
+        private void OpenDetails(DebtViewModel model, bool isNew = false)
         {
             // init window and details view
             var window = this.InitializeDependWindow(false);

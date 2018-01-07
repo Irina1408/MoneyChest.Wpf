@@ -14,7 +14,7 @@ namespace MoneyChest.ViewModel.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<DebtModel> Debts { get; set; }
+        public ObservableCollection<DebtViewModel> Debts { get; set; }
 
         public IMCCommand AddCommand { get; set; }
         public IMCCommand EditCommand { get; set; }

@@ -37,7 +37,85 @@ namespace MoneyChest.Services.Services
 
         protected override IQueryable<Debt> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category).Include(_ => _.Storage).Include(_ => _.DebtPenalties);
 
-        // TODO: override methods for keep debt penalties
+        public override DebtModel Add(DebtModel model)
+        {
+            // convert to Db entity
+            var entity = _converter.ToEntity(model);
+            // add to database
+            entity = Add(entity);
+            // save changes
+            SaveChanges();
+            // TODO: add OnAdd method. Check UserService
+
+            // add new penalties
+            foreach (var newPenalty in model.Penalties.Where(e => !entity.DebtPenalties.Any(p => p.Id == e.Id)))
+            {
+                var debtPenalty = new DebtPenalty()
+                {
+                    Date = newPenalty.Date,
+                    Description = newPenalty.Description,
+                    Value = newPenalty.Value,
+                    DebtId = entity.Id
+                };
+
+                _context.DebtPenalties.Add(debtPenalty);
+                _historyService.WriteHistory(debtPenalty, Data.Enums.ActionType.Add, entity.UserId);
+            }
+                
+            // save changes
+            SaveChanges();
+
+            return _converter.UpdateModel(GetDbDetailedEntity(entity), model);
+        }
+
+        public override DebtModel Update(DebtModel model)
+        {
+            // get from database
+            var dbEntity = GetDbEntity(model);
+            // update entity by converter
+            dbEntity = _converter.UpdateEntity(dbEntity, model);
+            // update entity in database
+            dbEntity = Update(dbEntity);
+
+            // update existing penalties
+            foreach (var existingPenalty in dbEntity.DebtPenalties.ToList())
+            {
+                var penaltyModel = model.Penalties.FirstOrDefault(_ => _.Id == existingPenalty.Id);
+                if (penaltyModel != null)
+                {
+                    existingPenalty.Date = penaltyModel.Date;
+                    existingPenalty.Description = penaltyModel.Description;
+                    existingPenalty.Value = penaltyModel.Value;
+                    _historyService.WriteHistory(existingPenalty, Data.Enums.ActionType.Update, dbEntity.UserId);
+                }
+                else
+                {
+                    _historyService.WriteHistory(existingPenalty, Data.Enums.ActionType.Delete, dbEntity.UserId);
+                    _context.DebtPenalties.Remove(existingPenalty);
+                }
+            }
+
+            // add new penalties
+            foreach (var newPenalty in model.Penalties.Where(e => !dbEntity.DebtPenalties.Any(p => p.Id == e.Id)))
+            {
+                var debtPenalty = new DebtPenalty()
+                {
+                    Date = newPenalty.Date,
+                    Description = newPenalty.Description,
+                    Value = newPenalty.Value,
+                    DebtId = dbEntity.Id
+                };
+
+                _context.DebtPenalties.Add(debtPenalty);
+                _historyService.WriteHistory(debtPenalty, Data.Enums.ActionType.Add, dbEntity.UserId);
+            }
+            // save changes
+            SaveChanges();
+            // TODO: add OnUpdate method
+
+            // TODO: check if related entity foreign key was changed related entity will be updated automatically or not. For now implementation like "not"
+            return _converter.UpdateModel(GetDbDetailedEntity(dbEntity), model);
+        }
 
         #endregion
     }

@@ -37,7 +37,11 @@ namespace MoneyChest.Services.Services.Base
 
         public void Dispose()
         {
-            _context.Dispose();
+            if(_context != null)
+            {
+                _context.Dispose();
+                _context = null;
+            }
         }
 
         #endregion
