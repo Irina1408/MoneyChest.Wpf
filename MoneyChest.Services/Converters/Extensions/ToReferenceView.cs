@@ -34,7 +34,8 @@ namespace MoneyChest.Data.Extensions
                 Id = entity.Id,
                 Name = entity.Name,
                 StorageGroupId = entity.StorageGroupId,
-                CurrencyId = entity.CurrencyId
+                CurrencyId = entity.CurrencyId,
+                IsVisible = entity.IsVisible
             };
         }
 

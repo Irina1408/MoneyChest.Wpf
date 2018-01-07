@@ -387,7 +387,7 @@ namespace MoneyChest.View.Pages
             // init window and details view
             var window = this.InitializeDependWindow(false);
             var detailsView = new MoneyTransferDetailsView(_moneyTransferService, model, isNew, window.Close, true, 
-                _storages.OrderBy(_ => _.Name));
+                _storages.OrderByDescending(_ => _.IsVisible).ThenBy(_ => _.Name));
             // prepare window
             window.Height = 450;
             window.Width = 800;

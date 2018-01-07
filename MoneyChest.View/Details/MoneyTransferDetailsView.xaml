@@ -103,7 +103,17 @@
                 <ComboBox x:Name="comboFromStorage" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Margin="5 5 10 5"
                           SelectedValue="{Binding StorageFromId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
                           materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding MoneyTransfer_StorageFrom}"
-                          SelectionChanged="comboStorage_SelectionChanged"/>
+                          SelectionChanged="comboStorage_SelectionChanged">
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource MaterialDesignComboBoxItemSelectedCollapsedStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsVisible}" Value="false">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                </ComboBox>
 
                 <!-- Arrow -->
                 <iconPacks:PackIconOcticons Kind="ArrowRight" Grid.Column="1" Grid.Row="0" Height="30" Width="36"/>
@@ -112,7 +122,17 @@
                 <ComboBox x:Name="comboToStorage"  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" Margin="10 5 5 5"
                           SelectedValue="{Binding StorageToId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
                           materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding MoneyTransfer_StorageTo}"
-                          SelectionChanged="comboStorage_SelectionChanged"/>
+                          SelectionChanged="comboStorage_SelectionChanged">
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource MaterialDesignComboBoxItemSelectedCollapsedStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsVisible}" Value="false">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                </ComboBox>
 
                 <!-- Value that should be taken from Storage from -->
                 <TextBox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="5 5 10 5"

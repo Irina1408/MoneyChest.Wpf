@@ -12,5 +12,6 @@ namespace MoneyChest.Model.Model
         public string Name { get; set; }
         public int StorageGroupId { get; set; }
         public int CurrencyId { get; set; }
+        public bool IsVisible { get; set; }
     }
 }
