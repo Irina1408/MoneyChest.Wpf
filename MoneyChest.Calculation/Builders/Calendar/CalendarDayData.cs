@@ -50,7 +50,7 @@ namespace MoneyChest.Calculation.Builders.Calendar
         #endregion
 
         // TODO: remove bottom properties
-        //public decimal TotalExpences { get; set; }
+        //public decimal TotalExpenses { get; set; }
         //public decimal TotalIncomes { get; set; }
         //public decimal Balance { get; set; }
         //public CurrencyReference Currency { get; set; }

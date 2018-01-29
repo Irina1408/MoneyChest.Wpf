@@ -16,7 +16,7 @@ namespace MoneyChest.Calculation.Reports
         }
 
         /// <summary>
-        /// Percentage of spend/received value from total expences/incomes
+        /// Percentage of spend/received value from total expenses/incomes
         /// </summary>
         public decimal Percentage { get; set; }
         public decimal Value { get; set; }

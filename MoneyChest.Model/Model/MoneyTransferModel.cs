@@ -17,8 +17,6 @@ namespace MoneyChest.Model.Model
         #region Private fields
 
         private bool _comissionEnabled;
-        private bool _commissionIsPercent;
-        private CommissionType _commissionType;
 
         #endregion
 
@@ -30,8 +28,6 @@ namespace MoneyChest.Model.Model
             TakeCommissionFromReceiver = false;
             CommissionEnabled = false;
             Date = DateTime.Today;
-            _commissionType = CommissionType.Percentage;
-            _commissionIsPercent = true;
         }
 
         #endregion
@@ -46,19 +42,7 @@ namespace MoneyChest.Model.Model
         public decimal Value { get; set; }  // always in StorageFrom currency
         public decimal CurrencyExchangeRate { get; set; }
         public decimal Commission { get; set; } // always in StorageFrom currency if CommissionType == Currency
-        public CommissionType CommissionType
-        {
-            get => _commissionType;
-            set
-            {
-                _commissionType = value;
-
-                if (_commissionType == CommissionType.Percentage && !_commissionIsPercent)
-                    CommissionIsPercent = true;
-                else if (_commissionType == CommissionType.Currency && _commissionIsPercent)
-                    CommissionIsCurrency = true;
-            }
-        }
+        public CommissionType CommissionType { get; set; }
         public bool TakeCommissionFromReceiver { get; set; }
 
         [StringLength(4000)]
@@ -92,24 +76,6 @@ namespace MoneyChest.Model.Model
                 if (!_comissionEnabled)
                     Commission = 0;
             }
-        }
-        public bool CommissionIsPercent
-        {
-            get => _commissionIsPercent;
-            set
-            {
-                _commissionIsPercent = value;
-
-                if (_commissionIsPercent && _commissionType != CommissionType.Percentage)
-                    CommissionType = CommissionType.Percentage;
-                else if(!_commissionIsPercent && _commissionType != CommissionType.Currency)
-                    CommissionType = CommissionType.Currency;
-            }
-        }
-        public bool CommissionIsCurrency
-        {
-            get => !CommissionIsPercent;
-            set => CommissionIsPercent = !value;
         }
 
         public bool IsDifferentCurrenciesSelected =>

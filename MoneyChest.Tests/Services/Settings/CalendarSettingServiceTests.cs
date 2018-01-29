@@ -8,7 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyChest.Data.Entities;
 using MoneyChest.Data.Entities.History;
 using MoneyChest.Services.Services;
-using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
 using MoneyChest.Services.Services.Settings;
 using MoneyChest.Model.Model;

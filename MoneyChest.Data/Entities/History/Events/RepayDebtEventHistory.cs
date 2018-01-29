@@ -8,8 +8,9 @@ namespace MoneyChest.Data.Entities.History
 {
     public class RepayDebtEventHistory : EventHistory
     {
-        public int StorageId { get; set; }
+        public bool ValueInStorageCurrency { get; set; }
 
+        public int StorageId { get; set; }
         public int DebtId { get; set; }
     }
 }

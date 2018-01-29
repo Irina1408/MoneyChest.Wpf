@@ -37,6 +37,6 @@ namespace MoneyChest.Model.Model
         public virtual StorageGroupReference StorageGroup { get; set; }
 
         public string ValueCurrency => Currency?.FormatValue(Value);
-        public string NameValue => string.Format("{0} {1}", Name, string.IsNullOrEmpty(ValueCurrency) ? "" : "(" + ValueCurrency + ")");
+        public string NameValue => $"{Name} ({ValueCurrency})";
     }
 }

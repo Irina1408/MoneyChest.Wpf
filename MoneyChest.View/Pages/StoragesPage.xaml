@@ -111,7 +111,8 @@
 
         <ControlTemplate x:Key="StorageGroupControlTemplate" TargetType="{x:Type ContentControl}">
             <Border BorderThickness="0 1 0 0" BorderBrush="{DynamicResource BlackColorBrush}">
-                <Expander IsExpanded="True" Content="{TemplateBinding Content}" Background="{DynamicResource AccentColorBrush}" BorderThickness="0" Padding="0 5 0 5">
+                <Expander IsExpanded="True" Content="{TemplateBinding Content}" Background="{DynamicResource AccentColorBrush}"
+                          BorderThickness="0" Padding="0 5 0 5">
                     <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>

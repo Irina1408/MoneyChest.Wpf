@@ -7,8 +7,15 @@
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
 	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:MoneyChest.View.Converters"
+             xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <converters:EnumToBoolConverter x:Key="EBConverter"/>
+    </UserControl.Resources>
+    
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -100,7 +107,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Storage from -->
-                <ComboBox x:Name="comboFromStorage" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Margin="5 5 10 5"
+                <ComboBox x:Name="comboFromStorage" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="5 5 10 5" Width="220"
                           SelectedValue="{Binding StorageFromId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
                           materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding MoneyTransfer_StorageFrom}"
                           SelectionChanged="comboStorage_SelectionChanged">
@@ -119,7 +126,7 @@
                 <iconPacks:PackIconOcticons Kind="ArrowRight" Grid.Column="1" Grid.Row="0" Height="30" Width="36"/>
 
                 <!-- Storage to -->
-                <ComboBox x:Name="comboToStorage"  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" Margin="10 5 5 5"
+                <ComboBox x:Name="comboToStorage"  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="10 5 5 5" Width="220"
                           SelectedValue="{Binding StorageToId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
                           materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding MoneyTransfer_StorageTo}"
                           SelectionChanged="comboStorage_SelectionChanged">
@@ -135,7 +142,7 @@
                 </ComboBox>
 
                 <!-- Value that should be taken from Storage from -->
-                <TextBox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="5 5 10 5"
+                <TextBox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="5 5 10 5" Width="220"
                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Amount}"
                          Text="{Binding StorageFromValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
 
@@ -143,7 +150,7 @@
                 <iconPacks:PackIconOcticons Kind="ArrowRight" Grid.Column="1" Grid.Row="1" Height="30" Width="36"/>
 
                 <!-- Value that should be taken from Storage to -->
-                <TextBox Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" Margin="10 5 5 5"
+                <TextBox Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" Margin="10 5 5 5" Width="220"
                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Amount}"
                          Text="{Binding StorageToValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
             </Grid>
@@ -163,12 +170,12 @@
                     
                     <!-- Comission type -->
                     <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <RadioButton IsChecked="{Binding CommissionIsPercent}">
+                        <RadioButton IsChecked="{Binding CommissionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:CommissionType.Percentage}}">
                             <RadioButton.Content>
                                 <iconPacks:PackIconFontAwesome Kind="Percent" />
                             </RadioButton.Content>
                         </RadioButton>
-                        <RadioButton IsChecked="{Binding CommissionIsCurrency}">
+                        <RadioButton IsChecked="{Binding CommissionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:CommissionType.Currency}}">
                             <RadioButton.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <iconPacks:PackIconFontAwesome Kind="Money" />

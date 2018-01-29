@@ -201,6 +201,48 @@
   <data name="Currency_Symbol" xml:space="preserve">
     <value>Символ</value>
   </data>
+  <data name="DayOfWeek_Friday" xml:space="preserve">
+    <value>Пятница</value>
+  </data>
+  <data name="DayOfWeek_Friday_In" xml:space="preserve">
+    <value>пятницу</value>
+  </data>
+  <data name="DayOfWeek_Monday" xml:space="preserve">
+    <value>Понедельник</value>
+  </data>
+  <data name="DayOfWeek_Monday_In" xml:space="preserve">
+    <value>понедельник</value>
+  </data>
+  <data name="DayOfWeek_Saturday" xml:space="preserve">
+    <value>Суббота</value>
+  </data>
+  <data name="DayOfWeek_Saturday_In" xml:space="preserve">
+    <value>субботу</value>
+  </data>
+  <data name="DayOfWeek_Sunday" xml:space="preserve">
+    <value>Воскресенье</value>
+  </data>
+  <data name="DayOfWeek_Sunday_In" xml:space="preserve">
+    <value>воскресенье</value>
+  </data>
+  <data name="DayOfWeek_Thursday" xml:space="preserve">
+    <value>Четверг</value>
+  </data>
+  <data name="DayOfWeek_Thursday_In" xml:space="preserve">
+    <value>четверг</value>
+  </data>
+  <data name="DayOfWeek_Tuesday" xml:space="preserve">
+    <value>Вторник</value>
+  </data>
+  <data name="DayOfWeek_Tuesday_In" xml:space="preserve">
+    <value>вторник</value>
+  </data>
+  <data name="DayOfWeek_Wednesday" xml:space="preserve">
+    <value>Среда</value>
+  </data>
+  <data name="DayOfWeek_Wednesday_In" xml:space="preserve">
+    <value>среду</value>
+  </data>
   <data name="DebtPenalty_Plural" xml:space="preserve">
     <value>Штрафы</value>
   </data>
@@ -259,7 +301,35 @@
     <value>Списать первоначальный взнос со счета</value>
   </data>
   <data name="Debt_ValueToBePaid" xml:space="preserve">
-    <value>Подлежащая выплате сумма</value>
+    <value>Подлежащая выплате сумма 
+(без первоначального взноса)</value>
+  </data>
+  <data name="EventState_Active" xml:space="preserve">
+    <value>Активно</value>
+  </data>
+  <data name="EventState_Closed" xml:space="preserve">
+    <value>Закрыто</value>
+  </data>
+  <data name="EventState_EnumName" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="EventState_Paused" xml:space="preserve">
+    <value>Приостановлено</value>
+  </data>
+  <data name="Event_AutoExecution" xml:space="preserve">
+    <value>Автоматическое выполнение</value>
+  </data>
+  <data name="Event_ConfirmBeforeExecute" xml:space="preserve">
+    <value>Требует подтверждения</value>
+  </data>
+  <data name="Event_ConfirmBeforeExecuteDetailed" xml:space="preserve">
+    <value>Спрашивать подтверждение перед выполнением</value>
+  </data>
+  <data name="Event_Schedule" xml:space="preserve">
+    <value>Расписание</value>
+  </data>
+  <data name="Event_TakeExistingCurrencyExchangeRate" xml:space="preserve">
+    <value>Брать текущий курс</value>
   </data>
   <data name="General_Add" xml:space="preserve">
     <value>Добавить</value>
@@ -293,6 +363,12 @@
   </data>
   <data name="General_Date" xml:space="preserve">
     <value>Дата</value>
+  </data>
+  <data name="General_DateFrom" xml:space="preserve">
+    <value>Дата начала</value>
+  </data>
+  <data name="General_DateUntil" xml:space="preserve">
+    <value>Дата конца</value>
   </data>
   <data name="General_Delete" xml:space="preserve">
     <value>Удалить</value>
@@ -329,6 +405,9 @@
   </data>
   <data name="General_Remark" xml:space="preserve">
     <value>Примечание</value>
+  </data>
+  <data name="General_ResultAmount" xml:space="preserve">
+    <value>Итоговая сумма</value>
   </data>
   <data name="General_SaveChangesConfirmation" xml:space="preserve">
     <value>Сохранить изменения</value>
@@ -411,6 +490,15 @@
   <data name="MainManu_Transactions" xml:space="preserve">
     <value>Транзакции</value>
   </data>
+  <data name="MoneyTransferEvent_New" xml:space="preserve">
+    <value>Запланировать новый денежный перевод</value>
+  </data>
+  <data name="MoneyTransferEvent_Plural" xml:space="preserve">
+    <value>Запланированные денежные переводы</value>
+  </data>
+  <data name="MoneyTransferEvent_Singular" xml:space="preserve">
+    <value>Запланированный денежный перевод</value>
+  </data>
   <data name="MoneyTransfer_ExchangeRate" xml:space="preserve">
     <value>Курс обмена</value>
   </data>
@@ -431,6 +519,126 @@
   </data>
   <data name="MoneyTransfer_TakeCommissionFromReceiver" xml:space="preserve">
     <value>Взять комиссию с получателя</value>
+  </data>
+  <data name="Month_April" xml:space="preserve">
+    <value>Апрель</value>
+  </data>
+  <data name="Month_August" xml:space="preserve">
+    <value>Август</value>
+  </data>
+  <data name="Month_December" xml:space="preserve">
+    <value>Декабрь</value>
+  </data>
+  <data name="Month_February" xml:space="preserve">
+    <value>Февраль</value>
+  </data>
+  <data name="Month_January" xml:space="preserve">
+    <value>Январь</value>
+  </data>
+  <data name="Month_July" xml:space="preserve">
+    <value>Июль</value>
+  </data>
+  <data name="Month_June" xml:space="preserve">
+    <value>Июнь</value>
+  </data>
+  <data name="Month_March" xml:space="preserve">
+    <value>Март</value>
+  </data>
+  <data name="Month_May" xml:space="preserve">
+    <value>Май</value>
+  </data>
+  <data name="Month_November" xml:space="preserve">
+    <value>Ноябрь</value>
+  </data>
+  <data name="Month_October" xml:space="preserve">
+    <value>Октябрь</value>
+  </data>
+  <data name="Month_September" xml:space="preserve">
+    <value>Сентябрь</value>
+  </data>
+  <data name="RepayDebtEvent_New" xml:space="preserve">
+    <value>Запланировать новую выплату долга</value>
+  </data>
+  <data name="RepayDebtEvent_Plural" xml:space="preserve">
+    <value>Запланированные выплаты долгов</value>
+  </data>
+  <data name="RepayDebtEvent_Singular" xml:space="preserve">
+    <value>Запланированная выплата долга</value>
+  </data>
+  <data name="ScheduleType_Daily" xml:space="preserve">
+    <value>Ежедневно</value>
+  </data>
+  <data name="ScheduleType_EnumName" xml:space="preserve">
+    <value>Периодичность</value>
+  </data>
+  <data name="ScheduleType_Monthly" xml:space="preserve">
+    <value>Ежемесячно</value>
+  </data>
+  <data name="ScheduleType_Once" xml:space="preserve">
+    <value>Единоразово</value>
+  </data>
+  <data name="ScheduleType_Weekly" xml:space="preserve">
+    <value>Еженедельно</value>
+  </data>
+  <data name="Schedule_DayOfMonth" xml:space="preserve">
+    <value>День месяца</value>
+  </data>
+  <data name="Schedule_DayOfMonth_Last" xml:space="preserve">
+    <value>Последний</value>
+  </data>
+  <data name="Schedule_EveryDay" xml:space="preserve">
+    <value>Ежедневно</value>
+  </data>
+  <data name="Schedule_EveryDayNumberWeeks" xml:space="preserve">
+    <value>Каждую {0} неделю ежедневно</value>
+  </data>
+  <data name="Schedule_EveryLastDay_ForEveryMonth" xml:space="preserve">
+    <value>Каждый последний день месяца</value>
+  </data>
+  <data name="Schedule_EveryLastDay_ForMonth" xml:space="preserve">
+    <value>Каждый {0} в последний день месяца</value>
+  </data>
+  <data name="Schedule_EveryNumberDays" xml:space="preserve">
+    <value>Каждый {0}-й день</value>
+  </data>
+  <data name="Schedule_EveryNumberWeeks" xml:space="preserve">
+    <value>Каждую {0} неделю в {1}</value>
+  </data>
+  <data name="Schedule_Every_ForEveryMonth" xml:space="preserve">
+    <value>Каждое {0} число месяца</value>
+  </data>
+  <data name="Schedule_Every_ForMonth" xml:space="preserve">
+    <value>Каждый {0} {1}-го числа</value>
+  </data>
+  <data name="Schedule_Every_ForWeek" xml:space="preserve">
+    <value>Еженедельно в {0}</value>
+  </data>
+  <data name="Schedule_From_ForDate" xml:space="preserve">
+    <value>с</value>
+  </data>
+  <data name="Schedule_LastMonthDay" xml:space="preserve">
+    <value>Последний день месяца</value>
+  </data>
+  <data name="Schedule_PausedToDate" xml:space="preserve">
+    <value>Приостановлен до {0}</value>
+  </data>
+  <data name="Schedule_RepetitionPeriod_Daily" xml:space="preserve">
+    <value>Периодичность (в днях)</value>
+  </data>
+  <data name="Schedule_RepetitionPeriod_Weekly" xml:space="preserve">
+    <value>Периодичность (в неделях)</value>
+  </data>
+  <data name="Schedule_Until_ForDate" xml:space="preserve">
+    <value>до</value>
+  </data>
+  <data name="SimpleEvent_New" xml:space="preserve">
+    <value>Запланировать новый доход/расход</value>
+  </data>
+  <data name="SimpleEvent_Plural" xml:space="preserve">
+    <value>Запланированные доходы/расходы</value>
+  </data>
+  <data name="SimpleEvent_Singular" xml:space="preserve">
+    <value>Запланированный доход/расход</value>
   </data>
   <data name="StorageGroup_Add" xml:space="preserve">
     <value>Добавить группу</value>

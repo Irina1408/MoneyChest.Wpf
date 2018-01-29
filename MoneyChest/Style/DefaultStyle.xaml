@@ -166,7 +166,7 @@
     
     <!--*********************************** Date picker ***********************************-->
     <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MaterialDesignFloatingHintDatePicker}">
-        <Setter Property="Margin" Value="25 5 5 5"/>
+        <Setter Property="Margin" Value="25 10 5 10"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <!--<Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>-->
@@ -268,13 +268,15 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!--*********************************** Combo box ***********************************-->
-    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
+    <Style x:Key="MCComboBoxStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
+
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MCComboBoxStyle}"/>
 
     <!--*********************************** Label ***********************************-->
     <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MetroLabel}">
@@ -306,6 +308,11 @@
 
     <!--*********************************** Tree view ***********************************-->
     <Style TargetType="{x:Type TreeView}" BasedOn="{StaticResource VirtualisedMetroTreeView}">
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+    <!--*********************************** List box ***********************************-->
+    <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource VirtualisedMetroListBox}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 

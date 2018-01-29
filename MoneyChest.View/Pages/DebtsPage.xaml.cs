@@ -34,7 +34,6 @@ namespace MoneyChest.View.Pages
         #region Private fields
 
         private IDebtService _service;
-        private ICurrencyExchangeRateService _currencyExchangeRateService;
         private DebtsPageViewModel _viewModel;
         // TODO: replace to IPage Options
         private bool _reload = true;
@@ -65,7 +64,7 @@ namespace MoneyChest.View.Pages
                 DeleteCommand = new DataGridSelectedItemsCommand<DebtViewModel>(GridDebts,
                 (items) =>
                 {
-                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(DebtViewModel), items.Select(_ => _.Description));
+                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(DebtModel), items.Select(_ => _.Description));
 
                     if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
                         MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)

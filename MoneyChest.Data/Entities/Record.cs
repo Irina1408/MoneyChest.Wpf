@@ -28,6 +28,12 @@ namespace MoneyChest.Data.Entities
 
         public decimal Value { get; set; }
 
+        public decimal CurrencyExchangeRate { get; set; }
+
+        public decimal Commission { get; set; }
+
+        public CommissionType CommissionType { get; set; }
+
         [StringLength(4000)]
         public string Remark { get; set; }
 

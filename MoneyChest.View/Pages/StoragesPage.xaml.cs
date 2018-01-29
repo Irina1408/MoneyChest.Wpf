@@ -241,7 +241,7 @@ namespace MoneyChest.View.Pages
             // reload storages
             var storages = _service.GetListForUser(GlobalVariables.UserId);
             var storageGroups = _storageGroupService.GetListForUser(GlobalVariables.UserId);
-            _currencies = _currencyService.GetActive(GlobalVariables.UserId);
+            _currencies = _currencyService.GetActive(GlobalVariables.UserId, storages.Select(x => (int?)x.CurrencyId).Distinct().ToArray());
 
             // cleanup
             StoragesPanel.Children.Clear();
@@ -261,7 +261,7 @@ namespace MoneyChest.View.Pages
                 _areMoneyTransfersLoaded = false;
 
             // mark as reloaded
-            _reload = false;
+            //_reload = false;
         }
 
         private void LoadMoneyTransfers()

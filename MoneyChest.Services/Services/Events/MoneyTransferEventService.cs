@@ -11,7 +11,7 @@ using System.Data.Entity;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Converters;
 
-namespace MoneyChest.Services.Services.Events
+namespace MoneyChest.Services.Services
 {
     public interface IMoneyTransferEventService : IIdManagableUserableListServiceBase<MoneyTransferEventModel>
     {

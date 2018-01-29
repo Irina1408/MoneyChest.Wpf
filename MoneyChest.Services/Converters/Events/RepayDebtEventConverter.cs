@@ -18,6 +18,9 @@ namespace MoneyChest.Services.Converters
             entity.Description = model.Description;
             entity.Value = model.Value;
             entity.EventState = model.EventState;
+            entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
+            entity.Commission = model.Commission;
+            entity.CommissionType = model.CommissionType;
             entity.Schedule = SerializationUtils.Serialize(model.Schedule);
             entity.DateFrom = model.DateFrom;
             entity.DateUntil = model?.DateUntil;
@@ -26,6 +29,7 @@ namespace MoneyChest.Services.Converters
             entity.AutoExecutionTime = model?.AutoExecutionTime;
             entity.ConfirmBeforeExecute = model.ConfirmBeforeExecute;
             entity.EventType = model.EventType;
+            entity.IsValueInStorageCurrency = model.IsValueInStorageCurrency;
             entity.Remark = model.Remark;
             entity.UserId = model.UserId;
 
@@ -39,6 +43,9 @@ namespace MoneyChest.Services.Converters
             model.Description = entity.Description;
             model.Value = entity.Value;
             model.EventState = entity.EventState;
+            model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
+            model.Commission = entity.Commission;
+            model.CommissionType = entity.CommissionType;
             model.Schedule = SerializationUtils.Deserialize<ScheduleModel>(entity.Schedule) ?? new ScheduleModel();
             model.DateFrom = entity.DateFrom;
             model.DateUntil = entity?.DateUntil;
@@ -47,15 +54,17 @@ namespace MoneyChest.Services.Converters
             model.AutoExecutionTime = entity?.AutoExecutionTime;
             model.ConfirmBeforeExecute = entity.ConfirmBeforeExecute;
             model.EventType = entity.EventType;
+            model.IsValueInStorageCurrency = entity.IsValueInStorageCurrency;
             model.Remark = entity.Remark;
             model.UserId = entity.UserId;
             model.StorageId = entity.StorageId;
-
             model.DebtId = entity.DebtId;
+
             model.Storage = entity.Storage.ToReferenceView();
             model.Debt = entity.Debt.ToReferenceView();
-            model.Currency = entity.Debt.Currency.ToReferenceView();
-            model.DebtCategory = entity.Debt?.Category?.ToReferenceView();
+            model.DebtCategory = entity.Debt.Category?.ToReferenceView();
+            model.DebtCurrency = entity.Debt.Currency.ToReferenceView();
+            model.StorageCurrency = entity.Storage.Currency.ToReferenceView();
         }
     }
 }

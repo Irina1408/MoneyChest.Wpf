@@ -10,28 +10,39 @@ namespace MoneyChest.Services
 {
     public static class ServiceManager
     {
-        private static ApplicationDbContext _context;
+        private static ContextProvider _contextProvider;
         
         public static TService ConfigureService<TService>()
             where TService : ServiceBase
         {
-            Initialize();
-            return Activator.CreateInstance(typeof(TService), _context) as TService;
-        }
-
-        public static void Initialize()
-        {
-            if (_context == null)
-                _context = ApplicationDbContext.Create();
+            if (_contextProvider == null) _contextProvider = new ContextProvider();
+            return Activator.CreateInstance(typeof(TService), _contextProvider.Context) as TService;
         }
 
         public static void Dispose()
         {
-            if(_context != null)
+            if(_contextProvider != null)
             {
-                _context.Dispose();
-                _context = null;
+                _contextProvider.Dispose();
+                _contextProvider = null;
             }
         }
+    }
+
+    public class ContextProvider : IDisposable
+    {
+        public ContextProvider() => Context = ApplicationDbContext.Create();
+
+        public ApplicationDbContext Context { get; private set; }
+
+        public void Dispose()
+        {
+            if (Context != null)
+            {
+                Context.Dispose();
+                Context = null;
+            }
+        }
+        ~ContextProvider() => Dispose();
     }
 }

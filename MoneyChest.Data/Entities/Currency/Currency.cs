@@ -22,6 +22,7 @@ namespace MoneyChest.Data.Entities
             CurrencyExchangeRateTos = new List<CurrencyExchangeRate>();
             Debts = new List<Debt>();
             SimpleEvents = new List<SimpleEvent>();
+            RepayDebtEvents = new List<RepayDebtEvent>();
             Limits = new List<Limit>();
             Records = new List<Record>();
             Storages = new List<Storage>();
@@ -63,6 +64,7 @@ namespace MoneyChest.Data.Entities
 
         public virtual ICollection<Debt> Debts { get; set; }
         public virtual ICollection<SimpleEvent> SimpleEvents { get; set; }
+        public virtual ICollection<RepayDebtEvent> RepayDebtEvents { get; set; }
         public virtual ICollection<Limit> Limits { get; set; }
         public virtual ICollection<Record> Records { get; set; }
         public virtual ICollection<Storage> Storages { get; set; }

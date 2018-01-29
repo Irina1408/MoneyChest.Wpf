@@ -61,5 +61,24 @@ namespace MoneyChest.Shared.MultiLang
         public static string Categories => "MainManu_Categories";
 
         #endregion
+
+        #region Schedule
+
+        public static string EveryDay => "Schedule_EveryDay";
+        public static string EveryNumberDays => "Schedule_EveryNumberDays";
+        public static string EveryWeek => "Schedule_Every_ForWeek";
+        public static string EveryNumberWeeks => "Schedule_EveryNumberWeeks";
+        public static string EveryDayNumberWeeks => "Schedule_EveryDayNumberWeeks";
+        public static string EverySpecialMonth => "Schedule_Every_ForMonth";
+        public static string EveryMonth => "Schedule_Every_ForEveryMonth";
+        public static string EverySpecialMonthLastDay => "Schedule_EveryLastDay_ForMonth";
+        public static string EveryMonthLastDay => "Schedule_EveryLastDay_ForEveryMonth";
+        public static string FromForDate => "Schedule_From_ForDate";
+        public static string UntilForDate => "Schedule_Until_ForDate";
+        public static string InDayOfWeek(DayOfWeek dayOfWeek) => $"{nameof(DayOfWeek)}_{dayOfWeek.ToString()}_In";
+        public static string PausedToDate => "Schedule_PausedToDate";
+        public static string LastForDayOfMonth => "Schedule_DayOfMonth_Last";
+
+        #endregion
     }
 }

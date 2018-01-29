@@ -12,10 +12,11 @@ using System.Windows;
 
 namespace MoneyChest.ViewModel.ViewModel
 {
+    //[PropertyChanged.AddINotifyPropertyChangedInterface]
     public class LoginWindowViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public string Name { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }

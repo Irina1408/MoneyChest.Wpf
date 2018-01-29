@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using MoneyChest.Services.Services;
 using MoneyChest.Calculation.Calculators;
 using MoneyChest.Calculation.Common;
-using MoneyChest.Services.Services.Events;
 using MoneyChest.Calculation.Summary;
 using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Model;

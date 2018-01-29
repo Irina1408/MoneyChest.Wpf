@@ -18,6 +18,9 @@ namespace MoneyChest.Services.Converters
             entity.Description = model.Description;
             entity.Value = model.Value;
             entity.EventState = model.EventState;
+            entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
+            entity.Commission = model.Commission;
+            entity.CommissionType = model.CommissionType;
             entity.Schedule = SerializationUtils.Serialize(model.Schedule);
             entity.DateFrom = model.DateFrom;
             entity.DateUntil = model?.DateUntil;
@@ -41,6 +44,9 @@ namespace MoneyChest.Services.Converters
             model.Description = entity.Description;
             model.Value = entity.Value;
             model.EventState = entity.EventState;
+            model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
+            model.Commission = entity.Commission;
+            model.CommissionType = entity.CommissionType;
             model.Schedule = SerializationUtils.Deserialize<ScheduleModel>(entity.Schedule) ?? new ScheduleModel();
             model.DateFrom = entity.DateFrom;
             model.DateUntil = entity?.DateUntil;
@@ -57,8 +63,9 @@ namespace MoneyChest.Services.Converters
             model.CategoryId = entity.CategoryId;
             model.CurrencyId = entity.CurrencyId;
             model.Storage = entity.Storage.ToReferenceView();
+            model.StorageCurrency = entity.Storage.Currency.ToReferenceView();
             model.Currency = entity.Currency.ToReferenceView();
-            model.Category = entity?.Category.ToReferenceView();
+            model.Category = entity.Category?.ToReferenceView();
         }
     }
 }

@@ -168,6 +168,7 @@
             <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="{moneyChestView:MultiLangBinding Debt_ValueToBePaid}" Margin="0 0 10 0" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding ValueToBePaidCurrency}" FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+                <!-- TODO: add RemainsToPay value-->
             </StackPanel>
             
             <!-- Storage -->
@@ -194,13 +195,13 @@
                     </Grid.RowDefinitions>
 
                     <!-- Storage -->
-                    <ComboBox x:Name="comboStorage" Grid.Row="0" HorizontalAlignment="Stretch" Width="Auto" 
+                    <ComboBox x:Name="comboStorage" Grid.Row="0"
                               SelectedValue="{Binding StorageId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
                               materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Storage_Singular}"
                               SelectionChanged="comboStorage_SelectionChanged" Background="{DynamicResource WhiteBrush}"/>
 
                     <!-- TakeInitialFeeFromStorage -->
-                    <CheckBox Grid.Row="1" IsChecked="{Binding TakeInitialFeeFromStorage}">
+                    <!--<CheckBox Grid.Row="1" IsChecked="{Binding TakeInitialFeeFromStorage}">
                         <CheckBox.Style>
                             <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MCCheckBoxStyle}">
                                 <Setter Property="Content" Value="{moneyChestView:MultiLangBinding Debt_AddInitialFeeToStorage}"/>
@@ -213,7 +214,7 @@
                                 </Style.Triggers>
                             </Style>
                         </CheckBox.Style>
-                    </CheckBox>
+                    </CheckBox>-->
 
                     <!-- Currency exchange rate -->
                     <GroupBox Grid.Row="2" Margin="5" IsEnabled="{Binding IsDifferentCurrenciesSelected}">

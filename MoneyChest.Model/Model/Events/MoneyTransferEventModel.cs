@@ -1,6 +1,8 @@
 ﻿using MoneyChest.Model.Enums;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +20,7 @@ namespace MoneyChest.Model.Model
             CommissionType = CommissionType.Currency;
         }
 
-        public bool TakeExistingCurrencyExchangeRate { get; set; }
-        public decimal CurrencyExchangeRate { get; set; }
-        public decimal Commission { get; set; }
         public bool TakeCommissionFromReceiver { get; set; }
-        public CommissionType CommissionType { get; set; }
 
 
         public int StorageFromId { get; set; }
@@ -35,7 +33,59 @@ namespace MoneyChest.Model.Model
         public CurrencyReference StorageFromCurrency { get; set; }
         public CurrencyReference StorageToCurrency { get; set; }
         public CategoryReference Category { get; set; }
+        
+        public override decimal Value { get; set; }
+        public override decimal CurrencyExchangeRate { get; set; }
+        public override decimal Commission
+        {
+            get => base.Commission;
+            set => base.Commission = value;
+        }
+        public override CommissionType CommissionType { get; set; }
 
+        // TODO: remove
         public decimal CommisionValue => CommissionType == CommissionType.Currency ? Commission : Commission * Value;
+
+        #region Additional properties
+        
+        public bool IsDifferentCurrenciesSelected =>
+            StorageFromCurrency != null && StorageToCurrency != null && StorageFromCurrency.Id != StorageToCurrency.Id;
+
+        [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
+        private decimal StorageFromCommissionValue => CommissionValue;
+
+        [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
+        private decimal StorageToCommissionValue => IsDifferentCurrenciesSelected ? CommissionValue * CurrencyExchangeRate : CommissionValue;
+        
+        public decimal StorageFromCommission => TakeCommissionFromReceiver ? 0 : StorageFromCommissionValue;
+        public decimal StorageToCommission => TakeCommissionFromReceiver ? StorageToCommissionValue : 0;
+
+        [DependsOn(nameof(Value))]
+        public decimal StorageFromValue
+        {
+            get => Value + StorageFromCommission;
+            set => Value = value - StorageFromCommission;
+        }
+
+        [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
+        public decimal StorageToValue
+        {
+            get => IsDifferentCurrenciesSelected ? Value * CurrencyExchangeRate - StorageToCommission : Value - StorageToCommission;
+            set
+            {
+                // take into account currency exchange rate and commission
+                if (IsDifferentCurrenciesSelected && CurrencyExchangeRate != 0)
+                    Value = value / CurrencyExchangeRate + StorageToCommission;
+                else
+                    Value = value + StorageToCommission;
+            }
+        }
+
+        public string ValueTransfering => $"{StorageFromCurrency.FormatValue(StorageFromValue)} -> {StorageToCurrency.FormatValue(StorageToValue)}";
+        public string ExchangeRateExample => StorageFromCurrency != null && StorageToCurrency != null
+            ? $"{StorageFromCurrency.FormatValue(1)} = {StorageToCurrency.FormatValue(CurrencyExchangeRate)}"
+            : null;
+
+        #endregion
     }
 }

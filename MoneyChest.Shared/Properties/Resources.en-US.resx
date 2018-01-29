@@ -201,6 +201,48 @@
   <data name="Currency_Symbol" xml:space="preserve">
     <value>Symbol</value>
   </data>
+  <data name="DayOfWeek_Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="DayOfWeek_Friday_In" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="DayOfWeek_Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="DayOfWeek_Monday_In" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="DayOfWeek_Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="DayOfWeek_Saturday_In" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="DayOfWeek_Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="DayOfWeek_Sunday_In" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="DayOfWeek_Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="DayOfWeek_Thursday_In" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="DayOfWeek_Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="DayOfWeek_Tuesday_In" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="DayOfWeek_Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="DayOfWeek_Wednesday_In" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
   <data name="DebtPenalty_Plural" xml:space="preserve">
     <value>Penalties</value>
   </data>
@@ -259,7 +301,35 @@
     <value>Withdraw initial fee from account</value>
   </data>
   <data name="Debt_ValueToBePaid" xml:space="preserve">
-    <value>Value to be paid</value>
+    <value>Value to be paid 
+(without initial fee)</value>
+  </data>
+  <data name="EventState_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="EventState_Closed" xml:space="preserve">
+    <value>Closed</value>
+  </data>
+  <data name="EventState_EnumName" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="EventState_Paused" xml:space="preserve">
+    <value>Paused</value>
+  </data>
+  <data name="Event_AutoExecution" xml:space="preserve">
+    <value>Auto execution</value>
+  </data>
+  <data name="Event_ConfirmBeforeExecute" xml:space="preserve">
+    <value>Requires confirmation</value>
+  </data>
+  <data name="Event_ConfirmBeforeExecuteDetailed" xml:space="preserve">
+    <value>Ask confirmation before execute</value>
+  </data>
+  <data name="Event_Schedule" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="Event_TakeExistingCurrencyExchangeRate" xml:space="preserve">
+    <value>Take actual currency exchange rate</value>
   </data>
   <data name="General_Add" xml:space="preserve">
     <value>Add</value>
@@ -293,6 +363,12 @@
   </data>
   <data name="General_Date" xml:space="preserve">
     <value>Date</value>
+  </data>
+  <data name="General_DateFrom" xml:space="preserve">
+    <value>Date from</value>
+  </data>
+  <data name="General_DateUntil" xml:space="preserve">
+    <value>Date until</value>
   </data>
   <data name="General_Delete" xml:space="preserve">
     <value>Delete</value>
@@ -329,6 +405,9 @@
   </data>
   <data name="General_Remark" xml:space="preserve">
     <value>Remark</value>
+  </data>
+  <data name="General_ResultAmount" xml:space="preserve">
+    <value>Resultant amount</value>
   </data>
   <data name="General_SaveChangesConfirmation" xml:space="preserve">
     <value>Save changes</value>
@@ -411,6 +490,15 @@
   <data name="MainManu_Transactions" xml:space="preserve">
     <value>Transactions</value>
   </data>
+  <data name="MoneyTransferEvent_New" xml:space="preserve">
+    <value>Plan new money transfer</value>
+  </data>
+  <data name="MoneyTransferEvent_Plural" xml:space="preserve">
+    <value>Planned money transfers</value>
+  </data>
+  <data name="MoneyTransferEvent_Singular" xml:space="preserve">
+    <value>Planned money transfer</value>
+  </data>
   <data name="MoneyTransfer_ExchangeRate" xml:space="preserve">
     <value>Exchange rate</value>
   </data>
@@ -431,6 +519,126 @@
   </data>
   <data name="MoneyTransfer_TakeCommissionFromReceiver" xml:space="preserve">
     <value>Take commission from receiver</value>
+  </data>
+  <data name="Month_April" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="Month_August" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="Month_December" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="Month_February" xml:space="preserve">
+    <value>February</value>
+  </data>
+  <data name="Month_January" xml:space="preserve">
+    <value>January</value>
+  </data>
+  <data name="Month_July" xml:space="preserve">
+    <value>July</value>
+  </data>
+  <data name="Month_June" xml:space="preserve">
+    <value>June</value>
+  </data>
+  <data name="Month_March" xml:space="preserve">
+    <value>March</value>
+  </data>
+  <data name="Month_May" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="Month_November" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="Month_October" xml:space="preserve">
+    <value>October</value>
+  </data>
+  <data name="Month_September" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="RepayDebtEvent_New" xml:space="preserve">
+    <value>Plan new debt repayment</value>
+  </data>
+  <data name="RepayDebtEvent_Plural" xml:space="preserve">
+    <value>Planned debt repayments</value>
+  </data>
+  <data name="RepayDebtEvent_Singular" xml:space="preserve">
+    <value>Planned debt repayment</value>
+  </data>
+  <data name="ScheduleType_Daily" xml:space="preserve">
+    <value>Daily</value>
+  </data>
+  <data name="ScheduleType_EnumName" xml:space="preserve">
+    <value>Periodicity</value>
+  </data>
+  <data name="ScheduleType_Monthly" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
+  <data name="ScheduleType_Once" xml:space="preserve">
+    <value>Once</value>
+  </data>
+  <data name="ScheduleType_Weekly" xml:space="preserve">
+    <value>Weekly</value>
+  </data>
+  <data name="Schedule_DayOfMonth" xml:space="preserve">
+    <value>Day of month</value>
+  </data>
+  <data name="Schedule_DayOfMonth_Last" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="Schedule_EveryDay" xml:space="preserve">
+    <value>Every day</value>
+  </data>
+  <data name="Schedule_EveryDayNumberWeeks" xml:space="preserve">
+    <value>Every day of every {0} week</value>
+  </data>
+  <data name="Schedule_EveryLastDay_ForEveryMonth" xml:space="preserve">
+    <value>Every last day of month</value>
+  </data>
+  <data name="Schedule_EveryLastDay_ForMonth" xml:space="preserve">
+    <value>Every last day of {0}</value>
+  </data>
+  <data name="Schedule_EveryNumberDays" xml:space="preserve">
+    <value>Every {0} day</value>
+  </data>
+  <data name="Schedule_EveryNumberWeeks" xml:space="preserve">
+    <value>Every {1} of every {0} week</value>
+  </data>
+  <data name="Schedule_Every_ForEveryMonth" xml:space="preserve">
+    <value>Every {1} of month</value>
+  </data>
+  <data name="Schedule_Every_ForMonth" xml:space="preserve">
+    <value>Every {1} of {0}</value>
+  </data>
+  <data name="Schedule_Every_ForWeek" xml:space="preserve">
+    <value>Every {0}</value>
+  </data>
+  <data name="Schedule_From_ForDate" xml:space="preserve">
+    <value>from</value>
+  </data>
+  <data name="Schedule_LastMonthDay" xml:space="preserve">
+    <value>Last day of month</value>
+  </data>
+  <data name="Schedule_PausedToDate" xml:space="preserve">
+    <value>Suspended until {0}</value>
+  </data>
+  <data name="Schedule_RepetitionPeriod_Daily" xml:space="preserve">
+    <value>Periodicity (in days)</value>
+  </data>
+  <data name="Schedule_RepetitionPeriod_Weekly" xml:space="preserve">
+    <value>Periodicity (in weeks)</value>
+  </data>
+  <data name="Schedule_Until_ForDate" xml:space="preserve">
+    <value>until</value>
+  </data>
+  <data name="SimpleEvent_New" xml:space="preserve">
+    <value>Plan new income/expense</value>
+  </data>
+  <data name="SimpleEvent_Plural" xml:space="preserve">
+    <value>Planned incomes/expenses</value>
+  </data>
+  <data name="SimpleEvent_Singular" xml:space="preserve">
+    <value>Planned income/expense</value>
   </data>
   <data name="StorageGroup_Add" xml:space="preserve">
     <value>Add group</value>
@@ -469,7 +677,7 @@
     <value>Visible</value>
   </data>
   <data name="TransactionType_Expense" xml:space="preserve">
-    <value>Expence (-)</value>
+    <value>Expense (-)</value>
   </data>
   <data name="TransactionType_Income" xml:space="preserve">
     <value>Income (+)</value>

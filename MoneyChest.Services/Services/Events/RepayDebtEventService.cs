@@ -11,7 +11,7 @@ using System.Data.Entity;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Converters;
 
-namespace MoneyChest.Services.Services.Events
+namespace MoneyChest.Services.Services
 {
     public interface IRepayDebtEventService : IIdManagableUserableListServiceBase<RepayDebtEventModel>
     {
@@ -23,6 +23,6 @@ namespace MoneyChest.Services.Services.Events
         {
         }
 
-        protected override IQueryable<RepayDebtEvent> Scope => Entities.Include(_ => _.Storage).Include(_ => _.Debt.Currency).Include(_ => _.Debt.Category);
+        protected override IQueryable<RepayDebtEvent> Scope => Entities.Include(_ => _.Storage.Currency).Include(_ => _.Debt.Currency).Include(_ => _.Debt.Category);
     }
 }

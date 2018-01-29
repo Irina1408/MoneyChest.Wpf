@@ -46,7 +46,13 @@ namespace MoneyChest.Data.Extensions
 
         public static DebtReference ToReferenceView(this Debt entity)
         {
-            return new DebtReference { Id = entity.Id, Description = entity.Description, DebtType = entity.DebtType };
+            return new DebtReference
+            {
+                Id = entity.Id,
+                Description = entity.Description,
+                DebtType = entity.DebtType,
+                CurrencyId = entity.CurrencyId
+            };
         }
 
         public static MoneyTransferReference ToReferenceView(this MoneyTransfer entity)

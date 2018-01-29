@@ -119,6 +119,7 @@ namespace MoneyChest.Model.Model
 
         #region Additional properties
 
+        public string DescriptionRemainsToPayCurrency => $"{Description} ({RemainsToPayCurrency})";
         public string ValueCurrency => Currency?.FormatValue(Value);
         public string RemainsToPayCurrency => Currency?.FormatValue(RemainsToPay);
         public string ValueToBePaidCurrency => Currency?.FormatValue(ValueToBePaid) ?? ValueToBePaid.ToString("0.##");
@@ -175,35 +176,6 @@ namespace MoneyChest.Model.Model
                 //return Value * (perc + (perc / (decimal)Math.Pow(decimal.ToDouble(1 + perc), MonthCount - 1))) * MonthCount;
             }
         }
-
-        #endregion
-
-        #region Details view properties
-                
-        public bool PaymentTypeIsRate
-        {
-            get => PaymentType != DebtPaymentType.FixedAmount;
-            set
-            {
-                var newValue = value ? DebtPaymentType.FixedRate : DebtPaymentType.FixedAmount;
-                if (newValue != PaymentType) PaymentType = newValue;
-            }
-        }
-        
-        public bool PaymentTypeIsAnnualRate
-        {
-            get => PaymentType == DebtPaymentType.DifferentialPayment || PaymentType == DebtPaymentType.AnnuityPayment;
-            set
-            {
-                var newValue = value ? DebtPaymentType.DifferentialPayment : DebtPaymentType.FixedRate;
-                if (newValue != PaymentType) PaymentType = newValue;
-            }
-        }
-        
-        public bool IsDifferentCurrenciesSelected => Currency != null && StorageCurrency != null && CurrencyId != StorageCurrency.Id;
-        public string ExchangeRateExample => Currency != null && StorageCurrency != null
-            ? $"{Currency.FormatValue(1)} = {StorageCurrency.FormatValue(CurrencyExchangeRate)}"
-            : null;
 
         #endregion
     }

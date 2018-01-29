@@ -14,15 +14,7 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(MoneyTransferEventHistory))]
     public class MoneyTransferEvent : Evnt
     {
-        public bool TakeExistingCurrencyExchangeRate { get; set; }
-
-        public decimal CurrencyExchangeRate { get; set; }
-
-        public decimal Commission { get; set; } // always in StorageFrom currency (Value too)
-
         public bool TakeCommissionFromReceiver { get; set; }
-
-        public CommissionType CommissionType { get; set; }
 
 
         public int StorageFromId { get; set; }

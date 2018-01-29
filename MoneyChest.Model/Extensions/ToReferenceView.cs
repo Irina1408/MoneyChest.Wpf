@@ -19,5 +19,16 @@ namespace MoneyChest.Model.Extensions
                 SymbolAlignment = entity.CurrencySymbolAlignment
             };
         }
+        
+        public static DebtReference ToReferenceView(this DebtModel entity)
+        {
+            return new DebtReference
+            {
+                Id = entity.Id,
+                Description = entity.Description,
+                DebtType = entity.DebtType,
+                CurrencyId = entity.CurrencyId
+            };
+        }
     }
 }

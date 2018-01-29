@@ -10,19 +10,13 @@ namespace MoneyChest.Data.Entities.History
 {
     public class MoneyTransferEventHistory : EventHistory
     {
-        public bool TakeExistingCurrencyExchangeRate { get; set; }
-
-        public decimal CurrencyExchangeRate { get; set; }
-
-        public decimal Commission { get; set; }
-
         public bool TakeCommissionFromReceiver { get; set; }
-
-        public CommissionType? CommissionType { get; set; }
 
 
         public int StorageFromId { get; set; }
 
         public int StorageToId { get; set; }
+
+        public int? CategoryId { get; set; }
     }
 }

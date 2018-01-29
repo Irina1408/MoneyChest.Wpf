@@ -13,7 +13,7 @@ using MoneyChest.Model.Model;
 using MoneyChest.Services.Converters;
 using MoneyChest.Model.Enums;
 
-namespace MoneyChest.Services.Services.Events
+namespace MoneyChest.Services.Services
 {
     public interface ISimpleEventService : IIdManagableUserableListServiceBase<SimpleEventModel>
     {
@@ -127,7 +127,7 @@ namespace MoneyChest.Services.Services.Events
 
         #region Overrides
 
-        protected override IQueryable<SimpleEvent> Scope => Entities.Include(_ => _.Storage).Include(_ => _.Currency).Include(_ => _.Category);
+        protected override IQueryable<SimpleEvent> Scope => Entities.Include(_ => _.Storage.Currency).Include(_ => _.Currency).Include(_ => _.Category);
 
         #endregion
     }

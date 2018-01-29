@@ -1,4 +1,5 @@
-﻿using MoneyChest.Model.Model;
+﻿using MoneyChest.Model.Enums;
+using MoneyChest.Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,35 @@ namespace MoneyChest.ViewModel.ViewModel
             Storage = debt.Storage;
             Penalties = debt.Penalties;
         }
+
+        #region Details view properties
+
+        public bool PaymentTypeIsRate
+        {
+            get => PaymentType != DebtPaymentType.FixedAmount;
+            set
+            {
+                var newValue = value ? DebtPaymentType.FixedRate : DebtPaymentType.FixedAmount;
+                if (newValue != PaymentType) PaymentType = newValue;
+            }
+        }
+
+        public bool PaymentTypeIsAnnualRate
+        {
+            get => PaymentType == DebtPaymentType.DifferentialPayment || PaymentType == DebtPaymentType.AnnuityPayment;
+            set
+            {
+                var newValue = value ? DebtPaymentType.DifferentialPayment : DebtPaymentType.FixedRate;
+                if (newValue != PaymentType) PaymentType = newValue;
+            }
+        }
+
+        public bool IsDifferentCurrenciesSelected => Currency != null && StorageCurrency != null && CurrencyId != StorageCurrency.Id;
+        public string ExchangeRateExample => Currency != null && StorageCurrency != null
+            ? $"{Currency.FormatValue(1)} = {StorageCurrency.FormatValue(CurrencyExchangeRate)}"
+            : null;
+
+        #endregion
 
         [PropertyChanged.DoNotNotify]
         public ICommand AddPenaltyCommand { get; set; }

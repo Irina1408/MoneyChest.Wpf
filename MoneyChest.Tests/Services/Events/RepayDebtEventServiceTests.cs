@@ -8,7 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyChest.Data.Entities;
 using MoneyChest.Data.Entities.History;
 using MoneyChest.Services.Services;
-using MoneyChest.Services.Services.Events;
 using MoneyChest.Data.Mock;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Converters;
@@ -21,7 +20,7 @@ namespace MoneyChest.Tests.Services.Events
     {
         #region Overrides 
 
-        protected override IQueryable<RepayDebtEvent> Scope => Entities.Include(_ => _.Storage).Include(_ => _.Debt.Currency);
+        protected override IQueryable<RepayDebtEvent> Scope => Entities.Include(_ => _.Storage.Currency).Include(_ => _.Debt.Currency);
         protected override void ChangeEntity(RepayDebtEventModel entity) => entity.Description = "Some other description";
         protected override void SetUserId(RepayDebtEvent entity, int userId)
         {

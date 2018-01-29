@@ -11,6 +11,7 @@ using MoneyChest.Model.Model;
 using MoneyChest.Model.Extensions;
 using System.Data.Entity;
 using MoneyChest.Services.Converters;
+using MoneyChest.Data.Enums;
 
 namespace MoneyChest.Services.Services
 {
@@ -64,12 +65,21 @@ namespace MoneyChest.Services.Services
                 
             // save changes
             SaveChanges();
+            
+            // update related storage
+            if(model.StorageId.HasValue)
+            {
+                var storage = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageId);
+                storage.Value += (model.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * (model.Value - model.InitialFee);
+                _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
+            }
 
             return _converter.UpdateModel(GetDbDetailedEntity(entity), model);
         }
 
         public override DebtModel Update(DebtModel model)
         {
+            var oldModel = _converter.ToModel(Scope.First(e => e.Id == model.Id));
             // get from database
             var dbEntity = GetDbEntity(model);
             // update entity by converter
@@ -112,6 +122,32 @@ namespace MoneyChest.Services.Services
             // save changes
             SaveChanges();
             // TODO: add OnUpdate method
+            
+            // update related storages
+            var oldValue = (oldModel.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * (oldModel.Value - oldModel.InitialFee);
+            var newValue = (model.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * (model.Value - model.InitialFee);
+
+            if (oldModel.StorageId != model.StorageId)
+            {
+                if(oldModel.StorageId.HasValue && oldModel.StorageId.Value > 0)
+                {
+                    var oldStorage = _context.Storages.FirstOrDefault(_ => _.Id == oldModel.StorageId);
+                    oldStorage.Value -= oldValue;
+                    _historyService.WriteHistory(oldStorage, ActionType.Update, oldStorage.UserId);
+                }
+                if (model.StorageId.HasValue && model.StorageId.Value > 0)
+                {
+                    var storage = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageId);
+                    storage.Value += newValue;
+                    _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
+                }
+            }
+            else if (model.StorageId.HasValue && model.StorageId.Value > 0 && oldValue != newValue)
+            {
+                var storage = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageId);
+                storage.Value -= oldValue - newValue;
+                _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
+            }
 
             // TODO: check if related entity foreign key was changed related entity will be updated automatically or not. For now implementation like "not"
             return _converter.UpdateModel(GetDbDetailedEntity(dbEntity), model);

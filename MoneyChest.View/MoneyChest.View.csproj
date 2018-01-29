@@ -51,9 +51,8 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.1.953, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.2.3.1.953\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="PropertyChanged, Version=2.1.4.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.2.1.4\lib\netstandard1.0\PropertyChanged.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="PropertyChanged, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.2.2.5\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -79,6 +78,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityHideConverter.cs" />
     <Compile Include="Converters\EnumToBoolConverter.cs" />
+    <Compile Include="Converters\EnumToVisibilityConverter.cs" />
     <Compile Include="Details\CategoryDetailsView.xaml.cs">
       <DependentUpon>CategoryDetailsView.xaml</DependentUpon>
     </Compile>
@@ -94,10 +94,21 @@
     <Compile Include="Details\MoneyTransferDetailsView.xaml.cs">
       <DependentUpon>MoneyTransferDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Details\MoneyTransferEventDetailsView.xaml.cs">
+      <DependentUpon>MoneyTransferEventDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Details\RepayDebtEventDetailsView.xaml.cs">
+      <DependentUpon>RepayDebtEventDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Details\SimpleEventDetailsView.xaml.cs">
+      <DependentUpon>SimpleEventDetailsView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Details\StorageDetailsView.xaml.cs">
       <DependentUpon>StorageDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\MultiLangBinding.cs" />
+    <Compile Include="Utils\ScheduleHelper.cs" />
     <Compile Include="Utils\TreeHelper.cs" />
     <Compile Include="Main\CustomHamburgerMenuItem.cs" />
     <Compile Include="Main\MainView.xaml.cs">
@@ -197,6 +208,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Details\MoneyTransferEventDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Details\RepayDebtEventDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Details\SimpleEventDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Include="Details\StorageDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -246,11 +269,11 @@
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" />
+  <Import Project="..\packages\Fody.2.3.23\build\Fody.targets" Condition="Exists('..\packages\Fody.2.3.23\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.2.3.23\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.3.23\build\Fody.targets'))" />
   </Target>
 </Project>

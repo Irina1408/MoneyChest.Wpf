@@ -16,19 +16,17 @@ namespace MoneyChest.Data.Entities
         public TransactionType TransactionType { get; set; }
 
         public int CurrencyId { get; set; }
-
-        public int? CategoryId { get; set; }
-
         public int StorageId { get; set; }
+        public int? CategoryId { get; set; }
 
 
         [ForeignKey(nameof(CurrencyId))]
         public virtual Currency Currency { get; set; }
 
-        [ForeignKey(nameof(CategoryId))]
-        public virtual Category Category { get; set; }
-
         [ForeignKey(nameof(StorageId))]
         public virtual Storage Storage { get; set; }
+
+        [ForeignKey(nameof(CategoryId))]
+        public virtual Category Category { get; set; }
     }
 }

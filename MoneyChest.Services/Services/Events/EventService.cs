@@ -12,7 +12,7 @@ using MoneyChest.Model.Model;
 using MoneyChest.Services.Converters;
 using System.Data.Entity;
 
-namespace MoneyChest.Services.Services.Events
+namespace MoneyChest.Services.Services
 {
     public interface IEventService
     {
@@ -52,11 +52,11 @@ namespace MoneyChest.Services.Services.Events
                     .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_moneyTransferEventConverter.ToModel),
 
                 RepayDebtEvents = _context.RepayDebtEvents
-                    .Include(_ => _.Storage).Include(_ => _.Debt)
+                    .Include(_ => _.Storage.Currency).Include(_ => _.Debt.Currency)
                     .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_repayDebtEventConverter.ToModel),
 
                 SimpleEvents = _context.SimpleEvents
-                    .Include(_ => _.Storage).Include(_ => _.Currency).Include(_ => _.Category)
+                    .Include(_ => _.Storage.Currency).Include(_ => _.Currency).Include(_ => _.Category)
                     .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_simpleEventConverter.ToModel)
             };
         }
