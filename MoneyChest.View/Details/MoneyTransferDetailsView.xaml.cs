@@ -25,20 +25,23 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
+    public abstract class MoneyTransferDetailsViewBase : BaseEntityDetailsView<MoneyTransferModel, MoneyTransferModel, IMoneyTransferService>
+    {
+        public MoneyTransferDetailsViewBase() : base()
+        { }
+
+        public MoneyTransferDetailsViewBase(IMoneyTransferService service, MoneyTransferModel entity, bool isNew, Action closeAction)
+            : base(service, entity, isNew, closeAction)
+        { }
+    }
+
     /// <summary>
     /// Interaction logic for MoneyTransferDetailsView.xaml
     /// </summary>
-    public partial class MoneyTransferDetailsView : UserControl
+    public partial class MoneyTransferDetailsView : MoneyTransferDetailsViewBase
     {
         #region Private fields
-
-        private IMoneyTransferService _service;
-        private EntityWrapper<MoneyTransferModel> _wrappedEntity;
-        private bool _isNew;
-        private DetailsViewCommandContainer _commands;
-        private Action _closeAction;
-        private bool _closeView;
-
+        
         private IEnumerable<StorageModel> _storages;
         private IEnumerable<CurrencyExchangeRateModel> _currencyExchangeRates;
         private CategoryViewModelCollection _categories;
@@ -51,13 +54,11 @@ namespace MoneyChest.View.Details
 
         public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew, Action closeAction,
             bool showHiddenStorages, IEnumerable<StorageModel> storages)
+            : base(service, entity, isNew, closeAction)
         {
             InitializeComponent();
 
             // init
-            _service = service;
-            _isNew = isNew;
-            _closeAction = closeAction;
             _showHiddenStorages = showHiddenStorages;
             _storages = storages;
             _currencyExchangeRateService = ServiceManager.ConfigureService<CurrencyExchangeRateService>();
@@ -72,12 +73,7 @@ namespace MoneyChest.View.Details
             // update selected category name
             var selectedCategory = _categories.GetDescendants().FirstOrDefault(_ => _.IsSelected);
             txtCategory.Text = selectedCategory.Name;
-
-            // set defauls
-            _closeView = false;
-            LabelHeader.Content = isNew
-                ? MultiLangResourceManager.Instance[MultiLangResourceName.New(typeof(MoneyTransferModel))]
-                : MultiLangResourceManager.Instance[MultiLangResourceName.Singular(typeof(MoneyTransferModel))];
+            TreeViewCategories.ItemsSource = _categories;
 
             // initialize datacontexts
             IEnumerable<StorageModel> showStorages;
@@ -89,37 +85,8 @@ namespace MoneyChest.View.Details
             comboFromStorage.ItemsSource = showStorages;
             comboToStorage.ItemsSource = showStorages;
 
-            _wrappedEntity = new EntityWrapper<MoneyTransferModel>(entity);
-            this.DataContext = _wrappedEntity.Entity;
-            TreeViewCategories.ItemsSource = _categories;
-            InitializeCommands();
-        }
-
-        private void InitializeCommands()
-        {
-            _commands = new DetailsViewCommandContainer()
-            {
-                SaveCommand = new Command(() =>
-                {
-                    // save changes
-                    SaveChanges();
-                    // close control
-                    _closeAction?.Invoke();
-                },
-                () => _wrappedEntity.IsChanged && !_wrappedEntity.HasErrors),
-
-                CancelCommand = new Command(() =>
-                {
-                    if (CloseView())
-                        _closeAction?.Invoke();
-                })
-            };
-
-            // add events
-            _wrappedEntity.Entity.PropertyChanged += (sender, args) => ((Command)_commands.SaveCommand).ValidateCanExecute();
-            // validate save command now 
-            _commands.SaveCommand.ValidateCanExecute();
-
+            // set header and commands panel context
+            LabelHeader.Content = ViewHeader;
             CommandsPanel.DataContext = _commands;
         }
 
@@ -174,59 +141,6 @@ namespace MoneyChest.View.Details
             }
             else
                 _wrappedEntity.Entity.CurrencyExchangeRate = 1;
-        }
-
-        #endregion
-
-        #region Public
-
-        public bool DialogResult { get; private set; } = false;
-
-        public void SaveChanges()
-        {
-            if (_isNew)
-                _service.Add(_wrappedEntity.Entity);
-            else
-                _service.Update(_wrappedEntity.Entity);
-
-            DialogResult = true;
-            _closeView = true;
-        }
-
-        public void RevertChanges()
-        {
-            _wrappedEntity.RevertChanges();
-
-            DialogResult = false;
-            _closeView = true;
-        }
-
-        public bool CloseView()
-        {
-            // not ask confirmation if it has already asked
-            if (_closeView) return _closeView;
-
-            // ask confirmation only if any changes exists
-            if (_wrappedEntity.IsChanged)
-            {
-                // show confirmation
-                var dialogResult = MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmationMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmation], MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
-
-                if (dialogResult == MessageBoxResult.Yes)
-                {
-                    // check errors
-                    if (_wrappedEntity.HasErrors)
-                        MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailedMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailed], MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    else
-                        SaveChanges();
-                }
-                else if (dialogResult == MessageBoxResult.No)
-                    RevertChanges();
-            }
-            else
-                _closeView = true;
-
-            return _closeView;
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MoneyChest.View.Details.DebtDetailsView"
+﻿<local:DebtDetailsViewBase x:Class="MoneyChest.View.Details.DebtDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -338,4 +338,4 @@
             <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
         </StackPanel>
     </Grid>
-</UserControl>
+</local:DebtDetailsViewBase>

@@ -26,19 +26,22 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
+    public abstract class RepayDebtEventDetailsViewBase : BaseEntityDetailsView<RepayDebtEventModel, RepayDebtEventViewModel, IRepayDebtEventService>
+    {
+        public RepayDebtEventDetailsViewBase() : base()
+        { }
+
+        public RepayDebtEventDetailsViewBase(IRepayDebtEventService service, RepayDebtEventViewModel entity, bool isNew, Action closeAction)
+            : base(service, entity, isNew, closeAction)
+        { }
+    }
+
     /// <summary>
     /// Interaction logic for RepayDebtEventDetailsView.xaml
     /// </summary>
-    public partial class RepayDebtEventDetailsView : UserControl
+    public partial class RepayDebtEventDetailsView : RepayDebtEventDetailsViewBase
     {
         #region Private fields
-
-        private IRepayDebtEventService _service;
-        private EntityWrapper<RepayDebtEventViewModel> _wrappedEntity;
-        private bool _isNew;
-        private DetailsViewCommandContainer _commands;
-        private Action _closeAction;
-        private bool _closeView;
 
         private IEnumerable<DebtModel> _debts;
         private IEnumerable<CurrencyModel> _currencies;
@@ -50,14 +53,10 @@ namespace MoneyChest.View.Details
         #region Initialization
 
         public RepayDebtEventDetailsView(IRepayDebtEventService service, RepayDebtEventViewModel entity, bool isNew, Action closeAction)
+            : base(service, entity, isNew, closeAction)
         {
             InitializeComponent();
-
-            // init
-            _service = service;
-            _isNew = isNew;
-            _closeAction = closeAction;
-
+            
             // load debts
             IDebtService debtService = ServiceManager.ConfigureService<DebtService>();
             _debts = debtService.GetActive(GlobalVariables.UserId);
@@ -77,50 +76,14 @@ namespace MoneyChest.View.Details
             comboDaysOfMonth.ItemsSource = ScheduleHelper.GetMonthes();
             DaysOfWeekControl.ItemsSource = MultiLangEnumHelper.ToSelectableCollection(entity.Schedule.DaysOfWeek);
             MonthesControl.ItemsSource = MultiLangEnumHelper.ToSelectableCollection(entity.Schedule.Months);
-
-            // set defaults
-            _closeView = false;
-            LabelHeader.Content = isNew
-                ? MultiLangResourceManager.Instance[MultiLangResourceName.New(typeof(RepayDebtEventModel))]
-                : MultiLangResourceManager.Instance[MultiLangResourceName.Singular(typeof(RepayDebtEventModel))];
-
-            // initialize datacontexts
-            _wrappedEntity = new EntityWrapper<RepayDebtEventViewModel>(entity);
-
+            
             if (isNew)
                 comboCurrencies.ItemsSource = _currencies;
             else
                 UpdateCurrenciesList();
-
-            this.DataContext = _wrappedEntity.Entity;
-            InitializeCommands();
-        }
-
-        private void InitializeCommands()
-        {
-            _commands = new DetailsViewCommandContainer()
-            {
-                SaveCommand = new Command(() =>
-                {
-                    // save changes
-                    SaveChanges();
-                    // close control
-                    _closeAction?.Invoke();
-                },
-                () => _wrappedEntity.IsChanged && !_wrappedEntity.HasErrors),
-
-                CancelCommand = new Command(() =>
-                {
-                    if (CloseView())
-                        _closeAction?.Invoke();
-                })
-            };
-
-            // add events
-            _wrappedEntity.Entity.PropertyChanged += (sender, args) => _commands.SaveCommand.ValidateCanExecute();
-            // validate save command now 
-            _commands.SaveCommand.ValidateCanExecute();
-
+            
+            // set header and commands panel context
+            LabelHeader.Content = ViewHeader;
             CommandsPanel.DataContext = _commands;
         }
 
@@ -261,59 +224,6 @@ namespace MoneyChest.View.Details
             var currencyId = (int?)comboCurrencies.SelectedValue;
             // update property IsValueInStorageCurrency
             _wrappedEntity.Entity.IsValueInStorageCurrency = _wrappedEntity.Entity.StorageCurrency?.Id == currencyId;
-        }
-
-        #endregion
-
-        #region Public
-
-        public bool DialogResult { get; private set; } = false;
-
-        public void SaveChanges()
-        {
-            if (_isNew)
-                _service.Add(_wrappedEntity.Entity);
-            else
-                _service.Update(_wrappedEntity.Entity);
-
-            DialogResult = true;
-            _closeView = true;
-        }
-
-        public void RevertChanges()
-        {
-            _wrappedEntity.RevertChanges();
-
-            DialogResult = false;
-            _closeView = true;
-        }
-
-        public bool CloseView()
-        {
-            // not ask confirmation if it has already asked
-            if (_closeView) return _closeView;
-
-            // ask confirmation only if any changes exists
-            if (_wrappedEntity.IsChanged)
-            {
-                // show confirmation
-                var dialogResult = MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmationMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmation], MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
-
-                if (dialogResult == MessageBoxResult.Yes)
-                {
-                    // check errors
-                    if (_wrappedEntity.HasErrors)
-                        MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailedMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailed], MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    else
-                        SaveChanges();
-                }
-                else if (dialogResult == MessageBoxResult.No)
-                    RevertChanges();
-            }
-            else
-                _closeView = true;
-
-            return _closeView;
         }
 
         #endregion

@@ -3,6 +3,7 @@ using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
+using MoneyChest.Services.Services.Base;
 using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Utils;
@@ -26,20 +27,23 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
+    public abstract class DebtDetailsViewBase : BaseEntityDetailsView<DebtModel, DebtViewModel, IDebtService>
+    {
+        public DebtDetailsViewBase() : base()
+        { }
+
+        public DebtDetailsViewBase(IDebtService service, DebtViewModel entity, bool isNew, Action closeAction)
+            : base(service, entity, isNew, closeAction)
+        { }
+    }
+
     /// <summary>
     /// Interaction logic for DebtDetailsView.xaml
     /// </summary>
-    public partial class DebtDetailsView : UserControl
+    public partial class DebtDetailsView : DebtDetailsViewBase
     {
         #region Private fields
-
-        private IDebtService _service;
-        private EntityWrapper<DebtViewModel> _wrappedEntity;
-        private bool _isNew;
-        private DetailsViewCommandContainer _commands;
-        private Action _closeAction;
-        private bool _closeView;
-
+        
         private IEnumerable<CurrencyModel> _currencies;
         private IEnumerable<StorageModel> _storages;
         private IEnumerable<CurrencyExchangeRateModel> _currencyExchangeRates;
@@ -53,14 +57,10 @@ namespace MoneyChest.View.Details
         #region Initialization
 
         public DebtDetailsView(IDebtService service, DebtViewModel entity, bool isNew, Action closeAction)
+            : base(service, entity, isNew, closeAction)
         {
             InitializeComponent();
-
-            // init
-            _service = service;
-            _isNew = isNew;
-            _closeAction = closeAction;
-
+            
             // load categories
             ICategoryService categoryService = ServiceManager.ConfigureService<CategoryService>();
             _categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId, entity.CategoryId)
@@ -71,6 +71,7 @@ namespace MoneyChest.View.Details
             // update selected category name
             var selectedCategory = _categories.GetDescendants().FirstOrDefault(_ => _.IsSelected);
             txtCategory.Text = selectedCategory.Name;
+            TreeViewCategories.ItemsSource = _categories;
 
             // load storages
             IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
@@ -87,45 +88,17 @@ namespace MoneyChest.View.Details
             ICurrencyService currencyService = ServiceManager.ConfigureService<CurrencyService>();
             _currencies = currencyService.GetActive(GlobalVariables.UserId, entity.CurrencyId, entity.Storage?.CurrencyId);
             comboCurrencies.ItemsSource = _currencies;
-
-            // set defauls
-            _closeView = false;
-            LabelHeader.Content = isNew
-                ? MultiLangResourceManager.Instance[MultiLangResourceName.New(typeof(DebtModel))]
-                : MultiLangResourceManager.Instance[MultiLangResourceName.Singular(typeof(DebtModel))];
-
-            // initialize datacontexts
-            // TODO: should be wrapped the same debt model object
-            _wrappedEntity = new EntityWrapper<DebtViewModel>(entity);
-            TreeViewCategories.ItemsSource = _categories;
-            this.DataContext = _wrappedEntity.Entity;
-            InitializeCommands();
+            
             FillPenalties();
-            // mark as not changed forcibly
-            _wrappedEntity.IsChanged = false;
-            // validate save command now 
-            _commands.SaveCommand.ValidateCanExecute();
+
+            // set header and commands panel context
+            LabelHeader.Content = ViewHeader;
+            CommandsPanel.DataContext = _commands;
         }
 
-        private void InitializeCommands()
+        protected override void InitializeCommands()
         {
-            _commands = new DetailsViewCommandContainer()
-            {
-                SaveCommand = new Command(() =>
-                {
-                    // save changes
-                    SaveChanges();
-                    // close control
-                    _closeAction?.Invoke();
-                },
-                () => _wrappedEntity.IsChanged && !_wrappedEntity.HasErrors),
-
-                CancelCommand = new Command(() =>
-                {
-                    if (CloseView())
-                        _closeAction?.Invoke();
-                })
-            };
+            base.InitializeCommands();
 
             DeletePenaltyCommand = new ParametrizedCommand<DebtPenaltyViewModel>(
                 (item) =>
@@ -153,13 +126,6 @@ namespace MoneyChest.View.Details
                 _wrappedEntity.Entity.Penalties.Add(newPenalty);
                 AddPenaltyToView(newPenalty);
             });
-
-            // add events
-            _wrappedEntity.Entity.PropertyChanged += (sender, args) => _commands.SaveCommand.ValidateCanExecute();
-            // validate save command now 
-            _commands.SaveCommand.ValidateCanExecute();
-
-            CommandsPanel.DataContext = _commands;
         }
 
         #endregion
@@ -245,59 +211,6 @@ namespace MoneyChest.View.Details
             }
             else
                 _wrappedEntity.Entity.CurrencyExchangeRate = 1;
-        }
-
-        #endregion
-
-        #region Public
-
-        public bool DialogResult { get; private set; } = false;
-
-        public void SaveChanges()
-        {
-            if (_isNew)
-                _service.Add(_wrappedEntity.Entity);
-            else
-                _service.Update(_wrappedEntity.Entity);
-
-            DialogResult = true;
-            _closeView = true;
-        }
-
-        public void RevertChanges()
-        {
-            _wrappedEntity.RevertChanges();
-
-            DialogResult = false;
-            _closeView = true;
-        }
-
-        public bool CloseView()
-        {
-            // not ask confirmation if it has already asked
-            if (_closeView) return _closeView;
-
-            // ask confirmation only if any changes exists
-            if (_wrappedEntity.IsChanged)
-            {
-                // show confirmation
-                var dialogResult = MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmationMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmation], MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
-
-                if (dialogResult == MessageBoxResult.Yes)
-                {
-                    // check errors
-                    if (_wrappedEntity.HasErrors)
-                        MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailedMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailed], MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    else
-                        SaveChanges();
-                }
-                else if (dialogResult == MessageBoxResult.No)
-                    RevertChanges();
-            }
-            else
-                _closeView = true;
-
-            return _closeView;
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -42,6 +43,7 @@ namespace MoneyChest.ViewModel.Wrappers
 
             foreach (var propertyInfo in typeof(T).GetProperties().Where(item => item.CanRead && item.CanWrite))
             {
+                // TODO: check collections
                 propertyOriginalValues.Add(propertyInfo.Name, propertyInfo.GetValue(entity));
             }
         }
@@ -51,9 +53,7 @@ namespace MoneyChest.ViewModel.Wrappers
         #region Public properties
 
         public bool IsChanged { get; set; }
-
         public T Entity { get; private set; }
-
         public bool HasErrors
         {
             get

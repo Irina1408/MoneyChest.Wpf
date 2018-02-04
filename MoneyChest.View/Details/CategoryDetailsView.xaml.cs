@@ -23,34 +23,36 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
+    public abstract class CategoryDetailsViewBase : BaseEntityDetailsView<CategoryModel, CategoryModel, ICategoryService>
+    {
+        public CategoryDetailsViewBase() : base()
+        { }
+
+        public CategoryDetailsViewBase(ICategoryService service, CategoryModel entity, bool isNew, Action closeAction) 
+            : base(service, entity, isNew, closeAction)
+        { }
+    }
+
     /// <summary>
     /// Interaction logic for CategoryDetailsView.xaml
     /// </summary>
-    public partial class CategoryDetailsView : UserControl
+    public partial class CategoryDetailsView : CategoryDetailsViewBase
     {
         #region Private fields
-
-        private ICategoryService _service;
-        private EntityWrapper<CategoryModel> _wrappedEntity;
-        private bool _isNew;
-        private DetailsViewCommandContainer _commands;
-        private Action _closeAction;
-        private bool _closeView;
+        
         private CategoryViewModelCollection _categories;
 
         #endregion
 
         #region Initialization
-
-        public CategoryDetailsView(ICategoryService service, CategoryModel entity, bool isNew, Action closeAction,
-            CategoryViewModelCollection categories)
+        
+        public CategoryDetailsView(ICategoryService service, CategoryModel entity, bool isNew, Action closeAction, 
+            CategoryViewModelCollection categories) : base(service, entity, isNew, closeAction)
         {
             InitializeComponent();
-
-            // init
-            _service = service;
-            _isNew = isNew;
-            _closeAction = closeAction;
+            
+            // TODO: change category hierarchy
+            // init categories
             _categories = new CategoryViewModelCollection(categories);
 
             // add empty category
@@ -59,12 +61,6 @@ namespace MoneyChest.View.Details
                 Id = -1,
                 Name = MultiLangResourceManager.Instance[MultiLangResourceName.None]
             });
-
-            // set defaults
-            _closeView = false;
-            LabelHeader.Content = isNew
-                ? MultiLangResourceManager.Instance[MultiLangResourceName.New(typeof(CategoryModel))]
-                : MultiLangResourceManager.Instance[MultiLangResourceName.Singular(typeof(CategoryModel))];
             
             // set selected item in TreeView
             if(entity.ParentCategoryId.HasValue)
@@ -80,39 +76,11 @@ namespace MoneyChest.View.Details
                 parent.IsSelected = true;
                 txtParentCategory.Text = parent.Name;
             }
-
-            // initialize datacontexts
-            _wrappedEntity = new EntityWrapper<CategoryModel>(entity);
-            this.DataContext = _wrappedEntity.Entity;
+            
             TreeViewCategories.ItemsSource = _categories;
-            InitializeCommands();
-        }
 
-        private void InitializeCommands()
-        {
-            _commands = new DetailsViewCommandContainer()
-            {
-                SaveCommand = new Command(() =>
-                {
-                    // save changes
-                    SaveChanges();
-                    // close control
-                    _closeAction?.Invoke();
-                },
-                () => _wrappedEntity.IsChanged && !_wrappedEntity.HasErrors),
-
-                CancelCommand = new Command(() =>
-                {
-                    if (CloseView())
-                        _closeAction?.Invoke();
-                })
-            };
-
-            // add events
-            _wrappedEntity.Entity.PropertyChanged += (sender, args) => ((Command)_commands.SaveCommand).ValidateCanExecute();
-            // validate save command now 
-            _commands.SaveCommand.ValidateCanExecute();
-
+            // set header and commands panel context
+            LabelHeader.Content = ViewHeader;
             CommandsPanel.DataContext = _commands;
         }
 
@@ -133,59 +101,6 @@ namespace MoneyChest.View.Details
 
             _wrappedEntity.Entity.ParentCategoryId = selectedParent.Id != -1 ? (int?)selectedParent.Id : null;
             txtParentCategory.Text = selectedParent.Name;
-        }
-
-        #endregion
-
-        #region Public
-
-        public bool DialogResult { get; private set; } = false;
-
-        public void SaveChanges()
-        {
-            if (_isNew)
-                _service.Add(_wrappedEntity.Entity);
-            else
-                _service.Update(_wrappedEntity.Entity);
-
-            DialogResult = true;
-            _closeView = true;
-        }
-
-        public void RevertChanges()
-        {
-            _wrappedEntity.RevertChanges();
-
-            DialogResult = false;
-            _closeView = true;
-        }
-
-        public bool CloseView()
-        {
-            // not ask confirmation if it has already asked
-            if (_closeView) return _closeView;
-
-            // ask confirmation only if any changes exists
-            if (_wrappedEntity.IsChanged)
-            {
-                // show confirmation
-                var dialogResult = MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmationMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmation], MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
-
-                if (dialogResult == MessageBoxResult.Yes)
-                {
-                    // check errors
-                    if (_wrappedEntity.HasErrors)
-                        MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailedMessage], MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailed], MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    else
-                        SaveChanges();
-                }
-                else if (dialogResult == MessageBoxResult.No)
-                    RevertChanges();
-            }
-            else
-                _closeView = true;
-
-            return _closeView;
         }
 
         #endregion
