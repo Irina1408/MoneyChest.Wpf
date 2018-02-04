@@ -339,12 +339,8 @@
             </Grid>
         </GroupBox>
 
-        <StackPanel x:Name="CommandsPanel" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <!-- TODO: create style for Ok/Cancel buttons -->
-            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
-                    Style="{DynamicResource AccentedButtonStyle}"/>
-
-            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
-        </StackPanel>
+        <!-- Ok/Cancel buttons -->
+        <components:DetailsViewCommandsPanel x:Name="CommandsPanel"  Grid.Row="2" Grid.ColumnSpan="2"
+                                             SaveCommand="{Binding SaveCommand}" CancelCommand="{Binding CancelCommand}"/>
     </Grid>
 </local:MoneyTransferEventDetailsViewBase>

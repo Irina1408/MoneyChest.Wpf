@@ -10,7 +10,8 @@
              xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              xmlns:viewModel="clr-namespace:MoneyChest.ViewModel.ViewModel;assembly=MoneyChest.ViewModel"
 	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
+                                     xmlns:components="clr-namespace:MoneyChest.View.Components"
+                                     mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
     <UserControl.Resources>
@@ -331,12 +332,7 @@
         </GroupBox>
 
         <!-- Ok/Cancel buttons -->
-        <StackPanel x:Name="CommandsPanel" Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <!-- TODO: create style for Ok/Cancel buttons -->
-            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
-                    Style="{DynamicResource AccentedButtonStyle}"/>
-
-            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
-        </StackPanel>
+        <components:DetailsViewCommandsPanel x:Name="CommandsPanel"  Grid.Row="2" Grid.ColumnSpan="3"
+                                             SaveCommand="{Binding SaveCommand}" CancelCommand="{Binding CancelCommand}"/>
     </Grid>
 </local:RepayDebtEventDetailsViewBase>

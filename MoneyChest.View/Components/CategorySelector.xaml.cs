@@ -36,11 +36,6 @@ namespace MoneyChest.View.Components
             InitializeComponent();
         }
 
-        private void CategoryDialog_DialogOpened(object sender, DialogOpenedEventArgs eventArgs)
-        {
-            TreeViewCategories.ItemsSource = Categories;
-        }
-
         public void CategoryDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
             if (!Equals(eventArgs.Parameter, "1")) return;
@@ -65,7 +60,7 @@ namespace MoneyChest.View.Components
 
         public static readonly DependencyProperty HintProperty = DependencyProperty.Register(
             nameof(Hint), typeof(string), typeof(CategorySelector),
-            new FrameworkPropertyMetadata(null, HintChangedCallback));
+            new FrameworkPropertyMetadata(MultiLangResourceManager.Instance[MultiLangResourceName.Singular("Category")], HintChangedCallback));
 
         private static void HintChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

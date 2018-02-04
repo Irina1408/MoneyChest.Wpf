@@ -78,6 +78,9 @@
     <Compile Include="Components\CategorySelector.xaml.cs">
       <DependentUpon>CategorySelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\DetailsViewCommandsPanel.xaml.cs">
+      <DependentUpon>DetailsViewCommandsPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityHideConverter.cs" />
     <Compile Include="Converters\EnumToBoolConverter.cs" />
@@ -193,6 +196,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Components\CategorySelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\DetailsViewCommandsPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

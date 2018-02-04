@@ -7,7 +7,8 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
 	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
-             mc:Ignorable="d" 
+                               xmlns:components="clr-namespace:MoneyChest.View.Components"
+                               mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -70,12 +71,8 @@
             </GroupBox>
         </StackPanel>
 
-        <StackPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <!-- TODO: create style for Ok/Cancel buttons -->
-            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
-                    Style="{DynamicResource AccentedButtonStyle}"/>
-
-            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
-        </StackPanel>
+        <!-- Ok/Cancel buttons -->
+        <components:DetailsViewCommandsPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="3"
+                                             SaveCommand="{Binding SaveCommand}" CancelCommand="{Binding CancelCommand}"/>
     </Grid>
 </local:CurrencyDetailsViewBase>
