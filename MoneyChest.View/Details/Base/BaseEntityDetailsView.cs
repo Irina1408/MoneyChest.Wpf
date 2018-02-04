@@ -83,10 +83,6 @@ namespace MoneyChest.View.Details
             _wrappedEntity.Entity.PropertyChanged += (sender, args) => ((Command)_commands.SaveCommand).ValidateCanExecute();
             // validate save command now 
             _commands.SaveCommand.ValidateCanExecute();
-
-            // page header and commands panel comntexts should be initiallized here 
-            //HeaderLabel.Content = ViewHeader;
-            //CommandsPanel.DataContext = _commands;
         }
 
         protected virtual void DetailsView_Loaded(object sender, RoutedEventArgs e)

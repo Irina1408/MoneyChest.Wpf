@@ -7,7 +7,8 @@
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
 	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
+                               xmlns:components="clr-namespace:MoneyChest.View.Components"
+                               mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -34,37 +35,10 @@
             </StackPanel>
 
             <!-- Parent category -->
-            <materialDesign:DialogHost HorizontalAlignment="Right" VerticalAlignment="Center"
-                                       DialogClosing="CategoryDialogClosingEventHandler">
-                <materialDesign:DialogHost.DialogContent>
-                    <Grid Width="300" Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TreeView x:Name="TreeViewCategories" Grid.Row="0" 
-                                  ItemContainerStyle="{DynamicResource CategoryTreeViewSelectableItemContainerStyle}"
-                                  ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
-                        </TreeView>
-                        <StackPanel Grid.Row="1" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
-                            <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 
-                                    CommandParameter="1" Style="{DynamicResource AccentedButtonStyle}"
-                                    Content="{moneyChestView:MultiLangBinding General_Ok}"/>
-                            <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0"
-                                    Content="{moneyChestView:MultiLangBinding General_Cancel}"/>
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:DialogHost.DialogContent>
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}"/>
-                    <TextBox x:Name="txtParentCategory" Style="{DynamicResource HintButtonTextBoxStyle}" IsReadOnly="True"
-                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Category_ParentCategory}"/>
-                    <Button Grid.Column="1" Content="..." Style="{DynamicResource TextBoxButtonStyle}"
-                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
-                    </Button>
-                </StackPanel>
-            </materialDesign:DialogHost>
-            
+            <components:CategorySelector x:Name="ParentCategorySelector" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                         SelectedCategoryId="{Binding ParentCategoryId}" ShowEmptyCategory="True"
+                                         Hint="{moneyChestView:MultiLangBinding Category_ParentCategory}"/>
+
             <!-- Remark -->
             <StackPanel Orientation="Horizontal">
                 <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>

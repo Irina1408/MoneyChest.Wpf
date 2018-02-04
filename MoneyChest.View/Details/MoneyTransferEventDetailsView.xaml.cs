@@ -59,19 +59,7 @@ namespace MoneyChest.View.Details
 
             // init
             _currencyExchangeRateService = ServiceManager.ConfigureService<CurrencyExchangeRateService>();
-
-            // load categories
-            ICategoryService categoryService = ServiceManager.ConfigureService<CategoryService>();
-            _categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId)
-                .OrderByDescending(_ => _.TransactionType)
-                .ThenBy(_ => _.Name)
-                .ToList(), entity.CategoryId, true);
-
-            // update selected category name
-            var selectedCategory = _categories.GetDescendants().FirstOrDefault(_ => _.IsSelected);
-            txtCategory.Text = selectedCategory.Name;
-            TreeViewCategories.ItemsSource = _categories;
-
+            
             // load storages
             IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
             _storages = storageService.GetVisible(GlobalVariables.UserId, entity.StorageFromId, entity.StorageToId);
@@ -93,22 +81,7 @@ namespace MoneyChest.View.Details
         #endregion
 
         #region Event handlers
-
-        public void CategoryDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            if (!Equals(eventArgs.Parameter, "1")) return;
-
-            var selectedCategory = _categories.GetDescendants().FirstOrDefault(_ => _.IsSelected);
-            if (selectedCategory == null)
-            {
-                eventArgs.Cancel();
-                return;
-            }
-
-            _wrappedEntity.Entity.CategoryId = selectedCategory.Id != -1 ? (int?)selectedCategory.Id : null;
-            txtCategory.Text = selectedCategory.Name;
-        }
-
+        
         private void comboStorage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!_wrappedEntity.IsChanged) return;

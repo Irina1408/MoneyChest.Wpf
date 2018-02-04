@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="MoneyChest.View.Components.CategorySelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MoneyChest.View.Components"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <materialDesign:DialogHost HorizontalAlignment="Left" VerticalAlignment="Center"
+                               DialogClosing="CategoryDialogClosingEventHandler"
+                               DialogOpened="CategoryDialog_DialogOpened">
+        <materialDesign:DialogHost.DialogContent>
+            <Grid Width="300" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TreeView x:Name="TreeViewCategories" Grid.Row="0"
+                                  ItemContainerStyle="{DynamicResource CategoryTreeViewSelectableItemContainerStyle}"
+                                  ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
+                </TreeView>
+                <StackPanel Grid.Row="1" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 
+                                    CommandParameter="1" Style="{DynamicResource AccentedButtonStyle}"
+                                    Content="{moneyChestView:MultiLangBinding General_Ok}"/>
+                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0"
+                                    Content="{moneyChestView:MultiLangBinding General_Cancel}"/>
+                </StackPanel>
+            </Grid>
+        </materialDesign:DialogHost.DialogContent>
+        <StackPanel Orientation="Horizontal">
+            <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}"/>
+            <TextBox x:Name="txtCategory" x:FieldModifier="internal" Style="{DynamicResource HintButtonTextBoxStyle}" IsReadOnly="True"
+                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Category_Singular}"/>
+            <Button Grid.Column="1" Content="..." Style="{DynamicResource TextBoxButtonStyle}"
+                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+            </Button>
+        </StackPanel>
+    </materialDesign:DialogHost>
+</UserControl>
