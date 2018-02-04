@@ -9,10 +9,9 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <Button Content="{moneyChestView:MultiLangBinding General_Ok}" 
-                Command="{Binding SaveCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DetailsViewCommandsPanel}}}"
+        <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
                 Style="{DynamicResource AccentedButtonStyle}"/>
 
-        <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DetailsViewCommandsPanel}}}" IsCancel="True"/>
+        <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" Command="{Binding CancelCommand}" IsCancel="True"/>
     </StackPanel>
 </UserControl>

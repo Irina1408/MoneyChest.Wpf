@@ -89,7 +89,6 @@
         </StackPanel>
 
         <!-- Ok/Cancel buttons -->
-        <components:DetailsViewCommandsPanel x:Name="CommandsPanel"  Grid.Row="2"
-                                             SaveCommand="{Binding SaveCommand}" CancelCommand="{Binding CancelCommand}"/>
+        <components:DetailsViewCommandsPanel x:Name="CommandsPanel" Grid.Row="2"/>
     </Grid>
 </local:StorageDetailsViewBase>

@@ -72,7 +72,6 @@
         </StackPanel>
 
         <!-- Ok/Cancel buttons -->
-        <components:DetailsViewCommandsPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="3"
-                                             SaveCommand="{Binding SaveCommand}" CancelCommand="{Binding CancelCommand}"/>
+        <components:DetailsViewCommandsPanel x:Name="CommandsPanel" Grid.Row="3" Grid.ColumnSpan="3"/>
     </Grid>
 </local:CurrencyDetailsViewBase>

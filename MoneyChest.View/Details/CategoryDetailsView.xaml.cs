@@ -38,12 +38,6 @@ namespace MoneyChest.View.Details
     /// </summary>
     public partial class CategoryDetailsView : CategoryDetailsViewBase
     {
-        #region Private fields
-        
-        private CategoryViewModelCollection _categories;
-
-        #endregion
-
         #region Initialization
         
         public CategoryDetailsView(ICategoryService service, CategoryModel entity, bool isNew, Action closeAction, 
@@ -52,8 +46,8 @@ namespace MoneyChest.View.Details
             InitializeComponent();
             
             // init categories
-            _categories = new CategoryViewModelCollection(categories);
-            ParentCategorySelector.Categories = _categories;
+            var cats = new CategoryViewModelCollection(categories);
+            ParentCategorySelector.Categories = cats;
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;

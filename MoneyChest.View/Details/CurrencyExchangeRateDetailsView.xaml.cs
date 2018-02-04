@@ -48,7 +48,10 @@ namespace MoneyChest.View.Details
             : base(service, entity, isNew, closeAction)
         {
             InitializeComponent();
-            
+
+            // init
+            _existingCurrencyExchangeRates = currencyExchangeRates;
+
             // initialize datacontexts
             IEnumerable<CurrencyModel> activeCurrencies = 
                 currencies.Where(_ => _.IsActive || _.Id == entity.CurrencyFromId || _.Id == entity.CurrencyToId);

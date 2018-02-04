@@ -332,7 +332,6 @@
         </GroupBox>
 
         <!-- Ok/Cancel buttons -->
-        <components:DetailsViewCommandsPanel x:Name="CommandsPanel"  Grid.Row="2" Grid.ColumnSpan="3"
-                                             SaveCommand="{Binding SaveCommand}" CancelCommand="{Binding CancelCommand}"/>
+        <components:DetailsViewCommandsPanel x:Name="CommandsPanel"  Grid.Row="2" Grid.ColumnSpan="3"/>
     </Grid>
 </local:RepayDebtEventDetailsViewBase>

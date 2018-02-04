@@ -45,7 +45,6 @@ namespace MoneyChest.View.Details
 
         private IEnumerable<StorageModel> _storages;
         private IEnumerable<CurrencyExchangeRateModel> _currencyExchangeRates;
-        private CategoryViewModelCollection _categories;
         private ICurrencyExchangeRateService _currencyExchangeRateService;
 
         #endregion
