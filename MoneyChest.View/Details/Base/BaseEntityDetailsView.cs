@@ -89,6 +89,8 @@ namespace MoneyChest.View.Details
         {
             // complete components initialization
             InitializationComplete();
+            // set padding for content
+            this.Padding = new Thickness(10);
         }
 
         #endregion
@@ -102,7 +104,7 @@ namespace MoneyChest.View.Details
         #endregion
 
         #region Public
-
+        // TODO: add height and width
         public bool DialogResult { get; protected set; } = false;
 
         public virtual void SaveChanges()

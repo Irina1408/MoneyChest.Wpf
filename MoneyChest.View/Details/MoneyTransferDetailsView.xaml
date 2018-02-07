@@ -129,50 +129,8 @@
             </Grid>
 
             <!-- Comission -->
-            <GroupBox Grid.Column="0" Grid.Row="1" Margin="5 20 10 5">
-                <GroupBox.Header>
-                    <CheckBox Content="{moneyChestView:MultiLangBinding General_Commission}" IsChecked="{Binding CommissionEnabled}"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
-                </GroupBox.Header>
-                <Grid IsEnabled="{Binding CommissionEnabled}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <!-- Comission type -->
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <RadioButton IsChecked="{Binding CommissionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:CommissionType.Percentage}}">
-                            <RadioButton.Content>
-                                <iconPacks:PackIconFontAwesome Kind="Percent" />
-                            </RadioButton.Content>
-                        </RadioButton>
-                        <RadioButton IsChecked="{Binding CommissionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:CommissionType.Currency}}">
-                            <RadioButton.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <iconPacks:PackIconFontAwesome Kind="Money" />
-                                    <TextBlock FontSize="{DynamicResource DefaultFontSize}"
-                                               Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center">
-                                        <Run Text=" ("/>
-                                        <Run Text="{Binding StorageFromCurrency.Symbol}"/>
-                                        <Run Text=")"/>
-                                    </TextBlock>
-                                </StackPanel>
-                            </RadioButton.Content>
-                        </RadioButton>
-                    </StackPanel>
-
-                    <!-- Take Commission From Receiver -->
-                    <CheckBox Content="{moneyChestView:MultiLangBinding MoneyTransfer_TakeCommissionFromReceiver}"
-                              ToolTip="{moneyChestView:MultiLangBinding MoneyTransfer_TakeCommissionFromReceiver}"
-                              IsChecked="{Binding TakeCommissionFromReceiver}" Grid.Row="1"/>
-
-                    <!-- Commission value -->
-                    <TextBox Grid.Row="2" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Commission}"
-                                     Text="{Binding Commission, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}" Margin="5 10 5 10" Width="Auto"/>
-                </Grid>
-            </GroupBox>
+            <components:CommissionControl Grid.Column="0" Grid.Row="1" Margin="5 20 10 5" ShowTakeCommissionFromReceiver="True"
+                                          CurrencySymbol="{Binding StorageFromCurrency.Symbol}"/>
 
             <!-- Currency exchange rate -->
             <GroupBox Grid.Column="1" Grid.Row="1" Margin="10 20 5 5" IsEnabled="{Binding IsDifferentCurrenciesSelected}">
