@@ -32,6 +32,7 @@ namespace MoneyChest.Model.Model
             ConfirmBeforeExecute = false;
             _commissionEnabled = false;
             Schedule = new ScheduleModel();
+            TakeExistingCurrencyExchangeRate = true;
         }
 
         #endregion

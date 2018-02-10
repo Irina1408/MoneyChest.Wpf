@@ -77,7 +77,6 @@ namespace MoneyChest.Model.Model
         public CurrencyReference Currency { get; set; }
         public CategoryReference Category { get; set; }
         public StorageReference Storage { get; set; }
-        public CurrencyReference StorageCurrency { get; set; }
         public ObservableCollection<DebtPenaltyModel> Penalties
         {
             get => penalties;
@@ -88,7 +87,7 @@ namespace MoneyChest.Model.Model
                 foreach(var penalty in penalties)
                     penalty.PropertyChanged += PenaltyPropertyChanged;
 
-                Penalties.CollectionChanged += (sender, e) =>
+                penalties.CollectionChanged += (sender, e) =>
                 {
                     // add nofitication for every penalty on value is changed
                     if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)

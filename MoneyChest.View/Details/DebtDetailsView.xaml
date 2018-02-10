@@ -190,36 +190,11 @@
                     </CheckBox>-->
 
                     <!-- Currency exchange rate -->
-                    <GroupBox Grid.Row="2" Margin="5" IsEnabled="{Binding IsDifferentCurrenciesSelected}">
-                        <GroupBox.Header>
-                            <TextBlock Text="{moneyChestView:MultiLangBinding General_ExchangeRate}"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
-                        </GroupBox.Header>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <!-- Example -->
-                            <TextBlock Grid.Row="0" Text="{Binding ExchangeRateExample}" FontSize="{DynamicResource LargeFontSize}"
-                               Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsDifferentCurrenciesSelected}" Value="false">
-                                                <Setter Property="Opacity" Value="0.5"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-
-                            <!-- Rate -->
-                            <TextBox Grid.Row="1" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Rate}"
-                                     Text="{Binding CurrencyExchangeRate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.####}}" Margin="5 10 5 10" Width="Auto"/>
-                        </Grid>
-                    </GroupBox>
+                    <components:CurrencyExchangeRateControl x:Name="compCurrencyExchangeRate" Grid.Column="1" Grid.Row="2" Margin="5"
+                              ShowTakeExisting="False" 
+                              CurrencyFromId="{Binding CurrencyId}" CurrencyToId="{Binding Storage.CurrencyId}"
+                              CurrencyExchangeRate="{Binding CurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </GroupBox>
         </Grid>

@@ -31,22 +31,22 @@ namespace MoneyChest.Shared.MultiLang
         public static string EveryNumberDays(int number) => 
             string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.EveryNumberDays], number);
 
-        public static string EveryWeek(List<DayOfWeek> daysOfWeek) =>
+        public static string EveryWeek(ICollection<DayOfWeek> daysOfWeek) =>
             string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.EveryWeek], GetWeeks(daysOfWeek));
 
-        public static string EveryWeek(List<DayOfWeek> daysOfWeek, int weekNumber) =>
+        public static string EveryWeek(ICollection<DayOfWeek> daysOfWeek, int weekNumber) =>
             string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.EveryNumberWeeks], GetWeeks(daysOfWeek), weekNumber);
 
         public static string EveryWeek(int weekNumber) =>
             string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.EveryDayNumberWeeks], weekNumber);
 
-        public static string EveryMonth(List<Month> months, int dayOfMonth) =>
+        public static string EveryMonth(ICollection<Month> months, int dayOfMonth) =>
             string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.EverySpecialMonth], GetMonthes(months), dayOfMonth);
 
         public static string EveryMonth(int dayOfMonth) =>
             string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.EveryMonth], dayOfMonth);
 
-        public static string EveryMonthLastDay(List<Month> months) =>
+        public static string EveryMonthLastDay(ICollection<Month> months) =>
             string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.EverySpecialMonthLastDay], GetMonthes(months));
 
         public static string EveryMonthLastDay() =>
@@ -55,7 +55,7 @@ namespace MoneyChest.Shared.MultiLang
         public static string PausedToDate(DateTime date) =>
             string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.PausedToDate], date.ToShortDateString());
 
-        private static string GetWeeks(List<DayOfWeek> daysOfWeek)
+        private static string GetWeeks(ICollection<DayOfWeek> daysOfWeek)
         {
             var sb = new StringBuilder();
 
@@ -69,7 +69,7 @@ namespace MoneyChest.Shared.MultiLang
             return sb.ToString();
         }
 
-        private static string GetMonthes(List<Month> months)
+        private static string GetMonthes(ICollection<Month> months)
         {
             var sb = new StringBuilder();
 

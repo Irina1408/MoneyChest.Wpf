@@ -74,8 +74,8 @@
                 </StackPanel>
 
                 <!-- Category -->
-                <components:CategorySelector HorizontalAlignment="Right" VerticalAlignment="Center"
-                                         SelectedCategoryId="{Binding CategoryId}" ShowEmptyCategory="True"/>
+                <components:CategorySelector HorizontalAlignment="Right" VerticalAlignment="Center" ShowEmptyCategory="True"
+                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 
                 <!-- Remark -->
                 <StackPanel Orientation="Horizontal">
@@ -145,164 +145,18 @@
                               SelectionChanged="comboStorage_SelectionChanged" Background="{DynamicResource WhiteBrush}"/>
 
                     <!-- Currency exchange rate -->
-                    <GroupBox Grid.Row="1" Margin="5" IsEnabled="{Binding IsDifferentCurrenciesSelected}">
-                        <GroupBox.Header>
-                            <TextBlock Text="{moneyChestView:MultiLangBinding General_ExchangeRate}"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
-                        </GroupBox.Header>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <!-- Take Existing Currency Exchange Rate -->
-                            <CheckBox Content="{moneyChestView:MultiLangBinding Event_TakeExistingCurrencyExchangeRate}"
-                              ToolTip="{moneyChestView:MultiLangBinding Event_TakeExistingCurrencyExchangeRate}"
-                              IsChecked="{Binding TakeExistingCurrencyExchangeRate}" Grid.Row="0"/>
-                            
-                            <!-- Example -->
-                            <TextBlock Grid.Row="1" Text="{Binding ExchangeRateExample}" FontSize="{DynamicResource LargeFontSize}"
-                               Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsDifferentCurrenciesSelected}" Value="false">
-                                                <Setter Property="Opacity" Value="0.5"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-
-                            <!-- Rate -->
-                            <TextBox Grid.Row="2" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Rate}"
-                                     Text="{Binding CurrencyExchangeRate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.####}}" Margin="5 10 5 10" Width="Auto"/>
-                        </Grid>
-                    </GroupBox>
+                    <components:CurrencyExchangeRateControl x:Name="compCurrencyExchangeRate" Grid.Row="1" Margin="5"
+                              ShowTakeExisting="True" CurrencyFromId="{Binding CurrencyId}" CurrencyToId="{Binding Storage.CurrencyId}"
+                              CurrencyExchangeRate="{Binding CurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </GroupBox>
         </Grid>
 
         <!-- Part "Schedule" -->
-        <GroupBox Grid.Row="1" Grid.Column="2">
-            <GroupBox.Header>
-                <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"
-                           Text="{moneyChestView:MultiLangBinding Event_Schedule}">
-                </TextBlock>
-            </GroupBox.Header>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <!-- Schedule type -->
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Timelapse" Style="{DynamicResource TextBoxIconStyle}"/>
-                    <ComboBox x:Name="comboScheduleTypes" HorizontalAlignment="Left"
-                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ScheduleType_EnumName}"
-                          DisplayMemberPath="Description" SelectedValuePath="Value"
-                          SelectedValue="{Binding Schedule.ScheduleType}" Background="{DynamicResource WhiteBrush}"/>
-                </StackPanel>
-
-                <!-- Date for Once schedule type -->
-                <DatePicker SelectedDate="{Binding DateFrom}" Grid.Row="1" 
-                            materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}" 
-                            Visibility="{Binding Schedule.ScheduleType, Converter={StaticResource EVConverter}, ConverterParameter={x:Static enums:ScheduleType.Once}}"/>
-                
-                <!-- Period for daily, weekly or monthly schedule type -->
-                <StackPanel Grid.Row="1" Visibility="{Binding Schedule.IsDateRange, Converter={StaticResource BVConverter}}" Margin="0 5 0 0">
-                    <!-- Date from -->
-                    <DatePicker SelectedDate="{Binding DateFrom}"
-                            materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_DateFrom}"/>
-
-                    <!-- Date until -->
-                    <DatePicker SelectedDate="{Binding DateUntil}"
-                            materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_DateUntil}"/>
-                </StackPanel>
-
-                <!-- Settings for daily schedule type -->
-                <Grid Grid.Row="2" Visibility="{Binding Schedule.ScheduleType, Converter={StaticResource EVConverter}, 
-                    ConverterParameter={x:Static enums:ScheduleType.Daily}}">
-                    <!-- Period -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        <iconPacks:PackIconModern Kind="TimerForward" Style="{DynamicResource TextBoxIconStyle}"/>
-                        <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Schedule_RepetitionPeriod_Daily}"
-                                     Text="{Binding Schedule.Period, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0}}"/>
-                    </StackPanel>
-                </Grid>
-
-                <!-- Settings for weekly schedule type -->
-                <Grid Grid.Row="2" Visibility="{Binding Schedule.ScheduleType, Converter={StaticResource EVConverter}, 
-                    ConverterParameter={x:Static enums:ScheduleType.Weekly}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <!-- Period -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Top">
-                        <iconPacks:PackIconModern Kind="TimerForward" Style="{DynamicResource TextBoxIconStyle}"/>
-                        <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Schedule_RepetitionPeriod_Weekly}"
-                                     Text="{Binding Schedule.Period, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0}}"/>
-                    </StackPanel>
-
-                    <!-- Days of week -->
-                    <ItemsControl x:Name="DaysOfWeekControl" Grid.IsSharedSizeScope="True" Grid.Row="1" Margin="15 5 0 5">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type viewModel:SelectableViewModel}">
-                                <Border x:Name="Border">
-                                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsSelected}" Content="{Binding Description}"
-                                              Checked="DayOfWeek_CheckChanged" Unchecked="DayOfWeek_CheckChanged"/>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
-
-                <!-- Settings for monthly schedule type -->
-                <Grid Grid.Row="2" Visibility="{Binding Schedule.ScheduleType, Converter={StaticResource EVConverter}, 
-                    ConverterParameter={x:Static enums:ScheduleType.Monthly}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <!-- Day of month -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Top">
-                        <iconPacks:PackIconMaterial Kind="CalendarToday" Style="{DynamicResource TextBoxIconStyle}"/>
-                        <ComboBox x:Name="comboDaysOfMonth" Background="{DynamicResource WhiteBrush}"
-                                  materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Schedule_DayOfMonth}"
-                                  DisplayMemberPath="Description" SelectedValuePath="Value" SelectedValue="{Binding Schedule.DayOfMonth}"/>
-                    </StackPanel>
-
-                    <!-- Monthes -->
-                    <ItemsControl x:Name="MonthesControl" Grid.IsSharedSizeScope="True" Grid.Row="1" Margin="15 5 0 5">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type viewModel:SelectableViewModel}">
-                                <Border x:Name="Border">
-                                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsSelected}" Content="{Binding Description}"
-                                              Checked="Month_CheckChanged" Unchecked="Month_CheckChanged"/>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
-            </Grid>
-        </GroupBox>
+        <components:ScheduleControl Grid.Row="1" Grid.Column="2"
+                                    SelectedMonths="{Binding Schedule.Months}"
+                                    SelectedDaysOfWeek="{Binding Schedule.DaysOfWeek}"/>
 
         <!-- Ok/Cancel buttons -->
         <components:DetailsViewCommandsPanel x:Name="CommandsPanel" Grid.Row="2" Grid.ColumnSpan="3"/>

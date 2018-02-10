@@ -34,7 +34,7 @@
         </materialDesign:DialogHost.DialogContent>
         <StackPanel Orientation="Horizontal">
             <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}"/>
-            <TextBox x:Name="txtCategory" x:FieldModifier="internal" Style="{DynamicResource HintButtonTextBoxStyle}" IsReadOnly="True"
+            <TextBox x:Name="txtCategory" Style="{DynamicResource HintButtonTextBoxStyle}" IsReadOnly="True"
                                      materialDesign:HintAssist.Hint="{Binding Hint, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}"/>
             <Button Grid.Column="1" Content="..." Style="{DynamicResource TextBoxButtonStyle}"
                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">

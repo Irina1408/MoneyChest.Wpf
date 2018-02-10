@@ -63,7 +63,6 @@ namespace MoneyChest.Services.Converters
             model.CategoryId = entity.CategoryId;
             model.CurrencyId = entity.CurrencyId;
             model.Storage = entity.Storage.ToReferenceView();
-            model.StorageCurrency = entity.Storage.Currency.ToReferenceView();
             model.Currency = entity.Currency.ToReferenceView();
             model.Category = entity.Category?.ToReferenceView();
         }

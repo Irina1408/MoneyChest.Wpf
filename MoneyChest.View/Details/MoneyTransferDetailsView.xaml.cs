@@ -43,8 +43,6 @@ namespace MoneyChest.View.Details
         #region Private fields
         
         private IEnumerable<StorageModel> _storages;
-        private IEnumerable<CurrencyExchangeRateModel> _currencyExchangeRates;
-        private ICurrencyExchangeRateService _currencyExchangeRateService;
         private bool _showHiddenStorages;
 
         #endregion
@@ -60,7 +58,6 @@ namespace MoneyChest.View.Details
             // init
             _showHiddenStorages = showHiddenStorages;
             _storages = storages;
-            _currencyExchangeRateService = ServiceManager.ConfigureService<CurrencyExchangeRateService>();
             
             // initialize datacontexts
             IEnumerable<StorageModel> showStorages;
@@ -71,6 +68,9 @@ namespace MoneyChest.View.Details
 
             comboFromStorage.ItemsSource = showStorages;
             comboToStorage.ItemsSource = showStorages;
+
+            // set currencies list
+            compCurrencyExchangeRate.CurrencyIds = _storages.Select(_ => _.CurrencyId).Distinct().ToList();
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
@@ -85,34 +85,11 @@ namespace MoneyChest.View.Details
         {
             if (!_wrappedEntity.IsChanged) return;
 
-            var oldCurrencyFrom = _wrappedEntity.Entity.StorageFromCurrency?.Id;
-            var oldCurrencyTo = _wrappedEntity.Entity.StorageToCurrency?.Id;
-
             // update storages currency
-            _wrappedEntity.Entity.StorageFromCurrency = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageFromId)?.Currency;
+            _wrappedEntity.Entity.StorageFromCurrency = 
+                _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageFromId)?.Currency;
 
             _wrappedEntity.Entity.StorageToCurrency = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageToId)?.Currency;
-
-            if (_wrappedEntity.Entity.StorageFromCurrency != null && _wrappedEntity.Entity.StorageToCurrency != null &&
-                _wrappedEntity.Entity.StorageFromCurrency.Id != _wrappedEntity.Entity.StorageToCurrency.Id)
-            {
-                // not update currency exchange rate if currencies was not changed
-                if (oldCurrencyFrom != null && oldCurrencyTo != null && oldCurrencyFrom.Value == _wrappedEntity.Entity.StorageFromCurrency.Id && oldCurrencyTo.Value == _wrappedEntity.Entity.StorageToCurrency.Id)
-                    return;
-
-                // load _currencyExchangeRates and set correspond rate
-                if (_currencyExchangeRates == null)
-                {
-                    _currencyExchangeRates =
-                        _currencyExchangeRateService.GetList(_storages.Select(_ => _.CurrencyId).Distinct().ToList());
-                }
-
-                _wrappedEntity.Entity.CurrencyExchangeRate =
-                    _currencyExchangeRates.FirstOrDefault(_ => _.CurrencyFromId == _wrappedEntity.Entity.StorageFromCurrency.Id &&
-                        _.CurrencyToId == _wrappedEntity.Entity.StorageToCurrency.Id)?.Rate ?? 1;
-            }
-            else
-                _wrappedEntity.Entity.CurrencyExchangeRate = 1;
         }
 
         #endregion

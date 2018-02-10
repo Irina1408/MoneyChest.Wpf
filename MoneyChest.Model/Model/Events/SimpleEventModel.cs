@@ -26,7 +26,6 @@ namespace MoneyChest.Model.Model
         public CurrencyReference Currency { get; set; }
         public CategoryReference Category { get; set; }
         public StorageReference Storage { get; set; }
-        public CurrencyReference StorageCurrency { get; set; }
 
         public override decimal Value { get; set; }
         public override decimal CurrencyExchangeRate { get; set; }
@@ -41,12 +40,8 @@ namespace MoneyChest.Model.Model
 
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
         public decimal ResultValueSign => TransactionType == TransactionType.Expense ? -ResultValue : ResultValue;
+        // TODO: CurrencyExchangeRate
         public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign) ?? ResultValueSign.ToString("0.##");
-
-        public bool IsDifferentCurrenciesSelected => StorageCurrency?.Id != Currency?.Id;
-        public string ExchangeRateExample => Currency != null && StorageCurrency != null
-            ? $"{Currency.FormatValue(1)} = {StorageCurrency.FormatValue(CurrencyExchangeRate)}"
-            : null;
 
         #endregion
     }

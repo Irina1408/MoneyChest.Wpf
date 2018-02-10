@@ -18,8 +18,10 @@ namespace MoneyChest.View.Components
     /// <summary>
     /// Interaction logic for CommissionControl.xaml
     /// </summary>
+    [PropertyChanged.AddINotifyPropertyChangedInterface]
     public partial class CommissionControl : UserControl
     {
+        // TODO: replace here all properties like CommissionEnabled
         public CommissionControl()
         {
             InitializeComponent();

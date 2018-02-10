@@ -73,11 +73,6 @@ namespace MoneyChest.ViewModel.ViewModel
             }
         }
 
-        public bool IsDifferentCurrenciesSelected => Currency != null && StorageCurrency != null && CurrencyId != StorageCurrency.Id;
-        public string ExchangeRateExample => Currency != null && StorageCurrency != null
-            ? $"{Currency.FormatValue(1)} = {StorageCurrency.FormatValue(CurrencyExchangeRate)}"
-            : null;
-
         #endregion
 
         [PropertyChanged.DoNotNotify]

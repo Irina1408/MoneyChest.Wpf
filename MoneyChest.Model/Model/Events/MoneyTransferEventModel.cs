@@ -13,7 +13,6 @@ namespace MoneyChest.Model.Model
     {
         public MoneyTransferEventModel() : base()
         {
-            TakeExistingCurrencyExchangeRate = true;
             CurrencyExchangeRate = 1;
             TakeCommissionFromReceiver = false;
             EventType = EventType.MoneyTransfer;
@@ -82,9 +81,6 @@ namespace MoneyChest.Model.Model
         }
 
         public string ValueTransfering => $"{StorageFromCurrency.FormatValue(StorageFromValue)} -> {StorageToCurrency.FormatValue(StorageToValue)}";
-        public string ExchangeRateExample => StorageFromCurrency != null && StorageToCurrency != null
-            ? $"{StorageFromCurrency.FormatValue(1)} = {StorageToCurrency.FormatValue(CurrencyExchangeRate)}"
-            : null;
 
         #endregion
     }

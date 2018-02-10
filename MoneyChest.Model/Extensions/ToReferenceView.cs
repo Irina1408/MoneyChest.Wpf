@@ -30,5 +30,17 @@ namespace MoneyChest.Model.Extensions
                 CurrencyId = entity.CurrencyId
             };
         }
+
+        public static StorageReference ToReferenceView(this StorageModel entity)
+        {
+            return new StorageReference
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                StorageGroupId = entity.StorageGroupId,
+                CurrencyId = entity.CurrencyId,
+                IsVisible = entity.IsVisible
+            };
+        }
     }
 }

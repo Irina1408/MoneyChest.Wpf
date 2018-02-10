@@ -18,12 +18,14 @@
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
     </UserControl.Resources>
 
+    <!-- Required for binding: CommissionType, TakeCommissionFromReceiver (if ShowTakeCommissionFromReceiver), Commission -->
+    
     <GroupBox>
         <GroupBox.Header>
-            <CheckBox Content="{moneyChestView:MultiLangBinding General_Commission}" IsChecked="{Binding CommissionEnabled}"
+            <TextBlock Text="{moneyChestView:MultiLangBinding General_Commission}"
                               Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
         </GroupBox.Header>
-        <Grid IsEnabled="{Binding CommissionEnabled}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>

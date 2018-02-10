@@ -26,7 +26,8 @@ namespace MoneyChest.Shared.MultiLang
             return result;
         }
 
-        public static ObservableCollection<SelectableMultiLangEnumDescription> ToSelectableCollection<T>(List<T> selectedItems)
+        public static ObservableCollection<SelectableMultiLangEnumDescription> ToSelectableCollection<T>(
+            ICollection<T> selectedItems = null)
         {
             var enumType = typeof(T);
             var result = new ObservableCollection<SelectableMultiLangEnumDescription>();
@@ -35,7 +36,7 @@ namespace MoneyChest.Shared.MultiLang
             {
                 result.Add(new SelectableMultiLangEnumDescription(enumType.Name, enumItem, Enum.GetName(enumType, enumItem))
                 {
-                    IsSelected = selectedItems.Contains(enumItem)
+                    IsSelected = selectedItems?.Contains(enumItem) ?? false
                 });
             }
 
@@ -65,16 +66,28 @@ namespace MoneyChest.Shared.MultiLang
         public object Value { get; private set; }
         public string Description => MultiLangResource.EnumItemDescription(TypeName, Name);
 
-        public void NotifyCultureChanged() =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+        public void NotifyCultureChanged() => NotifyPropertyChanged(nameof(Description));
+
+        protected void NotifyPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     public class SelectableMultiLangEnumDescription : MultiLangEnumDescription
     {
+        private bool isSelected;
+
         public SelectableMultiLangEnumDescription(string typeName, object value, string name) : base(typeName, value, name)
         {
         }
 
-        public bool IsSelected { get; set; }
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            {
+                isSelected = value;
+                NotifyPropertyChanged(nameof(IsSelected));
+            }
+        }
     }
 }

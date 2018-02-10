@@ -87,10 +87,15 @@
     <Compile Include="Components\DetailsViewCommandsPanel.xaml.cs">
       <DependentUpon>DetailsViewCommandsPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\ScheduleControl.xaml.cs">
+      <DependentUpon>ScheduleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BoolOppositeConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityHideConverter.cs" />
     <Compile Include="Converters\EnumToBoolConverter.cs" />
     <Compile Include="Converters\EnumToVisibilityConverter.cs" />
+    <Compile Include="Converters\MultiBoolValueConverter.cs" />
     <Compile Include="Details\Base\BaseEntityDetailsView.cs" />
     <Compile Include="Details\CategoryDetailsView.xaml.cs">
       <DependentUpon>CategoryDetailsView.xaml</DependentUpon>

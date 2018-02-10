@@ -8,6 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
+    <!-- Required for binding: SaveCommand, CancelCommand -->
+    
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
         <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Command="{Binding SaveCommand}"
                 Style="{DynamicResource AccentedButtonStyle}"/>

@@ -46,7 +46,6 @@ namespace MoneyChest.View.Details
         private IEnumerable<DebtModel> _debts;
         private IEnumerable<CurrencyModel> _currencies;
         private IEnumerable<StorageModel> _storages;
-        private IEnumerable<CurrencyExchangeRateModel> _currencyExchangeRates;
 
         #endregion
 
@@ -59,6 +58,7 @@ namespace MoneyChest.View.Details
             
             // load debts
             IDebtService debtService = ServiceManager.ConfigureService<DebtService>();
+            // TODO: add required debts
             _debts = debtService.GetActive(GlobalVariables.UserId);
             comboDebts.ItemsSource = _debts;
 
@@ -70,18 +70,16 @@ namespace MoneyChest.View.Details
             // load currencies
             ICurrencyService currencyService = ServiceManager.ConfigureService<CurrencyService>();
             _currencies = currencyService.GetActive(GlobalVariables.UserId, entity.Debt?.CurrencyId, entity.Storage?.CurrencyId);
-
-            // fill schedule selectors
-            comboScheduleTypes.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(ScheduleType));
-            comboDaysOfMonth.ItemsSource = ScheduleHelper.GetMonthes();
-            DaysOfWeekControl.ItemsSource = MultiLangEnumHelper.ToSelectableCollection(entity.Schedule.DaysOfWeek);
-            MonthesControl.ItemsSource = MultiLangEnumHelper.ToSelectableCollection(entity.Schedule.Months);
-            
+                        
             if (isNew)
                 comboCurrencies.ItemsSource = _currencies;
             else
                 UpdateCurrenciesList();
-            
+
+            // set currencies list
+            compCurrencyExchangeRate.CurrencyIds = _storages.Select(_ => _.CurrencyId)
+                .Concat(_currencies.Select(c => c.Id)).Concat(_debts.Select(c => c.CurrencyId)).Distinct().ToList();
+
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
             CommandsPanel.DataContext = _commands;
@@ -95,47 +93,28 @@ namespace MoneyChest.View.Details
         {
             if (!_wrappedEntity.IsChanged) return;
 
-            var oldCurrencyId = _wrappedEntity.Entity.StorageCurrency?.Id;
-
             // update storage currency
+            _wrappedEntity.Entity.Storage = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageId)?.ToReferenceView();
             _wrappedEntity.Entity.StorageCurrency = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageId)?.Currency;
 
             // update property IsValueInStorageCurrency
             UpdateIsValueInStorageCurrency();
-
-            // if currency was changed
-            if (_wrappedEntity.Entity.StorageCurrency != null && 
-                (oldCurrencyId == null || _wrappedEntity.Entity.StorageCurrency.Id != oldCurrencyId.Value))
-            {
-                // update currencies combobox
-                UpdateCurrenciesList();
-                // update currency exchange rate 
-                UpdateCurrencyExchangeRate();
-            }
+            // update currencies combobox
+            UpdateCurrenciesList();
         }
 
         private void comboDebt_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!_wrappedEntity.IsChanged) return;
 
-            var oldCurrencyId = _wrappedEntity.Entity.DebtCurrency?.Id;
-
             // update debt currency
-            _wrappedEntity.Entity.DebtCurrency = _debts.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.DebtId)?.Currency;
             _wrappedEntity.Entity.Debt = _debts.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.DebtId)?.ToReferenceView();
+            _wrappedEntity.Entity.DebtCurrency = _debts.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.DebtId)?.Currency;
 
             // update property IsValueInStorageCurrency
             UpdateIsValueInStorageCurrency();
-
-            // if currency was changed
-            if (_wrappedEntity.Entity.DebtCurrency != null &&
-                (oldCurrencyId == null || _wrappedEntity.Entity.DebtCurrency.Id != oldCurrencyId.Value))
-            {
-                // update currencies combobox
-                UpdateCurrenciesList();
-                // update currency exchange rate 
-                UpdateCurrencyExchangeRate();
-            }
+            // update currencies combobox
+            UpdateCurrenciesList();
         }
 
         private void comboCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -144,42 +123,8 @@ namespace MoneyChest.View.Details
 
             // update property IsValueInStorageCurrency
             UpdateIsValueInStorageCurrency();
-            // update currency exchange rate 
-            UpdateCurrencyExchangeRate();
         }
-
-        private void DayOfWeek_CheckChanged(object sender, RoutedEventArgs e)
-        {
-            var chkBox = sender as CheckBox;
-            if (chkBox is null) return;
-
-            var item = chkBox.DataContext as SelectableMultiLangEnumDescription;
-            if (item is null) return;
-
-            if (chkBox.IsChecked.HasValue && chkBox.IsChecked.Value)
-                _wrappedEntity.Entity.Schedule.DaysOfWeek.Add((DayOfWeek)item.Value);
-            else if (chkBox.IsChecked.HasValue && !chkBox.IsChecked.Value)
-                _wrappedEntity.Entity.Schedule.DaysOfWeek.Remove((DayOfWeek)item.Value);
-
-            _wrappedEntity.Entity.NotifyScheduleChanged();
-        }
-
-        private void Month_CheckChanged(object sender, RoutedEventArgs e)
-        {
-            var chkBox = sender as CheckBox;
-            if (chkBox is null) return;
-
-            var item = chkBox.DataContext as SelectableMultiLangEnumDescription;
-            if (item is null) return;
-
-            if (chkBox.IsChecked.HasValue && chkBox.IsChecked.Value)
-                _wrappedEntity.Entity.Schedule.Months.Add((Month)item.Value);
-            else if (chkBox.IsChecked.HasValue && !chkBox.IsChecked.Value)
-                _wrappedEntity.Entity.Schedule.Months.Remove((Month)item.Value);
-
-            _wrappedEntity.Entity.NotifyScheduleChanged();
-        }
-
+        
         private void UpdateCurrenciesList()
         {
             if (_wrappedEntity.Entity.StorageCurrency?.Id == null || _wrappedEntity.Entity.DebtCurrency?.Id == null) return;
@@ -192,30 +137,6 @@ namespace MoneyChest.View.Details
             comboCurrencies.SelectedValue = _wrappedEntity.Entity.IsValueInStorageCurrency 
                 ? _wrappedEntity.Entity.StorageCurrency.Id
                 : _wrappedEntity.Entity.DebtCurrency.Id;
-        }
-
-        private void UpdateCurrencyExchangeRate()
-        {
-            // update currency exchange rate
-            if (_wrappedEntity.Entity.StorageCurrency != null && _wrappedEntity.Entity.DebtCurrency != null
-                && _wrappedEntity.Entity.StorageCurrency.Id != _wrappedEntity.Entity.DebtCurrency.Id)
-            {
-                // load _currencyExchangeRates and set correspond rate
-                if (_currencyExchangeRates == null)
-                {
-                    ICurrencyExchangeRateService currencyExchangeRateService = ServiceManager.ConfigureService<CurrencyExchangeRateService>();
-
-                    _currencyExchangeRates =
-                        currencyExchangeRateService.GetList(_debts.Select(_ => _.CurrencyId).Distinct().Concat(
-                            _storages.Select(_ => _.CurrencyId).Distinct().Concat(_currencies.Select(c => c.Id))).Distinct().ToList());
-                }
-
-                _wrappedEntity.Entity.CurrencyExchangeRate =
-                        _currencyExchangeRates.FirstOrDefault(_ => _.CurrencyFromId == _wrappedEntity.Entity.Currency.Id &&
-                            _.CurrencyToId == _wrappedEntity.Entity.CurrencyForRate.Id)?.Rate ?? 1;
-            }
-            else
-                _wrappedEntity.Entity.CurrencyExchangeRate = 1;
         }
 
         private void UpdateIsValueInStorageCurrency()

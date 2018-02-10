@@ -24,9 +24,9 @@ namespace MoneyChest.Model.Model
         public StorageReference Storage { get; set; }
         public DebtReference Debt { get; set; }
 
+        public CategoryReference DebtCategory { get; set; }
         public CurrencyReference StorageCurrency { get; set; }
         public CurrencyReference DebtCurrency { get; set; }
-        public CategoryReference DebtCategory { get; set; }
         public CurrencyReference Currency => IsValueInStorageCurrency ? StorageCurrency : DebtCurrency;
         public CurrencyReference CurrencyForRate => IsValueInStorageCurrency ? DebtCurrency : StorageCurrency;
 
@@ -44,11 +44,6 @@ namespace MoneyChest.Model.Model
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
         public decimal ResultValueSign => Debt?.DebtType == DebtType.TakeBorrow ? -ResultValue : ResultValue;
         public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign) ?? ResultValueSign.ToString("0.##");
-
-        public bool IsDifferentCurrenciesSelected => StorageCurrency?.Id != DebtCurrency?.Id;
-        public string ExchangeRateExample => Currency != null && CurrencyForRate != null
-            ? $"{Currency.FormatValue(1)} = {CurrencyForRate.FormatValue(CurrencyExchangeRate)}"
-            : null;
 
         #endregion
     }
