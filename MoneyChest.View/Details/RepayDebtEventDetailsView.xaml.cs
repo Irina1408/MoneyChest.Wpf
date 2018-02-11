@@ -31,8 +31,8 @@ namespace MoneyChest.View.Details
         public RepayDebtEventDetailsViewBase() : base()
         { }
 
-        public RepayDebtEventDetailsViewBase(IRepayDebtEventService service, RepayDebtEventViewModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public RepayDebtEventDetailsViewBase(IRepayDebtEventService service, RepayDebtEventViewModel entity, bool isNew)
+            : base(service, entity, isNew)
         { }
     }
 
@@ -51,8 +51,8 @@ namespace MoneyChest.View.Details
 
         #region Initialization
 
-        public RepayDebtEventDetailsView(IRepayDebtEventService service, RepayDebtEventViewModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public RepayDebtEventDetailsView(IRepayDebtEventService service, RepayDebtEventViewModel entity, bool isNew)
+            : base(service, entity, isNew)
         {
             InitializeComponent();
             
@@ -82,20 +82,28 @@ namespace MoneyChest.View.Details
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
-            CommandsPanel.DataContext = _commands;
+            CommandsPanel.DataContext = Commands;
+        }
+
+        public override void PrepareParentWindow(Window window)
+        {
+            base.PrepareParentWindow(window);
+
+            window.Height = 600;
+            window.Width = 780;
         }
 
         #endregion
 
         #region Event handlers
-        
+
         private void comboStorage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_wrappedEntity.IsChanged) return;
+            if (!WrappedEntity.IsChanged) return;
 
             // update storage currency
-            _wrappedEntity.Entity.Storage = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageId)?.ToReferenceView();
-            _wrappedEntity.Entity.StorageCurrency = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageId)?.Currency;
+            WrappedEntity.Entity.Storage = _storages.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.StorageId)?.ToReferenceView();
+            WrappedEntity.Entity.StorageCurrency = _storages.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.StorageId)?.Currency;
 
             // update property IsValueInStorageCurrency
             UpdateIsValueInStorageCurrency();
@@ -105,11 +113,11 @@ namespace MoneyChest.View.Details
 
         private void comboDebt_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_wrappedEntity.IsChanged) return;
+            if (!WrappedEntity.IsChanged) return;
 
             // update debt currency
-            _wrappedEntity.Entity.Debt = _debts.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.DebtId)?.ToReferenceView();
-            _wrappedEntity.Entity.DebtCurrency = _debts.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.DebtId)?.Currency;
+            WrappedEntity.Entity.Debt = _debts.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.DebtId)?.ToReferenceView();
+            WrappedEntity.Entity.DebtCurrency = _debts.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.DebtId)?.Currency;
 
             // update property IsValueInStorageCurrency
             UpdateIsValueInStorageCurrency();
@@ -127,16 +135,16 @@ namespace MoneyChest.View.Details
         
         private void UpdateCurrenciesList()
         {
-            if (_wrappedEntity.Entity.StorageCurrency?.Id == null || _wrappedEntity.Entity.DebtCurrency?.Id == null) return;
+            if (WrappedEntity.Entity.StorageCurrency?.Id == null || WrappedEntity.Entity.DebtCurrency?.Id == null) return;
 
             // get currencies of selected debt and storage
-            comboCurrencies.ItemsSource = _currencies.Where(x => x.Id == _wrappedEntity.Entity.StorageCurrency.Id
-                || x.Id == _wrappedEntity.Entity.DebtCurrency.Id).ToList();
+            comboCurrencies.ItemsSource = _currencies.Where(x => x.Id == WrappedEntity.Entity.StorageCurrency.Id
+                || x.Id == WrappedEntity.Entity.DebtCurrency.Id).ToList();
 
             // update selected value
-            comboCurrencies.SelectedValue = _wrappedEntity.Entity.IsValueInStorageCurrency 
-                ? _wrappedEntity.Entity.StorageCurrency.Id
-                : _wrappedEntity.Entity.DebtCurrency.Id;
+            comboCurrencies.SelectedValue = WrappedEntity.Entity.IsValueInStorageCurrency 
+                ? WrappedEntity.Entity.StorageCurrency.Id
+                : WrappedEntity.Entity.DebtCurrency.Id;
         }
 
         private void UpdateIsValueInStorageCurrency()
@@ -144,7 +152,7 @@ namespace MoneyChest.View.Details
             // get selected currency
             var currencyId = (int?)comboCurrencies.SelectedValue;
             // update property IsValueInStorageCurrency
-            _wrappedEntity.Entity.IsValueInStorageCurrency = _wrappedEntity.Entity.StorageCurrency?.Id == currencyId;
+            WrappedEntity.Entity.IsValueInStorageCurrency = WrappedEntity.Entity.StorageCurrency?.Id == currencyId;
         }
 
         #endregion

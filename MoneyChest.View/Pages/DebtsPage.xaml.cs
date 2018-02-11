@@ -128,21 +128,7 @@ namespace MoneyChest.View.Pages
 
         private void OpenDetails(DebtViewModel model, bool isNew = false)
         {
-            // init window and details view
-            var window = this.InitializeDependWindow(false);
-            var detailsView = new DebtDetailsView(_service, model, isNew, window.Close);
-            // prepare window
-            window.Height = 572;
-            window.Width = 1110;
-            window.Content = detailsView;
-            window.Closing += (sender, e) =>
-            {
-                if (!detailsView.CloseView())
-                    e.Cancel = true;
-            };
-            // show window
-            window.ShowDialog();
-            if (detailsView.DialogResult)
+            this.OpenDetailsWindow(new DebtDetailsView(_service, model, isNew), () =>
             {
                 // update grid
                 if (isNew)
@@ -155,7 +141,7 @@ namespace MoneyChest.View.Pages
                 }
 
                 GridDebts.Items.Refresh();
-            }
+            });
         }
 
         #endregion

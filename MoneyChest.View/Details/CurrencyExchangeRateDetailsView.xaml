@@ -10,7 +10,7 @@
                                            xmlns:components="clr-namespace:MoneyChest.View.Components"
                                            mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Margin="5">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

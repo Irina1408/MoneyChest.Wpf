@@ -28,8 +28,8 @@ namespace MoneyChest.View.Details
         public CategoryDetailsViewBase() : base()
         { }
 
-        public CategoryDetailsViewBase(ICategoryService service, CategoryModel entity, bool isNew, Action closeAction) 
-            : base(service, entity, isNew, closeAction)
+        public CategoryDetailsViewBase(ICategoryService service, CategoryModel entity, bool isNew) 
+            : base(service, entity, isNew)
         { }
     }
 
@@ -37,11 +37,9 @@ namespace MoneyChest.View.Details
     /// Interaction logic for CategoryDetailsView.xaml
     /// </summary>
     public partial class CategoryDetailsView : CategoryDetailsViewBase
-    {
-        #region Initialization
-        
-        public CategoryDetailsView(ICategoryService service, CategoryModel entity, bool isNew, Action closeAction, 
-            CategoryViewModelCollection categories) : base(service, entity, isNew, closeAction)
+    {        
+        public CategoryDetailsView(ICategoryService service, CategoryModel entity, bool isNew, CategoryViewModelCollection categories) 
+            : base(service, entity, isNew)
         {
             InitializeComponent();
             
@@ -51,9 +49,15 @@ namespace MoneyChest.View.Details
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
-            CommandsPanel.DataContext = _commands;
+            CommandsPanel.DataContext = Commands;
         }
 
-        #endregion
+        public override void PrepareParentWindow(Window window)
+        {
+            base.PrepareParentWindow(window);
+
+            window.Height = 330;
+            window.Width = 410;
+        }
     }
 }

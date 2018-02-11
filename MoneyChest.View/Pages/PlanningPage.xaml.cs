@@ -203,80 +203,38 @@ namespace MoneyChest.View.Pages
 
         private void OpenDetails(SimpleEventViewModel model, bool isNew = false)
         {
-            // init window and details view
-            var window = this.InitializeDependWindow(false);
-            var detailsView = new SimpleEventDetailsView(_simpleEventService, model, isNew, window.Close);
-            // prepare window
-            window.Height = 650;
-            window.Width = 830;
-            window.Content = detailsView;
-            window.Closing += (sender, e) =>
-            {
-                if (!detailsView.CloseView())
-                    e.Cancel = true;
-            };
-            // show window
-            window.ShowDialog();
-            if (detailsView.DialogResult)
+            this.OpenDetailsWindow(new SimpleEventDetailsView(_simpleEventService, model, isNew), () =>
             {
                 // update grid
                 if (isNew)
                     InsertNewEvent(_viewModel.SimpleEventsViewModel.Events, model);
 
                 GridSimpleEvents.Items.Refresh();
-            }
+            });
         }
 
         private void OpenDetails(MoneyTransferEventViewModel model, bool isNew = false)
         {
-            // init window and details view
-            var window = this.InitializeDependWindow(false);
-            var detailsView = new MoneyTransferEventDetailsView(_moneyTransferEventService, model, isNew, window.Close);
-            // prepare window
-            window.Height = 600;
-            window.Width = 770;
-            window.Content = detailsView;
-            window.Closing += (sender, e) =>
-            {
-                if (!detailsView.CloseView())
-                    e.Cancel = true;
-            };
-            // show window
-            window.ShowDialog();
-            if (detailsView.DialogResult)
+            this.OpenDetailsWindow(new MoneyTransferEventDetailsView(_moneyTransferEventService, model, isNew), () =>
             {
                 // update grid
                 if (isNew)
                     InsertNewEvent(_viewModel.MoneyTransferEventsViewModel.Events, model);
 
                 GridMoneyTransferEvents.Items.Refresh();
-            }
+            });
         }
 
         private void OpenDetails(RepayDebtEventViewModel model, bool isNew = false)
         {
-            // init window and details view
-            var window = this.InitializeDependWindow(false);
-            var detailsView = new RepayDebtEventDetailsView(_repayDebtEventService, model, isNew, window.Close);
-            // prepare window
-            window.Height = 600;
-            window.Width = 780;
-            window.Content = detailsView;
-            window.Closing += (sender, e) =>
-            {
-                if (!detailsView.CloseView())
-                    e.Cancel = true;
-            };
-            // show window
-            window.ShowDialog();
-            if (detailsView.DialogResult)
+            this.OpenDetailsWindow(new RepayDebtEventDetailsView(_repayDebtEventService, model, isNew), () =>
             {
                 // update grid
                 if (isNew)
                     InsertNewEvent(_viewModel.RepayDebtEventsViewModel.Events, model);
 
                 GridRepayDebtEvents.Items.Refresh();
-            }
+            });
         }
 
         private void InsertNewEvent<T>(ObservableCollection<T> events, T model)

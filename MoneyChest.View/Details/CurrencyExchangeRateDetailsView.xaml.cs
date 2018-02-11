@@ -26,8 +26,8 @@ namespace MoneyChest.View.Details
         public CurrencyExchangeRateDetailsViewBase() : base()
         { }
 
-        public CurrencyExchangeRateDetailsViewBase(ICurrencyExchangeRateService service, CurrencyExchangeRateModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public CurrencyExchangeRateDetailsViewBase(ICurrencyExchangeRateService service, CurrencyExchangeRateModel entity, bool isNew)
+            : base(service, entity, isNew)
         { }
     }
     /// <summary>
@@ -43,9 +43,9 @@ namespace MoneyChest.View.Details
 
         #region Initialization
 
-        public CurrencyExchangeRateDetailsView(ICurrencyExchangeRateService service, CurrencyExchangeRateModel entity, bool isNew, 
-            Action closeAction, IEnumerable<CurrencyModel> currencies, IEnumerable<CurrencyExchangeRateModel> currencyExchangeRates)
-            : base(service, entity, isNew, closeAction)
+        public CurrencyExchangeRateDetailsView(ICurrencyExchangeRateService service, CurrencyExchangeRateModel entity, bool isNew,
+            IEnumerable<CurrencyModel> currencies, IEnumerable<CurrencyExchangeRateModel> currencyExchangeRates)
+            : base(service, entity, isNew)
         {
             InitializeComponent();
 
@@ -60,38 +60,46 @@ namespace MoneyChest.View.Details
             comboToCurrencies.ItemsSource = activeCurrencies;
 
             // disable currency comboboxes for not new currency exchange rates
-            comboFromCurrencies.IsEnabled = _isNew;
-            comboToCurrencies.IsEnabled = _isNew;
+            comboFromCurrencies.IsEnabled = IsNew;
+            comboToCurrencies.IsEnabled = IsNew;
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
-            CommandsPanel.DataContext = _commands;
+            CommandsPanel.DataContext = Commands;
         }
 
         #endregion
 
-        #region Public
+        #region Overrides
 
-        public override void SaveChanges()
+        public override void PrepareParentWindow(Window window)
         {
-            if (_isNew)
+            base.PrepareParentWindow(window);
+
+            window.Height = 280;
+            window.Width = 500;
+        }
+
+        protected override void SaveChanges()
+        {
+            if (IsNew)
             {
                 var existingCurrencyExchangeRate = _existingCurrencyExchangeRates.FirstOrDefault(_ => 
-                _.CurrencyFromId == _wrappedEntity.Entity.CurrencyFromId && _.CurrencyToId == _wrappedEntity.Entity.CurrencyToId);
+                _.CurrencyFromId == WrappedEntity.Entity.CurrencyFromId && _.CurrencyToId == WrappedEntity.Entity.CurrencyToId);
 
                 if (existingCurrencyExchangeRate != null)
                 {
-                    existingCurrencyExchangeRate.Rate = _wrappedEntity.Entity.Rate;
-                    _service.Update(_wrappedEntity.Entity);
+                    existingCurrencyExchangeRate.Rate = WrappedEntity.Entity.Rate;
+                    Service.Update(WrappedEntity.Entity);
                 }
                 else
-                    _service.Add(_wrappedEntity.Entity);
+                    Service.Add(WrappedEntity.Entity);
             }
             else
-                _service.Update(_wrappedEntity.Entity);
+                Service.Update(WrappedEntity.Entity);
 
+            WrappedEntity.IsChanged = false;
             DialogResult = true;
-            _closeView = true;
         }
 
         #endregion

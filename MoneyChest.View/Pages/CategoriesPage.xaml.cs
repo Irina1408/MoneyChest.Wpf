@@ -133,7 +133,6 @@ namespace MoneyChest.View.Pages
 
         private void ReloadData()
         {
-            // TODO: save old 
             var oldCategoryCollection = _viewModel.Categories?.GetDescendants();
 
             _viewModel.Categories = TreeHelper.BuildTree(_service.GetListForUser(GlobalVariables.UserId)
@@ -161,21 +160,7 @@ namespace MoneyChest.View.Pages
 
         private void OpenDetails(CategoryViewModel model, bool isNew = false)
         {
-            // init window and details view
-            var window = this.InitializeDependWindow(false);
-            var detailsView = new CategoryDetailsView(_service, model, isNew, window.Close, _viewModel.Categories);
-            // prepare window
-            window.Height = 330;
-            window.Width = 410;
-            window.Content = detailsView;
-            window.Closing += (sender, e) =>
-            {
-                if (!detailsView.CloseView())
-                    e.Cancel = true;
-            };
-            // show window
-            window.ShowDialog();
-            if (detailsView.DialogResult)
+            this.OpenDetailsWindow(new CategoryDetailsView(_service, model, isNew, _viewModel.Categories), () =>
             {
                 // set expanded branch where category was changed
                 _viewModel.Categories.ExpandMainViewToDescendant(model, true);
@@ -185,7 +170,7 @@ namespace MoneyChest.View.Pages
                 ReloadData();
                 // refresh commands
                 RefreshCommandsState();
-            }
+            });
         }
 
         private void RefreshCommandsState()

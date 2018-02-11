@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MoneyChest.View.Details;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,21 @@ namespace MoneyChest.View.Utils
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 ResizeMode = resizable ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize
             };
+        }
+
+        public static void OpenDetailsWindow(this UserControl control, IEntityDetailsView detailsView, Action success = null)
+        {
+            // init window
+            var window = control.InitializeDependWindow(false);
+            // prepare window
+            window.Content = detailsView;
+            detailsView.PrepareParentWindow(window);
+            // show window
+            window.ShowDialog();
+            if (detailsView.DialogResult)
+            {
+                success?.Invoke();
+            }
         }
     }
 }

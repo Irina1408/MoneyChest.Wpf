@@ -30,8 +30,8 @@ namespace MoneyChest.View.Details
         public MoneyTransferDetailsViewBase() : base()
         { }
 
-        public MoneyTransferDetailsViewBase(IMoneyTransferService service, MoneyTransferModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public MoneyTransferDetailsViewBase(IMoneyTransferService service, MoneyTransferModel entity, bool isNew)
+            : base(service, entity, isNew)
         { }
     }
 
@@ -49,9 +49,9 @@ namespace MoneyChest.View.Details
 
         #region Initialization
 
-        public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew, Action closeAction,
+        public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew,
             bool showHiddenStorages, IEnumerable<StorageModel> storages)
-            : base(service, entity, isNew, closeAction)
+            : base(service, entity, isNew)
         {
             InitializeComponent();
 
@@ -74,7 +74,15 @@ namespace MoneyChest.View.Details
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
-            CommandsPanel.DataContext = _commands;
+            CommandsPanel.DataContext = Commands;
+        }
+
+        public override void PrepareParentWindow(Window window)
+        {
+            base.PrepareParentWindow(window);
+
+            window.Height = 450;
+            window.Width = 800;
         }
 
         #endregion
@@ -83,13 +91,13 @@ namespace MoneyChest.View.Details
 
         private void comboStorage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_wrappedEntity.IsChanged) return;
+            if (!WrappedEntity.IsChanged) return;
 
             // update storages currency
-            _wrappedEntity.Entity.StorageFromCurrency = 
-                _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageFromId)?.Currency;
+            WrappedEntity.Entity.StorageFromCurrency = 
+                _storages.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.StorageFromId)?.Currency;
 
-            _wrappedEntity.Entity.StorageToCurrency = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageToId)?.Currency;
+            WrappedEntity.Entity.StorageToCurrency = _storages.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.StorageToId)?.Currency;
         }
 
         #endregion

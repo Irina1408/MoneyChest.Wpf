@@ -221,24 +221,10 @@ namespace MoneyChest.View.Pages
 
         private void OpenDetails(CurrencyModel model, bool isNew = false)
         {
-            // init window and details view
-            var window = this.InitializeDependWindow(false);
-            var detailsView = new CurrencyDetailsView(_service, model, isNew, window.Close);
-            // prepare window
-            window.Height = 293;
-            window.Width = 400;
-            window.Content = detailsView;
-            window.Closing += (sender, e) =>
-            {
-                if (!detailsView.CloseView())
-                    e.Cancel = true;
-            };
-            // show window
-            window.ShowDialog();
-            if(detailsView.DialogResult)
+            this.OpenDetailsWindow(new CurrencyDetailsView(_service, model, isNew), () =>
             {
                 // update grid
-                if(isNew)
+                if (isNew)
                 {
                     // insert new currency
                     var firstNotUsed = _viewModel.Currencies.FirstOrDefault(_ => !_.IsActive);
@@ -261,36 +247,22 @@ namespace MoneyChest.View.Pages
 
                 GridCurrencies.Items.Refresh();
                 RefreshCurrencyCommandsState();
-            }
+            });
         }
         
         private void OpenDetails(CurrencyExchangeRateModel model, bool isNew = false)
         {
-            // init window and details view
-            var window = this.InitializeDependWindow(false);
-            var detailsView = new CurrencyExchangeRateDetailsView(_currencyExchangeRateService, model, isNew, window.Close, _viewModel.Currencies, _viewModel.CurrencyExchangeRates);
-            // prepare window
-            window.Height = 280;
-            window.Width = 500;
-            window.Content = detailsView;
-            window.Closing += (sender, e) =>
-            {
-                if (!detailsView.CloseView())
-                    e.Cancel = true;
-            };
-            // show window
-            window.ShowDialog();
-            if (detailsView.DialogResult)
+            this.OpenDetailsWindow(new CurrencyExchangeRateDetailsView(_currencyExchangeRateService, model, isNew, _viewModel.Currencies, _viewModel.CurrencyExchangeRates), () =>
             {
                 // update grid
-                if (isNew && _viewModel.CurrencyExchangeRates.FirstOrDefault(_ => _.CurrencyFromId == model.CurrencyFromId 
+                if (isNew && _viewModel.CurrencyExchangeRates.FirstOrDefault(_ => _.CurrencyFromId == model.CurrencyFromId
                     && _.CurrencyToId == model.CurrencyToId) == null)
                 {
                     _viewModel.CurrencyExchangeRates.Add(model);
                 }
 
                 GridCurrencyExchangeRates.Items.Refresh();
-            }
+            });
         }
 
         private void UpdateMainCurrencyLocal(CurrencyModel model)

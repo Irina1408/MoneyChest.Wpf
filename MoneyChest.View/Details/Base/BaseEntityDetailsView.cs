@@ -13,39 +13,28 @@ using System.Windows.Controls;
 
 namespace MoneyChest.View.Details
 {
-    public abstract class BaseEntityDetailsView<TEntity, TViewModel, TService> : UserControl
+    public interface IEntityDetailsView
+    {
+        void PrepareParentWindow(Window window);
+        bool DialogResult { get; }
+    }
+
+    public abstract class BaseEntityDetailsView<TEntity, TViewModel, TService> : UserControl, IEntityDetailsView
         where TEntity : class, INotifyPropertyChanged
         where TViewModel : class, TEntity, INotifyPropertyChanged
         where TService : IServiceBase<TEntity>
     {
-        #region Protected fields
-
-        protected TService _service;
-        protected EntityWrapper<TViewModel> _wrappedEntity;
-        protected bool _isNew;
-        protected DetailsViewCommandContainer _commands;
-        protected Action _closeAction;
-        protected bool _closeView;
-
-        #endregion
-
         #region Initialization
         
         public BaseEntityDetailsView()
-        {
-            // init
-            _closeView = false;
-            // attach event
-            Loaded += DetailsView_Loaded;
-        }
+        { }
 
-        public BaseEntityDetailsView(TService service, TViewModel entity, bool isNew, Action closeAction) : this()
+        public BaseEntityDetailsView(TService service, TViewModel entity, bool isNew) : this()
         {
             // init
-            _service = service;
-            _isNew = isNew;
-            _closeAction = closeAction;
-            _wrappedEntity = new EntityWrapper<TViewModel>(entity);
+            Service = service;
+            IsNew = isNew;
+            WrappedEntity = new EntityWrapper<TViewModel>(entity);
 
             // init commands
             InitializeCommands();
@@ -53,40 +42,38 @@ namespace MoneyChest.View.Details
 
         protected virtual void InitializeCommands()
         {
-            _commands = new DetailsViewCommandContainer()
+            Commands = new DetailsViewCommandContainer()
             {
                 SaveCommand = new Command(() =>
                 {
                     // save changes
                     SaveChanges();
                     // close control
-                    _closeAction?.Invoke();
+                    Close(false);
                 },
-                () => _wrappedEntity.IsChanged && !_wrappedEntity.HasErrors),
+                () => WrappedEntity.IsChanged && !WrappedEntity.HasErrors),
 
-                CancelCommand = new Command(() =>
-                {
-                    if (CloseView())
-                        _closeAction?.Invoke();
-                })
+                CancelCommand = new Command(() => Close(false))
             };
         }
 
         protected virtual void InitializationComplete()
         {
             // initialize entity datacontext
-            this.DataContext = _wrappedEntity.Entity;
+            this.DataContext = WrappedEntity.Entity;
 
             // mark as not changed forcibly
-            _wrappedEntity.IsChanged = false;
+            WrappedEntity.IsChanged = false;
             // add events
-            _wrappedEntity.Entity.PropertyChanged += (sender, args) => ((Command)_commands.SaveCommand).ValidateCanExecute();
+            WrappedEntity.Entity.PropertyChanged += (sender, args) => ((Command)Commands.SaveCommand).ValidateCanExecute();
             // validate save command now 
-            _commands.SaveCommand.ValidateCanExecute();
+            Commands.SaveCommand.ValidateCanExecute();
         }
 
-        protected virtual void DetailsView_Loaded(object sender, RoutedEventArgs e)
+        protected override void OnInitialized(EventArgs e)
         {
+            base.OnInitialized(e);
+            
             // complete components initialization
             InitializationComplete();
             // set padding for content
@@ -95,44 +82,57 @@ namespace MoneyChest.View.Details
 
         #endregion
 
-        #region Protected properties
+        #region Protected properties & methods
 
-        protected virtual string ViewHeader => _isNew
+        protected virtual string ViewHeader => IsNew
                 ? MultiLangResourceManager.Instance[MultiLangResourceName.New(typeof(TEntity))]
                 : MultiLangResourceManager.Instance[MultiLangResourceName.Singular(typeof(TEntity))];
 
+        protected TService Service { get; private set; }
+        protected EntityWrapper<TViewModel> WrappedEntity { get; private set; }
+        protected DetailsViewCommandContainer Commands { get; private set; }
+        protected bool IsNew { get; private set; }
+
+        protected virtual void SaveChanges()
+        {
+            if (IsNew)
+                Service.Add(WrappedEntity.Entity);
+            else
+                Service.Update(WrappedEntity.Entity);
+
+            WrappedEntity.IsChanged = false;
+            DialogResult = true;
+        }
+
+        protected virtual void RevertChanges()
+        {
+            WrappedEntity.RevertChanges();
+
+            WrappedEntity.IsChanged = false;
+            DialogResult = false;
+        }
+
         #endregion
 
-        #region Public
-        // TODO: add height and width
+        #region IBaseEntityDetailsView implementation
+
+        public virtual void PrepareParentWindow(Window window)
+        {
+            window.Closing += Window_Closing;
+        }
+
         public bool DialogResult { get; protected set; } = false;
 
-        public virtual void SaveChanges()
+        #endregion
+
+        #region Private methods
+
+        private bool Close(bool askConfirmation, bool inner = false)
         {
-            if (_isNew)
-                _service.Add(_wrappedEntity.Entity);
-            else
-                _service.Update(_wrappedEntity.Entity);
-
-            DialogResult = true;
-            _closeView = true;
-        }
-
-        public virtual void RevertChanges()
-        {
-            _wrappedEntity.RevertChanges();
-
-            DialogResult = false;
-            _closeView = true;
-        }
-
-        public virtual bool CloseView()
-        {
-            // not ask confirmation if it has already asked
-            if (_closeView) return _closeView;
+            bool close = !askConfirmation || !WrappedEntity.IsChanged;
 
             // ask confirmation only if any changes exists
-            if (_wrappedEntity.IsChanged)
+            if (askConfirmation && WrappedEntity.IsChanged)
             {
                 // show confirmation
                 var dialogResult = MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmationMessage],
@@ -142,20 +142,46 @@ namespace MoneyChest.View.Details
                 if (dialogResult == MessageBoxResult.Yes)
                 {
                     // check errors
-                    if (_wrappedEntity.HasErrors)
+                    if (WrappedEntity.HasErrors)
                         MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailedMessage],
                             MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailed], MessageBoxButton.OK,
                             MessageBoxImage.Exclamation);
                     else
+                    {
                         SaveChanges();
+                        close = true;
+                    }
                 }
                 else if (dialogResult == MessageBoxResult.No)
+                {
                     RevertChanges();
+                    close = true;
+                }
             }
-            else
-                _closeView = true;
 
-            return _closeView;
+            if (!inner && close)
+                CloseWindow();
+
+            return close;
+        }
+
+        private void CloseWindow()
+        {
+            var window = Window.GetWindow(this);
+            if (window == null) return;
+
+            // detach event
+            window.Closing -= Window_Closing;
+            // close window
+            window.Close();
+            // attach event
+            window.Closing += Window_Closing;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (!Close(true, true))
+                e.Cancel = true;
         }
 
         #endregion

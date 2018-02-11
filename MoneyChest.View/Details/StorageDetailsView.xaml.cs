@@ -26,8 +26,8 @@ namespace MoneyChest.View.Details
         public StorageDetailsViewBase() : base()
         { }
 
-        public StorageDetailsViewBase(IStorageService service, StorageModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public StorageDetailsViewBase(IStorageService service, StorageModel entity, bool isNew)
+            : base(service, entity, isNew)
         { }
     }
 
@@ -36,11 +36,9 @@ namespace MoneyChest.View.Details
     /// </summary>
     public partial class StorageDetailsView : StorageDetailsViewBase
     {
-        #region Initialization
-
-        public StorageDetailsView(IStorageService service, StorageModel entity, bool isNew, Action closeAction,
+        public StorageDetailsView(IStorageService service, StorageModel entity, bool isNew,
             IEnumerable<StorageGroupModel> storageGroups, IEnumerable<CurrencyModel> currencies)
-            : base(service, entity, isNew, closeAction)
+            : base(service, entity, isNew)
         {
             InitializeComponent();
             
@@ -50,9 +48,15 @@ namespace MoneyChest.View.Details
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
-            CommandsPanel.DataContext = _commands;
+            CommandsPanel.DataContext = Commands;
         }
 
-        #endregion
+        public override void PrepareParentWindow(Window window)
+        {
+            base.PrepareParentWindow(window);
+
+            window.Height = 440;
+            window.Width = 270;
+        }
     }
 }

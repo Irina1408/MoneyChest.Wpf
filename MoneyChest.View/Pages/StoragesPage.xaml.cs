@@ -347,67 +347,42 @@ namespace MoneyChest.View.Pages
             // keep old storage data
             var oldStorageGroupId = model.StorageGroupId;
             var oldCurrencyId = model.CurrencyId;
-            // init window and details view
-            var window = this.InitializeDependWindow(false);
-            var detailsView = new StorageDetailsView(_service, model, isNew, window.Close, _storageGroups.Cast<StorageGroupModel>(), _currencies);
-            // prepare window
-            window.Height = 440;
-            window.Width = 270;
-            window.Content = detailsView;
-            window.Closing += (sender, e) =>
-            {
-                if (!detailsView.CloseView())
-                    e.Cancel = true;
-            };
-            // show window
-            window.ShowDialog();
-            if (detailsView.DialogResult)
-            {
-                // update view
-                if (isNew)
+
+            // open storage details
+            this.OpenDetailsWindow(new StorageDetailsView(_service, model, isNew, _storageGroups.Cast<StorageGroupModel>(), _currencies),
+                () =>
                 {
-                    // insert new storage into view
-                    AddStorageIntoView(model);
-                }
-                else if(oldStorageGroupId != model.StorageGroupId)
-                {
-                    // remove from old group
-                    _storageGroupPanel[oldStorageGroupId].Children.Remove(_storageView[model.Id]);
-                    // add into new group
-                    _storageGroupPanel[model.StorageGroupId].Children.Add(_storageView[model.Id]);
-                    RefreshStoragesSequence(model.StorageGroupId);
-                }
-                else if(oldCurrencyId != model.CurrencyId)
-                    RefreshStoragesSequence(model.StorageGroupId);
-            }
+                    // update view
+                    if (isNew)
+                    {
+                        // insert new storage into view
+                        AddStorageIntoView(model);
+                    }
+                    else if (oldStorageGroupId != model.StorageGroupId)
+                    {
+                        // remove from old group
+                        _storageGroupPanel[oldStorageGroupId].Children.Remove(_storageView[model.Id]);
+                        // add into new group
+                        _storageGroupPanel[model.StorageGroupId].Children.Add(_storageView[model.Id]);
+                        RefreshStoragesSequence(model.StorageGroupId);
+                    }
+                    else if (oldCurrencyId != model.CurrencyId)
+                        RefreshStoragesSequence(model.StorageGroupId);
+                });
         }
 
         private void OpenDetails(MoneyTransferModel model, bool isNew = false)
         {
-            // init window and details view
-            var window = this.InitializeDependWindow(false);
-            var detailsView = new MoneyTransferDetailsView(_moneyTransferService, model, isNew, window.Close, true, 
-                _storages.OrderByDescending(_ => _.IsVisible).ThenBy(_ => _.Name));
-            // prepare window
-            window.Height = 450;
-            window.Width = 800;
-            window.Content = detailsView;
-            window.Closing += (sender, e) =>
-            {
-                if (!detailsView.CloseView())
-                    e.Cancel = true;
-            };
-            // show window
-            window.ShowDialog();
-            if (detailsView.DialogResult)
-            {
-                // update grid
-                if (isNew && _areMoneyTransfersLoaded)
-                    _viewModel.MoneyTransfers.Insert(0, model);
+            this.OpenDetailsWindow(new MoneyTransferDetailsView(_moneyTransferService, model, isNew, true,
+                _storages.OrderByDescending(_ => _.IsVisible).ThenBy(_ => _.Name)), () =>
+                {
+                    // update grid
+                    if (isNew && _areMoneyTransfersLoaded)
+                        _viewModel.MoneyTransfers.Insert(0, model);
 
-                // update storages view
-                UpdateStorages(model);
-            }
+                    // update storages view
+                    UpdateStorages(model);
+                });
         }
 
         private void UpdateStorages(MoneyTransferModel moneyTransfer)

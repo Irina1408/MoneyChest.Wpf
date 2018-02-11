@@ -32,8 +32,7 @@ namespace MoneyChest.View.Details
         public DebtDetailsViewBase() : base()
         { }
 
-        public DebtDetailsViewBase(IDebtService service, DebtViewModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public DebtDetailsViewBase(IDebtService service, DebtViewModel entity, bool isNew) : base(service, entity, isNew)
         { }
     }
 
@@ -54,8 +53,7 @@ namespace MoneyChest.View.Details
 
         #region Initialization
 
-        public DebtDetailsView(IDebtService service, DebtViewModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public DebtDetailsView(IDebtService service, DebtViewModel entity, bool isNew) : base(service, entity, isNew)
         {
             InitializeComponent();
             
@@ -68,7 +66,7 @@ namespace MoneyChest.View.Details
             storages.Add(new StorageModel() { Id = -1, Name = MultiLangResourceManager.Instance[MultiLangResourceName.None] });
             storages.AddRange(_storages);
             comboStorage.ItemsSource = storages;
-            if (_isNew)
+            if (IsNew)
                 entity.StorageId = -1;
 
             // load currencies
@@ -84,7 +82,7 @@ namespace MoneyChest.View.Details
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
-            CommandsPanel.DataContext = _commands;
+            CommandsPanel.DataContext = Commands;
         }
 
         protected override void InitializeCommands()
@@ -100,23 +98,31 @@ namespace MoneyChest.View.Details
                         MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                     {
                         // remove from entity
-                        _wrappedEntity.Entity.Penalties.Remove(_wrappedEntity.Entity.Penalties.First(_ => _.Id == item.Id));
+                        WrappedEntity.Entity.Penalties.Remove(WrappedEntity.Entity.Penalties.First(_ => _.Id == item.Id));
                         // remove from view
                         PenaltiesPanel.Children.Remove(_penaltyControl[item]);
                     }
                 });
 
-            _wrappedEntity.Entity.AddPenaltyCommand = new Command(() =>
+            WrappedEntity.Entity.AddPenaltyCommand = new Command(() =>
             {
                 var newPenalty = new DebtPenaltyModel()
                 {
-                    DebtId = _wrappedEntity.Entity.Id,
-                    Id = _wrappedEntity.Entity.Penalties.Count > 0 ?_wrappedEntity.Entity.Penalties.Min(_ => _.Id) -1 : -1
+                    DebtId = WrappedEntity.Entity.Id,
+                    Id = WrappedEntity.Entity.Penalties.Count > 0 ?WrappedEntity.Entity.Penalties.Min(_ => _.Id) -1 : -1
                 };
 
-                _wrappedEntity.Entity.Penalties.Add(newPenalty);
+                WrappedEntity.Entity.Penalties.Add(newPenalty);
                 AddPenaltyToView(newPenalty);
             });
+        }
+
+        public override void PrepareParentWindow(Window window)
+        {
+            base.PrepareParentWindow(window);
+
+            window.Height = 572;
+            window.Width = 1110;
         }
 
         #endregion
@@ -125,16 +131,16 @@ namespace MoneyChest.View.Details
 
         private void comboStorage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_wrappedEntity.IsChanged) return;
+            if (!WrappedEntity.IsChanged) return;
             // update storage currency
-            _wrappedEntity.Entity.Storage = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageId)?.ToReferenceView();
+            WrappedEntity.Entity.Storage = _storages.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.StorageId)?.ToReferenceView();
         }
 
         private void comboCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_wrappedEntity.IsChanged) return;
+            if (!WrappedEntity.IsChanged) return;
             // update debt currency
-            _wrappedEntity.Entity.Currency = _currencies.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.CurrencyId)?.ToReferenceView();
+            WrappedEntity.Entity.Currency = _currencies.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.CurrencyId)?.ToReferenceView();
         }
 
         #endregion
@@ -145,7 +151,7 @@ namespace MoneyChest.View.Details
         {
             _penaltyControl = new Dictionary<DebtPenaltyViewModel, ContentControl>();
 
-            foreach (var penalty in _wrappedEntity.Entity.Penalties)
+            foreach (var penalty in WrappedEntity.Entity.Penalties)
                 AddPenaltyToView(penalty);
         }
 

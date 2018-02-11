@@ -26,8 +26,8 @@ namespace MoneyChest.View.Details
         public CurrencyDetailsViewBase() : base()
         { }
 
-        public CurrencyDetailsViewBase(ICurrencyService service, CurrencyModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public CurrencyDetailsViewBase(ICurrencyService service, CurrencyModel entity, bool isNew)
+            : base(service, entity, isNew)
         { }
     }
 
@@ -36,10 +36,8 @@ namespace MoneyChest.View.Details
     /// </summary>
     public partial class CurrencyDetailsView : CurrencyDetailsViewBase
     {
-        #region Initialization
-
-        public CurrencyDetailsView(ICurrencyService service, CurrencyModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public CurrencyDetailsView(ICurrencyService service, CurrencyModel entity, bool isNew)
+            : base(service, entity, isNew)
         {
             InitializeComponent();
             
@@ -48,9 +46,15 @@ namespace MoneyChest.View.Details
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
-            CommandsPanel.DataContext = _commands;
+            CommandsPanel.DataContext = Commands;
         }
 
-        #endregion
+        public override void PrepareParentWindow(Window window)
+        {
+            base.PrepareParentWindow(window);
+
+            window.Height = 293;
+            window.Width = 400;
+        }
     }
 }

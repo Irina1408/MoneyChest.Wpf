@@ -32,8 +32,8 @@ namespace MoneyChest.View.Details
         public SimpleEventDetailsViewBase() : base()
         { }
 
-        public SimpleEventDetailsViewBase(ISimpleEventService service, SimpleEventViewModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public SimpleEventDetailsViewBase(ISimpleEventService service, SimpleEventViewModel entity, bool isNew)
+            : base(service, entity, isNew)
         { }
     }
 
@@ -51,8 +51,8 @@ namespace MoneyChest.View.Details
 
         #region Initialization
 
-        public SimpleEventDetailsView(ISimpleEventService service, SimpleEventViewModel entity, bool isNew, Action closeAction)
-            : base(service, entity, isNew, closeAction)
+        public SimpleEventDetailsView(ISimpleEventService service, SimpleEventViewModel entity, bool isNew)
+            : base(service, entity, isNew)
         {
             InitializeComponent();
             
@@ -72,23 +72,31 @@ namespace MoneyChest.View.Details
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
-            CommandsPanel.DataContext = _commands;
+            CommandsPanel.DataContext = Commands;
+        }
+
+        public override void PrepareParentWindow(Window window)
+        {
+            base.PrepareParentWindow(window);
+
+            window.Height = 650;
+            window.Width = 830;
         }
 
         #endregion
 
         #region Event handlers
-        
+
         private void comboStorage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_wrappedEntity.IsChanged) return;
-            _wrappedEntity.Entity.Storage = _storages.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.StorageId)?.ToReferenceView();
+            if (!WrappedEntity.IsChanged) return;
+            WrappedEntity.Entity.Storage = _storages.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.StorageId)?.ToReferenceView();
         }
 
         private void comboCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_wrappedEntity.IsChanged) return;
-            _wrappedEntity.Entity.Currency = _currencies.FirstOrDefault(_ => _.Id == _wrappedEntity.Entity.CurrencyId)?.ToReferenceView();
+            if (!WrappedEntity.IsChanged) return;
+            WrappedEntity.Entity.Currency = _currencies.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.CurrencyId)?.ToReferenceView();
         }
 
         #endregion
