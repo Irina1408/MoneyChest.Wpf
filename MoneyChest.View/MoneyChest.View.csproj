@@ -96,7 +96,7 @@
     <Compile Include="Converters\EnumToBoolConverter.cs" />
     <Compile Include="Converters\EnumToVisibilityConverter.cs" />
     <Compile Include="Converters\MultiBoolValueConverter.cs" />
-    <Compile Include="Details\Base\BaseEntityDetailsView.cs" />
+    <Compile Include="Details\Base\EntityDetailsViewBase.cs" />
     <Compile Include="Details\CategoryDetailsView.xaml.cs">
       <DependentUpon>CategoryDetailsView.xaml</DependentUpon>
     </Compile>
@@ -125,7 +125,9 @@
     <Compile Include="Details\StorageDetailsView.xaml.cs">
       <DependentUpon>StorageDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Base\PageBase.cs" />
     <Compile Include="Utils\MultiLangBinding.cs" />
+    <Compile Include="Utils\PageHelper.cs" />
     <Compile Include="Utils\ScheduleHelper.cs" />
     <Compile Include="Utils\TreeHelper.cs" />
     <Compile Include="Main\CustomHamburgerMenuItem.cs" />

@@ -27,7 +27,7 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
-    public abstract class SimpleEventDetailsViewBase : BaseEntityDetailsView<SimpleEventModel, SimpleEventViewModel, ISimpleEventService>
+    public abstract class SimpleEventDetailsViewBase : EntityDetailsViewBase<SimpleEventModel, SimpleEventViewModel, ISimpleEventService>
     {
         public SimpleEventDetailsViewBase() : base()
         { }

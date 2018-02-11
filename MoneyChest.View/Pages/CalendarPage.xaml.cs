@@ -20,20 +20,19 @@ namespace MoneyChest.View.Pages
     /// <summary>
     /// Interaction logic for CalendarPage.xaml
     /// </summary>
-    public partial class CalendarPage : UserControl, IPage
+    public partial class CalendarPage : PageBase
     {
-        public CalendarPage()
+        public CalendarPage() : base()
         {
             InitializeComponent();
         }
 
-        #region IPage implementation
+        #region Overrides
 
-        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Calendar];
-        public FrameworkElement Icon { get; private set; } = new PackIconModern() { Kind = PackIconModernKind.CalendarMonth };
-        public int Order => 3;
-        public bool ShowTopBorder => false;
-        public FrameworkElement View => this;
+        public override void Reload()
+        {
+            base.Reload();
+        }
 
         #endregion
     }

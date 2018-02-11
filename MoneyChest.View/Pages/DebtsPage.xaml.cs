@@ -29,20 +29,18 @@ namespace MoneyChest.View.Pages
     /// <summary>
     /// Interaction logic for DebtsPage.xaml
     /// </summary>
-    public partial class DebtsPage : UserControl, IPage
+    public partial class DebtsPage : PageBase
     {
         #region Private fields
 
         private IDebtService _service;
         private DebtsPageViewModel _viewModel;
-        // TODO: replace to IPage Options
-        private bool _reload = true;
 
         #endregion
 
         #region Initialization
 
-        public DebtsPage()
+        public DebtsPage() : base()
         {
             InitializeComponent();
 
@@ -59,7 +57,7 @@ namespace MoneyChest.View.Pages
                 () => OpenDetails(new DebtViewModel() { UserId = GlobalVariables.UserId }, true)),
 
                 EditCommand = new DataGridSelectedItemCommand<DebtViewModel>(GridDebts,
-                (item) => OpenDetails(item)),
+                (item) => OpenDetails(item), null, true),
 
                 DeleteCommand = new DataGridSelectedItemsCommand<DebtViewModel>(GridDebts,
                 (items) =>
@@ -74,6 +72,7 @@ namespace MoneyChest.View.Pages
                         // remove in grid
                         foreach (var item in items.ToList())
                             _viewModel.Debts.Remove(item);
+                        NotifyDataChanged();
                     }
                 })
             };
@@ -83,48 +82,23 @@ namespace MoneyChest.View.Pages
 
         #endregion
 
-        #region IPage implementation
+        #region Overrides
 
-        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Debts];
-        public FrameworkElement Icon { get; private set; } = new PackIconModern() { Kind = PackIconModernKind.CalendarDollar };
-        public int Order => 5;
-        public bool ShowTopBorder => false;
-        public FrameworkElement View => this;
-
-        #endregion
-
-        #region Event handlers
-
-        private void DebtsPage_Loaded(object sender, RoutedEventArgs e)
+        public override void Reload()
         {
-            if (_reload)
-                ReloadData();
-        }
+            base.Reload();
 
-        private void GridDebts_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (GridDebts.SelectedItem != null)
-            {
-                _viewModel.EditCommand.Execute(GridDebts.SelectedItem);
-            }
-        }
-
-        #endregion
-
-        #region Private methods
-
-        private void ReloadData()
-        {
             // reload debts
             _viewModel.Debts = new ObservableCollection<DebtViewModel>(
                 _service.GetListForUser(GlobalVariables.UserId)
                 .Select(e => new DebtViewModel(e))
                 .OrderBy(_ => _.IsRepaid)
                 .ThenByDescending(_ => _.TakingDate));
-
-            // mark as reloaded
-            _reload = false;
         }
+
+        #endregion
+
+        #region Private methods
 
         private void OpenDetails(DebtViewModel model, bool isNew = false)
         {
@@ -141,6 +115,7 @@ namespace MoneyChest.View.Pages
                 }
 
                 GridDebts.Items.Refresh();
+                NotifyDataChanged();
             });
         }
 

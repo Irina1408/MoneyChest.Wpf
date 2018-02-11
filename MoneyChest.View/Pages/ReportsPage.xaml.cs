@@ -20,20 +20,19 @@ namespace MoneyChest.View.Pages
     /// <summary>
     /// Interaction logic for ReportsPage.xaml
     /// </summary>
-    public partial class ReportsPage : UserControl, IPage
+    public partial class ReportsPage : PageBase
     {
-        public ReportsPage()
+        public ReportsPage() : base()
         {
             InitializeComponent();
         }
 
-        #region IPage implementation
+        #region Overrides
 
-        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Reports];
-        public FrameworkElement Icon { get; private set; } = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.PieChart };
-        public int Order => 6;
-        public bool ShowTopBorder => false;
-        public FrameworkElement View => this;
+        public override void Reload()
+        {
+            base.Reload();
+        }
 
         #endregion
     }

@@ -30,7 +30,7 @@ namespace MoneyChest.View.Pages
     /// <summary>
     /// Interaction logic for StoragesPage.xaml
     /// </summary>
-    public partial class StoragesPage : UserControl, IPage
+    public partial class StoragesPage : PageBase
     {
         #region Private fields
 
@@ -48,16 +48,14 @@ namespace MoneyChest.View.Pages
         // storage view data
         private Dictionary<int, WrapPanel> _storageGroupPanel;
         private Dictionary<int, ContentControl> _storageView;
-
-        // TODO: replace to IPage Options
-        private bool _reload = true;
+        
         private bool _areMoneyTransfersLoaded = false;
 
         #endregion
 
         #region Initialization
 
-        public StoragesPage()
+        public StoragesPage() : base()
         {
             InitializeComponent();
 
@@ -102,6 +100,7 @@ namespace MoneyChest.View.Pages
                             _service.Delete(item);
                             // remove in view
                             _storageGroupPanel[item.StorageGroupId].Children.Remove(_storageView[item.Id]);
+                            NotifyDataChanged();
                         }
                     }),
 
@@ -126,6 +125,7 @@ namespace MoneyChest.View.Pages
                         AddStorageGroupIntoView(storageGroup);
                         // scroll down
                         StoragesScrollViewer.ScrollToEnd();
+                        NotifyDataChanged();
                     }),
 
                 DeleteStorageGroupCommand = new ParametrizedCommand<StorageGroupViewModel>(
@@ -142,6 +142,7 @@ namespace MoneyChest.View.Pages
                             _storageGroups.Remove(_storageGroups.First(_ => _.Id == item.Id));
                             // remove in view
                             StoragesPanel.Children.Remove(_storageGroupPanel[item.Id].Parent as ContentControl);
+                            NotifyDataChanged();
                         }
                     }),
 
@@ -149,7 +150,7 @@ namespace MoneyChest.View.Pages
                     () => OpenDetails(new MoneyTransferModel(), true)),
 
                 EditMoneyTransferCommand = new DataGridSelectedItemCommand<MoneyTransferModel>(GridMoneyTransfers,
-                (item) => OpenDetails(item)),
+                (item) => OpenDetails(item), null, true),
 
                 DeleteMoneyTransferCommand = new DataGridSelectedItemsCommand<MoneyTransferModel>(GridMoneyTransfers,
                 (items) =>
@@ -169,6 +170,7 @@ namespace MoneyChest.View.Pages
                             // update existing storages
                             UpdateStorages(item);
                         }
+                        NotifyDataChanged();
                     }
                 })
             };
@@ -178,66 +180,14 @@ namespace MoneyChest.View.Pages
 
         #endregion
 
-        #region IPage implementation
+        #region Overrides
 
-        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Storages];
-        public FrameworkElement Icon { get; private set; } = new PackIconMaterial() { Kind = PackIconMaterialKind.Bank };
-        public int Order => 7;
-        public bool ShowTopBorder => true;
-        public FrameworkElement View => this;
+        public override bool ShowTopBorder => true;
 
-        #endregion
-
-        #region Event handlers
-
-        private void StoragesPage_Loaded(object sender, RoutedEventArgs e)
+        public override void Reload()
         {
-            if(_reload)
-                ReloadData();
-        }
+            base.Reload();
 
-        private void StorageGroupName_LostFocus(object sender, RoutedEventArgs e)
-        {
-            // get changed storage group
-            var textBox = sender as TextBox;
-            var storageGroupViewModel = textBox.DataContext as StorageGroupViewModel;
-            // save changes to database
-            if(storageGroupViewModel.IsChanged)
-            {
-                _storageGroupService.Update(storageGroupViewModel);
-                storageGroupViewModel.IsChanged = false;
-            }
-        }
-
-        private void StorageVisibilityToggleButton_Click(object sender, RoutedEventArgs e)
-        {
-            // get changed storage
-            var toggleButton = sender as ToggleButton;
-            var storageViewModel = toggleButton.DataContext as StorageViewModel;
-            // save changes
-            _service.Update(storageViewModel);
-        }
-
-        private void ExpanderMoneyTransfers_Expanded(object sender, RoutedEventArgs e)
-        {
-            if (!_areMoneyTransfersLoaded)
-                LoadMoneyTransfers();
-        }
-
-        private void GridMoneyTransfers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (GridMoneyTransfers.SelectedItem != null)
-            {
-                _viewModel.EditMoneyTransferCommand.Execute(GridMoneyTransfers.SelectedItem);
-            }
-        }
-
-        #endregion
-
-        #region Private methods
-
-        private void ReloadData()
-        {
             // reload storages
             var storages = _service.GetListForUser(GlobalVariables.UserId);
             var storageGroups = _storageGroupService.GetListForUser(GlobalVariables.UserId);
@@ -259,10 +209,45 @@ namespace MoneyChest.View.Pages
                 LoadMoneyTransfers();
             else
                 _areMoneyTransfersLoaded = false;
-
-            // mark as reloaded
-            //_reload = false;
         }
+
+        #endregion
+
+        #region Event handlers
+        
+        private void StorageGroupName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // get changed storage group
+            var textBox = sender as TextBox;
+            var storageGroupViewModel = textBox.DataContext as StorageGroupViewModel;
+            // save changes to database
+            if(storageGroupViewModel.IsChanged)
+            {
+                _storageGroupService.Update(storageGroupViewModel);
+                storageGroupViewModel.IsChanged = false;
+            }
+            NotifyDataChanged();
+        }
+
+        private void StorageVisibilityToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            // get changed storage
+            var toggleButton = sender as ToggleButton;
+            var storageViewModel = toggleButton.DataContext as StorageViewModel;
+            // save changes
+            _service.Update(storageViewModel);
+            NotifyDataChanged();
+        }
+
+        private void ExpanderMoneyTransfers_Expanded(object sender, RoutedEventArgs e)
+        {
+            if (!_areMoneyTransfersLoaded)
+                LoadMoneyTransfers();
+        }
+
+        #endregion
+
+        #region Private methods
 
         private void LoadMoneyTransfers()
         {
@@ -368,6 +353,8 @@ namespace MoneyChest.View.Pages
                     }
                     else if (oldCurrencyId != model.CurrencyId)
                         RefreshStoragesSequence(model.StorageGroupId);
+
+                    NotifyDataChanged();
                 });
         }
 
@@ -382,6 +369,7 @@ namespace MoneyChest.View.Pages
 
                     // update storages view
                     UpdateStorages(model);
+                    NotifyDataChanged();
                 });
         }
 

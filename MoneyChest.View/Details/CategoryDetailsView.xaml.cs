@@ -23,7 +23,7 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
-    public abstract class CategoryDetailsViewBase : BaseEntityDetailsView<CategoryModel, CategoryModel, ICategoryService>
+    public abstract class CategoryDetailsViewBase : EntityDetailsViewBase<CategoryModel, CategoryModel, ICategoryService>
     {
         public CategoryDetailsViewBase() : base()
         { }

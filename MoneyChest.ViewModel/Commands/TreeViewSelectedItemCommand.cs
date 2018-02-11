@@ -21,17 +21,26 @@ namespace MoneyChest.ViewModel.Commands
 
         #region Initialization
 
-        public TreeViewSelectedItemCommand(TreeView treeView, Action<T> execute, Func<T, bool> canExecute = null)
+        public TreeViewSelectedItemCommand(TreeView treeView, Action<T> execute, Func<T, bool> canExecute = null, bool doubleClick = false)
         {
             this.treeView = treeView;
             this.execute = execute;
             this.canExecute = canExecute;
             this.treeView.SelectedItemChanged += treeView_SelectedItemChanged;
+
+            if(doubleClick)
+                this.treeView.MouseDoubleClick += treeView_MouseDoubleClick;
         }
 
         private void treeView_SelectedItemChanged(object sender, EventArgs e)
         {
             ValidateCanExecute();
+        }
+
+        private void treeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (treeView.SelectedItem != null)
+                Execute(treeView.SelectedItem);
         }
 
         #endregion

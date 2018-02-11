@@ -29,7 +29,7 @@ namespace MoneyChest.View.Pages
     /// <summary>
     /// Interaction logic for PlanningPage.xaml
     /// </summary>
-    public partial class PlanningPage : UserControl, IPage
+    public partial class PlanningPage : PageBase
     {
         #region Private fields
 
@@ -37,14 +37,12 @@ namespace MoneyChest.View.Pages
         private IRepayDebtEventService _repayDebtEventService;
         private ISimpleEventService _simpleEventService;
         private PlanningPageViewModel _viewModel;
-        // TODO: replace to IPage Options
-        private bool _reload = true;
 
         #endregion
 
         #region Initialization
 
-        public PlanningPage()
+        public PlanningPage() : base()
         {
             InitializeComponent();
 
@@ -65,7 +63,7 @@ namespace MoneyChest.View.Pages
                         () => OpenDetails(new SimpleEventViewModel() { UserId = GlobalVariables.UserId, Schedule = new ScheduleModel() }, true)),
 
                     EditCommand = new DataGridSelectedItemCommand<SimpleEventViewModel>(GridSimpleEvents,
-                    (item) => OpenDetails(item)),
+                    (item) => OpenDetails(item), null, true),
 
                     DeleteCommand = new DataGridSelectedItemsCommand<SimpleEventViewModel>(GridSimpleEvents,
                     (items) =>
@@ -80,6 +78,8 @@ namespace MoneyChest.View.Pages
                             // remove in grid
                             foreach (var item in items.ToList())
                                 _viewModel.SimpleEventsViewModel.Events.Remove(item);
+
+                            NotifyDataChanged();
                         }
                     })
                 },
@@ -90,7 +90,7 @@ namespace MoneyChest.View.Pages
                         () => OpenDetails(new MoneyTransferEventViewModel() { UserId = GlobalVariables.UserId }, true)),
 
                     EditCommand = new DataGridSelectedItemCommand<MoneyTransferEventViewModel>(GridMoneyTransferEvents,
-                    (item) => OpenDetails(item)),
+                    (item) => OpenDetails(item), null, true),
 
                     DeleteCommand = new DataGridSelectedItemsCommand<MoneyTransferEventViewModel>(GridMoneyTransferEvents,
                     (items) =>
@@ -105,6 +105,8 @@ namespace MoneyChest.View.Pages
                             // remove in grid
                             foreach (var item in items.ToList())
                                 _viewModel.MoneyTransferEventsViewModel.Events.Remove(item);
+
+                            NotifyDataChanged();
                         }
                     })
                 },
@@ -115,7 +117,7 @@ namespace MoneyChest.View.Pages
                         () => OpenDetails(new RepayDebtEventViewModel() { UserId = GlobalVariables.UserId }, true)),
 
                     EditCommand = new DataGridSelectedItemCommand<RepayDebtEventViewModel>(GridRepayDebtEvents,
-                    (item) => OpenDetails(item)),
+                    (item) => OpenDetails(item), null, true),
 
                     DeleteCommand = new DataGridSelectedItemsCommand<RepayDebtEventViewModel>(GridRepayDebtEvents,
                     (items) =>
@@ -130,6 +132,8 @@ namespace MoneyChest.View.Pages
                             // remove in grid
                             foreach (var item in items.ToList())
                                 _viewModel.RepayDebtEventsViewModel.Events.Remove(item);
+
+                            NotifyDataChanged();
                         }
                     })
                 }
@@ -142,40 +146,12 @@ namespace MoneyChest.View.Pages
 
         #endregion
 
-        #region IPage implementation
+        #region Overrides
 
-        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Planning];
-        public FrameworkElement Icon { get; private set; } = new PackIconMaterial() { Kind = PackIconMaterialKind.CalendarClock };
-        public int Order => 4;
-        public bool ShowTopBorder => false;
-        public FrameworkElement View => this;
-
-        #endregion
-
-        #region Event handlers
-
-        private void PlanningPage_Loaded(object sender, RoutedEventArgs e)
+        public override void Reload()
         {
-            if (_reload)
-                ReloadData();
-        }
+            base.Reload();
 
-        private void EventsGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if(sender == GridSimpleEvents)
-                _viewModel.SimpleEventsViewModel.EditCommand.Execute(GridSimpleEvents.SelectedItem);
-            else if (sender == GridMoneyTransferEvents)
-                _viewModel.MoneyTransferEventsViewModel.EditCommand.Execute(GridMoneyTransferEvents.SelectedItem);
-            else if (sender == GridRepayDebtEvents)
-                _viewModel.RepayDebtEventsViewModel.EditCommand.Execute(GridRepayDebtEvents.SelectedItem);
-        }
-
-        #endregion
-
-        #region Private methods
-
-        private void ReloadData()
-        {
             // reload Simple events
             _viewModel.SimpleEventsViewModel.Events = new ObservableCollection<SimpleEventViewModel>(
                 _simpleEventService.GetListForUser(GlobalVariables.UserId)
@@ -197,9 +173,11 @@ namespace MoneyChest.View.Pages
             GridSimpleEvents.ItemsSource = _viewModel.SimpleEventsViewModel.Events;
             GridMoneyTransferEvents.ItemsSource = _viewModel.MoneyTransferEventsViewModel.Events;
             GridRepayDebtEvents.ItemsSource = _viewModel.RepayDebtEventsViewModel.Events;
-            // mark as reloaded
-            //_reload = false;
         }
+
+        #endregion
+
+        #region Private methods
 
         private void OpenDetails(SimpleEventViewModel model, bool isNew = false)
         {
@@ -210,6 +188,7 @@ namespace MoneyChest.View.Pages
                     InsertNewEvent(_viewModel.SimpleEventsViewModel.Events, model);
 
                 GridSimpleEvents.Items.Refresh();
+                NotifyDataChanged();
             });
         }
 
@@ -222,6 +201,7 @@ namespace MoneyChest.View.Pages
                     InsertNewEvent(_viewModel.MoneyTransferEventsViewModel.Events, model);
 
                 GridMoneyTransferEvents.Items.Refresh();
+                NotifyDataChanged();
             });
         }
 
@@ -234,6 +214,7 @@ namespace MoneyChest.View.Pages
                     InsertNewEvent(_viewModel.RepayDebtEventsViewModel.Events, model);
 
                 GridRepayDebtEvents.Items.Refresh();
+                NotifyDataChanged();
             });
         }
 

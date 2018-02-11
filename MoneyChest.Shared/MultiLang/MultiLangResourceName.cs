@@ -35,6 +35,8 @@ namespace MoneyChest.Shared.MultiLang
         public static string Plural(string entityName) => $"{entityName}_Plural";
         public static string New(string entityName) => $"{entityName}_New";
 
+        public static string MainMenuPageCaption(string page) => $"MainManu_{page}";
+
         #endregion
 
         #region Login window

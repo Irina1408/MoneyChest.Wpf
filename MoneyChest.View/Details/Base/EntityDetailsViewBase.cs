@@ -19,17 +19,17 @@ namespace MoneyChest.View.Details
         bool DialogResult { get; }
     }
 
-    public abstract class BaseEntityDetailsView<TEntity, TViewModel, TService> : UserControl, IEntityDetailsView
+    public abstract class EntityDetailsViewBase<TEntity, TViewModel, TService> : UserControl, IEntityDetailsView
         where TEntity : class, INotifyPropertyChanged
         where TViewModel : class, TEntity, INotifyPropertyChanged
         where TService : IServiceBase<TEntity>
     {
         #region Initialization
         
-        public BaseEntityDetailsView()
+        public EntityDetailsViewBase() : base()
         { }
 
-        public BaseEntityDetailsView(TService service, TViewModel entity, bool isNew) : this()
+        public EntityDetailsViewBase(TService service, TViewModel entity, bool isNew) : this()
         {
             // init
             Service = service;

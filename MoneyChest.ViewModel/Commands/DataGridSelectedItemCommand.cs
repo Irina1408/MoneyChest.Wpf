@@ -21,17 +21,26 @@ namespace MoneyChest.ViewModel.Commands
 
         #region Initialization
 
-        public DataGridSelectedItemCommand(DataGrid dataGrid, Action<T> execute, Func<T, bool> canExecute = null)
+        public DataGridSelectedItemCommand(DataGrid dataGrid, Action<T> execute, Func<T, bool> canExecute = null, bool doubleClick = false)
         {
             this.dataGrid = dataGrid;
             this.execute = execute;
             this.canExecute = canExecute;
             this.dataGrid.SelectionChanged += dataGrid_SelectionChanged;
+
+            if(doubleClick)
+                this.dataGrid.MouseDoubleClick += dataGrid_MouseDoubleClick;
         }
 
         private void dataGrid_SelectionChanged(object sender, EventArgs e)
         {
             ValidateCanExecute();
+        }
+
+        private void dataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (dataGrid.SelectedItem != null)
+                Execute(dataGrid.SelectedItem);
         }
 
         #endregion

@@ -29,19 +29,18 @@ namespace MoneyChest.View.Pages
     /// <summary>
     /// Interaction logic for CategoriesPage.xaml
     /// </summary>
-    public partial class CategoriesPage : UserControl, IPage
+    public partial class CategoriesPage : PageBase
     {
         #region Private fields
 
         private ICategoryService _service;
         private CategoriesPageViewModel _viewModel;
-        private bool _reloadData = true;
 
         #endregion
 
         #region Initialization
 
-        public CategoriesPage()
+        public CategoriesPage() : base()
         {
             InitializeComponent();
 
@@ -58,7 +57,7 @@ namespace MoneyChest.View.Pages
                 () => OpenDetails(new CategoryViewModel() { UserId = GlobalVariables.UserId }, true)),
 
                 EditCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
-                (item) => OpenDetails(item)),
+                (item) => OpenDetails(item), doubleClick : true),
 
                 DeleteCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
                 (item) =>
@@ -72,6 +71,7 @@ namespace MoneyChest.View.Pages
                         _service.Delete(item);
                         // remove in collection
                         _viewModel.Categories.RemoveDescendant(item);
+                        NotifyDataChanged();
                     }
                 },
                 (item) => item.Children.Count == 0),
@@ -84,7 +84,8 @@ namespace MoneyChest.View.Pages
                     // save to database
                     _service.Update(item);
                     // reload data
-                    ReloadData();
+                    Reload();
+                    NotifyDataChanged();
                 })
             };
 
@@ -93,31 +94,38 @@ namespace MoneyChest.View.Pages
 
         #endregion
 
-        #region IPage implementation
+        #region Overrides
 
-        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Categories];
-        public FrameworkElement Icon { get; private set; } = new PackIconEntypo() { Kind = PackIconEntypoKind.FlowTree };
-        public int Order => 9;
-        public bool ShowTopBorder => false;
-        public FrameworkElement View => this;
+        public override void Reload()
+        {
+            base.Reload();
+
+            var oldCategoryCollection = _viewModel.Categories?.GetDescendants();
+
+            _viewModel.Categories = TreeHelper.BuildTree(_service.GetListForUser(GlobalVariables.UserId)
+                .OrderByDescending(_ => _.IsActive)
+                .ThenByDescending(_ => _.TransactionType)
+                .ThenBy(_ => _.Name)
+                .ToList());
+
+            // update selected and expanded items
+            if (oldCategoryCollection != null)
+            {
+                foreach (var cat in _viewModel.Categories.GetDescendants())
+                {
+                    var old = oldCategoryCollection.FirstOrDefault(_ => _.Id == cat.Id);
+                    if (old != null)
+                    {
+                        cat.IsExpandedMainView = old.IsExpandedMainView;
+                        cat.IsSelectedMainView = old.IsSelectedMainView;
+                    }
+                }
+            }
+        }
 
         #endregion
 
         #region Event handlers
-
-        private void CategoriesPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (_reloadData)
-                ReloadData();
-        }
-
-        private void TreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (TreeViewCategories.SelectedItem != null)
-            {
-                _viewModel.EditCommand.Execute(TreeViewCategories.SelectedItem);
-            }
-        }
 
         private void TreeViewCategories_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -131,33 +139,6 @@ namespace MoneyChest.View.Pages
 
         #region Private methods
 
-        private void ReloadData()
-        {
-            var oldCategoryCollection = _viewModel.Categories?.GetDescendants();
-
-            _viewModel.Categories = TreeHelper.BuildTree(_service.GetListForUser(GlobalVariables.UserId)
-                .OrderByDescending(_ => _.IsActive)
-                .ThenByDescending(_ => _.TransactionType)
-                .ThenBy(_ => _.Name)
-                .ToList());
-
-            // update selected and expanded items
-            if(oldCategoryCollection != null)
-            {
-                foreach (var cat in _viewModel.Categories.GetDescendants())
-                {
-                    var old = oldCategoryCollection.FirstOrDefault(_ => _.Id == cat.Id);
-                    if(old != null)
-                    {
-                        cat.IsExpandedMainView = old.IsExpandedMainView;
-                        cat.IsSelectedMainView = old.IsSelectedMainView;
-                    }
-                }
-            }
-            
-            _reloadData = false;
-        }
-
         private void OpenDetails(CategoryViewModel model, bool isNew = false)
         {
             this.OpenDetailsWindow(new CategoryDetailsView(_service, model, isNew, _viewModel.Categories), () =>
@@ -167,9 +148,10 @@ namespace MoneyChest.View.Pages
                 model.IsSelectedMainView = true;
 
                 // reload data
-                ReloadData();
+                Reload();
                 // refresh commands
                 RefreshCommandsState();
+                NotifyDataChanged();
             });
         }
 

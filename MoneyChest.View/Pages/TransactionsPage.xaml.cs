@@ -20,20 +20,19 @@ namespace MoneyChest.View.Pages
     /// <summary>
     /// Interaction logic for TransactionsPage.xaml
     /// </summary>
-    public partial class TransactionsPage : UserControl, IPage
+    public partial class TransactionsPage : PageBase
     {
-        public TransactionsPage()
+        public TransactionsPage() : base()
         {
             InitializeComponent();
         }
 
-        #region IPage implementation
+        #region Overrides
 
-        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Transactions];
-        public FrameworkElement Icon { get; private set; } = new PackIconModern() { Kind = PackIconModernKind.BookList };
-        public int Order => 2;
-        public bool ShowTopBorder => false;
-        public FrameworkElement View => this;
+        public override void Reload()
+        {
+            base.Reload();
+        }
 
         #endregion
     }

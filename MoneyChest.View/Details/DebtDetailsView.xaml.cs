@@ -27,7 +27,7 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
-    public abstract class DebtDetailsViewBase : BaseEntityDetailsView<DebtModel, DebtViewModel, IDebtService>
+    public abstract class DebtDetailsViewBase : EntityDetailsViewBase<DebtModel, DebtViewModel, IDebtService>
     {
         public DebtDetailsViewBase() : base()
         { }

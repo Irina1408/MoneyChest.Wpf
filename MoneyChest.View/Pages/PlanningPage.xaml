@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MoneyChest.View.Pages.PlanningPage"
+﻿<local:PageBase x:Class="MoneyChest.View.Pages.PlanningPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,8 +9,7 @@
              xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             Loaded="PlanningPage_Loaded">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -61,7 +60,7 @@
                 <Expander.Content>
                     <!-- Simple events grid -->
                     <DataGrid x:Name="GridSimpleEvents" Margin="5" AutoGenerateColumns="False" HeadersVisibility="Column"
-                              SelectionUnit="FullRow" IsReadOnly="True" MouseDoubleClick="EventsGrid_MouseDoubleClick"
+                              SelectionUnit="FullRow" IsReadOnly="True"
                               ItemsSource="{Binding Events, NotifyOnSourceUpdated=True}">   
                         <DataGrid.ContextMenu>
                             <ContextMenu>
@@ -160,7 +159,7 @@
                 <Expander.Content>
                     <!-- Money Transfer Events grid -->
                     <DataGrid x:Name="GridMoneyTransferEvents" Margin="5" AutoGenerateColumns="False" HeadersVisibility="Column"
-                              SelectionUnit="FullRow" IsReadOnly="True" MouseDoubleClick="EventsGrid_MouseDoubleClick"
+                              SelectionUnit="FullRow" IsReadOnly="True"
                               ItemsSource="{Binding Events}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
@@ -246,7 +245,7 @@
                 <Expander.Content>
                     <!-- Repay Debt Events grid -->
                     <DataGrid x:Name="GridRepayDebtEvents" Margin="5" AutoGenerateColumns="False" HeadersVisibility="Column"
-                              SelectionUnit="FullRow" IsReadOnly="True" MouseDoubleClick="EventsGrid_MouseDoubleClick"
+                              SelectionUnit="FullRow" IsReadOnly="True"
                               ItemsSource="{Binding Events}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
@@ -304,4 +303,4 @@
             </Expander>
         </Border>
     </Grid>
-</UserControl>
+</local:PageBase>

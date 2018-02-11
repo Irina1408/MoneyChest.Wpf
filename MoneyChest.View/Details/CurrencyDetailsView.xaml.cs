@@ -21,7 +21,7 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
-    public abstract class CurrencyDetailsViewBase : BaseEntityDetailsView<CurrencyModel, CurrencyModel, ICurrencyService>
+    public abstract class CurrencyDetailsViewBase : EntityDetailsViewBase<CurrencyModel, CurrencyModel, ICurrencyService>
     {
         public CurrencyDetailsViewBase() : base()
         { }

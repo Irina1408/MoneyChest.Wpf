@@ -20,24 +20,23 @@ namespace MoneyChest.View.Pages
     /// <summary>
     /// Interaction logic for DashboardPage.xaml
     /// </summary>
-    public partial class DashboardPage : UserControl, IPage
+    public partial class DashboardPage : PageBase
     {
         #region Initialization
 
-        public DashboardPage()
+        public DashboardPage() : base()
         {
             InitializeComponent();
         }
 
         #endregion
 
-        #region IPage implementation
+        #region Overrides
 
-        public string Label => MultiLangResourceManager.Instance[MultiLangResourceName.Dashboard];
-        public FrameworkElement Icon { get; private set; } = new PackIconMaterial() { Kind = PackIconMaterialKind.ViewDashboard };
-        public int Order => 1;
-        public bool ShowTopBorder => false;
-        public FrameworkElement View => this;
+        public override void Reload()
+        {
+            base.Reload();
+        }
 
         #endregion
     }

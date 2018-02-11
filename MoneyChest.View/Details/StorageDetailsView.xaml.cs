@@ -21,7 +21,7 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
-    public abstract class StorageDetailsViewBase : BaseEntityDetailsView<StorageModel, StorageModel, IStorageService>
+    public abstract class StorageDetailsViewBase : EntityDetailsViewBase<StorageModel, StorageModel, IStorageService>
     {
         public StorageDetailsViewBase() : base()
         { }

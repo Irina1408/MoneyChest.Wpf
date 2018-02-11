@@ -25,7 +25,7 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
-    public abstract class MoneyTransferDetailsViewBase : BaseEntityDetailsView<MoneyTransferModel, MoneyTransferModel, IMoneyTransferService>
+    public abstract class MoneyTransferDetailsViewBase : EntityDetailsViewBase<MoneyTransferModel, MoneyTransferModel, IMoneyTransferService>
     {
         public MoneyTransferDetailsViewBase() : base()
         { }

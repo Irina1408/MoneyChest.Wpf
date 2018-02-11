@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MoneyChest.View.Pages.CategoriesPage"
+﻿<local:PageBase x:Class="MoneyChest.View.Pages.CategoriesPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,8 +7,7 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             Loaded="CategoriesPage_Loaded">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -52,7 +51,7 @@
             </ToolBar>
         </ToolBarTray>
 
-        <TreeView x:Name="TreeViewCategories" Grid.Row="1" ItemsSource="{Binding Categories}" MouseDoubleClick="TreeView_MouseDoubleClick"
+        <TreeView x:Name="TreeViewCategories" Grid.Row="1" ItemsSource="{Binding Categories}"
                   SelectedItemChanged="TreeViewCategories_SelectedItemChanged"
                   ItemContainerStyle="{DynamicResource CategoryTreeViewMainViewItemContainerStyle}"
                   ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
@@ -78,4 +77,4 @@
             </TreeView.ContextMenu>
         </TreeView>
     </Grid>
-</UserControl>
+</local:PageBase>
