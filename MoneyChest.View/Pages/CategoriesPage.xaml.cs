@@ -57,7 +57,7 @@ namespace MoneyChest.View.Pages
                 () => OpenDetails(new CategoryViewModel() { UserId = GlobalVariables.UserId }, true)),
 
                 EditCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
-                (item) => OpenDetails(item), doubleClick : true),
+                (item) => OpenDetails(item), null, true),
 
                 DeleteCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
                 (item) =>

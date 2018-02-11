@@ -80,7 +80,7 @@ namespace MoneyChest.View.Details
             base.PrepareParentWindow(window);
 
             window.Height = 650;
-            window.Width = 830;
+            window.Width = 810;
         }
 
         #endregion

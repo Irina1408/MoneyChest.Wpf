@@ -134,7 +134,7 @@
             </StackPanel>
 
             <!-- Comission -->
-            <components:CommissionControl Grid.Row="1" Margin="5 10 5 0" ShowTakeCommissionFromReceiver="False"
+            <components:CommissionControl Grid.Row="1" Margin="5 10 5 5" ShowTakeCommissionFromReceiver="False"
                                           CurrencySymbol="{Binding Currency.Symbol}"/>
 
             <!-- Currency exchange rate -->

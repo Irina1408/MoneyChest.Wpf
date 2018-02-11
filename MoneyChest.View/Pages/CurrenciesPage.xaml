@@ -124,7 +124,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridComboBoxColumn x:Name="SymbolAlignmentColumn" SelectedValueBinding ="{Binding CurrencySymbolAlignment, UpdateSourceTrigger=PropertyChanged}" 
+                <DataGridComboBoxColumn x:Name="SymbolAlignmentColumn" SelectedValueBinding="{Binding CurrencySymbolAlignment, UpdateSourceTrigger=PropertyChanged}" 
                                     Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}"
                                     SelectedValuePath="Value" DisplayMemberPath="Description"/>
             </DataGrid.Columns>

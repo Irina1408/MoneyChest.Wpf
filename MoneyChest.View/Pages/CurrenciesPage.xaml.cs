@@ -55,7 +55,7 @@ namespace MoneyChest.View.Pages
                 () => OpenDetails(new CurrencyModel() { UserId = GlobalVariables.UserId }, true)),
 
                 EditCurrencyCommand = new DataGridSelectedItemCommand<CurrencyModel>(GridCurrencies,
-                (item) => OpenDetails(item), doubleClick : true),
+                (item) => OpenDetails(item), null, true),
 
                 DeleteCurrencyCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
                 (items) =>

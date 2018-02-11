@@ -53,7 +53,7 @@ namespace MoneyChest.View.Details
                 },
                 () => WrappedEntity.IsChanged && !WrappedEntity.HasErrors),
 
-                CancelCommand = new Command(() => Close(false))
+                CancelCommand = new Command(() => Close(true))
             };
         }
 

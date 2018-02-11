@@ -43,7 +43,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <Button Grid.Column="1" Command="{Binding DeleteCommand}"
+                    <Button Grid.Column="1" Command="{Binding DeleteCommand}" Margin="0"
                         CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         ToolTip="{moneyChestView:MultiLangBinding General_Delete}"
                         Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Top">
@@ -64,9 +64,9 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <!-- Header -->
@@ -251,7 +251,7 @@
         </GroupBox>
         
         <!-- Penalties -->
-        <GroupBox Grid.Row="1" Grid.Column="3">
+        <GroupBox Grid.Row="1" Grid.Column="3" Width="315">
             <GroupBox.Header>
                 <Grid Margin="-5">
                     <Grid.ColumnDefinitions>
