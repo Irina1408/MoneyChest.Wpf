@@ -277,7 +277,7 @@
     <value>Период кредитования</value>
   </data>
   <data name="Debt_PaymentConditions_FixedAdditionalAmount" xml:space="preserve">
-    <value>Фиксированная дополнительная сумма</value>
+    <value>Фиксированная сумма</value>
   </data>
   <data name="Debt_PaymentConditions_InterestRate" xml:space="preserve">
     <value>Процентная ставка</value>

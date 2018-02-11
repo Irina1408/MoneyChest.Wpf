@@ -27,7 +27,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Width="200" Grid.Column="0" Text="{moneyChestView:MultiLangBinding SimpleEvent_Plural}"
+                        <TextBlock Width="400" Grid.Column="0" Text="{moneyChestView:MultiLangBinding SimpleEvent_Plural}"
                                    VerticalAlignment="Center" Margin="10" Foreground="{DynamicResource IdealForegroundColorBrush}"  FontSize="{DynamicResource DefaultFontSize}"/>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -126,7 +126,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Width="200" Grid.Column="0" Text="{moneyChestView:MultiLangBinding MoneyTransferEvent_Plural}"
+                        <TextBlock Width="400" Grid.Column="0" Text="{moneyChestView:MultiLangBinding MoneyTransferEvent_Plural}"
                                    VerticalAlignment="Center" Margin="10" Foreground="{DynamicResource IdealForegroundColorBrush}"  FontSize="{DynamicResource DefaultFontSize}"/>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -212,7 +212,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Width="200" Grid.Column="0" Text="{moneyChestView:MultiLangBinding RepayDebtEvent_Plural}"
+                        <TextBlock Width="400" Grid.Column="0" Text="{moneyChestView:MultiLangBinding RepayDebtEvent_Plural}"
                                    VerticalAlignment="Center" Margin="10" Foreground="{DynamicResource IdealForegroundColorBrush}"  FontSize="{DynamicResource DefaultFontSize}"/>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
