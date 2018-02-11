@@ -71,7 +71,7 @@ namespace MoneyChest.Services.Converters
             model.StorageId = entity?.StorageId;
             model.UserId = entity.UserId;
 
-            model.Currency = entity.Currency.ToReferenceView();
+            model.Currency = entity.Currency?.ToReferenceView();
             model.Category = entity.Category?.ToReferenceView();
             model.Storage = entity.Storage?.ToReferenceView();
             model.Penalties = new ObservableCollection<DebtPenaltyModel>(entity.DebtPenalties.Select(e => new DebtPenaltyModel()

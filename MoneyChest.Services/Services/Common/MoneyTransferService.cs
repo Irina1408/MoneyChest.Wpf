@@ -56,11 +56,8 @@ namespace MoneyChest.Services.Services
 
         #region Overrides
 
-        public override MoneyTransferModel Add(MoneyTransferModel model)
+        public override void OnAdded(MoneyTransferModel model, MoneyTransfer entity)
         {
-            // base add
-            model = base.Add(model);
-
             // update related storages
             var storageFrom = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageFromId);
             storageFrom.Value -= model.StorageFromValue;
@@ -72,17 +69,10 @@ namespace MoneyChest.Services.Services
 
             // save changes
             SaveChanges();
-
-            return model;
         }
 
-        public override MoneyTransferModel Update(MoneyTransferModel model)
+        public override void OnUpdated(MoneyTransferModel oldModel, MoneyTransferModel model)
         {
-            var oldModel = _converter.ToModel(Scope.First(e => e.Id == model.Id));
-
-            // base update
-            model = base.Update(model);
-
             // update related storages
             if(oldModel.StorageFromValue != model.StorageFromValue)
             {
@@ -100,15 +90,10 @@ namespace MoneyChest.Services.Services
                 
             // save changes
             SaveChanges();
-
-            return model;
         }
 
-        public override void Delete(MoneyTransferModel model)
+        public override void OnDeleted(MoneyTransferModel model)
         {
-            // base delete
-            base.Delete(model);
-
             // update related storages
             var storageFrom = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageFromId);
             storageFrom.Value += model.StorageFromValue;
@@ -117,27 +102,6 @@ namespace MoneyChest.Services.Services
             var storageTo = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageToId);
             storageTo.Value -= model.StorageToValue;
             _historyService.WriteHistory(storageTo, ActionType.Update, storageTo.UserId);
-
-            // save changes
-            SaveChanges();
-        }
-
-        public override void Delete(IEnumerable<MoneyTransferModel> models)
-        {
-            // base delete
-            base.Delete(models);
-
-            // update related storages
-            foreach(var model in models)
-            {
-                var storageFrom = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageFromId);
-                storageFrom.Value += model.StorageFromValue;
-                _historyService.WriteHistory(storageFrom, ActionType.Update, storageFrom.UserId);
-
-                var storageTo = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageToId);
-                storageTo.Value -= model.StorageToValue;
-                _historyService.WriteHistory(storageTo, ActionType.Update, storageTo.UserId);
-            }
 
             // save changes
             SaveChanges();

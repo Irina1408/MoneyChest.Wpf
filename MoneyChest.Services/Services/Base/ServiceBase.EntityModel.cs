@@ -14,12 +14,22 @@ namespace MoneyChest.Services.Services.Base
         where TModel : class
         where TConverter : IEntityModelConverter<T, TModel>, new()
     {
+        #region Protected fields
+
         protected IEntityModelConverter<T, TModel> _converter;
+
+        #endregion
+
+        #region Initialization
 
         public ServiceBase(ApplicationDbContext context) : base(context)
         {
             _converter = new TConverter();
         }
+
+        #endregion
+
+        #region Add/Update/Delete methods
 
         public virtual TModel Add(TModel model)
         {
@@ -29,7 +39,8 @@ namespace MoneyChest.Services.Services.Base
             entity = Add(entity);
             // save changes
             SaveChanges();
-            // TODO: add OnAdd method. Check UserService
+            // call OnAdded method
+            OnAdded(model, entity);
 
             return _converter.UpdateModel(GetDbDetailedEntity(entity), model);
         }
@@ -38,13 +49,16 @@ namespace MoneyChest.Services.Services.Base
         {
             // get from database
             var dbEntity = GetDbEntity(model);
+            // get old model
+            var oldModel = _converter.ToModel(dbEntity);
             // update entity by converter
             dbEntity = _converter.UpdateEntity(dbEntity, model);
             // update entity in database
             dbEntity = Update(dbEntity);
             // save changes
             SaveChanges();
-            // TODO: add OnUpdate method
+            // call OnUpdated method
+            OnUpdated(oldModel, model);
 
             // TODO: check if related entity foreign key was changed related entity will be updated automatically or not. For now implementation like "not"
             return _converter.UpdateModel(GetDbDetailedEntity(dbEntity), model);
@@ -78,16 +92,26 @@ namespace MoneyChest.Services.Services.Base
         {
             Delete(GetDbEntity(model));
             SaveChanges();
-            // TODO: add OnDelete method
+            // call OnDeleted method
+            OnDeleted(model);
         }
 
         public virtual void Delete(IEnumerable<TModel> models)
         {
             GetDbEntities(models).ForEach(entity => Delete(entity));
             SaveChanges();
-            // TODO: add OnDelete method
+            // call OnDeleted method
+            foreach(var model in models)
+                OnDeleted(model);
         }
 
+        public virtual void OnAdded(TModel model, T entity) { }
+        public virtual void OnUpdated(TModel oldModel, TModel model) { }
+        public virtual void OnDeleted(TModel model) { }
+
+        #endregion
+
+        #region Methods to override
 
         /// <summary>
         /// Returns simple database entity without any references to related entities
@@ -104,9 +128,6 @@ namespace MoneyChest.Services.Services.Base
         /// </summary>
         protected abstract List<T> GetDbEntities(IEnumerable<TModel> models);
 
-        /// <summary>
-        /// Returns dictionary of model and simple database entity without any references to related entities
-        /// </summary>
-        //protected abstract Dictionary<TModel, T> GetDbEntitiesMapping(IEnumerable<TModel> models);
+        #endregion
     }
 }

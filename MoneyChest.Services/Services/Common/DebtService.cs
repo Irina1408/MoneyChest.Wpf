@@ -38,16 +38,8 @@ namespace MoneyChest.Services.Services
 
         protected override IQueryable<Debt> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category).Include(_ => _.Storage).Include(_ => _.DebtPenalties);
 
-        public override DebtModel Add(DebtModel model)
+        public override void OnAdded(DebtModel model, Debt entity)
         {
-            // convert to Db entity
-            var entity = _converter.ToEntity(model);
-            // add to database
-            entity = Add(entity);
-            // save changes
-            SaveChanges();
-            // TODO: add OnAdd method. Check UserService
-
             // add new penalties
             foreach (var newPenalty in model.Penalties.Where(e => !entity.DebtPenalties.Any(p => p.Id == e.Id)))
             {
@@ -62,9 +54,6 @@ namespace MoneyChest.Services.Services
                 _context.DebtPenalties.Add(debtPenalty);
                 _historyService.WriteHistory(debtPenalty, Data.Enums.ActionType.Add, entity.UserId);
             }
-                
-            // save changes
-            SaveChanges();
             
             // update related storage
             if(model.StorageId.HasValue)
@@ -73,19 +62,15 @@ namespace MoneyChest.Services.Services
                 storage.Value += (model.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * (model.Value - model.InitialFee);
                 _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
             }
-
-            return _converter.UpdateModel(GetDbDetailedEntity(entity), model);
+                
+            // save changes
+            SaveChanges();
         }
 
-        public override DebtModel Update(DebtModel model)
+        public override void OnUpdated(DebtModel oldModel, DebtModel model)
         {
-            var oldModel = _converter.ToModel(Scope.First(e => e.Id == model.Id));
             // get from database
-            var dbEntity = GetDbEntity(model);
-            // update entity by converter
-            dbEntity = _converter.UpdateEntity(dbEntity, model);
-            // update entity in database
-            dbEntity = Update(dbEntity);
+            var dbEntity = Entities.Include(_ => _.DebtPenalties).FirstOrDefault(_ => _.Id == model.Id);
 
             // update existing penalties
             foreach (var existingPenalty in dbEntity.DebtPenalties.ToList())
@@ -119,9 +104,6 @@ namespace MoneyChest.Services.Services
                 _context.DebtPenalties.Add(debtPenalty);
                 _historyService.WriteHistory(debtPenalty, Data.Enums.ActionType.Add, dbEntity.UserId);
             }
-            // save changes
-            SaveChanges();
-            // TODO: add OnUpdate method
             
             // update related storages
             var oldValue = (oldModel.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * (oldModel.Value - oldModel.InitialFee);
@@ -149,8 +131,8 @@ namespace MoneyChest.Services.Services
                 _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
             }
 
-            // TODO: check if related entity foreign key was changed related entity will be updated automatically or not. For now implementation like "not"
-            return _converter.UpdateModel(GetDbDetailedEntity(dbEntity), model);
+            // save changes
+            SaveChanges();
         }
 
         #endregion

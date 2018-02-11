@@ -55,18 +55,10 @@ namespace MoneyChest.Services.Services
 
         #region Overrides
 
-        public override UserModel Add(UserModel model)
+        public override void OnAdded(UserModel model, User entity)
         {
-            // convert to Db entity
-            var entity = _converter.ToEntity(model);
-            // add to database
-            entity = Add(entity);
-            // save changes
-            SaveChanges();
             // load defaults
             LoadDefaults(entity, model.Language);
-
-            return _converter.UpdateModel(GetDbDetailedEntity(entity), model);
         }
 
         protected override IQueryable<User> Scope => Entities.Include(_ => _.GeneralSettings);
