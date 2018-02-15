@@ -436,6 +436,30 @@
   <data name="Language_Russian" xml:space="preserve">
     <value>Русский</value>
   </data>
+  <data name="LimitState_Active" xml:space="preserve">
+    <value>Активен</value>
+  </data>
+  <data name="LimitState_Closed" xml:space="preserve">
+    <value>Зыкрыт</value>
+  </data>
+  <data name="LimitState_EnumName" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="LimitState_Planned" xml:space="preserve">
+    <value>Запланирован</value>
+  </data>
+  <data name="Limit_New" xml:space="preserve">
+    <value>Новый лимит</value>
+  </data>
+  <data name="Limit_Plural" xml:space="preserve">
+    <value>Лимиты</value>
+  </data>
+  <data name="Limit_RemainingValue" xml:space="preserve">
+    <value>Остаток</value>
+  </data>
+  <data name="Limit_Singular" xml:space="preserve">
+    <value>Лимит</value>
+  </data>
   <data name="LoginWindow_Authorization" xml:space="preserve">
     <value>Вход</value>
   </data>

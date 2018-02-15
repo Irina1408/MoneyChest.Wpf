@@ -13,23 +13,15 @@ namespace MoneyChest.ViewModel.ViewModel
     {
         public PlanningPageViewModel()
         {
-            SimpleEventsViewModel = new EventListViewModel<SimpleEventViewModel>();
-            MoneyTransferEventsViewModel = new EventListViewModel<MoneyTransferEventViewModel>();
-            RepayDebtEventsViewModel = new EventListViewModel<RepayDebtEventViewModel>();
+            SimpleEventsViewModel = new EntityListViewModel<SimpleEventViewModel>();
+            MoneyTransferEventsViewModel = new EntityListViewModel<MoneyTransferEventViewModel>();
+            RepayDebtEventsViewModel = new EntityListViewModel<RepayDebtEventViewModel>();
+            LimitsViewModel = new EntityListViewModel<LimitModel>();
         }
 
-        public EventListViewModel<SimpleEventViewModel> SimpleEventsViewModel { get; set; }
-        public EventListViewModel<MoneyTransferEventViewModel> MoneyTransferEventsViewModel { get; set; }
-        public EventListViewModel<RepayDebtEventViewModel> RepayDebtEventsViewModel { get; set; }
-    }
-
-    public class EventListViewModel<T>
-        where T : class
-    {
-        public ObservableCollection<T> Events { get; set; }
-
-        public IMCCommand AddCommand { get; set; }
-        public IMCCommand EditCommand { get; set; }
-        public IMCCommand DeleteCommand { get; set; }
+        public EntityListViewModel<SimpleEventViewModel> SimpleEventsViewModel { get; set; }
+        public EntityListViewModel<MoneyTransferEventViewModel> MoneyTransferEventsViewModel { get; set; }
+        public EntityListViewModel<RepayDebtEventViewModel> RepayDebtEventsViewModel { get; set; }
+        public EntityListViewModel<LimitModel> LimitsViewModel { get; set; }
     }
 }

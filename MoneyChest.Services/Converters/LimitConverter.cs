@@ -16,7 +16,7 @@ namespace MoneyChest.Services.Converters
         {
             entity.DateFrom = model.DateFrom;
             entity.DateUntil = model.DateUntil;
-            entity.LimitState = model.LimitState;
+            entity.Description = model.Description;
             entity.Value = model.Value;
             entity.SpentValue = model.SpentValue;
             entity.Remark = model.Remark;
@@ -30,7 +30,7 @@ namespace MoneyChest.Services.Converters
             model.Id = entity.Id;
             model.DateFrom = entity.DateFrom;
             model.DateUntil = entity.DateUntil;
-            model.LimitState = entity.LimitState;
+            model.Description = entity.Description;
             model.Value = entity.Value;
             model.SpentValue = entity.SpentValue;
             model.Remark = entity.Remark;

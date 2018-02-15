@@ -1,0 +1,81 @@
+﻿<local:LimitDetailsViewBase x:Class="MoneyChest.View.Details.LimitDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MoneyChest.View.Details"
+	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:components="clr-namespace:MoneyChest.View.Components"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Header -->
+        <Label x:Name="LabelHeader" Grid.Row="0" Grid.ColumnSpan="2" FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+
+        <!-- Main data panel -->
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            
+            <!-- Date from -->
+            <DatePicker SelectedDate="{Binding DateFrom}"
+                            materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_DateFrom}"/>
+            <!-- Date until -->
+            <DatePicker SelectedDate="{Binding DateUntil}"
+                            materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_DateUntil}"/>
+
+            <!-- Value -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Balance}"
+                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
+            </StackPanel>
+
+            <!-- Currency -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
+                <ComboBox x:Name="comboCurrencies" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
+                                      DisplayMemberPath="Name" SelectedValuePath="Id"
+                                      SelectedValue="{Binding CurrencyId}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Description data panel -->
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="0 2 0 0">
+
+            <!-- Description -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
+                                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+            </StackPanel>
+
+            <!-- Category -->
+            <components:CategorySelector VerticalAlignment="Center" ShowEmptyCategory="True"
+                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <!-- Remark -->
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
+                <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
+                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
+                                     Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Ok/Cancel buttons -->
+        <components:DetailsViewCommandsPanel x:Name="CommandsPanel" Grid.Row="2" Grid.ColumnSpan="2"/>
+    </Grid>
+</local:LimitDetailsViewBase>

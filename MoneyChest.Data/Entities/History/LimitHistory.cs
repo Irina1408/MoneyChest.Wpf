@@ -37,13 +37,14 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
+        [StringLength(1000)]
+        public string Description { get; set; }
+
         [Column(TypeName = "date")]
         public DateTime DateFrom { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime DateUntil { get; set; }
-
-        public LimitState LimitState { get; set; }
 
         public decimal Value { get; set; }
 

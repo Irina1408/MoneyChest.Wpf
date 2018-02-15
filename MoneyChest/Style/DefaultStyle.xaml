@@ -166,7 +166,7 @@
     
     <!--*********************************** Date picker ***********************************-->
     <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MaterialDesignFloatingHintDatePicker}">
-        <Setter Property="Margin" Value="25 10 5 10"/>
+        <Setter Property="Margin" Value="25 15 5 5"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <!--<Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>-->

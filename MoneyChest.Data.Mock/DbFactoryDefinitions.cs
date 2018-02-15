@@ -92,9 +92,9 @@ namespace MoneyChest.Data.Mock
             f.Define<Limit>(e =>
             {
                 e.Value = Moniker.Digit;
+                e.Description = "Limit";
                 e.DateFrom = DateTime.Today.AddDays(1);
                 e.DateUntil = e.DateFrom.Date;
-                e.LimitState = LimitState.Planned;
             });
 
             DefineEventEntities(f);
