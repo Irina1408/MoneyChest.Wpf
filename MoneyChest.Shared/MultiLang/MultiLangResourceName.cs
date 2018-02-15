@@ -25,7 +25,8 @@ namespace MoneyChest.Shared.MultiLang
 
         #region Complex
 
-        public static string EnumName(Type enumType) => $"{enumType.Name}_Name";
+        //public static string EnumName(Type enumType) => $"{enumType.Name}_EnumName";
+        //public static string EnumValue(Type enumType, string name) => $"{enumType.Name}_{name}";
 
         public static string Singular(Type entityType) => Singular(entityType.Name.Replace("ViewModel", "").Replace("Model", ""));
         public static string Plural(Type entityType) => Plural(entityType.Name.Replace("ViewModel", "").Replace("Model", ""));

@@ -7,9 +7,15 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             xmlns:converters="clr-namespace:MoneyChest.View.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <converters:EnumToStringConverter x:Key="ESConverter"/>
+    </UserControl.Resources>
     
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -124,9 +130,8 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridComboBoxColumn x:Name="SymbolAlignmentColumn" SelectedValueBinding="{Binding CurrencySymbolAlignment, UpdateSourceTrigger=PropertyChanged}" 
-                                    Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}"
-                                    SelectedValuePath="Value" DisplayMemberPath="Description"/>
+                <DataGridTextColumn Binding="{Binding CurrencySymbolAlignment, Converter={StaticResource ESConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}"/>
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">

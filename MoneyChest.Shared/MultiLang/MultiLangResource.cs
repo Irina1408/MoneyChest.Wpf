@@ -24,6 +24,9 @@ namespace MoneyChest.Shared.MultiLang
         public static string EnumItemDescription(string typeName, string name) => 
             MultiLangResourceManager.Instance[$"{typeName}_{name}"] ?? name;
 
+        public static string EnumItemDescription(Type enumType, object value) => 
+            EnumItemDescription(enumType.Name, Enum.GetName(enumType, value));
+
         #endregion
 
         #region Schedule

@@ -171,7 +171,7 @@ namespace MoneyChest.View.Pages
                 }
             };
 
-            LimitStateColumn.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(LimitState));
+            //LimitStateColumn.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(LimitState));
             SimpleEventsBorder.DataContext = _viewModel.SimpleEventsViewModel;
             MoneyTransferEventsBorder.DataContext = _viewModel.MoneyTransferEventsViewModel;
             RepayDebtEventsBorder.DataContext = _viewModel.RepayDebtEventsViewModel;

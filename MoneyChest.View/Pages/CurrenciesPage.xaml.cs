@@ -138,7 +138,6 @@ namespace MoneyChest.View.Pages
             };
 
             this.DataContext = _viewModel;
-            SymbolAlignmentColumn.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(CurrencySymbolAlignment));
         }
 
         #endregion

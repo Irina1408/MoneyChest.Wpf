@@ -18,4 +18,11 @@ namespace MoneyChest.View
             Source = MultiLangResourceManager.Instance;
         }
     }
+
+    //public class MultiLangEnumBinding : MultiLangBinding
+    //{
+    //    public MultiLangEnumBinding(object enumItem)
+    //        : base($"[{MultiLangResourceName.EnumValue(enumItem.GetType(), Enum.GetName(enumItem.GetType(), enumItem))}]")
+    //    { }
+    //}
 }
