@@ -323,4 +323,8 @@
         <Setter Property="Background" Value="{DynamicResource MaterialDesignToolBarBackground}" />
     </Style>
 
+    <!--*********************************** Expander ***********************************-->
+    <Style x:Key="MCExpanderStyle" TargetType="{x:Type Expander}" BasedOn="{StaticResource MetroExpander}"/>
+    <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}"/>
+
 </ResourceDictionary>

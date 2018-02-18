@@ -9,10 +9,13 @@
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:MoneyChest.View.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
+        
+        <converters:PercentageConverter x:Key="PctConverter"/>
 
         <ControlTemplate x:Key="StorageItemControlTemplate" TargetType="{x:Type ContentControl}">
             <Border Width="238" Height="200" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" ClipToBounds="True" Margin="0 7 7 7">
@@ -207,6 +210,17 @@
         <Expander x:Name="ExpanderMoneyTransfers" Grid.Column="1" Grid.RowSpan="2" ExpandDirection="Right" 
                   Background="{DynamicResource AccentColorBrush}"
                   BorderThickness="0" IsExpanded="False" Padding="0" Expanded="ExpanderMoneyTransfers_Expanded">
+            <Expander.Style>
+                <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}">
+                    <Style.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter Property="Width" Value="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
+                                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.5,
+                                UpdateSourceTrigger=PropertyChanged}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Expander.Style>
             <Expander.Header>
                 <TextBlock RenderTransformOrigin=".5 .5" Text="{moneyChestView:MultiLangBinding MoneyTransfer_Plural}"
                          Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="10" FontSize="{DynamicResource DefaultFontSize}">

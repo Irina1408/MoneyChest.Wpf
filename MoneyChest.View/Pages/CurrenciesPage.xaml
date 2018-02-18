@@ -13,9 +13,9 @@
 
     <UserControl.Resources>
         <converters:EnumToStringConverter x:Key="ESConverter"/>
+        <converters:PercentageConverter x:Key="PctConverter"/>
     </UserControl.Resources>
     
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -149,6 +149,17 @@
                   Background="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource IdealForegroundColorBrush}"
                   BorderThickness="0" IsExpanded="False" Expanded="ExpanderCurrencyExchangeRate_Expanded"
                   Padding="0">
+            <Expander.Style>
+                <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}">
+                    <Style.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter Property="Width" Value="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
+                                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.3,
+                                UpdateSourceTrigger=PropertyChanged}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Expander.Style>
             <Expander.Header>
                 <TextBlock RenderTransformOrigin=".5 .5" Text="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Plural}"
                          Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="10" FontSize="{DynamicResource DefaultFontSize}">

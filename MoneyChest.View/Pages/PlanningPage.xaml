@@ -14,9 +14,10 @@
 
     <UserControl.Resources>
         <converters:EnumToBoolConverter x:Key="EBConverter"/>
-        <converters:EnumToStringConverter x:Key="ESConverter"/> 
+        <converters:EnumToStringConverter x:Key="ESConverter"/>
+        <converters:PercentageConverter x:Key="PctConverter"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -319,6 +320,17 @@
         <Expander x:Name="ExpanderLimits" Grid.Column="1" Grid.RowSpan="4" ExpandDirection="Right" 
                   Background="{DynamicResource AccentColorBrush}"
                   BorderThickness="0" IsExpanded="False" Padding="0" Expanded="ExpanderLimits_Expanded">
+            <Expander.Style>
+                <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}">
+                    <Style.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter Property="Width" Value="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
+                                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.5,
+                                UpdateSourceTrigger=PropertyChanged}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Expander.Style>
             <Expander.Header>
                 <TextBlock RenderTransformOrigin=".5 .5" Text="{moneyChestView:MultiLangBinding Limit_Plural}"
                          Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="10" FontSize="{DynamicResource DefaultFontSize}">
