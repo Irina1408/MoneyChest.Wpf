@@ -11,10 +11,12 @@ using System.Windows.Input;
 
 namespace MoneyChest.ViewModel.ViewModel
 {
-    public class StoragesPageViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// TODO: requres refactoring with EntityListViewModel<T>
+    /// </summary>
+    [PropertyChanged.AddINotifyPropertyChangedInterface]
+    public class StoragesPageViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ICommand AddStorageCommand { get; set; }
         public ICommand EditStorageCommand { get; set; }
         public ICommand DeleteStorageCommand { get; set; }

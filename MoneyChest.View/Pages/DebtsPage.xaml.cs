@@ -34,7 +34,7 @@ namespace MoneyChest.View.Pages
         #region Private fields
 
         private IDebtService _service;
-        private DebtsPageViewModel _viewModel;
+        private EntityListViewModel<DebtViewModel> _viewModel;
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace MoneyChest.View.Pages
 
         private void InitializeViewModel()
         {
-            _viewModel = new DebtsPageViewModel()
+            _viewModel = new EntityListViewModel<DebtViewModel>()
             {
                 AddCommand = new Command(
                 () => OpenDetails(new DebtViewModel() { UserId = GlobalVariables.UserId }, true)),
@@ -71,7 +71,7 @@ namespace MoneyChest.View.Pages
                         _service.Delete(items);
                         // remove in grid
                         foreach (var item in items.ToList())
-                            _viewModel.Debts.Remove(item);
+                            _viewModel.Entities.Remove(item);
                         NotifyDataChanged();
                     }
                 })
@@ -89,7 +89,7 @@ namespace MoneyChest.View.Pages
             base.Reload();
 
             // reload debts
-            _viewModel.Debts = new ObservableCollection<DebtViewModel>(
+            _viewModel.Entities = new ObservableCollection<DebtViewModel>(
                 _service.GetListForUser(GlobalVariables.UserId)
                 .Select(e => new DebtViewModel(e))
                 .OrderBy(_ => _.IsRepaid)
@@ -109,9 +109,9 @@ namespace MoneyChest.View.Pages
                 {
                     // insert new debt
                     if (model.IsRepaid)
-                        _viewModel.Debts.Add(model);
+                        _viewModel.Entities.Add(model);
                     else
-                        _viewModel.Debts.Insert(0, model);
+                        _viewModel.Entities.Insert(0, model);
                 }
 
                 GridDebts.Items.Refresh();

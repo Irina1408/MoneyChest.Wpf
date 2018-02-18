@@ -35,7 +35,7 @@
 
         <!-- Debts grid -->
         <DataGrid x:Name="GridDebts" Grid.Row="1"
-                  ItemsSource="{Binding Debts}">
+                  ItemsSource="{Binding Entities}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>

@@ -12,10 +12,12 @@ using System.Windows.Input;
 
 namespace MoneyChest.ViewModel.ViewModel
 {
-    public class CurrenciesPageViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// TODO: requres refactoring with EntityListViewModel<T>
+    /// </summary>
+    [PropertyChanged.AddINotifyPropertyChangedInterface]
+    public class CurrenciesPageViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ObservableCollection<CurrencyModel> Currencies { get; set; }
         public ObservableCollection<CurrencyExchangeRateModel> CurrencyExchangeRates { get; set; }
 

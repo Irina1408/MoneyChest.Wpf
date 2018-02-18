@@ -67,7 +67,6 @@
     <Compile Include="ViewModel\Entity\CategoryViewModelCollection.cs" />
     <Compile Include="ViewModel\Page\CurrenciesPageViewModel.cs" />
     <Compile Include="ViewModel\LoginWindowViewModel.cs" />
-    <Compile Include="ViewModel\Page\DebtsPageViewModel.cs" />
     <Compile Include="ViewModel\Entity\DebtViewModel.cs" />
     <Compile Include="ViewModel\Page\PlanningPageViewModel.cs" />
     <Compile Include="ViewModel\Page\StoragesPageViewModel.cs" />

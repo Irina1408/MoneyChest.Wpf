@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.ViewModel.ViewModel
 {
-    public class CategoriesPageViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// TODO: requres refactoring with EntityListViewModel<T>
+    /// </summary>
+    [PropertyChanged.AddINotifyPropertyChangedInterface]
+    public class CategoriesPageViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public CategoryViewModelCollection Categories { get; set; }
 
         public IMCCommand AddCommand { get; set; }

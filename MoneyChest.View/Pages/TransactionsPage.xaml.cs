@@ -22,10 +22,20 @@ namespace MoneyChest.View.Pages
     /// </summary>
     public partial class TransactionsPage : PageBase
     {
+        #region Private fields
+
+
+
+        #endregion
+
+        #region Initialization
+
         public TransactionsPage() : base()
         {
             InitializeComponent();
         }
+
+        #endregion
 
         #region Overrides
 

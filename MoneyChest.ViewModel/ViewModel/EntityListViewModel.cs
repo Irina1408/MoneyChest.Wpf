@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.ViewModel.ViewModel
 {
+    [PropertyChanged.AddINotifyPropertyChangedInterface]
     public class EntityListViewModel<T>
         where T : class
     {
