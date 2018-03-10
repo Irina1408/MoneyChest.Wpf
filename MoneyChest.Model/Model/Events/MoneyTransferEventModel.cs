@@ -11,6 +11,8 @@ namespace MoneyChest.Model.Model
 {
     public class MoneyTransferEventModel : EventModel
     {
+        #region Initialization
+
         public MoneyTransferEventModel() : base()
         {
             CurrencyExchangeRate = 1;
@@ -19,9 +21,12 @@ namespace MoneyChest.Model.Model
             CommissionType = CommissionType.Currency;
         }
 
+        #endregion
+
+        #region Entity properties
+
         public bool TakeCommissionFromReceiver { get; set; }
-
-
+        
         public int StorageFromId { get; set; }
         public int StorageToId { get; set; }
         public int? CategoryId { get; set; }
@@ -42,11 +47,21 @@ namespace MoneyChest.Model.Model
         }
         public override CommissionType CommissionType { get; set; }
 
-        // TODO: remove
-        public decimal CommisionValue => CommissionType == CommissionType.Currency ? Commission : Commission * Value;
+        #endregion
+
+        #region ITransaction implementation
+
+        public override TransactionType TransactionType => TransactionType.MoneyTransfer;
+        public override string TransactionValueDetailed => ValueTransfering;
+        public override string TransactionStorage => $"{StorageFrom?.Name} -> {StorageTo?.Name}";
+        public override CategoryReference TransactionCategory => Category;
+        public override bool IsExpense => Commission > 0;
+        public override bool IsIncome => Commission < 0;
+
+        #endregion
 
         #region Additional properties
-        
+
         public bool IsDifferentCurrenciesSelected =>
             StorageFromCurrency != null && StorageToCurrency != null && StorageFromCurrency.Id != StorageToCurrency.Id;
 

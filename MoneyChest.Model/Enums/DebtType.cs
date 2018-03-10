@@ -7,13 +7,9 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Enums
 {
-    [Description("Debt type")]
     public enum DebtType
     {
-        [Description("Take borrow")]
-        TakeBorrow = 0,
-
-        [Description("Lend")]
-        GiveBorrow = 1
+        TakeBorrow = 0, // Take borrow
+        GiveBorrow = 1  // Lend
     }
 }

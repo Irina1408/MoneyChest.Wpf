@@ -200,7 +200,7 @@
         </ToolBarTray>
 
         <!-- Storages grid -->
-        <Grid Grid.Column="0" Grid.Row="1" Margin="5">
+        <Grid Grid.Column="0" Grid.Row="1">
             <ScrollViewer x:Name="StoragesScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <StackPanel x:Name="StoragesPanel" Width="{Binding ViewportWidth, ElementName=StoragesScrollViewer}"/>
             </ScrollViewer>

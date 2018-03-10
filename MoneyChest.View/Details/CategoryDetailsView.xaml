@@ -57,12 +57,12 @@
         <StackPanel Grid.Column="2" Grid.Row="1">
             <GroupBox>
                 <GroupBox.Header>
-                    <CheckBox Content="{moneyChestView:MultiLangBinding TransactionType_Name}" IsChecked="{Binding TransactionTypeEnabled}"
+                    <CheckBox Content="{moneyChestView:MultiLangBinding RecordType_Name}" IsChecked="{Binding RecordTypeEnabled}"
                               Foreground="{DynamicResource IdealForegroundColorBrush}"/>
                 </GroupBox.Header>
-                <StackPanel IsEnabled="{Binding TransactionTypeEnabled}">
-                    <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_Expense}" IsChecked="{Binding TransactionTypeIsExpense}"/>
-                    <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_Income}" IsChecked="{Binding TransactionTypeIsIncome}"/>
+                <StackPanel IsEnabled="{Binding RecordTypeEnabled}">
+                    <RadioButton Content="{moneyChestView:MultiLangBinding RecordType_Expense}" IsChecked="{Binding RecordTypeIsExpense}"/>
+                    <RadioButton Content="{moneyChestView:MultiLangBinding RecordType_Income}" IsChecked="{Binding RecordTypeIsIncome}"/>
                 </StackPanel>
             </GroupBox>
         </StackPanel>

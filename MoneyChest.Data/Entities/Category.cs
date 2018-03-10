@@ -36,7 +36,7 @@ namespace MoneyChest.Data.Entities
         [StringLength(100)]
         public string Name { get; set; }
         
-        public TransactionType? TransactionType { get; set; }
+        public RecordType? RecordType { get; set; }
         
         public bool IsActive { get; set; }
 

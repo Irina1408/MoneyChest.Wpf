@@ -17,7 +17,7 @@ namespace MoneyChest.Services.Services
 {
     public interface IDebtService : IIdManagableUserableListServiceBase<DebtModel>
     {
-        List<DebtModel> GetActive(int userId);
+        List<DebtModel> GetActive(int userId, params int?[] requiredIds);
     }
 
     public class DebtService : HistoricizedIdManageableUserableListServiceBase<Debt, DebtModel, DebtConverter>, IDebtService
@@ -27,9 +27,10 @@ namespace MoneyChest.Services.Services
 
         #region IDebtService implementation
 
-        public List<DebtModel> GetActive(int userId)
+        public List<DebtModel> GetActive(int userId, params int?[] requiredIds)
         {
-            return Scope.Where(e => e.UserId == userId && !e.IsRepaid).ToList().ConvertAll(_converter.ToModel);
+            var ids = requiredIds?.Where(e => e.HasValue)?.Select(e => (int)e).ToList() ?? new List<int>();
+            return Scope.Where(e => e.UserId == userId && (!e.IsRepaid || ids.Contains(e.Id))).ToList().ConvertAll(_converter.ToModel);
         }
 
         #endregion
@@ -40,6 +41,8 @@ namespace MoneyChest.Services.Services
 
         public override void OnAdded(DebtModel model, Debt entity)
         {
+            base.OnAdded(model, entity);
+
             // add new penalties
             foreach (var newPenalty in model.Penalties.Where(e => !entity.DebtPenalties.Any(p => p.Id == e.Id)))
             {
@@ -57,11 +60,7 @@ namespace MoneyChest.Services.Services
             
             // update related storage
             if(model.StorageId.HasValue)
-            {
-                var storage = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageId);
-                storage.Value += (model.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * (model.Value - model.InitialFee);
-                _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
-            }
+                AddValueToStorage(model.StorageId.Value, (model.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * (model.Value - model.InitialFee));
                 
             // save changes
             SaveChanges();
@@ -69,6 +68,8 @@ namespace MoneyChest.Services.Services
 
         public override void OnUpdated(DebtModel oldModel, DebtModel model)
         {
+            base.OnUpdated(oldModel, model);
+
             // get from database
             var dbEntity = Entities.Include(_ => _.DebtPenalties).FirstOrDefault(_ => _.Id == model.Id);
 
@@ -112,27 +113,42 @@ namespace MoneyChest.Services.Services
             if (oldModel.StorageId != model.StorageId)
             {
                 if(oldModel.StorageId.HasValue && oldModel.StorageId.Value > 0)
-                {
-                    var oldStorage = _context.Storages.FirstOrDefault(_ => _.Id == oldModel.StorageId);
-                    oldStorage.Value -= oldValue;
-                    _historyService.WriteHistory(oldStorage, ActionType.Update, oldStorage.UserId);
-                }
+                    AddValueToStorage(oldModel.StorageId.Value, -oldValue);
+
                 if (model.StorageId.HasValue && model.StorageId.Value > 0)
-                {
-                    var storage = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageId);
-                    storage.Value += newValue;
-                    _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
-                }
+                    AddValueToStorage(model.StorageId.Value, newValue);
             }
             else if (model.StorageId.HasValue && model.StorageId.Value > 0 && oldValue != newValue)
-            {
-                var storage = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageId);
-                storage.Value -= oldValue - newValue;
-                _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
-            }
+                AddValueToStorage(model.StorageId.Value, newValue - oldValue);
 
             // save changes
             SaveChanges();
+        }
+
+        public override void OnDeleted(DebtModel model)
+        {
+            base.OnDeleted(model);
+
+            // only remove repaid debts
+            if (model.IsRepaid || model.ValueToBePaid <= 0) return;
+
+            // update related storage
+            if (model.StorageId.HasValue)
+                AddValueToStorage(model.StorageId.Value, (model.DebtType == Model.Enums.DebtType.GiveBorrow ? 1 : -1) * (model.Value - model.InitialFee));
+
+            // save changes
+            SaveChanges();
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private void AddValueToStorage(int storageId, decimal value)
+        {
+            var storage = _context.Storages.FirstOrDefault(_ => _.Id == storageId);
+            storage.Value += value;
+            _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
         }
 
         #endregion

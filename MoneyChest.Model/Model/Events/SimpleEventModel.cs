@@ -10,18 +10,23 @@ namespace MoneyChest.Model.Model
 {
     public class SimpleEventModel : EventModel
     {
+        #region Initialization
+
         public SimpleEventModel() : base()
         {
-            TransactionType = TransactionType.Expense;
+            RecordType = RecordType.Expense;
             EventType = EventType.Simple;
         }
 
-        public TransactionType TransactionType { get; set; }
+        #endregion
+
+        #region Entity properties
+
+        public RecordType RecordType { get; set; }
 
         public int CurrencyId { get; set; }
         public int? CategoryId { get; set; }
         public int StorageId { get; set; }
-
         
         public CurrencyReference Currency { get; set; }
         public CategoryReference Category { get; set; }
@@ -36,10 +41,22 @@ namespace MoneyChest.Model.Model
         }
         public override CommissionType CommissionType { get; set; }
 
+        #endregion
+
+        #region ITransaction implementation
+
+        public override TransactionType TransactionType => 
+            RecordType == RecordType.Income ? TransactionType.Income : TransactionType.Expense;
+        public override string TransactionValueDetailed => ResultValueSignCurrency;
+        public override string TransactionStorage => Storage?.Name;
+        public override CategoryReference TransactionCategory => Category;
+
+        #endregion
+
         #region Additional properties
 
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
-        public decimal ResultValueSign => TransactionType == TransactionType.Expense ? -ResultValue : ResultValue;
+        public decimal ResultValueSign => RecordType == RecordType.Expense ? -ResultValue : ResultValue;
         // TODO: CurrencyExchangeRate
         public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign) ?? ResultValueSign.ToString("0.##");
 

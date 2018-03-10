@@ -78,7 +78,7 @@ namespace MoneyChest.Services.Services
         {
             return Scope.Where(e => e.UserId == userId && e.EventState != EventState.Closed
                 && (!e.PausedToDate.HasValue || e.PausedToDate.Value < dateUntil)
-                && e.DateFrom >= dateUntil && (!e.DateUntil.HasValue || e.DateUntil <= dateFrom))
+                && e.DateFrom <= dateUntil && (!e.DateUntil.HasValue || e.DateUntil >= dateFrom))
                 .ToList().ConvertAll(_converter.ToModel);
         }
 

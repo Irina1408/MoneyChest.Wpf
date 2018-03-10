@@ -63,7 +63,7 @@ namespace MoneyChest.View.Utils
                 Id = category.Id,
                 Name = category.Name,
                 IsActive = category.IsActive,
-                TransactionType = category.TransactionType,
+                RecordType = category.RecordType,
                 ParentCategoryId = category.ParentCategoryId,
                 Remark = category.Remark,
                 UserId = category.UserId

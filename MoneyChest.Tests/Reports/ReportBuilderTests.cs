@@ -166,7 +166,7 @@ namespace MoneyChest.Tests.Reports
         #region Private methods
 
         /// <summary>
-        /// It builds and checks report for all combinations of TransactionType, PeriodFilterType, IncludeRecordsWithoutCategory
+        /// It builds and checks report for all combinations of RecordType, PeriodFilterType, IncludeRecordsWithoutCategory
         /// </summary>
         private void BuildAndCheckReport(
             ReportSettingModel reportSettings, 
@@ -174,11 +174,11 @@ namespace MoneyChest.Tests.Reports
             Action<Record> createRecordSecondTypeOverrides = null)
         {
             var peridFilterTypes = Enum.GetValues(typeof(PeriodFilterType));
-            var transactionTypes = Enum.GetValues(typeof(TransactionType));
+            var recordTypes = Enum.GetValues(typeof(RecordType));
             
             foreach(bool includeEmptyCategoryRecords in new[] { true, false })
             {
-                foreach (TransactionType transactionType in transactionTypes)
+                foreach (RecordType recordType in recordTypes)
                 {
                     foreach (PeriodFilterType periodFilterType in peridFilterTypes)
                     {
@@ -187,32 +187,32 @@ namespace MoneyChest.Tests.Reports
                         // create records for report of one type
                         App.Factory.CreateRecords(user.Id, period.Item1, period.Item2, record =>
                         {
-                            record.TransactionType = transactionType;
+                            record.RecordType = recordType;
                             createRecordOneTypeOverrides?.Invoke(record);
                         });
                         // create records for report of second type
                         App.Factory.CreateRecords(user.Id, period.Item1, period.Item2, record =>
                         {
-                            record.TransactionType = transactionType;
+                            record.RecordType = recordType;
                             createRecordSecondTypeOverrides?.Invoke(record);
                         });
                         // create records without category for report
                         App.Factory.CreateRecords(user.Id, period.Item1, period.Item2, record =>
                         {
-                            record.TransactionType = transactionType;
+                            record.RecordType = recordType;
                             record.CategoryId = null;
                         });
                         // update settings
                         reportSettings.IncludeRecordsWithoutCategory = includeEmptyCategoryRecords;
-                        reportSettings.DataType = transactionType;
+                        reportSettings.DataType = recordType;
                         reportSettings.DateFrom = period.Item1;
                         reportSettings.DateUntil = period.Item2;
                         reportSettings.PeriodFilterType = periodFilterType;
 
                         CheckReportFetch(reportSettings);
 
-                        Debug.WriteLine(string.Format("Success. EmptyCategoryRecords: {0}, TransactionType: {1}, PeriodFilterType: {2}",
-                            includeEmptyCategoryRecords, transactionType.ToString(), periodFilterType.ToString()));
+                        Debug.WriteLine(string.Format("Success. EmptyCategoryRecords: {0}, RecordType: {1}, PeriodFilterType: {2}",
+                            includeEmptyCategoryRecords, recordType.ToString(), periodFilterType.ToString()));
                     }
                 }
             }
@@ -389,10 +389,10 @@ namespace MoneyChest.Tests.Reports
             // Note: use period (DateFrom - DateUntil) from ReportSetting because IN TESTS it should correspond to PeriodFilterType
             var allRecords = recordService.GetListForUser(user.Id);
             var records = reportSettings.PeriodFilterType == PeriodFilterType.All
-                ? allRecords.Where(_ => _.TransactionType == reportSettings.DataType).ToList()
+                ? allRecords.Where(_ => _.RecordType == reportSettings.DataType).ToList()
                 : allRecords.Where(_ => 
                     _.Date >= reportSettings.DateFrom.Value && _.Date <= reportSettings.DateUntil.Value 
-                    && _.TransactionType == reportSettings.DataType).ToList();
+                    && _.RecordType == reportSettings.DataType).ToList();
 
             // get records that should be included into report
             List<RecordModel> recordsToCheck = null;

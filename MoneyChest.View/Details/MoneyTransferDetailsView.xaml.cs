@@ -49,6 +49,11 @@ namespace MoneyChest.View.Details
 
         #region Initialization
 
+        public MoneyTransferDetailsView(MoneyTransferModel entity, bool isNew,
+            bool showHiddenStorages, IEnumerable<StorageModel> storages)
+            : this(ServiceManager.ConfigureService<MoneyTransferService>(), entity, isNew, showHiddenStorages, storages)
+        { }
+
         public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew,
             bool showHiddenStorages, IEnumerable<StorageModel> storages)
             : base(service, entity, isNew)

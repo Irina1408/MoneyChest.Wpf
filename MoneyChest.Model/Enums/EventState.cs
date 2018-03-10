@@ -7,16 +7,10 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Enums
 {
-    [Description("Event state")]
     public enum EventState
     {
-        [Description("Active")]
         Active = 0,
-
-        [Description("Paused")]
         Paused = 1,
-
-        [Description("Closed")]
         Closed = 2
     }
 }

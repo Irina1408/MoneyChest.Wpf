@@ -628,6 +628,33 @@ namespace MoneyChest.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expence (-).
+        /// </summary>
+        internal static string RecordType_Expense {
+            get {
+                return ResourceManager.GetString("RecordType_Expense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Income (+).
+        /// </summary>
+        internal static string RecordType_Income {
+            get {
+                return ResourceManager.GetString("RecordType_Income", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string RecordType_Name {
+            get {
+                return ResourceManager.GetString("RecordType_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hidden.
         /// </summary>
         internal static string Storage_Hidden {
@@ -678,33 +705,6 @@ namespace MoneyChest.Shared.Properties {
         internal static string StorageGroup_Singular {
             get {
                 return ResourceManager.GetString("StorageGroup_Singular", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expence (-).
-        /// </summary>
-        internal static string TransactionType_Expense {
-            get {
-                return ResourceManager.GetString("TransactionType_Expense", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Income (+).
-        /// </summary>
-        internal static string TransactionType_Income {
-            get {
-                return ResourceManager.GetString("TransactionType_Income", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Type.
-        /// </summary>
-        internal static string TransactionType_Name {
-            get {
-                return ResourceManager.GetString("TransactionType_Name", resourceCulture);
             }
         }
     }

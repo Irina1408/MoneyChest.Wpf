@@ -123,7 +123,7 @@ namespace MoneyChest.Calculation.Builders.Calendar
                     Category = record?.Category,
                     Currency = record.Currency,
                     Storage = record?.Storage,
-                    TransactionType = record.TransactionType,
+                    RecordType = record.RecordType,
                     IsPlanned = false
                 });
             }
@@ -209,7 +209,7 @@ namespace MoneyChest.Calculation.Builders.Calendar
                     Category = evnt?.Category,
                     Currency = evnt.Currency,
                     Storage = evnt.Storage,
-                    TransactionType = evnt.TransactionType,
+                    RecordType = evnt.RecordType,
                     IsPlanned = true
                 });
             }
@@ -226,7 +226,7 @@ namespace MoneyChest.Calculation.Builders.Calendar
                     Category = evnt?.DebtCategory,
                     Currency = evnt.Currency,
                     Storage = evnt.Storage,
-                    TransactionType = evnt.Debt.DebtType == DebtType.TakeBorrow ? TransactionType.Expense : TransactionType.Income,
+                    RecordType = evnt.Debt.DebtType == DebtType.TakeBorrow ? RecordType.Expense : RecordType.Income,
                     IsPlanned = true
                 });
             }
@@ -245,7 +245,7 @@ namespace MoneyChest.Calculation.Builders.Calendar
                     Category = evnt?.Category,
                     Description = evnt.Description,
                     TakeCommissionFromReceiver = evnt.TakeCommissionFromReceiver,
-                    Commission = new ValueUnit(evnt.StorageFromCurrency, evnt.CommisionValue),
+                    Commission = new ValueUnit(evnt.StorageFromCurrency, evnt.CommissionValue),
                     IsPlanned = true
                 });
             }

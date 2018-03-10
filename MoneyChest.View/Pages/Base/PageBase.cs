@@ -22,11 +22,14 @@ namespace MoneyChest.View.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (RequiresReload)
-            {
-                Reload();
-                RequiresReload = false;
-            }
+            // TODO: remove and uncomment on data management is done
+            Reload();
+
+            //if (RequiresReload)
+            //{
+            //    Reload();
+            //    RequiresReload = false;
+            //}
         }
 
         #endregion

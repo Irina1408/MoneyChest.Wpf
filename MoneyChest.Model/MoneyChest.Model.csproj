@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Enums\CurrencySymbolAlignment.cs" />
     <Compile Include="Enums\DebtPaymentType.cs" />
+    <Compile Include="Enums\Settings\PeriodType.cs" />
+    <Compile Include="Enums\TransactionType.cs" />
     <Compile Include="Extensions\ToReferenceView.cs" />
     <Compile Include="Enums\CommissionType.cs" />
     <Compile Include="Enums\DebtType.cs" />
@@ -61,9 +63,10 @@
     <Compile Include="Enums\Settings\Month.cs" />
     <Compile Include="Enums\Settings\PeriodFilterType.cs" />
     <Compile Include="Enums\Settings\ReportType.cs" />
-    <Compile Include="Enums\TransactionType.cs" />
+    <Compile Include="Enums\RecordType.cs" />
     <Compile Include="Model\Base\IHasId.cs" />
     <Compile Include="Model\Base\IHasUserId.cs" />
+    <Compile Include="Model\Base\ITransaction.cs" />
     <Compile Include="Model\CategoryModel.cs" />
     <Compile Include="Model\CurrencyExchangeRateModel.cs" />
     <Compile Include="Model\CurrencyModel.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Model\Settings\RecordsViewFilterModel.cs" />
     <Compile Include="Model\Settings\ForecastSettingModel.cs" />
     <Compile Include="Model\Settings\GeneralSettingModel.cs" />
+    <Compile Include="Model\Settings\TransactionsViewSettingsModel.cs" />
     <Compile Include="Model\StorageGroupModel.cs" />
     <Compile Include="Model\StorageModel.cs" />
     <Compile Include="Model\UserModel.cs" />

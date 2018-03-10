@@ -31,7 +31,7 @@ namespace MoneyChest.Model.Model
 
         public PeriodFilterType PeriodFilterType { get; set; }
 
-        public TransactionType? TransactionType { get; set; }
+        public RecordType? RecordType { get; set; }
         
         public DateTime? DateFrom { get; set; }
         

@@ -109,6 +109,7 @@
     <Compile Include="Services\Common\StorageGroupService.cs" />
     <Compile Include="Services\Common\StorageService.cs" />
     <Compile Include="Services\Common\UserService.cs" />
+    <Compile Include="Services\TransactionService.cs" />
     <Compile Include="Utils\ServiceHelper.cs" />
   </ItemGroup>
   <ItemGroup>

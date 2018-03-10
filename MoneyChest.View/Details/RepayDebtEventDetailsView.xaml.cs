@@ -58,8 +58,7 @@ namespace MoneyChest.View.Details
             
             // load debts
             IDebtService debtService = ServiceManager.ConfigureService<DebtService>();
-            // TODO: add required debts
-            _debts = debtService.GetActive(GlobalVariables.UserId);
+            _debts = debtService.GetActive(GlobalVariables.UserId, entity.DebtId);
             comboDebts.ItemsSource = _debts;
 
             // load storages

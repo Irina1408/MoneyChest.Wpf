@@ -30,8 +30,8 @@ namespace MoneyChest.Tests.Services
                 if (periodFilterType == PeriodFilterType.All || periodFilterType == PeriodFilterType.CustomPeriod)
                     continue;
 
-                var records = CreateRecords(periodFilterType, TransactionType.Expense, _ => _.CategoryId = null);
-                CheckRecordExistance(records, periodFilterType, TransactionType.Expense, true);
+                var records = CreateRecords(periodFilterType, RecordType.Expense, _ => _.CategoryId = null);
+                CheckRecordExistance(records, periodFilterType, RecordType.Expense, true);
             }
         }
 
@@ -45,8 +45,8 @@ namespace MoneyChest.Tests.Services
                 if (periodFilterType == PeriodFilterType.All || periodFilterType == PeriodFilterType.CustomPeriod)
                     continue;
 
-                var records = CreateRecords(periodFilterType, TransactionType.Income, _ => _.CategoryId = null);
-                CheckRecordExistance(records, periodFilterType, TransactionType.Income, true);
+                var records = CreateRecords(periodFilterType, RecordType.Income, _ => _.CategoryId = null);
+                CheckRecordExistance(records, periodFilterType, RecordType.Income, true);
             }
         }
 
@@ -61,8 +61,8 @@ namespace MoneyChest.Tests.Services
                 if (periodFilterType == PeriodFilterType.All || periodFilterType == PeriodFilterType.CustomPeriod)
                     continue;
 
-                var records = CreateRecords(periodFilterType, TransactionType.Expense, _ => _.CategoryId = category.Id);
-                CheckRecordExistance(records, periodFilterType, TransactionType.Expense, false, new List<int>(new [] { category.Id }));
+                var records = CreateRecords(periodFilterType, RecordType.Expense, _ => _.CategoryId = category.Id);
+                CheckRecordExistance(records, periodFilterType, RecordType.Expense, false, new List<int>(new [] { category.Id }));
             }
         }
 
@@ -77,39 +77,39 @@ namespace MoneyChest.Tests.Services
                 if (periodFilterType == PeriodFilterType.All || periodFilterType == PeriodFilterType.CustomPeriod)
                     continue;
 
-                var records = CreateRecords(periodFilterType, TransactionType.Income, _ => _.CategoryId = category.Id);
-                CheckRecordExistance(records, periodFilterType, TransactionType.Income, true, new List<int>(new[] { category.Id }));
+                var records = CreateRecords(periodFilterType, RecordType.Income, _ => _.CategoryId = category.Id);
+                CheckRecordExistance(records, periodFilterType, RecordType.Income, true, new List<int>(new[] { category.Id }));
             }
         }
 
         [TestMethod]
         public void ItFecthesAllExpeseWithoutCategoryRecords()
         {
-            var records = CreateRecords(PeriodFilterType.All, TransactionType.Expense, _ => _.CategoryId = null);
-            CheckRecordExistance(records, PeriodFilterType.All, TransactionType.Expense, true);
+            var records = CreateRecords(PeriodFilterType.All, RecordType.Expense, _ => _.CategoryId = null);
+            CheckRecordExistance(records, PeriodFilterType.All, RecordType.Expense, true);
         }
 
         [TestMethod]
         public void ItFecthesAllIncomeWithoutCategoryRecords()
         {
-            var records = CreateRecords(PeriodFilterType.All, TransactionType.Income, _ => _.CategoryId = null);
-            CheckRecordExistance(records, PeriodFilterType.All, TransactionType.Income, true);
+            var records = CreateRecords(PeriodFilterType.All, RecordType.Income, _ => _.CategoryId = null);
+            CheckRecordExistance(records, PeriodFilterType.All, RecordType.Income, true);
         }
 
         [TestMethod]
         public void ItFecthesAllExpeseWithCategoryRecords()
         {
             var category = App.Factory.Create<Category>(_ => _.UserId = user.Id);
-            var records = CreateRecords(PeriodFilterType.All, TransactionType.Expense, _ => _.CategoryId = category.Id);
-            CheckRecordExistance(records, PeriodFilterType.All, TransactionType.Expense, false, new List<int>(new[] { category.Id }));
+            var records = CreateRecords(PeriodFilterType.All, RecordType.Expense, _ => _.CategoryId = category.Id);
+            CheckRecordExistance(records, PeriodFilterType.All, RecordType.Expense, false, new List<int>(new[] { category.Id }));
         }
 
         [TestMethod]
         public void ItFecthesAllIncomeWithCategoryRecords()
         {
             var category = App.Factory.Create<Category>(_ => _.UserId = user.Id);
-            var records = CreateRecords(PeriodFilterType.All, TransactionType.Income, _ => _.CategoryId = category.Id);
-            CheckRecordExistance(records, PeriodFilterType.All, TransactionType.Income, false, new List<int>(new[] { category.Id }));
+            var records = CreateRecords(PeriodFilterType.All, RecordType.Income, _ => _.CategoryId = category.Id);
+            CheckRecordExistance(records, PeriodFilterType.All, RecordType.Income, false, new List<int>(new[] { category.Id }));
         }
 
         [TestMethod]
@@ -122,11 +122,11 @@ namespace MoneyChest.Tests.Services
             var category = App.Factory.Create<Category>(_ => _.UserId = user.Id);
             var records = App.Factory.CreateRecords(user.Id, from, until, record =>
             {
-                record.TransactionType = TransactionType.Expense;
+                record.RecordType = RecordType.Expense;
                 record.CategoryId = category.Id;
             });
 
-            CheckRecordExistance(records, from, until, TransactionType.Expense, false, new List<int>(new[] { category.Id }));
+            CheckRecordExistance(records, from, until, RecordType.Expense, false, new List<int>(new[] { category.Id }));
         }
 
         [TestMethod]
@@ -139,11 +139,11 @@ namespace MoneyChest.Tests.Services
             var category = App.Factory.Create<Category>(_ => _.UserId = user.Id);
             var records = App.Factory.CreateRecords(user.Id, from, until, record =>
             {
-                record.TransactionType = TransactionType.Income;
+                record.RecordType = RecordType.Income;
                 record.CategoryId = category.Id;
             });
 
-            CheckRecordExistance(records, from, until, TransactionType.Income, false, new List<int>(new[] { category.Id }));
+            CheckRecordExistance(records, from, until, RecordType.Income, false, new List<int>(new[] { category.Id }));
         }
 
         [TestMethod]
@@ -155,11 +155,11 @@ namespace MoneyChest.Tests.Services
             
             var records = App.Factory.CreateRecords(user.Id, from, until, record =>
             {
-                record.TransactionType = TransactionType.Expense;
+                record.RecordType = RecordType.Expense;
                 record.CategoryId = null;
             });
 
-            CheckRecordExistance(records, from, until, TransactionType.Expense, true);
+            CheckRecordExistance(records, from, until, RecordType.Expense, true);
         }
 
         [TestMethod]
@@ -171,16 +171,16 @@ namespace MoneyChest.Tests.Services
 
             var records = App.Factory.CreateRecords(user.Id, from, until, record =>
             {
-                record.TransactionType = TransactionType.Income;
+                record.RecordType = RecordType.Income;
                 record.CategoryId = null;
             });
 
-            CheckRecordExistance(records, from, until, TransactionType.Income, true);
+            CheckRecordExistance(records, from, until, RecordType.Income, true);
         }
 
         #region Private helper methods
 
-        private List<Record> CreateRecords(PeriodFilterType period, TransactionType transactionType, Action<Record> overrides = null)
+        private List<Record> CreateRecords(PeriodFilterType period, RecordType recordType, Action<Record> overrides = null)
         {
             var settingsService = new GeneralSettingService(App.Db);
             var firstDayOfWeek = settingsService.GetForUser(user.Id).FirstDayOfWeek;
@@ -256,28 +256,28 @@ namespace MoneyChest.Tests.Services
             
             return App.Factory.CreateRecords(user.Id, from, until, record =>
             {
-                record.TransactionType = transactionType;
+                record.RecordType = recordType;
                 overrides?.Invoke(record);
             });
         }
 
-        private void CheckRecordExistance(List<Record> records, PeriodFilterType period, TransactionType transactionType, bool includeWithoutCategory, List<int> categoryIds = null)
+        private void CheckRecordExistance(List<Record> records, PeriodFilterType period, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null)
         {
             var service = (IRecordService)serviceIdManageable;
             var allRecords = service.GetListForUser(user.Id);
 
-            var entityFetched = service.Get(user.Id, period, transactionType, includeWithoutCategory, categoryIds);
+            var entityFetched = service.Get(user.Id, period, recordType, includeWithoutCategory, categoryIds);
             //entityFetched.Count.ShouldBeEquivalentTo(records.Count);
 
             foreach(var record in records)
                 entityFetched.FirstOrDefault(_ => _.Id == record.Id).Should().NotBeNull();
         }
         
-        private void CheckRecordExistance(List<Record> records, DateTime from, DateTime until, TransactionType transactionType, bool includeWithoutCategory, List<int> categoryIds = null)
+        private void CheckRecordExistance(List<Record> records, DateTime from, DateTime until, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null)
         {
             var service = (IRecordService)serviceIdManageable;
 
-            var entityFetched = service.Get(user.Id, from, until, transactionType, includeWithoutCategory, categoryIds);
+            var entityFetched = service.Get(user.Id, from, until, recordType, includeWithoutCategory, categoryIds);
             entityFetched.Count.ShouldBeEquivalentTo(records.Count);
 
             foreach (var record in records)

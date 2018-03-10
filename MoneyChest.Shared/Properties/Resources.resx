@@ -324,13 +324,13 @@
   <data name="Storage_Visible" xml:space="preserve">
     <value>Visible</value>
   </data>
-  <data name="TransactionType_Expense" xml:space="preserve">
+  <data name="RecordType_Expense" xml:space="preserve">
     <value>Expence (-)</value>
   </data>
-  <data name="TransactionType_Income" xml:space="preserve">
+  <data name="RecordType_Income" xml:space="preserve">
     <value>Income (+)</value>
   </data>
-  <data name="TransactionType_Name" xml:space="preserve">
+  <data name="RecordType_Name" xml:space="preserve">
     <value>Type</value>
   </data>
 </root>

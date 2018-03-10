@@ -1,0 +1,43 @@
+﻿<controls:MetroWindow x:Class="MoneyChest.View.Windows.DateRangeSelectorWindow"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"                      
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:MoneyChest.View.Windows"
+                      xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+                      mc:Ignorable="d"
+                      Title="Money chest" Height="515" Width="605"
+                      Style="{DynamicResource MoneyChestWindowStyle}"
+                      WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" FontSize="{DynamicResource LargeFontSize}" 
+               Content="{moneyChestView:MultiLangBinding General_DateFrom}" HorizontalAlignment="Center"/>
+        
+        <Label Grid.Column="1" Grid.Row="0" FontSize="{DynamicResource LargeFontSize}"
+               Content="{moneyChestView:MultiLangBinding General_DateUntil}" HorizontalAlignment="Center"/>
+        
+        <Calendar Grid.Column="0" Grid.Row="1" Margin="-1 -4 -1 -6" Focusable="False" 
+                  SelectedDate="{Binding DateFrom, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DateRangeSelectorWindow}}}"/>
+
+        <Calendar Grid.Column="1" Grid.Row="1" Margin="-8 -4 -1 -6" Focusable="False" 
+                  SelectedDate="{Binding DateUntil, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DateRangeSelectorWindow}}}"/>
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0 10 10 0">
+            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Style="{DynamicResource AccentedButtonStyle}" 
+                    Click="ButtonOk_Click"/>
+
+            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" IsCancel="True" Click="ButtonCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>

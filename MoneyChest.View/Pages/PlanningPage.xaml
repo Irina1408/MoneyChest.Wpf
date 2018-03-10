@@ -17,7 +17,7 @@
         <converters:EnumToStringConverter x:Key="ESConverter"/>
         <converters:PercentageConverter x:Key="PctConverter"/>
     </UserControl.Resources>
-    <Grid x:Name="mainGrid">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -103,10 +103,10 @@
                                     <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Closed}">
                                         <Setter Property="Opacity" Value="0.5" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding TransactionType}" Value="{x:Static enums:TransactionType.Income}">
+                                    <DataTrigger Binding="{Binding RecordType}" Value="{x:Static enums:RecordType.Income}">
                                         <Setter Property="Foreground" Value="Green" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding TransactionType}" Value="{x:Static enums:TransactionType.Expense}">
+                                    <DataTrigger Binding="{Binding RecordType}" Value="{x:Static enums:RecordType.Expense}">
                                         <Setter Property="Foreground" Value="Red" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -115,10 +115,10 @@
                         <DataGrid.CellStyle>
                             <Style BasedOn="{StaticResource MetroDataGridCell}" TargetType="{x:Type DataGridCell}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding TransactionType}" Value="{x:Static enums:TransactionType.Income}">
+                                    <DataTrigger Binding="{Binding RecordType}" Value="{x:Static enums:RecordType.Income}">
                                         <Setter Property="Foreground" Value="Green" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding TransactionType}" Value="{x:Static enums:TransactionType.Expense}">
+                                    <DataTrigger Binding="{Binding RecordType}" Value="{x:Static enums:RecordType.Expense}">
                                         <Setter Property="Foreground" Value="Red" />
                                     </DataTrigger>
                                 </Style.Triggers>

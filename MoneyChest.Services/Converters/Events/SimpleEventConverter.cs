@@ -33,7 +33,7 @@ namespace MoneyChest.Services.Converters
             entity.UserId = model.UserId;
 
             entity.StorageId = model.StorageId;
-            entity.TransactionType = model.TransactionType;
+            entity.RecordType = model.RecordType;
             entity.CurrencyId = model.CurrencyId;
             entity.CategoryId = model.CategoryId;
         }
@@ -59,7 +59,7 @@ namespace MoneyChest.Services.Converters
             model.UserId = entity.UserId;
 
             model.StorageId = entity.StorageId;
-            model.TransactionType = entity.TransactionType;
+            model.RecordType = entity.RecordType;
             model.CategoryId = entity.CategoryId;
             model.CurrencyId = entity.CurrencyId;
             model.Storage = entity.Storage.ToReferenceView();

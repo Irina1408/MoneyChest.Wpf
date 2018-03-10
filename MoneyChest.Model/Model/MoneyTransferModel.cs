@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class MoneyTransferModel : IHasId, INotifyPropertyChanged
+    public class MoneyTransferModel : ITransaction, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -65,8 +65,21 @@ namespace MoneyChest.Model.Model
 
         #endregion
 
+        #region ITransaction implementation
+
+        public DateTime TransactionDate => Date;
+        public bool IsPlanned => false;
+        public TransactionType TransactionType => TransactionType.MoneyTransfer;
+        public string TransactionValueDetailed => ValueTransfering;
+        public string TransactionStorage => $"{StorageFrom?.Name} -> {StorageTo?.Name}";
+        public CategoryReference TransactionCategory => Category;
+        public bool IsExpense => Commission > 0;
+        public bool IsIncome => Commission < 0;
+
+        #endregion
+
         #region Additional properties
-        
+
         public bool CommissionEnabled
         {
             get => _comissionEnabled;
@@ -108,9 +121,6 @@ namespace MoneyChest.Model.Model
         }
 
         public string ValueTransfering => $"{StorageFromCurrency.FormatValue(StorageFromValue)} -> {StorageToCurrency.FormatValue(StorageToValue)}";
-        public string ExchangeRateExample => StorageFromCurrency != null && StorageToCurrency != null 
-            ? $"{StorageFromCurrency.FormatValue(1)} = {StorageToCurrency.FormatValue(CurrencyExchangeRate)}"
-            : null;
 
         #endregion
     }

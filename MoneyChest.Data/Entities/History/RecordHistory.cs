@@ -43,7 +43,7 @@ namespace MoneyChest.Data.Entities.History
         [StringLength(1000)]
         public string Description { get; set; }
 
-        public TransactionType TransactionType { get; set; }
+        public RecordType RecordType { get; set; }
 
         public decimal Value { get; set; }
 

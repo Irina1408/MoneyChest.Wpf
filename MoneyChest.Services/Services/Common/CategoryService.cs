@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using MoneyChest.Model.Model;
 using MoneyChest.Model.Extensions;
 using MoneyChest.Services.Converters;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Services.Services
 {
@@ -45,29 +46,49 @@ namespace MoneyChest.Services.Services
 
         #region Overrides
 
-        internal override Category Update(Category entity)
+        public override void OnUpdated(CategoryModel oldModel, CategoryModel model)
         {
-            var isActiveOriginal = _context.Entry(entity).OriginalValues.GetValue<bool>(nameof(Category.IsActive));
-            var isActiveCurrent = _context.Entry(entity).CurrentValues.GetValue<bool>(nameof(Category.IsActive));
+            base.OnUpdated(oldModel, model);
 
-            if (isActiveOriginal != isActiveCurrent)
+            List<Category> categories = null;
+
+            // update activity
+            if(oldModel.IsActive != model.IsActive)
             {
                 // update all child categories
-                var categories = Entities.Where(e => e.UserId == entity.UserId).ToList();
+                categories = Entities.Where(e => e.UserId == model.UserId).ToList();
                 void UpdateChildrenActivity(Category category, bool isActive)
                 {
                     category.IsActive = isActive;
                     base.Update(category);
 
-                    foreach(var childCategory in categories.Where(_ => _.ParentCategoryId.HasValue && _.ParentCategoryId.Value == category.Id))
+                    foreach (var childCategory in categories.Where(_ => _.ParentCategoryId.HasValue && _.ParentCategoryId.Value == category.Id))
                     {
                         UpdateChildrenActivity(childCategory, isActive);
                     }
                 }
 
-                UpdateChildrenActivity(entity, isActiveCurrent);
+                UpdateChildrenActivity(categories.FirstOrDefault(_ => _.Id == model.Id), model.IsActive);
             }
-            return base.Update(entity);
+
+            // update type
+            if(oldModel.RecordType != model.RecordType && model.RecordType.HasValue)
+            {
+                // update all child categories
+                if (categories == null) categories = Entities.Where(e => e.UserId == model.UserId).ToList();
+                void UpdateChildrenType(Category category, RecordType recordType)
+                {
+                    category.RecordType = recordType;
+                    base.Update(category);
+
+                    foreach (var childCategory in categories.Where(_ => _.ParentCategoryId.HasValue && _.ParentCategoryId.Value == category.Id))
+                    {
+                        UpdateChildrenType(childCategory, recordType);
+                    }
+                }
+
+                UpdateChildrenType(categories.FirstOrDefault(_ => _.Id == model.Id), model.RecordType.Value);
+            }
         }
 
         #endregion

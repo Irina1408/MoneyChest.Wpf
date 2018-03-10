@@ -14,7 +14,7 @@ namespace MoneyChest.Services.Converters
         {
             entity.Name = model.Name;
             entity.IsActive = model.IsActive;
-            entity.TransactionType = model?.TransactionType;
+            entity.RecordType = model?.RecordType;
             entity.Remark = model.Remark;
             entity.ParentCategoryId = model?.ParentCategoryId;
             entity.UserId = model.UserId;
@@ -25,7 +25,7 @@ namespace MoneyChest.Services.Converters
             model.Id = entity.Id;
             model.Name = entity.Name;
             model.IsActive = entity.IsActive;
-            model.TransactionType = entity?.TransactionType;
+            model.RecordType = entity?.RecordType;
             model.Remark = entity.Remark;
             model.ParentCategoryId = entity?.ParentCategoryId;
             model.UserId = entity.UserId;

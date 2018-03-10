@@ -10,7 +10,7 @@ namespace MoneyChest.Data.Entities.History
 {
     public class SimpleEventHistory : EventHistory
     {
-        public TransactionType TransactionType { get; set; }
+        public RecordType RecordType { get; set; }
 
         public int CurrencyId { get; set; }
 

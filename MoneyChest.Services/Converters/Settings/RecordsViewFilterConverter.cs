@@ -17,7 +17,7 @@ namespace MoneyChest.Services.Converters
             entity.Description = model.Description;
             entity.Remark = model.Remark;
             entity.PeriodFilterType = model.PeriodFilterType;
-            entity.TransactionType = model.TransactionType;
+            entity.RecordType = model.RecordType;
             entity.DateFrom = model?.DateFrom;
             entity.DateUntil = model?.DateUntil;
         }
@@ -29,7 +29,7 @@ namespace MoneyChest.Services.Converters
             model.Description = entity.Description;
             model.Remark = entity.Remark;
             model.PeriodFilterType = entity.PeriodFilterType;
-            model.TransactionType = entity.TransactionType;
+            model.RecordType = entity.RecordType;
             model.DateFrom = entity?.DateFrom;
             model.DateUntil = entity?.DateUntil;
             model.CategoryIds = entity.Categories.Select(e => e.Id).ToList();

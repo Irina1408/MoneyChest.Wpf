@@ -13,7 +13,7 @@ namespace MoneyChest.Data.Entities
     [Historicized(typeof(SimpleEventHistory))]
     public class SimpleEvent : Evnt
     {
-        public TransactionType TransactionType { get; set; }
+        public RecordType RecordType { get; set; }
 
         public int CurrencyId { get; set; }
         public int StorageId { get; set; }

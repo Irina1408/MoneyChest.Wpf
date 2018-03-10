@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class EventModel : IHasId, IHasUserId, INotifyPropertyChanged
+    public abstract class EventModel : ITransaction, IHasUserId, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -65,7 +65,7 @@ namespace MoneyChest.Model.Model
 
         public EventState EventState { get; set; }
 
-        public EventType EventType { get; set; }
+        public EventType EventType { get; set; }    // TODO: remove?
         
         public ScheduleModel Schedule
         {
@@ -96,7 +96,22 @@ namespace MoneyChest.Model.Model
         public int UserId { get; set; }
 
         #endregion
-        
+
+        #region ITransaction implementation
+
+        public DateTime TransactionDate => throw new NotImplementedException(); // TODO: calculate execution date
+        public bool IsPlanned => true;
+
+        public virtual bool IsExpense => TransactionType == TransactionType.Expense;
+        public virtual bool IsIncome => TransactionType == TransactionType.Income;
+
+        public abstract TransactionType TransactionType { get; }
+        public abstract string TransactionValueDetailed { get; }
+        public abstract string TransactionStorage { get; }
+        public abstract CategoryReference TransactionCategory { get; }
+
+        #endregion
+
         #region Additional properties
 
         public bool CommissionEnabled
@@ -111,11 +126,15 @@ namespace MoneyChest.Model.Model
         }
 
         public decimal CommissionValue => CommissionType == CommissionType.Currency ? Commission : Commission / 100 * Value;
-        public decimal ResultValue => Value - CommissionValue;
+        public decimal ResultValue => Value + (IsExpense ? CommissionValue : -CommissionValue);
 
         #endregion
 
+        #region Methods
+
         public void NotifyScheduleChanged() => NotifyPropertyChanged(nameof(Schedule));
         protected void NotifyPropertyChanged(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+
+        #endregion
     }
 }

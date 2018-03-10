@@ -10,8 +10,8 @@
              xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              xmlns:viewModel="clr-namespace:MoneyChest.ViewModel.ViewModel;assembly=MoneyChest.ViewModel"
 	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-                                  xmlns:components="clr-namespace:MoneyChest.View.Components"
-                                  mc:Ignorable="d" 
+             xmlns:components="clr-namespace:MoneyChest.View.Components"
+             mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
@@ -35,10 +35,10 @@
         <!-- Header -->
         <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Label x:Name="LabelHeader" FontSize="{DynamicResource LargeFontSize}"/>
-            <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_Expense}" GroupName="1"
-                         IsChecked="{Binding TransactionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:TransactionType.Expense}}"/>
-            <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_Income}" GroupName="1"
-                         IsChecked="{Binding TransactionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:TransactionType.Income}}"/>
+            <RadioButton Content="{moneyChestView:MultiLangBinding RecordType_Expense}" GroupName="1"
+                         IsChecked="{Binding RecordType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:RecordType.Expense}}"/>
+            <RadioButton Content="{moneyChestView:MultiLangBinding RecordType_Income}" GroupName="1"
+                         IsChecked="{Binding RecordType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:RecordType.Income}}"/>
         </StackPanel>
 
         <!-- Part "Description and Value" -->
@@ -124,7 +124,7 @@
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Text" Value="{moneyChestView:MultiLangBinding General_TargetStorage}"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding TransactionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:TransactionType.Income}}" Value="false">
+                                    <DataTrigger Binding="{Binding RecordType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:RecordType.Income}}" Value="false">
                                         <Setter Property="Text" Value="{moneyChestView:MultiLangBinding General_WithdrawStorage}"/>
                                     </DataTrigger>
                                 </Style.Triggers>

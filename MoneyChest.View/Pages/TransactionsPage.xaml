@@ -4,9 +4,320 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MoneyChest.View.Pages"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             xmlns:converters="clr-namespace:MoneyChest.View.Converters"
+             xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <local:PageBase.Resources>
+        <converters:EnumToBoolConverter x:Key="EBConverter"/>
+        <converters:EnumToStringConverter x:Key="ESConverter"/>
+        <system:Double x:Key="PeriodSelectorHeight">35</system:Double>
+        <Style x:Key="PeriodButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MCButtonStyle}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="{StaticResource PeriodSelectorHeight}"/>
+            <Setter Property="TextBlock.FontWeight" Value="Normal"/>
+        </Style>
+    </local:PageBase.Resources>
+    
     <Grid>
-        <Label>Transactions</Label>  
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Menu -->
+        <ToolBarTray Grid.Column="0" ClipToBounds="True" VerticalAlignment="Top" IsLocked="True"
+                     Background="{DynamicResource MaterialDesignToolBarBackground}">
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                
+                <Button ToolTip="{moneyChestView:MultiLangBinding General_Add}" Style="{DynamicResource ToolBarButtonBaseStyle}"
+                                    Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False"
+                                             HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                             Foreground="{DynamicResource IdealForegroundColorBrush}"
+                                             Style="{DynamicResource MaterialDesignPopupBox}" Margin="0">
+                        <materialDesign:PopupBox.ToggleContent>
+                            <Grid Background="Transparent" Height="34" Width="34">
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <iconPacks:PackIconMaterial Kind="Plus"/>
+                                </Grid>
+                            </Grid>
+                        </materialDesign:PopupBox.ToggleContent>
+
+                        <StackPanel>
+                            <Button Command="{Binding AddRecordCommand}" ToolTip="{moneyChestView:MultiLangBinding Record_Add}"
+                                Height="{DynamicResource ToolBarButtonSize}"
+                                Content="{moneyChestView:MultiLangBinding Record_Singular}"/>
+
+                            <Button Command="{Binding AddMoneyTransferCommand}" ToolTip="{moneyChestView:MultiLangBinding MoneyTransfer_Add}"
+                                Height="{DynamicResource ToolBarButtonSize}"
+                                Content="{moneyChestView:MultiLangBinding MoneyTransfer_Singular}"/>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </Button>
+
+                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="Edit"/>
+                </Button>
+
+                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="Delete"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        
+        <!-- Period selector -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center"> 
+            <Button Height="{StaticResource PeriodSelectorHeight}" Width="{StaticResource PeriodSelectorHeight}" Margin="0"
+                    Command="{Binding PrevDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}">
+                <!--<iconPacks:PackIconOcticons Kind="ArrowLeft" Height="Auto" Width="Auto"/>-->
+                <iconPacks:PackIconOcticons Kind="ChevronLeft" Height="Auto" Width="Auto"/>
+            </Button>
+
+            <materialDesign:ColorZone Mode="PrimaryMid" Background="{DynamicResource GrayBrush7}" Height="34" Width="200" Foreground="{DynamicResource BlackBrush}" Margin="0 1 0 0">
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Center" Margin="5 0 0 0" Text="{Binding ViewSettings.PeriodDetails}" FontSize="{DynamicResource DefaultFontSize}" VerticalAlignment="Center"/>
+
+                    <materialDesign:PopupBox x:Name="periodPopup" Grid.Column="1" PlacementMode="BottomAndAlignLeftEdges"
+                                             StaysOpen="False"
+                                             HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                             Foreground="{DynamicResource BlackBrush}"
+                                             Style="{DynamicResource MaterialDesignPopupBox}">
+                        <StackPanel MinWidth="100">
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Day}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Day}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Week}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Week}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Month}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Month}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Quarter}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Quarter}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Year}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Year}}" GroupName="PeriodType"/>
+                            
+                            <Separator/>
+                            <RadioButton IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Custom}}"
+                                                 Content="{moneyChestView:MultiLangBinding PeriodType_Custom}" GroupName="PeriodType"
+                                                 Command="{Binding SelectDateRangeCommand}"/>
+                            <!--<materialDesign:DialogHost HorizontalAlignment="Left" VerticalAlignment="Center" CloseOnClickAway="False"
+                               DialogOpened="PeriodDialogOpenedEventHandler" DialogClosing="PeriodDialogClosingEventHandler">
+                                <materialDesign:DialogHost.DialogContent>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Calendar Grid.Column="0" Margin="-1 -4 -1 -6" SelectedDate="{Binding ViewSettings.DateFrom}"
+                                                  Focusable="False"/>
+                                        <Calendar Grid.Column="1" Margin="-8 -4 -1 -6" SelectedDate="{Binding ViewSettings.DateUntil}"
+                                                  Focusable="False"/>
+
+                                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5">
+                                            <Button  Content="{moneyChestView:MultiLangBinding General_Ok}"
+                                                     Style="{DynamicResource AccentedButtonStyle}"
+                                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="1"/>
+
+                                            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" IsCancel="True"
+                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                    CommandParameter="0" Style="{DynamicResource MCButtonStyle}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </materialDesign:DialogHost.DialogContent>
+                                <Grid Background="Transparent">
+                                    <RadioButton IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Custom}}"
+                                                 Content="{moneyChestView:MultiLangBinding PeriodType_Custom}" GroupName="PeriodType"
+                                                 Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                                </Grid>
+                            </materialDesign:DialogHost>-->
+
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </Grid>
+            </materialDesign:ColorZone>
+
+            <!-- IsFlippedChanged="Flipper_OnIsFlippedChanged" -->
+            <!--<materialDesign:Flipper x:Name="flipperPeriod" Style="{StaticResource MaterialDesignCardFlipper}" Background="{DynamicResource GrayBrush7}" Foreground="{DynamicResource BlackBrush}">
+                <materialDesign:Flipper.FrontContent>
+
+                    <Button Width="200" Margin="0" Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                            Content="{Binding ViewSettings.PeriodDetails}" Height="{StaticResource PeriodSelectorHeight}"
+                            BorderThickness="0" Style="{StaticResource PeriodButtonStyle}" Padding="2"/>
+
+                </materialDesign:Flipper.FrontContent>
+                <materialDesign:Flipper.BackContent>
+                    <Grid Width="200" Height="Auto">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <materialDesign:ColorZone Padding="6" Mode="Accent" Background="{DynamicResource AccentColorBrush}">
+                            <StackPanel Orientation="Horizontal">
+                                <Button HorizontalAlignment="Left" Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                        Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                    <iconPacks:PackIconOcticons Kind="ChevronLeft" Width="20" Height="Auto"/>
+                                </Button>
+                                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="{moneyChestView:MultiLangBinding PeriodType_EnumName}"/>
+                            </StackPanel>
+                        </materialDesign:ColorZone>
+                        <StackPanel Grid.Row="1" MinWidth="100" Margin="0,6,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Day}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Day}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Week}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Week}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Month}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Month}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Quarter}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Quarter}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Year}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Year}}" GroupName="PeriodType"/>
+                            
+                            <Separator/>
+                            <materialDesign:DialogHost HorizontalAlignment="Left" VerticalAlignment="Center" CloseOnClickAway="False"
+                               DialogOpened="PeriodDialogOpenedEventHandler" DialogClosing="PeriodDialogClosingEventHandler">
+                                <materialDesign:DialogHost.DialogContent>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Calendar Grid.Column="0" Margin="-1 -4 -1 -6" SelectedDate="{Binding ViewSettings.DateFrom}"
+                                                  Focusable="False"/>
+                                        <Calendar Grid.Column="1" Margin="-8 -4 -1 -6" SelectedDate="{Binding ViewSettings.DateUntil}"
+                                                  Focusable="False"/>
+
+                                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5">
+                                            <Button  Content="{moneyChestView:MultiLangBinding General_Ok}"
+                                                     Style="{DynamicResource AccentedButtonStyle}"
+                                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="1"/>
+
+                                            --><!--<Button Content="{moneyChestView:MultiLangBinding General_Cancel}" IsCancel="True"
+                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                    CommandParameter="0" Style="{DynamicResource MCButtonStyle}"/>--><!--
+                                        </StackPanel>
+                                    </Grid>
+                                </materialDesign:DialogHost.DialogContent>
+                                <Grid Background="Transparent">
+                                    <RadioButton IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Custom}}"
+                                                 Content="{moneyChestView:MultiLangBinding PeriodType_Custom}" GroupName="PeriodType"
+                                                 Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                                </Grid>
+                            </materialDesign:DialogHost>
+                        </StackPanel>
+                    </Grid>
+                    --><!--<StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="comboPeriod" Width="180" Margin="0" DisplayMemberPath="Description" SelectedValuePath="Value"
+                                  SelectedValue="{Binding ViewSettings.PeriodType}" Style="{DynamicResource MCComboBoxStyle}" Height="{StaticResource PeriodSelectorHeight}"
+                                  FontSize="{DynamicResource DefaultFontSize}" Background="{DynamicResource WhiteBrush}"
+                                  Padding="5" BorderThickness="0"/>
+                        
+                        <Button Command="{x:Static materialDesign:Flipper.FlipCommand}" Height="{StaticResource PeriodSelectorHeight}"
+                                Width="{StaticResource PeriodSelectorHeight}" Margin="0" BorderThickness="0" >
+                            <iconPacks:PackIconOcticons Kind="ChevronRight" Width="20" Height="Auto"/>
+                        </Button>
+                    </StackPanel>--><!--
+                    
+                </materialDesign:Flipper.BackContent>
+            </materialDesign:Flipper>-->
+
+            <Button Height="{StaticResource PeriodSelectorHeight}" Width="{StaticResource PeriodSelectorHeight}" Margin="0"
+                    Command="{Binding NextDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}">
+                <!--<iconPacks:PackIconOcticons Kind="ArrowRight" Height="Auto" Width="Auto"/>-->
+                <iconPacks:PackIconOcticons Kind="ChevronRight" Height="Auto" Width="Auto"/>
+            </Button>
+        </StackPanel>
+
+        <!-- Transactions grid -->
+        <DataGrid x:Name="GridTransactions" Grid.Row="2" Grid.Column="0"
+                  Margin="5"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="Column"
+                  SelectionUnit="FullRow"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding Entities}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}">
+                        <MenuItem Header="{moneyChestView:MultiLangBinding Record_Singular}" Command="{Binding AddRecordCommand}"
+                                  ToolTip="{moneyChestView:MultiLangBinding Record_Add}"/>
+                        <MenuItem Header="{moneyChestView:MultiLangBinding MoneyTransfer_Singular}" 
+                                  Command="{Binding AddMoneyTransferCommand}" 
+                                  ToolTip="{moneyChestView:MultiLangBinding MoneyTransfer_Add}"/>
+                    </MenuItem>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <!-- TODO: Add type icon -->
+                <!--<DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ContentControl ToolTip="{moneyChestView:MultiLangBinding Currency_IsMain}">
+                                <iconPacks:PackIconMaterial Name="Picture" Visibility="Hidden" Kind="Star"/>
+                            </ContentControl>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsMain}" Value="True">
+                                    <Setter TargetName="Picture" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+
+                <!-- TODO: remove-->
+                <DataGridTextColumn Binding="{Binding TransactionType, Converter={StaticResource ESConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Header="Transaction type"/>
+
+                <DataGridTextColumn Binding="{Binding TransactionDate, UpdateSourceTrigger=PropertyChanged, StringFormat=d}" Header="{moneyChestView:MultiLangBinding General_Date}" />
+
+                <DataGridTextColumn Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Description}" />
+
+                <DataGridTextColumn Binding="{Binding TransactionValueDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Amount}" />
+
+                <DataGridTextColumn Binding="{Binding TransactionStorage, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding Storage_Singular}" />
+
+                <DataGridTextColumn Binding="{Binding TransactionCategory.Name, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding Category_Singular}" />
+
+                <DataGridTextColumn Binding="{Binding Remark, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Remark}" />
+                
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPlanned}" Value="True">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsIncome}" Value="True">
+                            <Setter Property="Foreground" Value="Green" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsExpense}" Value="True">
+                            <Setter Property="Foreground" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
     </Grid>
 </local:PageBase>

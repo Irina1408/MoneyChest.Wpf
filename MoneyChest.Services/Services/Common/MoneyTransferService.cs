@@ -15,10 +15,13 @@ using MoneyChest.Data.Enums;
 
 namespace MoneyChest.Services.Services
 {
+    // TODO: cleanup
     public interface IMoneyTransferService : IIdManagableServiceBase<MoneyTransferModel>, IUserableListService<MoneyTransferModel>
     {
         List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds);
         List<MoneyTransferModel> GetAfterDate(int userId, DateTime date, List<int> storageGroupIds);
+
+        List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until);
     }
 
     public class MoneyTransferService : HistoricizedIdManageableServiceBase<MoneyTransfer, MoneyTransferModel, MoneyTransferConverter>, IMoneyTransferService
@@ -45,6 +48,12 @@ namespace MoneyChest.Services.Services
                     .ToList().ConvertAll(_converter.ToModel);
         }
 
+        public List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until)
+        {
+            return Scope.Where(item => item.StorageFrom.UserId == userId && item.Date >= from && item.Date <= until)
+                .ToList().ConvertAll(_converter.ToModel);
+        }
+
         #endregion
 
         #region IUserableListService<MoneyTransferModel> implementation
@@ -58,14 +67,11 @@ namespace MoneyChest.Services.Services
 
         public override void OnAdded(MoneyTransferModel model, MoneyTransfer entity)
         {
-            // update related storages
-            var storageFrom = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageFromId);
-            storageFrom.Value -= model.StorageFromValue;
-            _historyService.WriteHistory(storageFrom, ActionType.Update, storageFrom.UserId);
+            base.OnAdded(model, entity);
 
-            var storageTo = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageToId);
-            storageTo.Value += model.StorageToValue;
-            _historyService.WriteHistory(storageTo, ActionType.Update, storageTo.UserId);
+            // update related storages
+            AddValueToStorage(model.StorageFromId, -model.StorageFromValue);
+            AddValueToStorage(model.StorageToId, model.StorageToValue);
 
             // save changes
             SaveChanges();
@@ -73,35 +79,40 @@ namespace MoneyChest.Services.Services
 
         public override void OnUpdated(MoneyTransferModel oldModel, MoneyTransferModel model)
         {
-            // update related storages
-            if(oldModel.StorageFromValue != model.StorageFromValue)
-            {
-                var storageFrom = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageFromId);
-                storageFrom.Value += oldModel.StorageFromValue - model.StorageFromValue;
-                _historyService.WriteHistory(storageFrom, ActionType.Update, storageFrom.UserId);
-            }
+            base.OnUpdated(oldModel, model);
 
-            if(oldModel.StorageToValue != model.StorageToValue)
+            // update related storages
+            if (oldModel.StorageFromId != model.StorageFromId)
             {
-                var storageTo = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageToId);
-                storageTo.Value -= oldModel.StorageToValue - model.StorageToValue;
-                _historyService.WriteHistory(storageTo, ActionType.Update, storageTo.UserId);
+                // add value to old storage
+                AddValueToStorage(oldModel.StorageFromId, oldModel.StorageFromValue);
+                // remove value from new storage
+                AddValueToStorage(model.StorageFromId, -model.StorageFromValue);
             }
-                
+            else if(oldModel.StorageFromValue != model.StorageFromValue)
+                AddValueToStorage(model.StorageFromId, oldModel.StorageFromValue - model.StorageFromValue);
+            
+            if (oldModel.StorageToId != model.StorageToId)
+            {
+                // remove value from old storage
+                AddValueToStorage(oldModel.StorageToId, -oldModel.StorageToValue);
+                // add value to new storage
+                AddValueToStorage(model.StorageToId, model.StorageToValue);
+            }
+            else if(oldModel.StorageToValue != model.StorageToValue)
+                AddValueToStorage(model.StorageToId, model.StorageToValue - oldModel.StorageToValue);
+
             // save changes
             SaveChanges();
         }
 
         public override void OnDeleted(MoneyTransferModel model)
         {
-            // update related storages
-            var storageFrom = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageFromId);
-            storageFrom.Value += model.StorageFromValue;
-            _historyService.WriteHistory(storageFrom, ActionType.Update, storageFrom.UserId);
+            base.OnDeleted(model);
 
-            var storageTo = _context.Storages.FirstOrDefault(_ => _.Id == model.StorageToId);
-            storageTo.Value -= model.StorageToValue;
-            _historyService.WriteHistory(storageTo, ActionType.Update, storageTo.UserId);
+            // update related storages
+            AddValueToStorage(model.StorageFromId, model.StorageFromValue);
+            AddValueToStorage(model.StorageToId, -model.StorageToValue);
 
             // save changes
             SaveChanges();
@@ -114,6 +125,17 @@ namespace MoneyChest.Services.Services
             if (entity.StorageFrom != null) return entity.StorageFrom.UserId;
             if (entity.StorageTo != null) return entity.StorageTo.UserId;
             return _context.Storages.FirstOrDefault(item => item.Id == entity.StorageFromId).UserId;
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private void AddValueToStorage(int storageId, decimal value)
+        {
+            var storage = _context.Storages.FirstOrDefault(_ => _.Id == storageId);
+            storage.Value += value;
+            _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
         }
 
         #endregion

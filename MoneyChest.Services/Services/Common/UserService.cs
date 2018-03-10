@@ -57,6 +57,8 @@ namespace MoneyChest.Services.Services
 
         public override void OnAdded(UserModel model, User entity)
         {
+            base.OnAdded(model, entity);
+
             // load defaults
             LoadDefaults(entity, model.Language);
         }

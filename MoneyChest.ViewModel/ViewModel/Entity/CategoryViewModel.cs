@@ -17,8 +17,8 @@ namespace MoneyChest.ViewModel.ViewModel
         public bool IsSelectedMainView { get; set; }
         public bool IsExpandedMainView { get; set; }
 
-        public bool IsPlus => TransactionType.HasValue && TransactionType.Value == Model.Enums.TransactionType.Income;
-        public bool IsMinus => TransactionType.HasValue && TransactionType.Value == Model.Enums.TransactionType.Expense;
+        public bool IsPlus => RecordType.HasValue && RecordType.Value == Model.Enums.RecordType.Income;
+        public bool IsMinus => RecordType.HasValue && RecordType.Value == Model.Enums.RecordType.Expense;
         public bool HasParent => ParentCategoryId.HasValue;
     }
 }

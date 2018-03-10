@@ -33,7 +33,7 @@ namespace MoneyChest.Data.Entities
 
         public PeriodFilterType PeriodFilterType { get; set; }
 
-        public TransactionType? TransactionType { get; set; }
+        public RecordType? RecordType { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime? DateFrom { get; set; }

@@ -10,17 +10,22 @@ namespace MoneyChest.Model.Model
 {
     public class RepayDebtEventModel : EventModel
     {
+        #region Initialization
+
         public RepayDebtEventModel() : base()
         {
             EventType = EventType.RepayDebt;
             IsValueInStorageCurrency = false;
         }
 
+        #endregion
+
+        #region Entity properties
+
         public bool IsValueInStorageCurrency { get; set; }
         public int StorageId { get; set; }
         public int DebtId { get; set; }
-
-        
+                
         public StorageReference Storage { get; set; }
         public DebtReference Debt { get; set; }
 
@@ -38,6 +43,18 @@ namespace MoneyChest.Model.Model
             set => base.Commission = value;
         }
         public override CommissionType CommissionType { get; set; }
+
+        #endregion
+
+        #region ITransaction implementation
+
+        public override TransactionType TransactionType => 
+            Debt?.DebtType == DebtType.GiveBorrow ? TransactionType.Income : TransactionType.Expense;
+        public override string TransactionValueDetailed => ResultValueSignCurrency;
+        public override string TransactionStorage => Storage?.Name;
+        public override CategoryReference TransactionCategory => DebtCategory;
+
+        #endregion
 
         #region Additional properties
 

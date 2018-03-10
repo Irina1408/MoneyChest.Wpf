@@ -700,13 +700,55 @@
   <data name="Storage_Visible" xml:space="preserve">
     <value>Видимый</value>
   </data>
-  <data name="TransactionType_Expense" xml:space="preserve">
+  <data name="RecordType_Expense" xml:space="preserve">
     <value>Расход (-)</value>
   </data>
-  <data name="TransactionType_Income" xml:space="preserve">
+  <data name="RecordType_Income" xml:space="preserve">
     <value>Доход (+)</value>
   </data>
-  <data name="TransactionType_Name" xml:space="preserve">
+  <data name="RecordType_Name" xml:space="preserve">
     <value>Тип</value>
+  </data>
+  <data name="PeriodType_Custom" xml:space="preserve">
+    <value>Пользовательский</value>
+  </data>
+  <data name="PeriodType_Day" xml:space="preserve">
+    <value>День</value>
+  </data>
+  <data name="PeriodType_EnumName" xml:space="preserve">
+    <value>Период</value>
+  </data>
+  <data name="PeriodType_Month" xml:space="preserve">
+    <value>Месяц</value>
+  </data>
+  <data name="PeriodType_Quarter" xml:space="preserve">
+    <value>Квартал</value>
+  </data>
+  <data name="PeriodType_Week" xml:space="preserve">
+    <value>Неделя</value>
+  </data>
+  <data name="PeriodType_Year" xml:space="preserve">
+    <value>Год</value>
+  </data>
+  <data name="MoneyTransfer_Add" xml:space="preserve">
+    <value>Добавить новый денежный перевод</value>
+  </data>
+  <data name="Record_Add" xml:space="preserve">
+    <value>Добавить новый доход / расход</value>
+  </data>
+  <data name="Record_New" xml:space="preserve">
+    <value>Новый доход / расход</value>
+  </data>
+  <data name="Record_Plural" xml:space="preserve">
+    <value>Доходы / Расходы</value>
+  </data>
+  <data name="Record_Singular" xml:space="preserve">
+    <value>Доход / Расход</value>
+  </data>
+  <data name="Transaction_Plural" xml:space="preserve">
+    <value>Транзакции</value>
+  </data>
+  <data name="Transaction_Singular" xml:space="preserve">
+    <value>Транзакция</value>
   </data>
 </root>

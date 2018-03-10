@@ -74,7 +74,7 @@ namespace MoneyChest.Data.Mock
             f.Define<Record>(e =>
             {
                 e.Description = "Record";
-                e.TransactionType = TransactionType.Expense;
+                e.RecordType = RecordType.Expense;
                 e.Date = DateTime.Now;
                 e.Value = Moniker.Digit;
             });
@@ -129,7 +129,7 @@ namespace MoneyChest.Data.Mock
                 e.EventState = EventState.Active;
                 e.AutoExecution = false;
                 e.ConfirmBeforeExecute = false;
-                e.TransactionType = TransactionType.Expense;
+                e.RecordType = RecordType.Expense;
             });
         }
 
@@ -219,7 +219,7 @@ namespace MoneyChest.Data.Mock
             f.Define<RecordModel>(e =>
             {
                 e.Description = "Record";
-                e.TransactionType = TransactionType.Expense;
+                e.RecordType = RecordType.Expense;
                 e.Date = DateTime.Now;
                 e.Value = Moniker.Digit;
             });
@@ -254,7 +254,7 @@ namespace MoneyChest.Data.Mock
                 e.EventState = EventState.Active;
                 e.AutoExecution = false;
                 e.ConfirmBeforeExecute = false;
-                e.TransactionType = TransactionType.Expense;
+                e.RecordType = RecordType.Expense;
             });
         }
     }

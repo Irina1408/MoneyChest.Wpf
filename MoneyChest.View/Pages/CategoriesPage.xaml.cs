@@ -104,7 +104,7 @@ namespace MoneyChest.View.Pages
 
             _viewModel.Categories = TreeHelper.BuildTree(_service.GetListForUser(GlobalVariables.UserId)
                 .OrderByDescending(_ => _.IsActive)
-                .ThenByDescending(_ => _.TransactionType)
+                .ThenByDescending(_ => _.RecordType)
                 .ThenBy(_ => _.Name)
                 .ToList());
 

@@ -16,6 +16,7 @@ namespace MoneyChest.Services.Services.Base
     {
         #region Protected fields
 
+        // TODO: make private and use method Convert
         protected IEntityModelConverter<T, TModel> _converter;
 
         #endregion
@@ -108,6 +109,13 @@ namespace MoneyChest.Services.Services.Base
         public virtual void OnAdded(TModel model, T entity) { }
         public virtual void OnUpdated(TModel oldModel, TModel model) { }
         public virtual void OnDeleted(TModel model) { }
+
+        #endregion
+
+        #region Internal methods
+
+        internal protected TModel Convert(T entity) => _converter.ToModel(entity);
+        internal protected List<TModel> Convert(List<T> entities) => entities.ConvertAll(Convert);
 
         #endregion
 

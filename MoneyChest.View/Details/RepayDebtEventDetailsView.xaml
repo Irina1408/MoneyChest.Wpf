@@ -76,7 +76,7 @@
                               SelectedValue="{Binding StorageId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
                               SelectionChanged="comboStorage_SelectionChanged">
                         <ComboBox.Style>
-                            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MCComboBoxStyle}">
+                            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MCComboBoxFloatingHintStyle}">
                                 <Setter Property="materialDesign:HintAssist.Hint" 
                                         Value="{moneyChestView:MultiLangBinding General_TargetStorage}"/>
                                 <Style.Triggers>
@@ -118,7 +118,7 @@
             </StackPanel>
         </Grid>
 
-        <!-- Part "Result value and Storage" -->
+        <!-- Part "Result value and Commission" -->
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

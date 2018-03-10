@@ -27,37 +27,37 @@ namespace MoneyChest.Services.Services.Defaults
         public void LoadCategories()
         {
             // Income categories
-            AddCategory("Salary", TransactionType.Income);
+            AddCategory("Salary", RecordType.Income);
 
             // Expense categories
-            var transportCategory = AddCategory("Transport", TransactionType.Expense);
-            AddCategory("Public transport", TransactionType.Expense, transportCategory);
-            AddCategory("Auto", TransactionType.Expense, transportCategory);
-            AddCategory("Taxi", TransactionType.Expense, transportCategory);
+            var transportCategory = AddCategory("Transport", RecordType.Expense);
+            AddCategory("Public transport", RecordType.Expense, transportCategory);
+            AddCategory("Auto", RecordType.Expense, transportCategory);
+            AddCategory("Taxi", RecordType.Expense, transportCategory);
 
-            var products = AddCategory("Products", TransactionType.Expense);
-            AddCategory("Meat", TransactionType.Expense, products);
-            AddCategory("Sweets", TransactionType.Expense, products);
-            AddCategory("Milk", TransactionType.Expense, products);
-            AddCategory("Drink", TransactionType.Expense, products);
-            AddCategory("Alcohol", TransactionType.Expense, products);
-            AddCategory("Fish", TransactionType.Expense, products);
-            AddCategory("Fruits", TransactionType.Expense, products);
-            AddCategory("Vegetables", TransactionType.Expense, products);
+            var products = AddCategory("Products", RecordType.Expense);
+            AddCategory("Meat", RecordType.Expense, products);
+            AddCategory("Sweets", RecordType.Expense, products);
+            AddCategory("Milk", RecordType.Expense, products);
+            AddCategory("Drink", RecordType.Expense, products);
+            AddCategory("Alcohol", RecordType.Expense, products);
+            AddCategory("Fish", RecordType.Expense, products);
+            AddCategory("Fruits", RecordType.Expense, products);
+            AddCategory("Vegetables", RecordType.Expense, products);
 
-            var goods = AddCategory("Goods", TransactionType.Expense);
-            AddCategory("Appliances", TransactionType.Expense, goods);
-            AddCategory("Clothes", TransactionType.Expense, goods);
-            AddCategory("Household goods", TransactionType.Expense, goods);
+            var goods = AddCategory("Goods", RecordType.Expense);
+            AddCategory("Appliances", RecordType.Expense, goods);
+            AddCategory("Clothes", RecordType.Expense, goods);
+            AddCategory("Household goods", RecordType.Expense, goods);
 
-            var entertainment = AddCategory("Entertainment", TransactionType.Expense);
-            AddCategory("Cinema", TransactionType.Expense, entertainment);
-            AddCategory("Sport", TransactionType.Expense, entertainment);
-            AddCategory("Travel", TransactionType.Expense, entertainment);
+            var entertainment = AddCategory("Entertainment", RecordType.Expense);
+            AddCategory("Cinema", RecordType.Expense, entertainment);
+            AddCategory("Sport", RecordType.Expense, entertainment);
+            AddCategory("Travel", RecordType.Expense, entertainment);
 
             // Without type categories
             var other = AddCategory("Other");
-            AddCategory("Commission", TransactionType.Expense, other);
+            AddCategory("Commission", RecordType.Expense, other);
             AddCategory("Debts", null, other);
             AddCategory("Gifts", null, other);
         }
@@ -133,12 +133,12 @@ namespace MoneyChest.Services.Services.Defaults
             }
         }
 
-        private Category AddCategory(string name, TransactionType? transactionType = null, Category parent = null)
+        private Category AddCategory(string name, RecordType? recordType = null, Category parent = null)
         {
             var category = new Category()
             {
                 Name = name,
-                TransactionType = transactionType,
+                RecordType = recordType,
                 ParentCategory = parent,
                 IsActive = true,
                 UserId = _userId

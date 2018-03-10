@@ -1,5 +1,15 @@
 ﻿using MahApps.Metro.IconPacks;
+using MaterialDesignThemes.Wpf;
+using MoneyChest.Model.Enums;
+using MoneyChest.Model.Model;
+using MoneyChest.Services;
+using MoneyChest.Services.Services;
+using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
+using MoneyChest.View.Details;
+using MoneyChest.View.Utils;
+using MoneyChest.ViewModel.Commands;
+using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +34,9 @@ namespace MoneyChest.View.Pages
     {
         #region Private fields
 
-
+        private TransactionsPageViewModel _viewModel;
+        private ITransactionService _service;
+        private List<StorageModel> _storages;
 
         #endregion
 
@@ -33,6 +45,66 @@ namespace MoneyChest.View.Pages
         public TransactionsPage() : base()
         {
             InitializeComponent();
+
+            // init
+            _service = ServiceManager.ConfigureService<TransactionService>();
+
+            // load storages
+            IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
+            _storages = storageService.GetListForUser(GlobalVariables.UserId);
+
+            InitializeViewModel();
+        }
+
+        private void InitializeViewModel()
+        {
+            _viewModel = new TransactionsPageViewModel()
+            {
+                AddRecordCommand = new Command(() => OpenDetails(new RecordModel() { UserId = GlobalVariables.UserId }, true)),
+                AddMoneyTransferCommand = new Command(() => OpenDetails(new MoneyTransferModel(), true)),
+
+                EditCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
+                (item) =>
+                {
+                    if(item is RecordModel)
+                        OpenDetails(item as RecordModel);
+                    if(item is MoneyTransferModel)
+                        OpenDetails(item as MoneyTransferModel);
+                }, null, true),
+
+                DeleteCommand = new DataGridSelectedItemsCommand<ITransaction>(GridTransactions,
+                (items) =>
+                {
+                    var message = MultiLangResource.DeletionConfirmationMessage("Transaction", items.Select(_ => _.Description));
+
+                    if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
+                        MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                    {
+                        // remove in database
+                        _service.Delete(items);
+                        // remove in grid
+                        foreach (var item in items.ToList())
+                            _viewModel.Entities.Remove(item);
+                        NotifyDataChanged();
+                    }
+                },
+                (items) => !items.Any(_ => _.IsPlanned))
+            };
+
+            _viewModel.PrevDateRangeCommand = new Command(() => _viewModel.ViewSettings.PrevDateRange());
+            _viewModel.NextDateRangeCommand = new Command(() => _viewModel.ViewSettings.NextDateRange());
+            _viewModel.SelectDateRangeCommand = new Command(() =>
+            {
+                var dateFrom = _viewModel.ViewSettings.DateFrom;
+                var dateUntil = _viewModel.ViewSettings.DateUntil;
+                if (this.ShowDateRangeSelector(ref dateFrom, ref dateUntil))
+                {
+                    _viewModel.ViewSettings.DateFrom = dateFrom;
+                    _viewModel.ViewSettings.DateUntil = dateUntil;
+                }
+            });
+
+            this.DataContext = _viewModel;
         }
 
         #endregion
@@ -42,6 +114,87 @@ namespace MoneyChest.View.Pages
         public override void Reload()
         {
             base.Reload();
+
+            // TODO: load settings from DB 
+            if (_viewModel.ViewSettings == null)
+            {
+                _viewModel.ViewSettings = new TransactionsViewSettingsViewModel();
+                _viewModel.ViewSettings.OnPeriodChanged += (sender, e) =>
+                {
+                    // close popup
+                    //if (_viewModel.ViewSettings.PeriodType != PeriodType.Custom) periodPopup.IsPopupOpen = false;
+                    // reload data
+                    Reload();
+                };
+            }
+
+            _viewModel.Entities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(_service.Get(GlobalVariables.UserId, _viewModel.ViewSettings.DateFrom, _viewModel.ViewSettings.DateUntil));
+        }
+
+        #endregion
+
+        #region Event handlers
+
+        //public void PeriodDialogOpenedEventHandler(object sender, DialogOpenedEventArgs eventArgs)
+        //{
+        //    _viewModel.ViewSettings.IsDateRangeFilling = true;
+        //}
+
+        //public void PeriodDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        //{
+        //    _viewModel.ViewSettings.IsDateRangeFilling = false;
+        //    //periodPopup.IsPopupOpen = false;
+        //    if (!Equals(eventArgs.Parameter, "1")) return;
+            
+        //    // reload page data
+        //    Reload();
+        //}
+
+        #endregion
+
+        #region Private methods
+
+        private void OpenDetails(RecordModel model, bool isNew = false)
+        {
+            this.OpenDetailsWindow(new RecordDetailsView(model, isNew), () =>
+                {
+                    // update grid
+                    if (isNew) AddNew(model);
+                    else UpdatePlacement(model);
+
+                    NotifyDataChanged();
+                });
+        }
+
+        private void OpenDetails(MoneyTransferModel model, bool isNew = false)
+        {
+            this.OpenDetailsWindow(new MoneyTransferDetailsView(model, isNew, false,
+                _storages.OrderByDescending(_ => _.IsVisible).ThenBy(_ => _.Name)), () =>
+                {
+                    // update grid
+                    if (isNew) AddNew(model);
+                    else UpdatePlacement(model);
+
+                    NotifyDataChanged();
+                });
+        }
+
+        private void AddNew(ITransaction transaction)
+        {
+            var lastBefore = _viewModel.Entities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
+            if (lastBefore != null)
+                _viewModel.Entities.Insert(_viewModel.Entities.IndexOf(lastBefore) + 1, transaction);
+            else
+                _viewModel.Entities.Insert(0, transaction);
+        }
+
+        private void UpdatePlacement(ITransaction transaction)
+        {
+            var lastBefore = _viewModel.Entities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
+            if (lastBefore != null)
+                _viewModel.Entities.Move(_viewModel.Entities.IndexOf(transaction), _viewModel.Entities.IndexOf(lastBefore) + 1);
+            else
+                _viewModel.Entities.Move(_viewModel.Entities.IndexOf(transaction), 0);
         }
 
         #endregion

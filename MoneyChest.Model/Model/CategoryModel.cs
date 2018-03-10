@@ -24,7 +24,7 @@ namespace MoneyChest.Model.Model
         [StringLength(100)]
         public string Name { get; set; }
 
-        public TransactionType? TransactionType { get; set; }
+        public RecordType? RecordType { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -35,22 +35,22 @@ namespace MoneyChest.Model.Model
         public int UserId { get; set; }
 
         
-        public bool TransactionTypeEnabled
+        public bool RecordTypeEnabled
         {
-            get => TransactionType.HasValue;
-            set => TransactionType = value ? (TransactionType?)Enums.TransactionType.Expense : null;
+            get => RecordType.HasValue;
+            set => RecordType = value ? (RecordType?)Enums.RecordType.Expense : null;
         }
 
-        public bool TransactionTypeIsExpense
+        public bool RecordTypeIsExpense
         {
-            get => TransactionType.HasValue && TransactionType.Value == Enums.TransactionType.Expense;
-            set => TransactionType = value ? Enums.TransactionType.Expense : Enums.TransactionType.Income;
+            get => RecordType.HasValue && RecordType.Value == Enums.RecordType.Expense;
+            set => RecordType = value ? Enums.RecordType.Expense : Enums.RecordType.Income;
         }
 
-        public bool TransactionTypeIsIncome
+        public bool RecordTypeIsIncome
         {
-            get => TransactionType.HasValue && TransactionType.Value == Enums.TransactionType.Income;
-            set => TransactionType = value ? Enums.TransactionType.Income : Enums.TransactionType.Expense;
+            get => RecordType.HasValue && RecordType.Value == Enums.RecordType.Income;
+            set => RecordType = value ? Enums.RecordType.Income : Enums.RecordType.Expense;
         }
     }
 }

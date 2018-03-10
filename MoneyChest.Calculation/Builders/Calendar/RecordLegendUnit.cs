@@ -15,7 +15,7 @@ namespace MoneyChest.Calculation.Builders.Calendar
         public decimal Value { get; set; }
         public CurrencyReference Currency { get; set; }
 
-        public TransactionType TransactionType { get; set; }
+        public RecordType RecordType { get; set; }
         public StorageReference Storage { get; set; }
         public CategoryReference Category { get; set; }
         public bool IsPlanned { get; set; } = false;

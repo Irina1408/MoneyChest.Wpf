@@ -700,13 +700,55 @@
   <data name="Storage_Visible" xml:space="preserve">
     <value>Visible</value>
   </data>
-  <data name="TransactionType_Expense" xml:space="preserve">
+  <data name="RecordType_Expense" xml:space="preserve">
     <value>Expense (-)</value>
   </data>
-  <data name="TransactionType_Income" xml:space="preserve">
+  <data name="RecordType_Income" xml:space="preserve">
     <value>Income (+)</value>
   </data>
-  <data name="TransactionType_Name" xml:space="preserve">
+  <data name="RecordType_Name" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="PeriodType_Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="PeriodType_Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="PeriodType_EnumName" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="PeriodType_Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="PeriodType_Quarter" xml:space="preserve">
+    <value>Quarter</value>
+  </data>
+  <data name="PeriodType_Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="PeriodType_Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="MoneyTransfer_Add" xml:space="preserve">
+    <value>Add new money transfer</value>
+  </data>
+  <data name="Record_Add" xml:space="preserve">
+    <value>Add new income / expence</value>
+  </data>
+  <data name="Record_New" xml:space="preserve">
+    <value>New income / expence</value>
+  </data>
+  <data name="Record_Plural" xml:space="preserve">
+    <value>Incomes / Expences</value>
+  </data>
+  <data name="Record_Singular" xml:space="preserve">
+    <value>Income / Expence</value>
+  </data>
+  <data name="Transaction_Plural" xml:space="preserve">
+    <value>Transactions</value>
+  </data>
+  <data name="Transaction_Singular" xml:space="preserve">
+    <value>Transaction</value>
   </data>
 </root>

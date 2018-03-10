@@ -148,7 +148,7 @@ namespace MoneyChest.View.Components
                     // load categories
                     ICategoryService categoryService = ServiceManager.ConfigureService<CategoryService>();
                     var categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId, SelectedCategoryId)
-                        .OrderByDescending(_ => _.TransactionType)
+                        .OrderByDescending(_ => _.RecordType)
                         .ThenBy(_ => _.Name)
                         .ToList(), SelectedCategoryId, ShowEmptyCategory);
 

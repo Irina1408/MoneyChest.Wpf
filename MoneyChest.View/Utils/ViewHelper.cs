@@ -23,6 +23,23 @@ namespace MoneyChest.View.Utils
             };
         }
 
+        public static bool ShowDateRangeSelector(this UserControl control, ref DateTime dateFrom, ref DateTime dateUntil)
+        {
+            var dateRangeSeletor = new MoneyChest.View.Windows.DateRangeSelectorWindow();
+            dateRangeSeletor.Owner = Window.GetWindow(control);
+            dateRangeSeletor.DateFrom = dateFrom;
+            dateRangeSeletor.DateUntil = dateUntil;
+
+            if(dateRangeSeletor.ShowDialog() == true)
+            {
+                dateFrom = dateRangeSeletor.DateFrom;
+                dateUntil = dateRangeSeletor.DateUntil;
+                return true;
+            }
+
+            return false;
+        }
+
         public static void OpenDetailsWindow(this UserControl control, IEntityDetailsView detailsView, Action success = null)
         {
             // init window

@@ -99,6 +99,10 @@
     <Compile Include="Migrations\201802121933493_add_limit_description.Designer.cs">
       <DependentUpon>201802121933493_add_limit_description.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802181231143_renameTransactionTypeToRecorType.cs" />
+    <Compile Include="Migrations\201802181231143_renameTransactionTypeToRecorType.Designer.cs">
+      <DependentUpon>201802181231143_renameTransactionTypeToRecorType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -118,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802121933493_add_limit_description.resx">
       <DependentUpon>201802121933493_add_limit_description.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802181231143_renameTransactionTypeToRecorType.resx">
+      <DependentUpon>201802181231143_renameTransactionTypeToRecorType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
