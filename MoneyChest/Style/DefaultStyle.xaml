@@ -650,6 +650,8 @@
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
     </Style>
 
+    <Style x:Key="MCDataGridRowStyle" TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MetroDataGridRow}"/>
+
     <!--*********************************** Tree view ***********************************-->
     <Style TargetType="{x:Type TreeView}" BasedOn="{StaticResource VirtualisedMetroTreeView}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>

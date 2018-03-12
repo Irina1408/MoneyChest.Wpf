@@ -706,7 +706,7 @@
   <data name="RecordType_Income" xml:space="preserve">
     <value>Income (+)</value>
   </data>
-  <data name="RecordType_Name" xml:space="preserve">
+  <data name="RecordType_EnumName" xml:space="preserve">
     <value>Type</value>
   </data>
   <data name="PeriodType_Custom" xml:space="preserve">
@@ -730,6 +730,9 @@
   <data name="PeriodType_Year" xml:space="preserve">
     <value>Year</value>
   </data>
+  <data name="General_Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
   <data name="MoneyTransfer_Add" xml:space="preserve">
     <value>Add new money transfer</value>
   </data>
@@ -744,6 +747,9 @@
   </data>
   <data name="Record_Singular" xml:space="preserve">
     <value>Income / Expence</value>
+  </data>
+  <data name="Transactions_AddCheque" xml:space="preserve">
+    <value>Add cheque</value>
   </data>
   <data name="Transaction_Plural" xml:space="preserve">
     <value>Transactions</value>

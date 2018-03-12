@@ -7,8 +7,13 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             xmlns:converters="clr-namespace:MoneyChest.View.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
+    </UserControl.Resources>
     
     <materialDesign:DialogHost HorizontalAlignment="Left" VerticalAlignment="Center"
                                DialogClosing="CategoryDialogClosingEventHandler">
@@ -32,13 +37,33 @@
                 </StackPanel>
             </Grid>
         </materialDesign:DialogHost.DialogContent>
-        <StackPanel Orientation="Horizontal">
-            <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}"/>
-            <TextBox x:Name="txtCategory" Style="{DynamicResource HintButtonTextBoxStyle}" IsReadOnly="True"
-                                     materialDesign:HintAssist.Hint="{Binding Hint, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}"/>
-            <Button Grid.Column="1" Content="..." Style="{DynamicResource TextBoxButtonStyle}"
-                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+                <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}" 
+                  Visibility="{Binding ShowIcon, Converter={StaticResource BVConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}"/>
+                <TextBox x:Name="txtCategory" Style="{DynamicResource HintButtonTextBoxStyle}" IsReadOnly="True"
+                                     materialDesign:HintAssist.Hint="{Binding Hint, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}" VerticalAlignment="Center" Margin="0 0 5 0"
+                     FontSize="{DynamicResource DefaultFontSize}"/>
+                <TextBlock x:Name="txtCategoryBlock" IsEnabled="False" Visibility="Collapsed" Width="Auto" VerticalAlignment="Center"
+                       Margin="0 0 10 0"/>
+            </StackPanel>
+
+            <Button Grid.Column="1" Content="..." Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TextBoxButtonStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SmallMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}" Value="True">
+                                <Setter Property="Margin" Value="0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
-        </StackPanel>
+        </Grid>        
     </materialDesign:DialogHost>
 </UserControl>

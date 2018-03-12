@@ -8,6 +8,7 @@ using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Details;
 using MoneyChest.View.Utils;
+using MoneyChest.View.Windows;
 using MoneyChest.ViewModel.Commands;
 using MoneyChest.ViewModel.ViewModel;
 using System;
@@ -62,6 +63,13 @@ namespace MoneyChest.View.Pages
             {
                 AddRecordCommand = new Command(() => OpenDetails(new RecordModel() { UserId = GlobalVariables.UserId }, true)),
                 AddMoneyTransferCommand = new Command(() => OpenDetails(new MoneyTransferModel(), true)),
+                AddChequeCommand = new Command(() =>
+                {
+                    var chequeWindow = new ChequeWindow();
+                    chequeWindow.Owner = Window.GetWindow(this);
+                    if(chequeWindow.ShowDialog() == true)
+                        Reload();
+                }),
 
                 EditCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
                 (item) =>

@@ -65,7 +65,7 @@
                                             Header="{moneyChestView:MultiLangBinding General_Remark}" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
-                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MetroDataGridRow}">
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MCDataGridRowStyle}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsRepaid}" Value="True">
                             <Setter Property="Opacity" Value="0.5" />

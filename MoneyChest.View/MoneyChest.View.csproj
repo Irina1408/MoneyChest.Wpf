@@ -134,6 +134,7 @@
       <DependentUpon>StorageDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Base\PageBase.cs" />
+    <Compile Include="Utils\EnumViewHelper.cs" />
     <Compile Include="Utils\MultiLangBinding.cs" />
     <Compile Include="Utils\PageHelper.cs" />
     <Compile Include="Utils\ScheduleHelper.cs" />
@@ -184,6 +185,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Utils\ViewHelper.cs" />
+    <Compile Include="Windows\ChequeWindow.xaml.cs">
+      <DependentUpon>ChequeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\DateRangeSelectorWindow.xaml.cs">
       <DependentUpon>DateRangeSelectorWindow.xaml</DependentUpon>
     </Compile>
@@ -320,6 +324,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\TransactionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ChequeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

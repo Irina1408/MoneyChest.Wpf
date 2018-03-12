@@ -133,6 +133,7 @@ namespace MoneyChest.View.Components
             categorySelector.Categories.ExpandToDescendant(selectedCategory, true);
             // update shown category name
             (d as CategorySelector).txtCategory.Text = selectedCategory?.Name;
+            (d as CategorySelector).txtCategoryBlock.Text = selectedCategory?.Name;
         }
 
         #endregion
@@ -162,6 +163,43 @@ namespace MoneyChest.View.Components
 
         public static readonly DependencyProperty CategoriesProperty = DependencyProperty.Register(
             nameof(Categories), typeof(CategoryViewModelCollection), typeof(CategorySelector));
+
+        #endregion
+
+        #region SmallMode Property
+
+        public bool SmallMode
+        {
+            get => (bool)this.GetValue(SmallModeProperty);
+            set => this.SetValue(SmallModeProperty, value);
+        }
+
+        public static readonly DependencyProperty SmallModeProperty = DependencyProperty.Register(
+            nameof(SmallMode), typeof(bool), typeof(CategorySelector), 
+            new FrameworkPropertyMetadata(false, ShowTextBlockChangedCallback));
+
+        private static void ShowTextBlockChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // get selector
+            var categorySelector = (d as CategorySelector);
+            // update visibility
+            (d as CategorySelector).txtCategory.Visibility = categorySelector.SmallMode ? Visibility.Collapsed : Visibility.Visible;
+            (d as CategorySelector).txtCategoryBlock.Visibility = categorySelector.SmallMode ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        #endregion
+
+        #region ShowIcon Property
+
+        public bool ShowIcon
+        {
+            get => (bool)this.GetValue(ShowIconProperty);
+            set => this.SetValue(ShowIconProperty, value);
+        }
+
+        public static readonly DependencyProperty ShowIconProperty = DependencyProperty.Register(
+            nameof(ShowIcon), typeof(bool), typeof(CategorySelector),
+            new FrameworkPropertyMetadata(true));
 
         #endregion
     }

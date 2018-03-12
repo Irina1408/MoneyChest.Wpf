@@ -57,12 +57,14 @@
     <Compile Include="Extensions\ScheduleExtensions.cs" />
     <Compile Include="PeriodHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\ChequeViewModel.cs" />
     <Compile Include="ViewModel\Details\DebtDetailsViewModel.cs" />
     <Compile Include="ViewModel\EntityListViewModel.cs" />
     <Compile Include="ViewModel\Entity\DebtPenaltyViewModel.cs" />
     <Compile Include="ViewModel\Entity\EventViewModel.cs" />
     <Compile Include="ViewModel\Entity\StorageGroupViewModel.cs" />
     <Compile Include="ViewModel\Entity\TransactionsViewSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Enum\EnumIcon.cs" />
     <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="ViewModel\Page\CategoriesPageViewModel.cs" />
     <Compile Include="ViewModel\Entity\CategoryViewModel.cs" />

@@ -98,7 +98,7 @@
 
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
-                            <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">
+                            <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Closed}">
                                         <Setter Property="Opacity" Value="0.5" />
@@ -202,7 +202,7 @@
 
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
-                            <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">
+                            <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Closed}">
                                         <Setter Property="Opacity" Value="0.5" />
@@ -285,7 +285,7 @@
 
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
-                            <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">
+                            <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Closed}">
                                         <Setter Property="Opacity" Value="0.5" />
@@ -402,7 +402,7 @@
                                             Header="{moneyChestView:MultiLangBinding General_Remark}" />
                     </DataGrid.Columns>
                     <DataGrid.RowStyle>
-                        <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">
+                        <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding State, Converter={StaticResource EBConverter}, 
                                     ConverterParameter={x:Static enums:LimitState.Active}}" Value="False">

@@ -64,6 +64,11 @@
                     </materialDesign:PopupBox>
                 </Button>
 
+                <Button Command="{Binding AddChequeCommand}" ToolTip="{moneyChestView:MultiLangBinding Transactions_AddCheque}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="AddMultiple" />
+                </Button>
+
                 <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
                         Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
                     <iconPacks:PackIconModern Kind="Edit"/>
@@ -304,7 +309,7 @@
                 
             </DataGrid.Columns>
             <DataGrid.RowStyle>
-                <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">
+                <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsPlanned}" Value="True">
                             <Setter Property="Opacity" Value="0.5" />

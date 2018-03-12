@@ -57,7 +57,7 @@
         <StackPanel Grid.Column="2" Grid.Row="1">
             <GroupBox>
                 <GroupBox.Header>
-                    <CheckBox Content="{moneyChestView:MultiLangBinding RecordType_Name}" IsChecked="{Binding RecordTypeEnabled}"
+                    <CheckBox Content="{moneyChestView:MultiLangBinding RecordType_EnumName}" IsChecked="{Binding RecordTypeEnabled}"
                               Foreground="{DynamicResource IdealForegroundColorBrush}"/>
                 </GroupBox.Header>
                 <StackPanel IsEnabled="{Binding RecordTypeEnabled}">

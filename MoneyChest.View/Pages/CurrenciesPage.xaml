@@ -134,7 +134,7 @@
                                     Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}"/>
             </DataGrid.Columns>
             <DataGrid.RowStyle>
-                <Style BasedOn="{StaticResource MetroDataGridRow}" TargetType="{x:Type DataGridRow}">
+                <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsActive}" Value="False">
                             <Setter Property="Opacity" Value="0.5" />

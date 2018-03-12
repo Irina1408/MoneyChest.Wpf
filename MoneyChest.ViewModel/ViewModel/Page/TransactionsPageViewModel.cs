@@ -16,6 +16,7 @@ namespace MoneyChest.ViewModel.ViewModel
 
         public IMCCommand AddRecordCommand { get; set; }
         public IMCCommand AddMoneyTransferCommand { get; set; }
+        public IMCCommand AddChequeCommand { get; set; }
         public IMCCommand EditCommand { get; set; }
         public IMCCommand DeleteCommand { get; set; }
 

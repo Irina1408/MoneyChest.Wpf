@@ -1,0 +1,208 @@
+﻿<controls:MetroWindow x:Class="MoneyChest.View.Windows.ChequeWindow"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MoneyChest.View.Windows"
+        xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+        xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+	    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:components="clr-namespace:MoneyChest.View.Components"
+        mc:Ignorable="d"
+        Title="Money chest" Height="635" Width="795"
+        Style="{DynamicResource MoneyChestWindowStyle}"
+        WindowStartupLocation="CenterOwner" Padding="10">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu -->
+        <ToolBarTray VerticalAlignment="Top" Grid.Column="0" Grid.Row="0">
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconpacks:PackIconMaterial Kind="Plus"/>
+                </Button>
+
+                <!--<Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconpacks:PackIconModern Kind="Edit"/>
+                </Button>-->
+
+                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconpacks:PackIconModern Kind="Delete"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <!-- Parameters -->
+        <GroupBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0 1 5 5">
+            <GroupBox.Header> 
+                <TextBlock Text="{moneyChestView:MultiLangBinding General_Parameters}"
+                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel>
+                    <!-- Date -->
+                    <DatePicker SelectedDate="{Binding Date}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
+
+                    <!-- Currency -->
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
+                        <iconpacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
+                        <ComboBox x:Name="comboCurrencies" 
+                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
+                          DisplayMemberPath="Name" SelectedValuePath="Id"
+                          SelectedValue="{Binding CurrencyId}"/>
+                    </StackPanel>
+
+                    <!-- Description -->
+                    <StackPanel Orientation="Horizontal">
+                        <iconpacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
+                        <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
+                                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+                    </StackPanel>
+
+                    <!-- Remark -->
+                    <StackPanel Orientation="Horizontal">
+                        <iconpacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
+                        <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
+                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
+                                     Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 5 0"/>
+                    </StackPanel>
+                </StackPanel>
+                
+                <!-- Storage -->
+                <GroupBox Grid.Row="1" Margin="5 10 5 5">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"
+                                           Text="{moneyChestView:MultiLangBinding Storage_Singular}"/>
+                        </StackPanel>
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Storage -->
+                        <ComboBox x:Name="comboStorage" Grid.Row="0" HorizontalAlignment="Stretch" Width="Auto" 
+                              SelectedValue="{Binding StorageId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
+                              materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Storage_Singular}"
+                              Background="{DynamicResource WhiteBrush}"/>
+
+                        <!-- Currency exchange rate -->
+                        <components:CurrencyExchangeRateControl x:Name="compCurrencyExchangeRate" Grid.Row="1" Margin="5"
+                              ShowTakeExisting="True" CurrencyFromId="{Binding CurrencyId}" CurrencyToId="{Binding Storage.CurrencyId}"
+                              CurrencyExchangeRate="{Binding CurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+
+        <!-- Records grid -->
+        <DataGrid x:Name="GridRecords" Grid.Row="1" Grid.Column="0" Margin="5 0 5 5"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="Column"
+                  SelectionUnit="FullRow"
+                  IsReadOnly="False" CanUserAddRows="False"
+                  ItemsSource="{Binding Entities}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCurrencyCommand}"/>
+                    <!--<MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCurrencyCommand}"/>-->
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCurrencyCommand}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+
+                <!--<DataGridComboBoxColumn ItemsSource="{Binding RecordTypeIcons}"  SelectedValuePath="Value" DisplayMemberPath="Icon"
+                                        SelectedValueBinding="{Binding RecordType, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridComboBoxColumn.CellStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="ItemTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <Image Source="{Binding}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridComboBoxColumn.CellStyle>
+                </DataGridComboBoxColumn>-->
+
+                <!--<DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding RecordTypeList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ChequeWindow}}}" Width="Auto" SelectedValuePath="Value"
+                                      DisplayMemberPath="Description"
+                                      SelectedValue="{Binding RecordType, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ChequeWindow}}}" Margin="0"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+
+                <materialDesign:MaterialDataGridComboBoxColumn Header="{moneyChestView:MultiLangBinding RecordType_EnumName}"
+                                                               ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.RecordTypeList}"
+                                                               SelectedValuePath="Value" DisplayMemberPath="Description"
+                                                               SelectedValueBinding="{Binding RecordType}" 
+                                                               />
+
+                <!--<DataGridComboBoxColumn ItemsSource="{Binding RecordTypeIcons}" SelectedValuePath="Value" DisplayMemberPath="Icon"
+                                        SelectedValueBinding="{Binding RecordType, UpdateSourceTrigger=PropertyChanged}"/>-->
+
+                <DataGridTextColumn Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Description}" />
+
+                <DataGridTextColumn Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Amount}" />
+
+                <DataGridTemplateColumn Header="{moneyChestView:MultiLangBinding Category_Singular}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!--<TextBlock Text="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged, 
+                                NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" IsEnabled="False"/>-->
+                            <components:CategorySelector HorizontalAlignment="Right" VerticalAlignment="Center" ShowEmptyCategory="True"
+                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ChequeWindow}}}"
+                                         SmallMode="True" ShowIcon="False" Margin="0"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Binding="{Binding Remark, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Remark}" />
+
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsIncome}" Value="True">
+                            <Setter Property="Foreground" Value="Green" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsExpense}" Value="True">
+                            <Setter Property="Foreground" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Style="{DynamicResource AccentedButtonStyle}" 
+                    Command="{Binding SaveCommand}"/>
+
+            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" IsCancel="True" Command="{Binding CancelCommand}"/>
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>
