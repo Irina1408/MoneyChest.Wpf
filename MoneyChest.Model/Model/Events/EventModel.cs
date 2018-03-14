@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public abstract class EventModel : ITransaction, IHasUserId, INotifyPropertyChanged
+    public abstract class EventModel : IHasId, IHasUserId, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -97,10 +97,7 @@ namespace MoneyChest.Model.Model
 
         #endregion
 
-        #region ITransaction implementation
-
-        public DateTime TransactionDate => throw new NotImplementedException(); // TODO: calculate execution date
-        public bool IsPlanned => true;
+        #region Transaction characteristics
 
         public virtual bool IsExpense => TransactionType == TransactionType.Expense;
         public virtual bool IsIncome => TransactionType == TransactionType.Income;

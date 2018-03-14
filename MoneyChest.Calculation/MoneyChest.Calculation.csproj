@@ -48,6 +48,7 @@
     <Compile Include="Builders\Calendar\LimitLegendUnit.cs" />
     <Compile Include="Builders\Calendar\MoneyTransferLegendUnit.cs" />
     <Compile Include="Builders\Calendar\RecordLegendUnit.cs" />
+    <Compile Include="Builders\PlansBuilder.cs" />
     <Compile Include="SummaryCalculators\Summary\SimpleStorageSummary.cs" />
     <Compile Include="Common\CalculationHelper.cs" />
     <Compile Include="Common\Units\GroupedValueUnitCollection.cs" />

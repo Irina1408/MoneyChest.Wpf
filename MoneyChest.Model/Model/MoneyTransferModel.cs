@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class MoneyTransferModel : ITransaction, INotifyPropertyChanged
+    public class MoneyTransferModel : ITransaction, IHasId, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

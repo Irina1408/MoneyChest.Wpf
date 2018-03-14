@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public interface ITransaction : IHasId
+    public interface ITransaction
     {
         bool IsPlanned { get; }
         bool IsExpense { get; }
@@ -20,7 +20,8 @@ namespace MoneyChest.Model.Model
         CategoryReference TransactionCategory { get; }
 
         // General properties
-        string Description { get; set; }
-        string Remark { get; set; }
+        int Id { get; }
+        string Description { get; }
+        string Remark { get; }
     }
 }

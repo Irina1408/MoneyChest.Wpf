@@ -11,21 +11,27 @@ using MoneyChest.Data.Enums;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Converters;
 using System.Data.Entity;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IEventService
+    public interface IEventService<T>
+            where T : EventModel
     {
-        EventsScopeModel Get(List<int> ids);
+        List<T> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil);
+    }
+
+    public interface IEventService : IEventService<EventModel>
+    {
     }
 
     public class EventService : ServiceBase, IEventService
     {
         #region Private fields
 
-        private MoneyTransferEventConverter _moneyTransferEventConverter;
-        private RepayDebtEventConverter _repayDebtEventConverter;
-        private SimpleEventConverter _simpleEventConverter;
+        private ISimpleEventService _simpleEventService;
+        private IMoneyTransferEventService _moneyTransferEventService;
+        private IRepayDebtEventService _repayDebtEventService;
 
         #endregion
 
@@ -33,32 +39,33 @@ namespace MoneyChest.Services.Services
 
         public EventService(ApplicationDbContext context) : base(context)
         {
-            _moneyTransferEventConverter = new MoneyTransferEventConverter();
-            _repayDebtEventConverter = new RepayDebtEventConverter();
-            _simpleEventConverter = new SimpleEventConverter();
         }
 
         #endregion
 
         #region IEventService implementation
 
-        public EventsScopeModel Get(List<int> ids)
+        public List<EventModel> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil)
         {
-            // TODO: includes
-            return new EventsScopeModel()
-            {
-                MoneyTransferEvents = _context.MoneyTransferEvents
-                    .Include(_ => _.StorageFrom).Include(_ => _.StorageTo).Include(_ => _.Category)
-                    .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_moneyTransferEventConverter.ToModel),
+            var result = new List<EventModel>();
 
-                RepayDebtEvents = _context.RepayDebtEvents
-                    .Include(_ => _.Storage.Currency).Include(_ => _.Debt.Currency)
-                    .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_repayDebtEventConverter.ToModel),
+            result.AddRange(_simpleEventService.GetActiveForPeriod(userId, dateFrom, dateUntil));
+            result.AddRange(_repayDebtEventService.GetActiveForPeriod(userId, dateFrom, dateUntil));
+            result.AddRange(_moneyTransferEventService.GetActiveForPeriod(userId, dateFrom, dateUntil));
 
-                SimpleEvents = _context.SimpleEvents
-                    .Include(_ => _.Storage.Currency).Include(_ => _.Currency).Include(_ => _.Category)
-                    .Where(_ => ids.Contains(_.Id)).ToList().ConvertAll(_simpleEventConverter.ToModel)
-            };
+            return result;
+        }
+
+        #endregion
+
+        #region Shared methods
+
+        internal static Expression<Func<T, bool>> GetActiveEventsFilter<T>(int userId, DateTime dateFrom, DateTime dateUntil)
+            where T: Evnt
+        {
+            return e => e.UserId == userId && e.EventState != EventState.Closed
+                && (!e.PausedToDate.HasValue || e.PausedToDate.Value < dateUntil)
+                && e.DateFrom <= dateUntil && (!e.DateUntil.HasValue || e.DateUntil >= dateFrom);
         }
 
         #endregion

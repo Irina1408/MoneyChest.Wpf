@@ -13,7 +13,7 @@ using MoneyChest.Services.Converters;
 
 namespace MoneyChest.Services.Services
 {
-    public interface IRepayDebtEventService : IIdManagableUserableListServiceBase<RepayDebtEventModel>
+    public interface IRepayDebtEventService : IIdManagableUserableListServiceBase<RepayDebtEventModel>, IEventService<RepayDebtEventModel>
     {
     }
 
@@ -22,6 +22,16 @@ namespace MoneyChest.Services.Services
         public RepayDebtEventService(ApplicationDbContext context) : base(context)
         {
         }
+
+        #region IRepayDebtEventService implementation
+
+        public List<RepayDebtEventModel> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil)
+        {
+            var filter = EventService.GetActiveEventsFilter<RepayDebtEvent>(userId, dateFrom, dateUntil);
+            return Scope.Where(filter).ToList().ConvertAll(_converter.ToModel);
+        }
+
+        #endregion
 
         protected override IQueryable<RepayDebtEvent> Scope => Entities.Include(_ => _.Storage.Currency).Include(_ => _.Debt.Currency).Include(_ => _.Debt.Category);
     }

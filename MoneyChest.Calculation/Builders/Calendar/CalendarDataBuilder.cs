@@ -56,7 +56,7 @@ namespace MoneyChest.Calculation.Builders.Calendar
             // preload data correspond to settings
             PreloadData(settings);
 
-            // TODO: calcaulate balance changes between today and dateFrom and between dateUntil and today
+            // TODO: calculate balance changes between today and dateFrom and between dateUntil and today
 
             // loop for every day
             DateTime currDate = settings.From.Date;

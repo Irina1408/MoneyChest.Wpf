@@ -19,7 +19,7 @@ namespace MoneyChest.View.Utils
             else if (page is CalendarPage) return new PackIconModern() { Kind = PackIconModernKind.CalendarMonth };
             else if (page is PlanningPage) return new PackIconMaterial() { Kind = PackIconMaterialKind.CalendarClock };
             else if (page is DebtsPage) return new PackIconModern() { Kind = PackIconModernKind.CalendarDollar };
-            else if (page is ReportsPage) return new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.PieChart };
+            else if (page is ReportsPage) return new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.ChartPieSolid };
             else if (page is StoragesPage) return new PackIconMaterial() { Kind = PackIconMaterialKind.Bank };
             else if (page is CurrenciesPage) return new PackIconModern() { Kind = PackIconModernKind.CurrencyDollar };
             else if (page is CategoriesPage) return new PackIconEntypo() { Kind = PackIconEntypoKind.FlowTree };
