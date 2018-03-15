@@ -39,6 +39,9 @@ namespace MoneyChest.Services.Services
 
         public EventService(ApplicationDbContext context) : base(context)
         {
+            _simpleEventService = new SimpleEventService(context);
+            _repayDebtEventService = new RepayDebtEventService(context);
+            _moneyTransferEventService = new MoneyTransferEventService(context);
         }
 
         #endregion

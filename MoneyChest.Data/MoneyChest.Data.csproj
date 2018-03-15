@@ -89,17 +89,9 @@
     <Compile Include="Enums\ActionType.cs" />
     <Compile Include="Exceptions\ReferenceConstraintException.cs" />
     <Compile Include="Exceptions\ViolationOfConstraintException.cs" />
-    <Compile Include="Migrations\201801292008084_initial_migration.cs" />
-    <Compile Include="Migrations\201801292008084_initial_migration.Designer.cs">
-      <DependentUpon>201801292008084_initial_migration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802121933493_add_limit_description.cs" />
-    <Compile Include="Migrations\201802121933493_add_limit_description.Designer.cs">
-      <DependentUpon>201802121933493_add_limit_description.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802181231143_renameTransactionTypeToRecorType.cs" />
-    <Compile Include="Migrations\201802181231143_renameTransactionTypeToRecorType.Designer.cs">
-      <DependentUpon>201802181231143_renameTransactionTypeToRecorType.cs</DependentUpon>
+    <Compile Include="Migrations\201803150826127_initial_migration.cs" />
+    <Compile Include="Migrations\201803150826127_initial_migration.Designer.cs">
+      <DependentUpon>201803150826127_initial_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,14 +107,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801292008084_initial_migration.resx">
-      <DependentUpon>201801292008084_initial_migration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802121933493_add_limit_description.resx">
-      <DependentUpon>201802121933493_add_limit_description.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802181231143_renameTransactionTypeToRecorType.resx">
-      <DependentUpon>201802181231143_renameTransactionTypeToRecorType.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803150826127_initial_migration.resx">
+      <DependentUpon>201803150826127_initial_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

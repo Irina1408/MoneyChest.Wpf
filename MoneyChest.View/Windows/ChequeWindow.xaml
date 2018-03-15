@@ -45,7 +45,7 @@
         </ToolBarTray>
 
         <!-- Parameters -->
-        <GroupBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0 1 5 5">
+        <GroupBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0 5 5 5">
             <GroupBox.Header> 
                 <TextBlock Text="{moneyChestView:MultiLangBinding General_Parameters}"
                               Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
