@@ -96,11 +96,11 @@ namespace MoneyChest.Services.Services
 
             // update related storage
             if (model.StorageId.HasValue)
-                AddValueToStorage(model.StorageId.Value, model.ResultValueSign);
+                AddValueToStorage(model.StorageId.Value, model.ResultValueSignExchangeRate);
 
             // update related debt
             if (model.DebtId.HasValue)
-                AddValueToDebt(model.DebtId.Value, model.ResultValue);
+                AddValueToDebt(model.DebtId.Value, model.ResultValueExchangeRate);
 
             // save changes
             SaveChanges();
@@ -115,28 +115,28 @@ namespace MoneyChest.Services.Services
             {
                 // remove value from old storage
                 if(oldModel.StorageId.HasValue)
-                    AddValueToStorage(oldModel.StorageId.Value, -oldModel.ResultValueSign);
+                    AddValueToStorage(oldModel.StorageId.Value, -oldModel.ResultValueSignExchangeRate);
 
                 // add value to the new storage
                 if(model.StorageId.HasValue)
-                    AddValueToStorage(model.StorageId.Value, model.ResultValueSign);
+                    AddValueToStorage(model.StorageId.Value, model.ResultValueSignExchangeRate);
             }
-            else if(oldModel.ResultValueSign != model.ResultValueSign && model.StorageId.HasValue)
-                AddValueToStorage(model.StorageId.Value, model.ResultValueSign - oldModel.ResultValueSign);
+            else if(oldModel.ResultValueSignExchangeRate != model.ResultValueSignExchangeRate && model.StorageId.HasValue)
+                AddValueToStorage(model.StorageId.Value, model.ResultValueSignExchangeRate - oldModel.ResultValueSignExchangeRate);
 
             // update related debt
             if (oldModel.DebtId != model.DebtId)
             {
                 // remove value from old debt
                 if (oldModel.DebtId.HasValue)
-                    AddValueToDebt(oldModel.DebtId.Value, -oldModel.ResultValue);
+                    AddValueToDebt(oldModel.DebtId.Value, -oldModel.ResultValueExchangeRate);
 
                 // add value to the new debt
                 if (model.DebtId.HasValue)
-                    AddValueToDebt(model.DebtId.Value, model.ResultValue);
+                    AddValueToDebt(model.DebtId.Value, model.ResultValueExchangeRate);
             }
-            else if (oldModel.ResultValue != model.ResultValue && model.DebtId.HasValue)
-                AddValueToDebt(model.DebtId.Value, model.ResultValue - oldModel.ResultValue);
+            else if (oldModel.ResultValueExchangeRate != model.ResultValueExchangeRate && model.DebtId.HasValue)
+                AddValueToDebt(model.DebtId.Value, model.ResultValueExchangeRate - oldModel.ResultValueExchangeRate);
 
             // save changes
             SaveChanges();
@@ -148,11 +148,11 @@ namespace MoneyChest.Services.Services
 
             // update related storage
             if (model.StorageId.HasValue)
-                AddValueToStorage(model.StorageId.Value, -model.ResultValueSign);
+                AddValueToStorage(model.StorageId.Value, -model.ResultValueSignExchangeRate);
 
             // update related debt
             if (model.DebtId.HasValue)
-                AddValueToDebt(model.DebtId.Value, -model.ResultValue);
+                AddValueToDebt(model.DebtId.Value, -model.ResultValueExchangeRate);
 
             // save changes
             SaveChanges();

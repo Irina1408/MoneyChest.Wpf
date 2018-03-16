@@ -155,7 +155,7 @@ namespace MoneyChest.Services.Services.Defaults
             {
                 Currency = currency,
                 CurrencyId = currency.Id,
-                Name = string.Format("{0} {1} account", currency.Name, storageGroup.Name),
+                Name = string.Format("{0} {1}", currency.Name, storageGroup.Name),
                 StorageGroup = storageGroup,
                 UserId = _userId,
                 IsVisible = true,

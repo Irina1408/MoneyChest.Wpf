@@ -108,7 +108,7 @@
                 </StackPanel>
 
                 <!-- Category -->
-                <components:CategorySelector HorizontalAlignment="Right" VerticalAlignment="Center" ShowEmptyCategory="True"
+                <components:CategorySelector VerticalAlignment="Center" ShowEmptyCategory="True"
                                          SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <!-- Remark -->
@@ -142,7 +142,7 @@
 
             <!-- Currency exchange rate -->
             <components:CurrencyExchangeRateControl x:Name="compCurrencyExchangeRate" Grid.Row="2" Margin="5"
-                              ShowTakeExisting="True" CurrencyFromId="{Binding CurrencyId}" CurrencyToId="{Binding CurrencyIdForRate}"
+                              ShowTakeExisting="False" CurrencyFromId="{Binding CurrencyId}" CurrencyToId="{Binding CurrencyIdForRate}"
                               CurrencyExchangeRate="{Binding CurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>

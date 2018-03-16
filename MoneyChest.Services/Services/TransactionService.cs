@@ -79,7 +79,7 @@ namespace MoneyChest.Services.Services
             var events = _eventService.GetActiveForPeriod(userId, dateFrom, dateUntil);
 
             // loop for every future day in selection
-            var date = dateFrom < DateTime.Today ? DateTime.Today : dateFrom.Date;
+            var date = dateFrom <= DateTime.Today ? DateTime.Today.AddDays(1) : dateFrom.Date;
             while (date <= dateUntil)
             {
                 // write events for this day

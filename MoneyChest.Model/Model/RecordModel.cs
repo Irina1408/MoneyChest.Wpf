@@ -20,6 +20,7 @@ namespace MoneyChest.Model.Model
         {
             Date = DateTime.Now;
             RecordType = RecordType.Expense;
+            CurrencyExchangeRate = 1;
         }
 
         #endregion
@@ -80,6 +81,14 @@ namespace MoneyChest.Model.Model
         public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign) ?? ResultValueSign.ToString("0.##");
         public bool IsTypeSelectionAllowed => !DebtId.HasValue;
         public int? CurrencyIdForRate => Debt != null && Debt.CurrencyId != CurrencyId ? Debt.CurrencyId : Storage?.CurrencyId;
+
+        public decimal ResultValueExchangeRate => CurrencyIdForRate.HasValue && CurrencyIdForRate.Value != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
+        public decimal ResultValueSignExchangeRate => CurrencyIdForRate.HasValue && CurrencyIdForRate.Value != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
+        public bool IsIncomeRecordType
+        {
+            get => RecordType == RecordType.Income;
+            set => RecordType = value ? RecordType.Income : RecordType.Expense;
+        }
 
         #endregion
     }

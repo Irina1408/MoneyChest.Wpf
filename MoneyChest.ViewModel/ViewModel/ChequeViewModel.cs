@@ -38,5 +38,7 @@ namespace MoneyChest.ViewModel.ViewModel
         public string Remark { get; set; }
         public int CurrencyId { get; set; }
         public int? StorageId { get; set; }
+        public StorageReference Storage { get; set; }
+        public decimal CurrencyExchangeRate { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using MoneyChest.Model.Enums;
+using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
@@ -72,8 +73,6 @@ namespace MoneyChest.View.Windows
 
             _viewModel.DeleteCommand = new DataGridSelectedItemsCommand<RecordModel>(GridRecords, (items) =>
             {
-                var message = MultiLangResource.DeletionConfirmationMessage("Transaction", items.Select(_ => _.Description));
-
                 // remove in only grid
                 foreach (var item in items.ToList())
                     _viewModel.Entities.Remove(item);
@@ -82,9 +81,12 @@ namespace MoneyChest.View.Windows
             _viewModel.SaveCommand = new Command(() =>
             {
                 // check valid data
-                if(_viewModel.CurrencyId <= 0)
+                if(!ValidateData())
                 {
-                    // TODO: show message
+                    MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailedMessage],
+                        MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailed], MessageBoxButton.OK,
+                        MessageBoxImage.Exclamation);
+
                     return;
                 }
 
@@ -93,11 +95,14 @@ namespace MoneyChest.View.Windows
                     entity.Date = _viewModel.Date;
                     entity.CurrencyId = _viewModel.CurrencyId;
                     entity.StorageId = _viewModel.StorageId;
+                    entity.Storage = _viewModel.Storage;
+                    entity.CurrencyExchangeRate = _viewModel.CurrencyExchangeRate;
                     if (string.IsNullOrEmpty(entity.Description)) entity.Description = _viewModel.Description;
                     if (string.IsNullOrEmpty(entity.Remark)) entity.Remark = _viewModel.Remark;
                     _service.Add(entity);
                 }
 
+                _viewModel.Entities.Clear();
                 DialogResult = true;
                 this.Close();
             });
@@ -114,8 +119,54 @@ namespace MoneyChest.View.Windows
             // fill defaults
             _viewModel.Date = DateTime.Now;
             _viewModel.CurrencyId = _currencies.FirstOrDefault(x => x.IsMain)?.Id ?? _currencies.FirstOrDefault()?.Id ?? 0;
+            _viewModel.StorageId = _storages.FirstOrDefault(x => x.CurrencyId == _viewModel.CurrencyId)?.Id;
+            //_viewModel.Storage = _storages.FirstOrDefault(x => x.CurrencyId == _viewModel.CurrencyId)?.ToReferenceView();
 
             this.DataContext = _viewModel;
+        }
+
+        #endregion
+
+        #region Event handlers
+
+        private void comboStorage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // update storage reference
+            _viewModel.Storage = _storages.FirstOrDefault(x => x.Id == _viewModel.StorageId)?.ToReferenceView();
+        }
+
+        private void ChequeWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_viewModel.Entities.Count > 0)
+            {
+                // show confirmation
+                var dialogResult = MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmationMessage],
+                    MultiLangResourceManager.Instance[MultiLangResourceName.SaveChangesConfirmation], MessageBoxButton.YesNoCancel,
+                    MessageBoxImage.Exclamation, MessageBoxResult.Yes);
+
+                if (dialogResult == MessageBoxResult.Yes)
+                {
+                    // check valid data
+                    if (!ValidateData())
+                    {
+                        MessageBox.Show(MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailedMessage],
+                            MultiLangResourceManager.Instance[MultiLangResourceName.SaveFailed], MessageBoxButton.OK,
+                            MessageBoxImage.Exclamation);
+
+                        e.Cancel = true;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private bool ValidateData()
+        {
+            // check currency
+            return _viewModel.CurrencyId > 0;
         }
 
         #endregion

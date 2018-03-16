@@ -132,8 +132,8 @@ namespace MoneyChest.View.Components
             // show category in hierarchy
             categorySelector.Categories.ExpandToDescendant(selectedCategory, true);
             // update shown category name
-            (d as CategorySelector).txtCategory.Text = selectedCategory?.Name;
-            (d as CategorySelector).txtCategoryBlock.Text = selectedCategory?.Name;
+            (d as CategorySelector).txtCategory.Text = selectedCategory?.Id != -1 ? selectedCategory?.Name : null;
+            (d as CategorySelector).txtCategoryBlock.Text = selectedCategory?.Id != -1 ? selectedCategory?.Name : null;
         }
 
         #endregion
