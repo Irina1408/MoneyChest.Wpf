@@ -139,3 +139,6 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+/.vs/MoneyChest/v15/Server/sqlite3
+/.vs/MoneyChest/v15/sqlite3/db.lock
+/.vs/MoneyChest/v15/sqlite3/storage.ide-shm
