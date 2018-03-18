@@ -86,7 +86,7 @@ namespace MoneyChest.Tests.Services
                 .Include(_ => _.CalendarSettings)
                 .Include(_ => _.GeneralSettings)
                 .Include(_ => _.ReportSettings)
-                .Include(_ => _.RecordsViewFilter)
+                .Include(_ => _.TransactionsSettings)
                 .Where(item => item.Id == model.Id)
                 .FirstOrDefault();
 
@@ -95,7 +95,7 @@ namespace MoneyChest.Tests.Services
             userDb.CalendarSettings.Should().NotBeNull();
             userDb.GeneralSettings.Should().NotBeNull();
             userDb.ReportSettings.Should().NotBeNull();
-            userDb.RecordsViewFilter.Should().NotBeNull();
+            userDb.TransactionsSettings.Should().NotBeNull();
         }
 
         [TestMethod]
@@ -163,7 +163,7 @@ namespace MoneyChest.Tests.Services
                 .Include(_ => _.CalendarSettings)
                 .Include(_ => _.GeneralSettings)
                 .Include(_ => _.ReportSettings)
-                .Include(_ => _.RecordsViewFilter)
+                .Include(_ => _.TransactionsSettings)
                 .Where(item => item.Id == model.Id)
                 .FirstOrDefault();
 
@@ -172,7 +172,7 @@ namespace MoneyChest.Tests.Services
             userDb.CalendarSettings.Should().NotBeNull();
             userDb.GeneralSettings.Should().NotBeNull();
             userDb.ReportSettings.Should().NotBeNull();
-            userDb.RecordsViewFilter.Should().NotBeNull();
+            userDb.TransactionsSettings.Should().NotBeNull();
         }
 
         #endregion

@@ -96,7 +96,6 @@
     <Compile Include="Services\Settings\CalendarSettingServiceTests.cs" />
     <Compile Include="Services\Settings\ForecastSettingServiceTests.cs" />
     <Compile Include="Services\Settings\GeneralSettingServiceTests.cs" />
-    <Compile Include="Services\Settings\RecordsViewFilterServiceTests.cs" />
     <Compile Include="Services\Settings\ReportSettingServiceTests.cs" />
     <Compile Include="Services\Common\StorageGroupServiceTests.cs" />
     <Compile Include="Services\Common\StorageServiceTests.cs" />

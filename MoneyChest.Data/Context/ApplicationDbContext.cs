@@ -48,9 +48,11 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<RepayDebtEvent> RepayDebtEvents { get; set; }
         public virtual DbSet<SimpleEvent> SimpleEvents { get; set; }
         public virtual DbSet<CalendarSetting> CalendarSettings { get; set; }
+        public virtual DbSet<DataFilter> DataFilters { get; set; }
+        public virtual DbSet<PeriodFilter> PeriodFilters { get; set; }
         public virtual DbSet<ForecastSetting> ForecastSettings { get; set; }
         public virtual DbSet<GeneralSetting> GeneralSettings { get; set; }
-        public virtual DbSet<RecordsViewFilter> RecordsViewFilters { get; set; }
+        public virtual DbSet<TransactionsSettings> TransactionsSettings { get; set; }
         public virtual DbSet<ReportSetting> ReportSettings { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Debt> Debts { get; set; } 
@@ -123,7 +125,7 @@ namespace MoneyChest.Data.Context
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
-                .HasOptional(e => e.RecordsViewFilter)
+                .HasOptional(e => e.TransactionsSettings)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 
@@ -309,6 +311,17 @@ namespace MoneyChest.Data.Context
             modelBuilder.Entity<Debt>()
                 .HasMany(e => e.RepayDebtEvents)
                 .WithRequired(e => e.Debt)
+                .WillCascadeOnDelete(false);
+
+            // filters
+            modelBuilder.Entity<DataFilter>()
+                .HasMany(e => e.TransactionsSettings)
+                .WithRequired(e => e.DataFilter)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PeriodFilter>()
+                .HasMany(e => e.TransactionsSettings)
+                .WithRequired(e => e.PeriodFilter)
                 .WillCascadeOnDelete(false);
         }
         

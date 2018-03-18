@@ -50,6 +50,7 @@
     <Compile Include="Enums\DebtPaymentType.cs" />
     <Compile Include="Enums\Settings\PeriodType.cs" />
     <Compile Include="Enums\TransactionType.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ToReferenceView.cs" />
     <Compile Include="Enums\CommissionType.cs" />
     <Compile Include="Enums\DebtType.cs" />
@@ -89,11 +90,12 @@
     <Compile Include="Model\Reference\StorageGroupReference.cs" />
     <Compile Include="Model\Reference\StorageReference.cs" />
     <Compile Include="Model\Settings\CalendarSettingModel.cs" />
+    <Compile Include="Model\Settings\Filters\DataFilterModel.cs" />
+    <Compile Include="Model\Settings\Filters\PeriodFilterModel.cs" />
     <Compile Include="Model\Settings\ReportSettingModel.cs" />
-    <Compile Include="Model\Settings\RecordsViewFilterModel.cs" />
     <Compile Include="Model\Settings\ForecastSettingModel.cs" />
     <Compile Include="Model\Settings\GeneralSettingModel.cs" />
-    <Compile Include="Model\Settings\TransactionsViewSettingsModel.cs" />
+    <Compile Include="Model\Settings\TransactionsSettingsModel.cs" />
     <Compile Include="Model\StorageGroupModel.cs" />
     <Compile Include="Model\StorageModel.cs" />
     <Compile Include="Model\UserModel.cs" />

@@ -154,11 +154,11 @@ namespace MoneyChest.Data.Mock
                 e.FirstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
             });
 
-            f.Define<RecordsViewFilter>(e =>
-            {
-                e.AllCategories = true;
-                e.PeriodFilterType = PeriodFilterType.ThisMonth;
-            });
+            //f.Define<TransactionsSettings>(e =>
+            //{
+            //    e.AllCategories = true;
+            //    e.PeriodFilterType = PeriodFilterType.ThisMonth;
+            //});
 
             f.Define<ReportSetting>(e =>
             {

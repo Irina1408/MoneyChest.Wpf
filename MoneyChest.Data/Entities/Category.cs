@@ -25,7 +25,7 @@ namespace MoneyChest.Data.Entities
             Debts = new List<Debt>();
             MoneyTransfers = new List<MoneyTransfer>();
             ForecastSettings = new List<ForecastSetting>();
-            RecordsViewFilters = new List<RecordsViewFilter>();
+            DataFilters = new List<DataFilter>();
             ReportSettings = new List<ReportSetting>();
         }
 
@@ -65,7 +65,7 @@ namespace MoneyChest.Data.Entities
         public virtual ICollection<Debt> Debts { get; set; }
         public virtual ICollection<MoneyTransfer> MoneyTransfers { get; set; }
         public virtual ICollection<ForecastSetting> ForecastSettings { get; set; }
-        public virtual ICollection<RecordsViewFilter> RecordsViewFilters { get; set; }
+        public virtual ICollection<DataFilter> DataFilters { get; set; }
         public virtual ICollection<ReportSetting> ReportSettings { get; set; }
 
         #endregion

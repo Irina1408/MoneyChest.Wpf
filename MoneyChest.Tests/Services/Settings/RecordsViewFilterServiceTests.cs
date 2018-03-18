@@ -17,7 +17,7 @@ using MoneyChest.Services.Converters;
 namespace MoneyChest.Tests.Services.Settings
 {
     [TestClass]
-    public class RecordsViewFilterServiceTests : UserSettingServiceTestBase<RecordsViewFilter, RecordsViewFilterModel, RecordsViewFilterConverter, RecordsViewFilterService>
+    public class RecordsViewFilterServiceTests : UserSettingServiceTestBase<TransactionsSettings, TransactionsSettingsModel, TransactionsSettingsConverter, TransactionsSettingsService>
     {
         #region Overrides
 

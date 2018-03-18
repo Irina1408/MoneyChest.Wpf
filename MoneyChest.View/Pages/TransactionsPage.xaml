@@ -82,10 +82,9 @@
         </ToolBarTray>
         
         <!-- Period selector -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center"> 
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button Height="{StaticResource PeriodSelectorHeight}" Width="{StaticResource PeriodSelectorHeight}" Margin="0"
                     Command="{Binding PrevDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}">
-                <!--<iconPacks:PackIconOcticons Kind="ArrowLeft" Height="Auto" Width="Auto"/>-->
                 <iconPacks:PackIconOcticons Kind="ChevronLeft" Height="Auto" Width="Auto"/>
             </Button>
 
@@ -113,143 +112,18 @@
                             <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Quarter}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Quarter}}" GroupName="PeriodType"/>
 
                             <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Year}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Year}}" GroupName="PeriodType"/>
-                            
+
                             <Separator/>
                             <RadioButton IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Custom}}"
                                                  Content="{moneyChestView:MultiLangBinding PeriodType_Custom}" GroupName="PeriodType"
                                                  Command="{Binding SelectDateRangeCommand}"/>
-                            <!--<materialDesign:DialogHost HorizontalAlignment="Left" VerticalAlignment="Center" CloseOnClickAway="False"
-                               DialogOpened="PeriodDialogOpenedEventHandler" DialogClosing="PeriodDialogClosingEventHandler">
-                                <materialDesign:DialogHost.DialogContent>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <Calendar Grid.Column="0" Margin="-1 -4 -1 -6" SelectedDate="{Binding ViewSettings.DateFrom}"
-                                                  Focusable="False"/>
-                                        <Calendar Grid.Column="1" Margin="-8 -4 -1 -6" SelectedDate="{Binding ViewSettings.DateUntil}"
-                                                  Focusable="False"/>
-
-                                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5">
-                                            <Button  Content="{moneyChestView:MultiLangBinding General_Ok}"
-                                                     Style="{DynamicResource AccentedButtonStyle}"
-                                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="1"/>
-
-                                            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" IsCancel="True"
-                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                                    CommandParameter="0" Style="{DynamicResource MCButtonStyle}"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </materialDesign:DialogHost.DialogContent>
-                                <Grid Background="Transparent">
-                                    <RadioButton IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Custom}}"
-                                                 Content="{moneyChestView:MultiLangBinding PeriodType_Custom}" GroupName="PeriodType"
-                                                 Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
-                                </Grid>
-                            </materialDesign:DialogHost>-->
-
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </Grid>
             </materialDesign:ColorZone>
 
-            <!-- IsFlippedChanged="Flipper_OnIsFlippedChanged" -->
-            <!--<materialDesign:Flipper x:Name="flipperPeriod" Style="{StaticResource MaterialDesignCardFlipper}" Background="{DynamicResource GrayBrush7}" Foreground="{DynamicResource BlackBrush}">
-                <materialDesign:Flipper.FrontContent>
-
-                    <Button Width="200" Margin="0" Command="{x:Static materialDesign:Flipper.FlipCommand}"
-                            Content="{Binding ViewSettings.PeriodDetails}" Height="{StaticResource PeriodSelectorHeight}"
-                            BorderThickness="0" Style="{StaticResource PeriodButtonStyle}" Padding="2"/>
-
-                </materialDesign:Flipper.FrontContent>
-                <materialDesign:Flipper.BackContent>
-                    <Grid Width="200" Height="Auto">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <materialDesign:ColorZone Padding="6" Mode="Accent" Background="{DynamicResource AccentColorBrush}">
-                            <StackPanel Orientation="Horizontal">
-                                <Button HorizontalAlignment="Left" Command="{x:Static materialDesign:Flipper.FlipCommand}"
-                                        Style="{StaticResource MaterialDesignToolForegroundButton}">
-                                    <iconPacks:PackIconOcticons Kind="ChevronLeft" Width="20" Height="Auto"/>
-                                </Button>
-                                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="{moneyChestView:MultiLangBinding PeriodType_EnumName}"/>
-                            </StackPanel>
-                        </materialDesign:ColorZone>
-                        <StackPanel Grid.Row="1" MinWidth="100" Margin="0,6,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Day}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Day}}" GroupName="PeriodType"/>
-
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Week}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Week}}" GroupName="PeriodType"/>
-
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Month}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Month}}" GroupName="PeriodType"/>
-
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Quarter}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Quarter}}" GroupName="PeriodType"/>
-
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Year}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Year}}" GroupName="PeriodType"/>
-                            
-                            <Separator/>
-                            <materialDesign:DialogHost HorizontalAlignment="Left" VerticalAlignment="Center" CloseOnClickAway="False"
-                               DialogOpened="PeriodDialogOpenedEventHandler" DialogClosing="PeriodDialogClosingEventHandler">
-                                <materialDesign:DialogHost.DialogContent>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <Calendar Grid.Column="0" Margin="-1 -4 -1 -6" SelectedDate="{Binding ViewSettings.DateFrom}"
-                                                  Focusable="False"/>
-                                        <Calendar Grid.Column="1" Margin="-8 -4 -1 -6" SelectedDate="{Binding ViewSettings.DateUntil}"
-                                                  Focusable="False"/>
-
-                                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5">
-                                            <Button  Content="{moneyChestView:MultiLangBinding General_Ok}"
-                                                     Style="{DynamicResource AccentedButtonStyle}"
-                                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="1"/>
-
-                                            --><!--<Button Content="{moneyChestView:MultiLangBinding General_Cancel}" IsCancel="True"
-                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                                    CommandParameter="0" Style="{DynamicResource MCButtonStyle}"/>--><!--
-                                        </StackPanel>
-                                    </Grid>
-                                </materialDesign:DialogHost.DialogContent>
-                                <Grid Background="Transparent">
-                                    <RadioButton IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Custom}}"
-                                                 Content="{moneyChestView:MultiLangBinding PeriodType_Custom}" GroupName="PeriodType"
-                                                 Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
-                                </Grid>
-                            </materialDesign:DialogHost>
-                        </StackPanel>
-                    </Grid>
-                    --><!--<StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="comboPeriod" Width="180" Margin="0" DisplayMemberPath="Description" SelectedValuePath="Value"
-                                  SelectedValue="{Binding ViewSettings.PeriodType}" Style="{DynamicResource MCComboBoxStyle}" Height="{StaticResource PeriodSelectorHeight}"
-                                  FontSize="{DynamicResource DefaultFontSize}" Background="{DynamicResource WhiteBrush}"
-                                  Padding="5" BorderThickness="0"/>
-                        
-                        <Button Command="{x:Static materialDesign:Flipper.FlipCommand}" Height="{StaticResource PeriodSelectorHeight}"
-                                Width="{StaticResource PeriodSelectorHeight}" Margin="0" BorderThickness="0" >
-                            <iconPacks:PackIconOcticons Kind="ChevronRight" Width="20" Height="Auto"/>
-                        </Button>
-                    </StackPanel>--><!--
-                    
-                </materialDesign:Flipper.BackContent>
-            </materialDesign:Flipper>-->
-
             <Button Height="{StaticResource PeriodSelectorHeight}" Width="{StaticResource PeriodSelectorHeight}" Margin="0"
                     Command="{Binding NextDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}">
-                <!--<iconPacks:PackIconOcticons Kind="ArrowRight" Height="Auto" Width="Auto"/>-->
                 <iconPacks:PackIconOcticons Kind="ChevronRight" Height="Auto" Width="Auto"/>
             </Button>
         </StackPanel>

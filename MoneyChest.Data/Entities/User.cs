@@ -62,7 +62,7 @@ namespace MoneyChest.Data.Entities
         public virtual CalendarSetting CalendarSettings { get; set; }
         public virtual ForecastSetting ForecastSettings { get; set; }
         public virtual GeneralSetting GeneralSettings { get; set; }
-        public virtual RecordsViewFilter RecordsViewFilter { get; set; }
+        public virtual TransactionsSettings TransactionsSettings { get; set; }
         public virtual ReportSetting ReportSettings { get; set; }
 
 

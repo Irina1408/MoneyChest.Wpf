@@ -63,7 +63,7 @@
     <Compile Include="Converters\Settings\CalendarSettingConverter.cs" />
     <Compile Include="Converters\Settings\ForecastSettingConverter.cs" />
     <Compile Include="Converters\Settings\GeneralSettingConverter.cs" />
-    <Compile Include="Converters\Settings\RecordsViewFilterConverter.cs" />
+    <Compile Include="Converters\Settings\TransactionsSettingsConverter.cs" />
     <Compile Include="Converters\Settings\ReportSettingConverter.cs" />
     <Compile Include="Converters\StorageConverter.cs" />
     <Compile Include="Converters\StorageGroupConverter.cs" />
@@ -102,7 +102,7 @@
     <Compile Include="Services\Settings\CalendarSettingService.cs" />
     <Compile Include="Services\Settings\ForecastSettingService.cs" />
     <Compile Include="Services\Settings\GeneralSettingService.cs" />
-    <Compile Include="Services\Settings\RecordsViewFilterService.cs" />
+    <Compile Include="Services\Settings\TransactionsSettingsService.cs" />
     <Compile Include="Services\Settings\ReportSettingService.cs" />
     <Compile Include="Services\Common\StorageGroupService.cs" />
     <Compile Include="Services\Common\StorageService.cs" />

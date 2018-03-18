@@ -24,6 +24,6 @@ namespace MoneyChest.ViewModel.ViewModel
         public IMCCommand NextDateRangeCommand { get; set; }
         public IMCCommand SelectDateRangeCommand { get; set; }
 
-        public TransactionsViewSettingsViewModel ViewSettings { get; set; }
+        public PeriodFilterModel ViewSettings { get; set; }
     }
 }

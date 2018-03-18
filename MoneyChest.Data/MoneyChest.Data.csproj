@@ -81,14 +81,16 @@
     <Compile Include="Entities\History\Base\IUserActionHistory.cs" />
     <Compile Include="Entities\History\UserHistory.cs" />
     <Compile Include="Entities\Settings\CalendarSetting.cs" />
+    <Compile Include="Entities\Settings\Filters\DataFilter.cs" />
     <Compile Include="Entities\Settings\ForecastSetting.cs" />
     <Compile Include="Entities\Settings\GeneralSetting.cs" />
-    <Compile Include="Entities\Settings\RecordsViewFilter.cs" />
+    <Compile Include="Entities\Settings\Filters\PeriodFilter.cs" />
     <Compile Include="Entities\Settings\ReportSetting.cs" />
     <Compile Include="Entities\Limit.cs" />
     <Compile Include="Entities\MoneyTransfer.cs" />
     <Compile Include="Entities\Record.cs" />
     <Compile Include="Entities\Debt.cs" />
+    <Compile Include="Entities\Settings\TransactionsSettings.cs" />
     <Compile Include="Entities\Storage.cs" />
     <Compile Include="Entities\StorageGroup.cs" />
     <Compile Include="Entities\User.cs" />
@@ -98,6 +100,10 @@
     <Compile Include="Migrations\201803150826127_initial_migration.cs" />
     <Compile Include="Migrations\201803150826127_initial_migration.Designer.cs">
       <DependentUpon>201803150826127_initial_migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803181835331_update_transactions_settings.cs" />
+    <Compile Include="Migrations\201803181835331_update_transactions_settings.Designer.cs">
+      <DependentUpon>201803181835331_update_transactions_settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,6 +121,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201803150826127_initial_migration.resx">
       <DependentUpon>201803150826127_initial_migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803181835331_update_transactions_settings.resx">
+      <DependentUpon>201803181835331_update_transactions_settings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

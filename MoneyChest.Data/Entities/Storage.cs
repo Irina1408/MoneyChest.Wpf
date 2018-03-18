@@ -24,6 +24,7 @@ namespace MoneyChest.Data.Entities
             RepayDebtEvents = new List<RepayDebtEvent>();
             SimpleEvents = new List<SimpleEvent>();
             Records = new List<Record>();
+            DataFilters = new List<DataFilter>();
         }
 
         [Key]
@@ -76,6 +77,7 @@ namespace MoneyChest.Data.Entities
         public virtual ICollection<RepayDebtEvent> RepayDebtEvents { get; set; }
         public virtual ICollection<SimpleEvent> SimpleEvents { get; set; }
         public virtual ICollection<Record> Records { get; set; }
+        public virtual ICollection<DataFilter> DataFilters { get; set; }
 
         #endregion
     }

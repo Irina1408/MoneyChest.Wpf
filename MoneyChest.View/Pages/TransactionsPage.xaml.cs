@@ -10,6 +10,7 @@ using MoneyChest.View.Details;
 using MoneyChest.View.Utils;
 using MoneyChest.View.Windows;
 using MoneyChest.ViewModel.Commands;
+using MoneyChest.ViewModel.Extensions;
 using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -126,11 +127,9 @@ namespace MoneyChest.View.Pages
             // TODO: load settings from DB 
             if (_viewModel.ViewSettings == null)
             {
-                _viewModel.ViewSettings = new TransactionsViewSettingsViewModel();
+                _viewModel.ViewSettings = new PeriodFilterModel();
                 _viewModel.ViewSettings.OnPeriodChanged += (sender, e) =>
                 {
-                    // close popup
-                    //if (_viewModel.ViewSettings.PeriodType != PeriodType.Custom) periodPopup.IsPopupOpen = false;
                     // reload data
                     Reload();
                 };

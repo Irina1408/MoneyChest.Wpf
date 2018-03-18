@@ -57,7 +57,6 @@ namespace MoneyChest.Services.Services.Defaults
 
             // Without type categories
             var other = AddCategory("Other");
-            AddCategory("Commission", RecordType.Expense, other);
             AddCategory("Debts", null, other);
             AddCategory("Gifts", null, other);
         }
@@ -117,7 +116,19 @@ namespace MoneyChest.Services.Services.Defaults
 
             _context.CalendarSettings.Add(new CalendarSetting() { UserId = _userId });
             _context.ForecastSettings.Add(new ForecastSetting() { UserId = _userId });
-            _context.RecordsViewFilters.Add(new RecordsViewFilter() { UserId = _userId });
+            _context.TransactionsSettings.Add(new TransactionsSettings()
+            {
+                UserId = _userId,
+                DataFilter = _context.DataFilters.Add(new DataFilter()
+                {
+                    AllCategories = true,
+                    IncludeWithoutCategory = true
+                }),
+                PeriodFilter = _context.PeriodFilters.Add(new PeriodFilter()
+                {
+                    PeriodType = PeriodType.Month
+                })
+            });
             _context.ReportSettings.Add(new ReportSetting() { UserId = _userId });
         }
 
