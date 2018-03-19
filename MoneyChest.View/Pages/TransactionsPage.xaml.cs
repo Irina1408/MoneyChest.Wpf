@@ -100,16 +100,16 @@ namespace MoneyChest.View.Pages
                 (items) => !items.Any(_ => _.IsPlanned))
             };
 
-            _viewModel.PrevDateRangeCommand = new Command(() => _viewModel.ViewSettings.PrevDateRange());
-            _viewModel.NextDateRangeCommand = new Command(() => _viewModel.ViewSettings.NextDateRange());
+            _viewModel.PrevDateRangeCommand = new Command(() => _viewModel.PeriodFilter.PrevDateRange());
+            _viewModel.NextDateRangeCommand = new Command(() => _viewModel.PeriodFilter.NextDateRange());
             _viewModel.SelectDateRangeCommand = new Command(() =>
             {
-                var dateFrom = _viewModel.ViewSettings.DateFrom;
-                var dateUntil = _viewModel.ViewSettings.DateUntil;
+                var dateFrom = _viewModel.PeriodFilter.DateFrom;
+                var dateUntil = _viewModel.PeriodFilter.DateUntil;
                 if (this.ShowDateRangeSelector(ref dateFrom, ref dateUntil))
                 {
-                    _viewModel.ViewSettings.DateFrom = dateFrom;
-                    _viewModel.ViewSettings.DateUntil = dateUntil;
+                    _viewModel.PeriodFilter.DateFrom = dateFrom;
+                    _viewModel.PeriodFilter.DateUntil = dateUntil;
                 }
             });
 
@@ -125,17 +125,29 @@ namespace MoneyChest.View.Pages
             base.Reload();
 
             // TODO: load settings from DB 
-            if (_viewModel.ViewSettings == null)
+            if (_viewModel.PeriodFilter == null)
             {
-                _viewModel.ViewSettings = new PeriodFilterModel();
-                _viewModel.ViewSettings.OnPeriodChanged += (sender, e) =>
+                _viewModel.PeriodFilter = new PeriodFilterModel();
+                _viewModel.PeriodFilter.OnPeriodChanged += (sender, e) =>
                 {
                     // reload data
                     Reload();
                 };
             }
 
-            _viewModel.Entities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(_service.Get(GlobalVariables.UserId, _viewModel.ViewSettings.DateFrom, _viewModel.ViewSettings.DateUntil));
+            // TODO: load filter from DB 
+            if (_viewModel.DataFilter == null)
+            {
+                _viewModel.DataFilter = new DataFilterModel();
+                _viewModel.DataFilter.PropertyChanged += (sender, e) => ApplyDataFilter();
+            }
+
+            _viewModel.Entities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(_service.Get(GlobalVariables.UserId, _viewModel.PeriodFilter.DateFrom, _viewModel.PeriodFilter.DateUntil));
+
+            _viewModel.Entities.CollectionChanged += (sender, e) => ApplyDataFilter();
+
+            // apply filter now
+            ApplyDataFilter();
         }
 
         #endregion
@@ -202,6 +214,26 @@ namespace MoneyChest.View.Pages
                 _viewModel.Entities.Move(_viewModel.Entities.IndexOf(transaction), _viewModel.Entities.IndexOf(lastBefore) + 1);
             else
                 _viewModel.Entities.Move(_viewModel.Entities.IndexOf(transaction), 0);
+        }
+
+        private void ApplyDataFilter()
+        {
+            Func<ITransaction, bool> filter = (t) => true;
+
+            if (_viewModel.DataFilter.IsFilterApplied)
+            {
+                // TODO: replace it
+                if (!string.IsNullOrEmpty(_viewModel.DataFilter.Description))
+                    filter = (t) => filter(t) && !string.IsNullOrEmpty(t.Description)
+                                              && t.Description.Contains(_viewModel.DataFilter.Description);
+
+                if (!string.IsNullOrEmpty(_viewModel.DataFilter.Remark))
+                    filter = (t) => filter(t) && !string.IsNullOrEmpty(t.Remark)
+                                              && t.Remark.Contains(_viewModel.DataFilter.Remark);
+            }
+
+            _viewModel.FilteredEntities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(
+                _viewModel.Entities.Where(filter));
         }
 
         #endregion

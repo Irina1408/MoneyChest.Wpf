@@ -105,6 +105,10 @@
     <Compile Include="Migrations\201803181835331_update_transactions_settings.Designer.cs">
       <DependentUpon>201803181835331_update_transactions_settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803190814505_datafilter_change.cs" />
+    <Compile Include="Migrations\201803190814505_datafilter_change.Designer.cs">
+      <DependentUpon>201803190814505_datafilter_change.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -124,6 +128,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803181835331_update_transactions_settings.resx">
       <DependentUpon>201803181835331_update_transactions_settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803190814505_datafilter_change.resx">
+      <DependentUpon>201803190814505_datafilter_change.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

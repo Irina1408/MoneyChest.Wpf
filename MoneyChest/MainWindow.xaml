@@ -9,6 +9,21 @@
         mc:Ignorable="d"
         Height="350" Width="525" WindowState="Maximized"
         Style="{StaticResource MoneyChestWindowStyle}">
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <controls:Flyout x:Name="rightFlyout"
+                             Margin="200 30 0 0"
+                             AreAnimationsEnabled="True"
+                             FocusedElement="{Binding ElementName=txtSearch}"
+                             Header="Settings"
+                             Position="Right">
+                <Grid Margin="10">
+                    <TextBox x:Name="txtSearch" Text="Search.."/>
+                </Grid>
+            </controls:Flyout>
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
     
     <Grid>
         <main:MainView/>

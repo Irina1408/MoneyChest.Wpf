@@ -121,7 +121,6 @@ namespace MoneyChest.Services.Services.Defaults
                 UserId = _userId,
                 DataFilter = _context.DataFilters.Add(new DataFilter()
                 {
-                    AllCategories = true,
                     IncludeWithoutCategory = true
                 }),
                 PeriodFilter = _context.PeriodFilters.Add(new PeriodFilter()

@@ -1,0 +1,124 @@
+﻿<controls:MetroWindow x:Class="MoneyChest.View.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MoneyChest.View.Main"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+        mc:Ignorable="d"
+        Height="450" Width="800" WindowState="Maximized"
+        Style="{StaticResource MoneyChestWindowStyle}"
+        Loaded="MainWindow_Loaded">
+
+    <controls:MetroWindow.Resources>
+        <DataTemplate x:Key="HamburgerOptionsMenuImageItem" DataType="{x:Type controls:HamburgerMenuItem}">
+            <Grid Height="48" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" ToolTip="{Binding Label}" Background="Transparent">
+                    <ContentControl Content="{Binding Tag}"
+                                Focusable="False"
+                                IsTabStop="False" />
+                </Grid>
+
+                <TextBlock Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontSize="{DynamicResource DefaultFontSize}"
+                           Text="{Binding Label}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HamburgerMenuImageItem" DataType="{x:Type controls:HamburgerMenuGlyphItem}">
+            <Border BorderThickness="{Binding BorderThickness}" BorderBrush="Gray">
+                <Grid Height="48" Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" ToolTip="{Binding Label}" Background="Transparent">
+                        <ContentControl Content="{Binding Tag}"/>
+                    </Grid>
+
+                    <TextBlock Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontSize="{DynamicResource DefaultFontSize}"
+                           Text="{Binding Label}" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </controls:MetroWindow.Resources>
+    
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <controls:Flyout x:Name="rightFlyout"
+                             AreAnimationsEnabled="True"
+                             FocusedElement="{Binding ElementName=txtSearch}"
+                             Header="Settings"
+                             Position="Right">
+                <Grid Margin="10">
+                    <TextBox x:Name="txtSearch" Text="Search.."/>
+                </Grid>
+            </controls:Flyout>
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <Grid>
+        <controls:HamburgerMenu x:Name="HamburgerMenuControl"
+                                HamburgerWidth="48"
+                                IsPaneOpen="true"
+                                ItemTemplate="{StaticResource HamburgerMenuImageItem}"
+                                OptionsItemTemplate="{StaticResource HamburgerOptionsMenuImageItem}"
+                                Content="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay, Path=SelectedItem}"
+                                SelectedIndex="0"
+                                VerticalScrollBarOnLeftSide="False">
+            <!--  Header  -->
+            <controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="{DynamicResource DefaultFontSize}"
+                               Foreground="White"
+                               Text="{moneyChestView:MultiLangBinding General_Menu}" />
+                </DataTemplate>
+            </controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+
+            <!--  Settings  -->
+            <controls:HamburgerMenu.OptionsItemsSource>
+                <controls:HamburgerMenuItemCollection>
+                    <controls:HamburgerMenuGlyphItem Label="{moneyChestView:MultiLangBinding MainManu_Settings}">
+                        <controls:HamburgerMenuGlyphItem.Tag>
+                            <iconpacks:PackIconMaterial Kind="Settings" />
+                        </controls:HamburgerMenuGlyphItem.Tag>
+                    </controls:HamburgerMenuGlyphItem>
+                </controls:HamburgerMenuItemCollection>
+            </controls:HamburgerMenu.OptionsItemsSource>
+
+            <!--  Content  -->
+            <controls:HamburgerMenu.ContentTemplate>
+                <DataTemplate>
+                    <Grid x:Name="ContentGrid">
+                        <!--<Border Grid.Row="0" Background="#7A7A7A">
+                            <TextBlock x:Name="Header"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="{DynamicResource LargeFontSize}"
+                                       Foreground="White"
+                                       Text="{Binding Label}" />
+                        </Border>-->
+                        <controls:TransitioningContentControl
+                                                              Content="{Binding View}"
+                                                              RestartTransitionOnContentChange="True"
+                                                              Transition="Default"/>
+                    </Grid>
+                </DataTemplate>
+            </controls:HamburgerMenu.ContentTemplate>
+        </controls:HamburgerMenu>
+    </Grid>
+    
+</controls:MetroWindow>

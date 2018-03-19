@@ -13,17 +13,21 @@ namespace MoneyChest.ViewModel.ViewModel
     public class TransactionsPageViewModel
     {
         public ObservableCollection<ITransaction> Entities { get; set; }
+        public ObservableCollection<ITransaction> FilteredEntities { get; set; }
 
         public IMCCommand AddRecordCommand { get; set; }
         public IMCCommand AddMoneyTransferCommand { get; set; }
         public IMCCommand AddChequeCommand { get; set; }
         public IMCCommand EditCommand { get; set; }
         public IMCCommand DeleteCommand { get; set; }
+        
+        public IMCCommand ToggleFilterCommand { get; set; }
 
         public IMCCommand PrevDateRangeCommand { get; set; }
         public IMCCommand NextDateRangeCommand { get; set; }
         public IMCCommand SelectDateRangeCommand { get; set; }
 
-        public PeriodFilterModel ViewSettings { get; set; }
+        public PeriodFilterModel PeriodFilter { get; set; }
+        public DataFilterModel DataFilter { get; set; }
     }
 }

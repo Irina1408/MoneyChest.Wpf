@@ -28,8 +28,7 @@ namespace MoneyChest.Data.Entities
 
         [StringLength(4000)]
         public string Remark { get; set; }
-
-        public bool AllCategories { get; set; }
+        
         public bool IsSingleCategorySelection { get; set; }
         public bool IncludeWithoutCategory { get; set; }
 

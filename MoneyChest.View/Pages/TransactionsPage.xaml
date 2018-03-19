@@ -10,12 +10,14 @@
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              xmlns:converters="clr-namespace:MoneyChest.View.Converters"
              xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
-             mc:Ignorable="d" 
+                xmlns:components="clr-namespace:MoneyChest.View.Components"
+                mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <local:PageBase.Resources>
         <converters:EnumToBoolConverter x:Key="EBConverter"/>
         <converters:EnumToStringConverter x:Key="ESConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
         <system:Double x:Key="PeriodSelectorHeight">35</system:Double>
         <Style x:Key="PeriodButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MCButtonStyle}">
             <Setter Property="Background" Value="Transparent"/>
@@ -25,17 +27,22 @@
             <Setter Property="TextBlock.FontWeight" Value="Normal"/>
         </Style>
     </local:PageBase.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         
         <!-- Menu -->
         <ToolBarTray Grid.Column="0" ClipToBounds="True" VerticalAlignment="Top" IsLocked="True"
-                     Background="{DynamicResource MaterialDesignToolBarBackground}">
+                     Background="{DynamicResource MaterialDesignToolBarBackground}" Grid.ColumnSpan="2">
             <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
                 
                 <Button ToolTip="{moneyChestView:MultiLangBinding General_Add}" Style="{DynamicResource ToolBarButtonBaseStyle}"
@@ -78,6 +85,13 @@
                         Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
                     <iconPacks:PackIconModern Kind="Delete"/>
                 </Button>
+
+                <Separator/>
+                <ToggleButton IsChecked="{Binding DataFilter.IsFilterApplied, UpdateSourceTrigger=PropertyChanged}" 
+                              ToolTip="{moneyChestView:MultiLangBinding General_Filter}"
+                              Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="Filter" />
+                </ToggleButton>
             </ToolBar>
         </ToolBarTray>
         
@@ -88,14 +102,15 @@
                 <iconPacks:PackIconOcticons Kind="ChevronLeft" Height="Auto" Width="Auto"/>
             </Button>
 
-            <materialDesign:ColorZone Mode="PrimaryMid" Background="{DynamicResource GrayBrush7}" Height="34" Width="200" Foreground="{DynamicResource BlackBrush}" Margin="0 1 0 0">
+            <materialDesign:ColorZone Mode="PrimaryMid" Background="{DynamicResource GrayBrush7}" Height="34" Width="200"
+                                      Foreground="{DynamicResource BlackBrush}" Margin="0 1 0 0">
                 <Grid VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" HorizontalAlignment="Center" Margin="5 0 0 0" Text="{Binding ViewSettings.PeriodDetails}" FontSize="{DynamicResource DefaultFontSize}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Center" Margin="5 0 0 0" Text="{Binding PeriodFilter.PeriodDetails}" FontSize="{DynamicResource DefaultFontSize}" VerticalAlignment="Center"/>
 
                     <materialDesign:PopupBox x:Name="periodPopup" Grid.Column="1" PlacementMode="BottomAndAlignLeftEdges"
                                              StaysOpen="False"
@@ -103,18 +118,18 @@
                                              Foreground="{DynamicResource BlackBrush}"
                                              Style="{DynamicResource MaterialDesignPopupBox}">
                         <StackPanel MinWidth="100">
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Day}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Day}}" GroupName="PeriodType"/>
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Day}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Day}}" GroupName="PeriodType"/>
 
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Week}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Week}}" GroupName="PeriodType"/>
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Week}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Week}}" GroupName="PeriodType"/>
 
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Month}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Month}}" GroupName="PeriodType"/>
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Month}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Month}}" GroupName="PeriodType"/>
 
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Quarter}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Quarter}}" GroupName="PeriodType"/>
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Quarter}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Quarter}}" GroupName="PeriodType"/>
 
-                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Year}" IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Year}}" GroupName="PeriodType"/>
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Year}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Year}}" GroupName="PeriodType"/>
 
                             <Separator/>
-                            <RadioButton IsChecked="{Binding ViewSettings.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Custom}}"
+                            <RadioButton IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Custom}}"
                                                  Content="{moneyChestView:MultiLangBinding PeriodType_Custom}" GroupName="PeriodType"
                                                  Command="{Binding SelectDateRangeCommand}"/>
                         </StackPanel>
@@ -135,7 +150,7 @@
                   HeadersVisibility="Column"
                   SelectionUnit="FullRow"
                   IsReadOnly="True"
-                  ItemsSource="{Binding Entities}">
+                  ItemsSource="{Binding FilteredEntities}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}">
@@ -198,5 +213,35 @@
                 </Style>
             </DataGrid.RowStyle>
         </DataGrid>
+        
+        <!-- Filter -->
+        <GroupBox Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
+                  Visibility="{Binding DataFilter.IsFilterApplied, Converter={StaticResource BVConverter}}">
+            <GroupBox.Header>
+                <TextBlock Text="{moneyChestView:MultiLangBinding General_Filter}"
+                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
+            </GroupBox.Header>
+
+            <StackPanel>
+                <!-- Description -->
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
+                    <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
+                                     Text="{Binding DataFilter.Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
+                </StackPanel>
+
+                <!-- Category -->
+                <!--<components:CategorySelector VerticalAlignment="Center" ShowEmptyCategory="True"
+                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+
+                <!-- Remark -->
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
+                    <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
+                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
+                                     Text="{Binding DataFilter.Remark, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 5 0"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </local:PageBase>

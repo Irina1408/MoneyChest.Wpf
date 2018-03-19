@@ -8,6 +8,7 @@ using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
 using MoneyChest.Shared.Settings;
 using MoneyChest.Utils;
+using MoneyChest.View.Main;
 using MoneyChest.ViewModel.Commands;
 using MoneyChest.ViewModel.ViewModel;
 using System;

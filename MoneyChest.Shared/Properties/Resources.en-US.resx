@@ -757,4 +757,7 @@
   <data name="Transaction_Singular" xml:space="preserve">
     <value>Transaction</value>
   </data>
+  <data name="General_Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
 </root>

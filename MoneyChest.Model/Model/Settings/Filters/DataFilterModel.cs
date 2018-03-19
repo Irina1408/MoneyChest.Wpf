@@ -14,20 +14,20 @@ namespace MoneyChest.Model.Model
 
         public DataFilterModel()
         {
-            AllCategories = true;
             IsSingleCategorySelection = false;
             IncludeWithoutCategory = true;
             CategoryIds = new List<int>();
+            StorageIds = new List<int>();
         }
 
         public bool IsFilterApplied { get; set; }
         public string Description { get; set; }
         public string Remark { get; set; }
         public TransactionType? TransactionType { get; set; }
-
-        public bool AllCategories { get; set; }
+        
         public bool IsSingleCategorySelection { get; set; }
         public bool IncludeWithoutCategory { get; set; }
         public List<int> CategoryIds { get; set; }
+        public List<int> StorageIds { get; set; }
     }
 }
