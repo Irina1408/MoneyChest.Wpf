@@ -53,10 +53,6 @@ namespace MoneyChest.View.Pages
             _service = ServiceManager.ConfigureService<TransactionService>();
             _settingsService = ServiceManager.ConfigureService<TransactionsSettingsService>();
 
-            // load storages
-            IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
-            _storages = storageService.GetListForUser(GlobalVariables.UserId);
-
             InitializeViewModel();
         }
 
@@ -115,13 +111,6 @@ namespace MoneyChest.View.Pages
                 }
             });
 
-            // load categories
-            ICategoryService categoryService = ServiceManager.ConfigureService<CategoryService>();
-            _viewModel.Categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId)
-                .OrderByDescending(_ => _.RecordType)
-                .ThenBy(_ => _.Name)
-                .ToList(), true);
-
             this.DataContext = _viewModel;
         }
 
@@ -132,6 +121,23 @@ namespace MoneyChest.View.Pages
         public override void Reload()
         {
             base.Reload();
+
+            // load storages
+            if(_storages == null)
+            {
+                IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
+                _storages = storageService.GetListForUser(GlobalVariables.UserId);
+            }
+
+            // load categories
+            if(_viewModel.Categories == null)
+            {
+                ICategoryService categoryService = ServiceManager.ConfigureService<CategoryService>();
+                _viewModel.Categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId)
+                    .OrderByDescending(_ => _.RecordType)
+                    .ThenBy(_ => _.Name)
+                    .ToList(), true);
+            }
 
             // load settings from DB 
             if (_viewModel.PeriodFilter == null || _viewModel.DataFilter == null)
@@ -165,25 +171,6 @@ namespace MoneyChest.View.Pages
             // apply filter now
             ApplyDataFilter();
         }
-
-        #endregion
-
-        #region Event handlers
-
-        //public void PeriodDialogOpenedEventHandler(object sender, DialogOpenedEventArgs eventArgs)
-        //{
-        //    _viewModel.ViewSettings.IsDateRangeFilling = true;
-        //}
-
-        //public void PeriodDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        //{
-        //    _viewModel.ViewSettings.IsDateRangeFilling = false;
-        //    //periodPopup.IsPopupOpen = false;
-        //    if (!Equals(eventArgs.Parameter, "1")) return;
-            
-        //    // reload page data
-        //    Reload();
-        //}
 
         #endregion
 
