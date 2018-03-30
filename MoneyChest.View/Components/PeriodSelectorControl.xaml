@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="MoneyChest.View.Components.PeriodSelectorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MoneyChest.View.Components"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             xmlns:converters="clr-namespace:MoneyChest.View.Converters"
+             xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:EnumToBoolConverter x:Key="EBConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
+        <system:Double x:Key="PeriodSelectorHeight">35</system:Double>
+        <Style x:Key="PeriodButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MCButtonStyle}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="{StaticResource PeriodSelectorHeight}"/>
+            <Setter Property="TextBlock.FontWeight" Value="Normal"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel x:Name="MainPanel" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Height="{StaticResource PeriodSelectorHeight}" Width="{StaticResource PeriodSelectorHeight}" Margin="0"
+                    Command="{Binding PrevDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}">
+                <iconPacks:PackIconOcticons Kind="ChevronLeft" Height="Auto" Width="Auto"/>
+            </Button>
+
+            <materialDesign:ColorZone Mode="PrimaryMid" Background="{DynamicResource GrayBrush7}" Height="34" Width="200"
+                                      Foreground="{DynamicResource BlackBrush}" Margin="0 1 0 0">
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Center" Margin="5 0 0 0" Text="{Binding PeriodFilter.PeriodDetails}" FontSize="{DynamicResource DefaultFontSize}" VerticalAlignment="Center"/>
+
+                    <materialDesign:PopupBox x:Name="periodPopup" Grid.Column="1" PlacementMode="BottomAndAlignLeftEdges"
+                                             StaysOpen="False"
+                                             HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                             Foreground="{DynamicResource BlackBrush}"
+                                             Style="{DynamicResource MaterialDesignPopupBox}">
+                        <StackPanel MinWidth="100">
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Day}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Day}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Week}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Week}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Month}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Month}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Quarter}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Quarter}}" GroupName="PeriodType"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding PeriodType_Year}" IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Year}}" GroupName="PeriodType"/>
+
+                            <Separator/>
+                            <RadioButton IsChecked="{Binding PeriodFilter.PeriodType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:PeriodType.Custom}}"
+                                                 Content="{moneyChestView:MultiLangBinding PeriodType_Custom}" GroupName="PeriodType"
+                                                 Command="{Binding SelectDateRangeCommand}"/>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </Grid>
+            </materialDesign:ColorZone>
+
+            <Button Height="{StaticResource PeriodSelectorHeight}" Width="{StaticResource PeriodSelectorHeight}" Margin="0"
+                    Command="{Binding NextDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}">
+                <iconPacks:PackIconOcticons Kind="ChevronRight" Height="Auto" Width="Auto"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -98,19 +98,6 @@ namespace MoneyChest.View.Pages
                 (items) => !items.Any(_ => _.IsPlanned))
             };
 
-            _viewModel.PrevDateRangeCommand = new Command(() => _viewModel.PeriodFilter.PrevDateRange());
-            _viewModel.NextDateRangeCommand = new Command(() => _viewModel.PeriodFilter.NextDateRange());
-            _viewModel.SelectDateRangeCommand = new Command(() =>
-            {
-                var dateFrom = _viewModel.PeriodFilter.DateFrom;
-                var dateUntil = _viewModel.PeriodFilter.DateUntil;
-                if (this.ShowDateRangeSelector(ref dateFrom, ref dateUntil))
-                {
-                    _viewModel.PeriodFilter.DateFrom = dateFrom;
-                    _viewModel.PeriodFilter.DateUntil = dateUntil;
-                }
-            });
-
             this.DataContext = _viewModel;
         }
 

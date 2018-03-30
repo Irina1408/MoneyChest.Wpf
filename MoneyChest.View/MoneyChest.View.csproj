@@ -105,6 +105,9 @@
     <Compile Include="Components\DetailsViewCommandsPanel.xaml.cs">
       <DependentUpon>DetailsViewCommandsPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\PeriodSelectorControl.xaml.cs">
+      <DependentUpon>PeriodSelectorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\ScheduleControl.xaml.cs">
       <DependentUpon>ScheduleControl.xaml</DependentUpon>
     </Compile>
@@ -258,6 +261,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\DetailsViewCommandsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\PeriodSelectorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -21,12 +21,6 @@ namespace MoneyChest.ViewModel.ViewModel
         public IMCCommand AddChequeCommand { get; set; }
         public IMCCommand EditCommand { get; set; }
         public IMCCommand DeleteCommand { get; set; }
-        
-        public IMCCommand ToggleFilterCommand { get; set; }
-
-        public IMCCommand PrevDateRangeCommand { get; set; }
-        public IMCCommand NextDateRangeCommand { get; set; }
-        public IMCCommand SelectDateRangeCommand { get; set; }
 
         public PeriodFilterModel PeriodFilter { get; set; }
         public DataFilterModel DataFilter { get; set; }
