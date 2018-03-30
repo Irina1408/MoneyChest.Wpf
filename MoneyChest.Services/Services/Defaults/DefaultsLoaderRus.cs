@@ -115,7 +115,7 @@ namespace MoneyChest.Services.Services.Defaults
                 UserId = _userId
             });
 
-            _context.CalendarSettings.Add(new CalendarSetting() { UserId = _userId });
+            _context.CalendarSettings.Add(new CalendarSettings() { UserId = _userId });
             _context.ForecastSettings.Add(new ForecastSetting() { UserId = _userId });
             _context.TransactionsSettings.Add(new TransactionsSettings()
             {

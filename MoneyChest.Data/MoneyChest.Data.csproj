@@ -80,7 +80,7 @@
     <Compile Include="Entities\History\StorageHistory.cs" />
     <Compile Include="Entities\History\Base\IUserActionHistory.cs" />
     <Compile Include="Entities\History\UserHistory.cs" />
-    <Compile Include="Entities\Settings\CalendarSetting.cs" />
+    <Compile Include="Entities\Settings\CalendarSettings.cs" />
     <Compile Include="Entities\Settings\Filters\DataFilter.cs" />
     <Compile Include="Entities\Settings\ForecastSetting.cs" />
     <Compile Include="Entities\Settings\GeneralSetting.cs" />
@@ -113,6 +113,10 @@
     <Compile Include="Migrations\201803301448548_change_datafilter.Designer.cs">
       <DependentUpon>201803301448548_change_datafilter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803302008079_update_calendar_settings.cs" />
+    <Compile Include="Migrations\201803302008079_update_calendar_settings.Designer.cs">
+      <DependentUpon>201803302008079_update_calendar_settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -138,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803301448548_change_datafilter.resx">
       <DependentUpon>201803301448548_change_datafilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803302008079_update_calendar_settings.resx">
+      <DependentUpon>201803302008079_update_calendar_settings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

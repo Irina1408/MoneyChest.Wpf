@@ -114,7 +114,19 @@ namespace MoneyChest.Services.Services.Defaults
                 UserId = _userId
             });
 
-            _context.CalendarSettings.Add(new CalendarSetting() { UserId = _userId });
+            _context.CalendarSettings.Add(new CalendarSettings()
+            {
+                UserId = _userId,
+                ShowLimits = true,
+                DataFilter = _context.DataFilters.Add(new DataFilter()
+                {
+                    IncludeWithoutCategory = true
+                }),
+                PeriodFilter = _context.PeriodFilters.Add(new PeriodFilter()
+                {
+                    PeriodType = PeriodType.Month
+                })
+            });
             _context.ForecastSettings.Add(new ForecastSetting() { UserId = _userId });
             _context.TransactionsSettings.Add(new TransactionsSettings()
             {

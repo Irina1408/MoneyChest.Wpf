@@ -17,12 +17,12 @@ using System.Data.Entity;
 namespace MoneyChest.Tests.Services.Settings
 {
     [TestClass]
-    public class CalendarSettingServiceTests : UserSettingServiceTestBase<CalendarSetting, CalendarSettingModel, CalendarSettingConverter, CalendarSettingService>
+    public class CalendarSettingServiceTests : UserSettingServiceTestBase<CalendarSettings, CalendarSettingsModel, CalendarSettingsConverter, CalendarSettingsService>
     {
         #region Overrides
 
-        protected override IQueryable<CalendarSetting> Scope => Entities.Include(_ => _.StorageGroups);
-        protected override void ChangeEntity(CalendarSettingModel entity) => entity.ShowLimits = !entity.ShowLimits;
+        protected override IQueryable<CalendarSettings> Scope => Entities.Include(_ => _.StorageGroups);
+        protected override void ChangeEntity(CalendarSettingsModel entity) => entity.ShowLimits = !entity.ShowLimits;
 
         #endregion
     }

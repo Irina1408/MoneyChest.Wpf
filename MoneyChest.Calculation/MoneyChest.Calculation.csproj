@@ -40,14 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\Base\DataBuilderBase.cs" />
-    <Compile Include="Builders\Base\IDataBuilder.cs" />
-    <Compile Include="Builders\Calendar\CalendarBuilderSettings.cs" />
     <Compile Include="Builders\Calendar\CalendarDataBuilder.cs" />
-    <Compile Include="Builders\Calendar\CalendarDayData.cs" />
-    <Compile Include="Builders\Calendar\LimitLegendUnit.cs" />
-    <Compile Include="Builders\Calendar\MoneyTransferLegendUnit.cs" />
-    <Compile Include="Builders\Calendar\RecordLegendUnit.cs" />
     <Compile Include="SummaryCalculators\Summary\SimpleStorageSummary.cs" />
     <Compile Include="Common\CalculationHelper.cs" />
     <Compile Include="Common\Units\GroupedValueUnitCollection.cs" />
@@ -57,8 +50,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SummaryCalculators\DebtsSummaryCalculator.cs" />
     <Compile Include="SummaryCalculators\StorageSummaryCalculator.cs" />
-    <Compile Include="Builders\Reports\ReportBuilder.cs" />
-    <Compile Include="Builders\Reports\ReportUnit.cs" />
     <Compile Include="SummaryCalculators\Summary\DebtsSummary.cs" />
     <Compile Include="SummaryCalculators\Summary\StorageSummary.cs" />
   </ItemGroup>

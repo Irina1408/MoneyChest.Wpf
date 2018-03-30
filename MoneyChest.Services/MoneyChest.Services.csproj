@@ -60,7 +60,7 @@
     <Compile Include="Converters\LimitConverter.cs" />
     <Compile Include="Converters\MoneyTransferConverter.cs" />
     <Compile Include="Converters\RecordConverter.cs" />
-    <Compile Include="Converters\Settings\CalendarSettingConverter.cs" />
+    <Compile Include="Converters\Settings\CalendarSettingsConverter.cs" />
     <Compile Include="Converters\Settings\Filters\DataFilterConverter.cs" />
     <Compile Include="Converters\Settings\Filters\PeriodFilterConverter.cs" />
     <Compile Include="Converters\Settings\ForecastSettingConverter.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="Services\Common\LimitService.cs" />
     <Compile Include="Services\Common\MoneyTransferService.cs" />
     <Compile Include="Services\Common\RecordService.cs" />
-    <Compile Include="Services\Settings\CalendarSettingService.cs" />
+    <Compile Include="Services\Settings\CalendarSettingsService.cs" />
     <Compile Include="Services\Settings\ForecastSettingService.cs" />
     <Compile Include="Services\Settings\GeneralSettingService.cs" />
     <Compile Include="Services\Settings\TransactionsSettingsService.cs" />

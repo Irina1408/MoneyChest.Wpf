@@ -59,7 +59,7 @@ namespace MoneyChest.Data.Entities
 
         #region Navigation properties
         
-        public virtual CalendarSetting CalendarSettings { get; set; }
+        public virtual CalendarSettings CalendarSettings { get; set; }
         public virtual ForecastSetting ForecastSettings { get; set; }
         public virtual GeneralSetting GeneralSettings { get; set; }
         public virtual TransactionsSettings TransactionsSettings { get; set; }

@@ -39,6 +39,8 @@ namespace MoneyChest.View.Pages
         private TransactionsPageViewModel _viewModel;
         private ITransactionService _service;
         private ITransactionsSettingsService _settingsService;
+        private IStorageService _storageService;
+        private ICategoryService _categoryService;
         private List<StorageModel> _storages;
 
         #endregion
@@ -52,6 +54,8 @@ namespace MoneyChest.View.Pages
             // init
             _service = ServiceManager.ConfigureService<TransactionService>();
             _settingsService = ServiceManager.ConfigureService<TransactionsSettingsService>();
+            _storageService = ServiceManager.ConfigureService<StorageService>();
+            _categoryService = ServiceManager.ConfigureService<CategoryService>();
 
             InitializeViewModel();
         }
@@ -110,21 +114,13 @@ namespace MoneyChest.View.Pages
             base.Reload();
 
             // load storages
-            if(_storages == null)
-            {
-                IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
-                _storages = storageService.GetListForUser(GlobalVariables.UserId);
-            }
+            _storages = _storageService.GetListForUser(GlobalVariables.UserId);
 
             // load categories
-            if(_viewModel.Categories == null)
-            {
-                ICategoryService categoryService = ServiceManager.ConfigureService<CategoryService>();
-                _viewModel.Categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId)
-                    .OrderByDescending(_ => _.RecordType)
-                    .ThenBy(_ => _.Name)
-                    .ToList(), true);
-            }
+            _viewModel.Categories = TreeHelper.BuildTree(_categoryService.GetActive(GlobalVariables.UserId)
+                .OrderByDescending(_ => _.RecordType)
+                .ThenBy(_ => _.Name)
+                .ToList(), true);
 
             // load settings from DB 
             if (_viewModel.PeriodFilter == null || _viewModel.DataFilter == null)

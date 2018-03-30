@@ -66,6 +66,7 @@
     <Compile Include="ViewModel\Entity\StorageGroupViewModel.cs" />
     <Compile Include="ViewModel\Enum\EnumIcon.cs" />
     <Compile Include="ViewModel\ItemViewModel.cs" />
+    <Compile Include="ViewModel\Page\CalendarPageViewModel.cs" />
     <Compile Include="ViewModel\Page\CategoriesPageViewModel.cs" />
     <Compile Include="ViewModel\Entity\CategoryViewModel.cs" />
     <Compile Include="ViewModel\Entity\CategoryViewModelCollection.cs" />

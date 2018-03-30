@@ -135,7 +135,7 @@ namespace MoneyChest.Data.Mock
 
         private static void DefineSettingsEntities(DbFactory f)
         {
-            f.Define<CalendarSetting>(e =>
+            f.Define<CalendarSettings>(e =>
             {
                 e.PeriodType = CalendarPeriodType.Month;
                 e.ShowLimits = false;

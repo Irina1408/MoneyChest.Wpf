@@ -28,6 +28,6 @@ namespace MoneyChest.Data.Entities
         public virtual User User { get; set; }
 
         public virtual ICollection<Storage> Storages { get; set; }
-        public virtual ICollection<CalendarSetting> CalendarSettings { get; set; }
+        public virtual ICollection<CalendarSettings> CalendarSettings { get; set; }
     }
 }

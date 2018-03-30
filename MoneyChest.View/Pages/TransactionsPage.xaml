@@ -18,14 +18,6 @@
         <converters:EnumToBoolConverter x:Key="EBConverter"/>
         <converters:EnumToStringConverter x:Key="ESConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
-        <system:Double x:Key="PeriodSelectorHeight">35</system:Double>
-        <Style x:Key="PeriodButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MCButtonStyle}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="{StaticResource PeriodSelectorHeight}"/>
-            <Setter Property="TextBlock.FontWeight" Value="Normal"/>
-        </Style>
     </local:PageBase.Resources>
 
     <Grid>

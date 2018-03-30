@@ -89,7 +89,7 @@
     <Compile Include="Model\Reference\MoneyTransferReference.cs" />
     <Compile Include="Model\Reference\StorageGroupReference.cs" />
     <Compile Include="Model\Reference\StorageReference.cs" />
-    <Compile Include="Model\Settings\CalendarSettingModel.cs" />
+    <Compile Include="Model\Settings\CalendarSettingsModel.cs" />
     <Compile Include="Model\Settings\Filters\DataFilterModel.cs" />
     <Compile Include="Model\Settings\Filters\PeriodFilterModel.cs" />
     <Compile Include="Model\Settings\ReportSettingModel.cs" />

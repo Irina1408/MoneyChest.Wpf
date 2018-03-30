@@ -47,7 +47,7 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<MoneyTransferEvent> MoneyTransferEvents { get; set; }
         public virtual DbSet<RepayDebtEvent> RepayDebtEvents { get; set; }
         public virtual DbSet<SimpleEvent> SimpleEvents { get; set; }
-        public virtual DbSet<CalendarSetting> CalendarSettings { get; set; }
+        public virtual DbSet<CalendarSettings> CalendarSettings { get; set; }
         public virtual DbSet<DataFilter> DataFilters { get; set; }
         public virtual DbSet<PeriodFilter> PeriodFilters { get; set; }
         public virtual DbSet<ForecastSetting> ForecastSettings { get; set; }
