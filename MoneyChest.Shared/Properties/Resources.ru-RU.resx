@@ -760,4 +760,16 @@
   <data name="General_Filter" xml:space="preserve">
     <value>Фильтр</value>
   </data>
+  <data name="TransactionType_Expense" xml:space="preserve">
+    <value>Расход</value>
+  </data>
+  <data name="TransactionType_Income" xml:space="preserve">
+    <value>Доход</value>
+  </data>
+  <data name="TransactionType_MoneyTransfer" xml:space="preserve">
+    <value>Денежный перевод</value>
+  </data>
+  <data name="General_All" xml:space="preserve">
+    <value>Все</value>
+  </data>
 </root>

@@ -54,6 +54,7 @@ namespace MoneyChest.Model.Model
         public override TransactionType TransactionType => TransactionType.MoneyTransfer;
         public override string TransactionValueDetailed => ValueTransfering;
         public override string TransactionStorage => $"{StorageFrom?.Name} -> {StorageTo?.Name}";
+        public override int[] TransactionStorageIds => new[] { StorageFromId, StorageToId };
         public override CategoryReference TransactionCategory => Category;
         public override bool IsExpense => Commission > 0;
         public override bool IsIncome => Commission < 0;

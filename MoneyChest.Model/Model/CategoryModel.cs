@@ -40,17 +40,5 @@ namespace MoneyChest.Model.Model
             get => RecordType.HasValue;
             set => RecordType = value ? (RecordType?)Enums.RecordType.Expense : null;
         }
-
-        public bool RecordTypeIsExpense
-        {
-            get => RecordType.HasValue && RecordType.Value == Enums.RecordType.Expense;
-            set => RecordType = value ? Enums.RecordType.Expense : Enums.RecordType.Income;
-        }
-
-        public bool RecordTypeIsIncome
-        {
-            get => RecordType.HasValue && RecordType.Value == Enums.RecordType.Income;
-            set => RecordType = value ? Enums.RecordType.Income : Enums.RecordType.Expense;
-        }
     }
 }

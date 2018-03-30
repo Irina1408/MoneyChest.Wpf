@@ -760,4 +760,19 @@
   <data name="General_Filter" xml:space="preserve">
     <value>Filter</value>
   </data>
+  <data name="General_All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="TransactionType_EnumName" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="TransactionType_Expense" xml:space="preserve">
+    <value>Expense</value>
+  </data>
+  <data name="TransactionType_Income" xml:space="preserve">
+    <value>Income</value>
+  </data>
+  <data name="TransactionType_MoneyTransfer" xml:space="preserve">
+    <value>Money transfer</value>
+  </data>
 </root>

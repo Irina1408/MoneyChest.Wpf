@@ -17,6 +17,7 @@ namespace MoneyChest.Model.Model
         DateTime TransactionDate { get; }
         string TransactionValueDetailed { get; }
         string TransactionStorage { get; }
+        int[] TransactionStorageIds { get; }
         CategoryReference TransactionCategory { get; }
 
         // General properties

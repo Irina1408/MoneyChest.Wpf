@@ -34,6 +34,7 @@ namespace MoneyChest.Model.Model
         public TransactionType TransactionType => Event.TransactionType;
         public string TransactionValueDetailed => Event.TransactionValueDetailed;
         public string TransactionStorage => Event.TransactionStorage;
+        public int[] TransactionStorageIds => Event.TransactionStorageIds;
         public CategoryReference TransactionCategory => Event.TransactionCategory;
 
         // General event properties

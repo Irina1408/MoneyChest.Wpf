@@ -52,6 +52,7 @@ namespace MoneyChest.Model.Model
             Debt?.DebtType == DebtType.GiveBorrow ? TransactionType.Income : TransactionType.Expense;
         public override string TransactionValueDetailed => ResultValueSignCurrency;
         public override string TransactionStorage => Storage?.Name;
+        public override int[] TransactionStorageIds => Storage != null ? new[] { Storage.Id } : new[] { -1 };
         public override CategoryReference TransactionCategory => DebtCategory;
 
         #endregion

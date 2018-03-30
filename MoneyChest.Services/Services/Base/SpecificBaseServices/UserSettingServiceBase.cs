@@ -15,7 +15,7 @@ namespace MoneyChest.Services.Services.Base
     }
 
     public abstract class UserSettingServiceBase<T, TModel, TConverter> : ServiceBase<T>, IUserSettingsService<TModel>
-        where T : class, IHasUserId
+        where T : class, IHasUserId, new()
         where TModel : class, IHasUserId
         where TConverter : IEntityModelConverter<T, TModel>, new()
     {
@@ -26,7 +26,19 @@ namespace MoneyChest.Services.Services.Base
             _converter = new TConverter();
         }
 
-        public virtual TModel GetForUser(int userId) => _converter.ToModel(Scope.FirstOrDefault(e => e.UserId == userId));
+        public virtual TModel GetForUser(int userId)
+        {
+            var settings = Scope.FirstOrDefault(e => e.UserId == userId);
+            if (settings == null)
+            {
+                Entities.Add(new T() { UserId = userId });
+                _context.SaveChanges();
+
+                settings = Scope.FirstOrDefault(e => e.UserId == userId);
+            }
+
+            return _converter.ToModel(settings);
+        }
 
         public virtual TModel Update(TModel model)
         {

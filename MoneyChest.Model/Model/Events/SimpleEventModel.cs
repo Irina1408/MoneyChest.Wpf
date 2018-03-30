@@ -49,6 +49,7 @@ namespace MoneyChest.Model.Model
             RecordType == RecordType.Income ? TransactionType.Income : TransactionType.Expense;
         public override string TransactionValueDetailed => ResultValueSignCurrency;
         public override string TransactionStorage => Storage?.Name;
+        public override int[] TransactionStorageIds => new[] { StorageId };
         public override CategoryReference TransactionCategory => Category;
 
         #endregion

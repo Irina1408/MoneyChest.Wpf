@@ -14,8 +14,6 @@ namespace MoneyChest.Model.Model
 
         public DataFilterModel()
         {
-            IsSingleCategorySelection = false;
-            IncludeWithoutCategory = true;
             CategoryIds = new List<int>();
             StorageIds = new List<int>();
         }
@@ -25,9 +23,13 @@ namespace MoneyChest.Model.Model
         public string Remark { get; set; }
         public TransactionType? TransactionType { get; set; }
         
-        public bool IsSingleCategorySelection { get; set; }
-        public bool IncludeWithoutCategory { get; set; }
         public List<int> CategoryIds { get; set; }
         public List<int> StorageIds { get; set; }
+
+        public bool IsTransactionTypeFiltered
+        {
+            get => TransactionType != null;
+            set => TransactionType = value ? (TransactionType?)Enums.TransactionType.Expense : null;
+        }
     }
 }

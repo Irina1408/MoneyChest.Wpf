@@ -14,6 +14,7 @@ namespace MoneyChest.ViewModel.ViewModel
     {
         public ObservableCollection<ITransaction> Entities { get; set; }
         public ObservableCollection<ITransaction> FilteredEntities { get; set; }
+        public CategoryViewModelCollection Categories { get; set; }
 
         public IMCCommand AddRecordCommand { get; set; }
         public IMCCommand AddMoneyTransferCommand { get; set; }

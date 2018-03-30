@@ -10,8 +10,8 @@
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              xmlns:converters="clr-namespace:MoneyChest.View.Converters"
              xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
-                xmlns:components="clr-namespace:MoneyChest.View.Components"
-                mc:Ignorable="d" 
+             xmlns:components="clr-namespace:MoneyChest.View.Components"
+             mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <local:PageBase.Resources>
@@ -215,33 +215,106 @@
         </DataGrid>
         
         <!-- Filter -->
-        <GroupBox Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
+        <components:DataFilterControl Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
+                                      DataFilter="{Binding DataFilter, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--<GroupBox Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
                   Visibility="{Binding DataFilter.IsFilterApplied, Converter={StaticResource BVConverter}}">
             <GroupBox.Header>
                 <TextBlock Text="{moneyChestView:MultiLangBinding General_Filter}"
                               Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
             </GroupBox.Header>
-
-            <StackPanel>
-                <!-- Description -->
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
-                    <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    --><!-- Description --><!--
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
+                        <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
                                      Text="{Binding DataFilter.Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
-                </StackPanel>
+                    </StackPanel>
 
-                <!-- Category -->
-                <!--<components:CategorySelector VerticalAlignment="Center" ShowEmptyCategory="True"
+                    --><!-- Category -->
+                    <!--<components:CategorySelector VerticalAlignment="Center" ShowEmptyCategory="True"
                                          SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
 
-                <!-- Remark -->
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
-                    <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
+                    <!-- Remark --><!--
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
+                        <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
                                      Text="{Binding DataFilter.Remark, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 5 0"/>
-                </StackPanel>
-            </StackPanel>
-        </GroupBox>
+                    </StackPanel>
+
+                    --><!-- Transaction type --><!--
+                    <GroupBox Grid.Row="2" Margin="5 15 5 5">
+                        <GroupBox.Header>
+                            <CheckBox Content="{moneyChestView:MultiLangBinding TransactionType_EnumName}"
+                                  Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"
+                                  IsChecked="{Binding DataFilter.IsTransactionTypeFiltered}"/>
+                        </GroupBox.Header>
+                        <StackPanel IsEnabled="{Binding DataFilter.IsTransactionTypeFiltered}">
+                            <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_Expense}"
+                                     ToolTip="{moneyChestView:MultiLangBinding TransactionType_Expense}"
+                         IsChecked="{Binding DataFilter.TransactionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:TransactionType.Expense}}"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_Income}"
+                                     ToolTip="{moneyChestView:MultiLangBinding TransactionType_Income}"
+                         IsChecked="{Binding DataFilter.TransactionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:TransactionType.Income}}"/>
+
+                            <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_MoneyTransfer}"
+                                     ToolTip="{moneyChestView:MultiLangBinding TransactionType_MoneyTransfer}"
+                         IsChecked="{Binding DataFilter.TransactionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:TransactionType.MoneyTransfer}}"/>
+                        </StackPanel>
+                    </GroupBox>
+                    
+                    --><!-- Storages expander -->
+                    <!--<Expander Grid.Row="3" ExpandDirection="Down" 
+                              Background="{DynamicResource AccentColorBrush}" BorderThickness="0" IsExpanded="False" Padding="0">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconMaterial Kind="Bank" Style="{DynamicResource TextBoxIconStyle}"/>
+                                <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0" VerticalAlignment="Center"
+                                           Text="{moneyChestView:MultiLangBinding Storage_Plural}"/>
+                            </StackPanel>
+                        </Expander.Header>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                            <Grid>
+                                <TreeView ItemsSource="{Binding Categories, 
+                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}"
+                                  ItemContainerStyle="{DynamicResource CategoryTreeViewSelectableItemContainerStyle}"
+                                  ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
+                                </TreeView>
+                            </Grid>
+                        </ScrollViewer>
+                    </Expander>-->
+
+                    <!-- Categories expander --><!--
+                    <Expander Grid.Row="4" ExpandDirection="Down" Margin="5" Focusable="False"
+                              Background="{DynamicResource AccentColorBrush}" BorderThickness="1" IsExpanded="False" Padding="0">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                --><!--<iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}"/>--><!--
+                                <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center"
+                                           Text="{moneyChestView:MultiLangBinding Category_Plural}"/>
+                                --><!-- TODO: show selected categories count--><!--
+                            </StackPanel>
+                        </Expander.Header>
+                        <Grid>
+                            <TreeView ItemsSource="{Binding Categories}"
+                                  ItemContainerStyle="{DynamicResource CategoryTreeViewCheckableItemContainerStyle}"
+                                  ItemTemplate="{DynamicResource CheckableCategoryTreeViewItemTemplate}">
+                            </TreeView>
+                        </Grid>
+                    </Expander>
+                </Grid>
+            </ScrollViewer>
+        </GroupBox>-->
     </Grid>
 </local:PageBase>

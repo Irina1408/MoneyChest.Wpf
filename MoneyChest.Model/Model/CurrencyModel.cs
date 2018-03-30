@@ -14,13 +14,9 @@ namespace MoneyChest.Model.Model
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool _symbolAlignmentIsRight;
-        private CurrencySymbolAlignment _currencySymbolAlignment;
-
         public CurrencyModel()
         {
             IsActive = true;
-            SymbolAlignmentIsRight = true;
         }
 
         public int Id { get; set; }
@@ -39,25 +35,7 @@ namespace MoneyChest.Model.Model
 
         public bool IsMain { get; set; }
         
-        public bool SymbolAlignmentIsRight
-        {
-            get => _symbolAlignmentIsRight;
-            set
-            {
-                _symbolAlignmentIsRight = value;
-                _currencySymbolAlignment = _symbolAlignmentIsRight ? CurrencySymbolAlignment.Right : CurrencySymbolAlignment.Left;
-            }
-        }
-        
-        public CurrencySymbolAlignment CurrencySymbolAlignment
-        {
-            get => _currencySymbolAlignment;
-            set
-            {
-                _currencySymbolAlignment = value;
-                _symbolAlignmentIsRight = _currencySymbolAlignment == CurrencySymbolAlignment.Right;
-            }
-        }
+        public CurrencySymbolAlignment CurrencySymbolAlignment { get; set; }
 
         public int UserId { get; set; }
     }

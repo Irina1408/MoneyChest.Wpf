@@ -109,6 +109,10 @@
     <Compile Include="Migrations\201803190814505_datafilter_change.Designer.cs">
       <DependentUpon>201803190814505_datafilter_change.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803301448548_change_datafilter.cs" />
+    <Compile Include="Migrations\201803301448548_change_datafilter.Designer.cs">
+      <DependentUpon>201803301448548_change_datafilter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -131,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803190814505_datafilter_change.resx">
       <DependentUpon>201803190814505_datafilter_change.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803301448548_change_datafilter.resx">
+      <DependentUpon>201803301448548_change_datafilter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

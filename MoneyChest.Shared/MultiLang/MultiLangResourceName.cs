@@ -21,6 +21,8 @@ namespace MoneyChest.Shared.MultiLang
 
         public static string None => "General_None";
 
+        public static string All => "General_All";
+
         #endregion
 
         #region Complex

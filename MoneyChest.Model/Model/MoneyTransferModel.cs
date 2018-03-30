@@ -72,6 +72,7 @@ namespace MoneyChest.Model.Model
         public TransactionType TransactionType => TransactionType.MoneyTransfer;
         public string TransactionValueDetailed => ValueTransfering;
         public string TransactionStorage => $"{StorageFrom?.Name} -> {StorageTo?.Name}";
+        public int[] TransactionStorageIds => new[] { StorageFromId, StorageToId };
         public CategoryReference TransactionCategory => Category;
         public bool IsExpense => Commission > 0;
         public bool IsIncome => Commission < 0;

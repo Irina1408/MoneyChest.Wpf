@@ -99,6 +99,9 @@
     <Compile Include="Components\CurrencyExchangeRateControl.xaml.cs">
       <DependentUpon>CurrencyExchangeRateControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\DataFilterControl.xaml.cs">
+      <DependentUpon>DataFilterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\DetailsViewCommandsPanel.xaml.cs">
       <DependentUpon>DetailsViewCommandsPanel.xaml</DependentUpon>
     </Compile>
@@ -247,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\CurrencyExchangeRateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\DataFilterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

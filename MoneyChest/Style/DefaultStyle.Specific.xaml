@@ -13,6 +13,11 @@
         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
     </Style>
 
+    <Style x:Key="CategoryTreeViewCheckableItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+        <Setter Property="Focusable" Value="False" />
+    </Style>
+
     <HierarchicalDataTemplate x:Key="CategoryTreeViewItemTemplate" ItemsSource="{Binding Path=Children}">
         <StackPanel Name="panel" Orientation="Horizontal" Margin="0">
             <iconPacks:PackIconOcticons Name="IconPlus" Kind="Plus" Visibility="Collapsed" Margin="3 7 0 7"
@@ -75,5 +80,109 @@
             </DataTrigger>
         </HierarchicalDataTemplate.Triggers>
     </HierarchicalDataTemplate>
+    
+    <HierarchicalDataTemplate x:Key="CheckableCategoryTreeViewItemTemplate" ItemsSource="{Binding Path=Children}">
+        <CheckBox Name="chk" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent"
+                  IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  HorizontalContentAlignment="Stretch">
+            <Grid Name="panel" Margin="0" HorizontalAlignment="Stretch" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <iconPacks:PackIconOcticons Name="IconPlus" Kind="Plus" Visibility="Collapsed" Margin="3 7 0 7"
+                                  Height="10" Width="10" Foreground="Green" Grid.Column="0"/>
+                <iconPacks:PackIconModern Name="IconMinus" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
+                                  Height="10" Width="10" Foreground="Red" Grid.Column="0"/>
+                <!--<iconPacks:PackIconMaterial Name="EmptyPlace" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
+                                  Height="10" Width="10"/>-->
+                <TextBlock x:Name="txtName" Text="{Binding Name}" Margin="3 7 3 7" Grid.Column="1"/>
+                <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="Gray" Grid.Column="2"/>
+            </Grid>
+        </CheckBox>
 
+        <HierarchicalDataTemplate.Triggers>
+
+            <!-- Selection trigger -->
+            <!--<DataTrigger Binding="{Binding IsSelected}" Value="True">
+                <Setter Property="IsChecked" TargetName="chk" Value="True" />
+            </DataTrigger>-->
+
+            <!-- Opacity trigger -->
+            <DataTrigger Binding="{Binding IsActive}" Value="False">
+                <Setter Property="Opacity" TargetName="panel" Value="0.5" />
+            </DataTrigger>
+
+            <!-- Icon Plus trigger -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsPlus}" Value="True"/>
+                    <Condition Binding="{Binding HasParent}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility" TargetName="IconPlus" Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <!-- Icon Minus trigger -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMinus}" Value="True"/>
+                    <Condition Binding="{Binding HasParent}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility" TargetName="IconMinus" Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <!-- Empty space trigger -->
+            <!--<MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsPlus}" Value="False"/>
+                    <Condition Binding="{Binding IsMinus}" Value="False"/>
+                    <Condition Binding="{Binding HasParent}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility" TargetName="EmptyPlace" Value="Hidden" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>-->
+
+            <!-- Foreground -->
+            <DataTrigger Binding="{Binding IsPlus}" Value="True">
+                <Setter Property="Foreground" TargetName="txtName" Value="Green"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsMinus}" Value="True">
+                <Setter Property="Foreground" TargetName="txtName" Value="Red"/>
+            </DataTrigger>
+        </HierarchicalDataTemplate.Triggers>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="CheckableStorageTreeViewItemTemplate" ItemsSource="{Binding Path=Children}">
+        <CheckBox Name="chk" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent"
+                  IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <StackPanel Name="panel" Orientation="Horizontal" Margin="0" HorizontalAlignment="Stretch">
+                <TextBlock x:Name="txtName" Text="{Binding Name}" Margin="3 7 3 7"/>
+                <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="Gray"/>
+            </StackPanel>
+        </CheckBox>
+
+        <HierarchicalDataTemplate.Triggers>
+
+            <!-- Selection trigger -->
+            <!--<DataTrigger Binding="{Binding IsSelected}" Value="True">
+                <Setter Property="IsChecked" TargetName="chk" Value="True" />
+            </DataTrigger>-->
+
+            <!-- Opacity trigger -->
+            <DataTrigger Binding="{Binding IsActive}" Value="False">
+                <Setter Property="Opacity" TargetName="panel" Value="0.5" />
+            </DataTrigger>
+        </HierarchicalDataTemplate.Triggers>
+    </HierarchicalDataTemplate>
+
+    <Style x:Key="StorageTreeViewCheckableItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+    </Style>
+    
 </ResourceDictionary>

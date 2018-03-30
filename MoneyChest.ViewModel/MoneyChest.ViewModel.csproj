@@ -62,6 +62,7 @@
     <Compile Include="ViewModel\EntityListViewModel.cs" />
     <Compile Include="ViewModel\Entity\DebtPenaltyViewModel.cs" />
     <Compile Include="ViewModel\Entity\EventViewModel.cs" />
+    <Compile Include="ViewModel\Entity\SelectableTreeViewStorageGroupModel.cs" />
     <Compile Include="ViewModel\Entity\StorageGroupViewModel.cs" />
     <Compile Include="ViewModel\Enum\EnumIcon.cs" />
     <Compile Include="ViewModel\ItemViewModel.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="ViewModel\Page\StoragesPageViewModel.cs" />
     <Compile Include="ViewModel\Entity\StorageViewModel.cs" />
     <Compile Include="ViewModel\Page\TransactionsPageViewModel.cs" />
+    <Compile Include="ViewModel\SelectableTreeViewItemModel.cs" />
     <Compile Include="ViewModel\SelectableViewModel.cs" />
     <Compile Include="Wrappers\EntityWrapper.cs" />
   </ItemGroup>

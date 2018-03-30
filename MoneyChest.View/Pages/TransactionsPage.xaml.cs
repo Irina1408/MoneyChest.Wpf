@@ -38,6 +38,7 @@ namespace MoneyChest.View.Pages
 
         private TransactionsPageViewModel _viewModel;
         private ITransactionService _service;
+        private ITransactionsSettingsService _settingsService;
         private List<StorageModel> _storages;
 
         #endregion
@@ -50,6 +51,7 @@ namespace MoneyChest.View.Pages
 
             // init
             _service = ServiceManager.ConfigureService<TransactionService>();
+            _settingsService = ServiceManager.ConfigureService<TransactionsSettingsService>();
 
             // load storages
             IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
@@ -113,6 +115,13 @@ namespace MoneyChest.View.Pages
                 }
             });
 
+            // load categories
+            ICategoryService categoryService = ServiceManager.ConfigureService<CategoryService>();
+            _viewModel.Categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId)
+                .OrderByDescending(_ => _.RecordType)
+                .ThenBy(_ => _.Name)
+                .ToList(), true);
+
             this.DataContext = _viewModel;
         }
 
@@ -124,24 +133,31 @@ namespace MoneyChest.View.Pages
         {
             base.Reload();
 
-            // TODO: load settings from DB 
-            if (_viewModel.PeriodFilter == null)
+            // load settings from DB 
+            if (_viewModel.PeriodFilter == null || _viewModel.DataFilter == null)
             {
-                _viewModel.PeriodFilter = new PeriodFilterModel();
+                var settings = _settingsService.GetForUser(GlobalVariables.UserId);
+
+                _viewModel.PeriodFilter = settings.PeriodFilter;
                 _viewModel.PeriodFilter.OnPeriodChanged += (sender, e) =>
                 {
-                    // reload data
+                    // save changes
+                    _settingsService.Update(settings);
+                    // reload page
                     Reload();
+                };
+
+                _viewModel.DataFilter = settings.DataFilter;
+                _viewModel.DataFilter.PropertyChanged += (sender, e) =>
+                {
+                    // save changes
+                    _settingsService.Update(settings);
+                    // apply filter
+                    ApplyDataFilter();
                 };
             }
 
-            // TODO: load filter from DB 
-            if (_viewModel.DataFilter == null)
-            {
-                _viewModel.DataFilter = new DataFilterModel();
-                _viewModel.DataFilter.PropertyChanged += (sender, e) => ApplyDataFilter();
-            }
-
+            // load transactions
             _viewModel.Entities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(_service.Get(GlobalVariables.UserId, _viewModel.PeriodFilter.DateFrom, _viewModel.PeriodFilter.DateUntil));
 
             _viewModel.Entities.CollectionChanged += (sender, e) => ApplyDataFilter();
@@ -218,22 +234,30 @@ namespace MoneyChest.View.Pages
 
         private void ApplyDataFilter()
         {
-            Func<ITransaction, bool> filter = (t) => true;
+            var filters = new List<Func<ITransaction, bool>>();
 
             if (_viewModel.DataFilter.IsFilterApplied)
             {
-                // TODO: replace it
+                // TODO: replace filter builder
                 if (!string.IsNullOrEmpty(_viewModel.DataFilter.Description))
-                    filter = (t) => filter(t) && !string.IsNullOrEmpty(t.Description)
-                                              && t.Description.Contains(_viewModel.DataFilter.Description);
+                    filters.Add((t) => !string.IsNullOrEmpty(t.Description) && t.Description.Contains(_viewModel.DataFilter.Description));
 
                 if (!string.IsNullOrEmpty(_viewModel.DataFilter.Remark))
-                    filter = (t) => filter(t) && !string.IsNullOrEmpty(t.Remark)
-                                              && t.Remark.Contains(_viewModel.DataFilter.Remark);
+                    filters.Add((t) => !string.IsNullOrEmpty(t.Remark) && t.Remark.Contains(_viewModel.DataFilter.Remark));
+
+                if (_viewModel.DataFilter.TransactionType.HasValue)
+                    filters.Add((t) => t.TransactionType == _viewModel.DataFilter.TransactionType.Value);
+
+                if (_viewModel.DataFilter.CategoryIds.Count > 0)
+                    filters.Add((t) => (_viewModel.DataFilter.CategoryIds.Contains(-1) && t.TransactionCategory == null)
+                        || (t.TransactionCategory != null && _viewModel.DataFilter.CategoryIds.Contains(t.TransactionCategory.Id)));
+
+                if (_viewModel.DataFilter.StorageIds.Count > 0)
+                    filters.Add((t) => t.TransactionStorageIds.Any(x => _viewModel.DataFilter.StorageIds.Contains(x)));
             }
 
             _viewModel.FilteredEntities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(
-                _viewModel.Entities.Where(filter));
+                _viewModel.Entities.Where(x => filters.Count == 0 || filters.All(f => f(x))));
         }
 
         #endregion
