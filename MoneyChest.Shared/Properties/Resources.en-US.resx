@@ -775,4 +775,7 @@
   <data name="TransactionType_MoneyTransfer" xml:space="preserve">
     <value>Money transfer</value>
   </data>
+  <data name="General_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
 </root>

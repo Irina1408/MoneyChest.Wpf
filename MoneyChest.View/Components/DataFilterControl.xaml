@@ -100,7 +100,7 @@
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Storages}">
                                     <TextBlock Text="{Binding StorageGroup.Name}"/>
-                                    
+
                                     <HierarchicalDataTemplate.ItemTemplate>
                                         <DataTemplate>
                                             <CheckBox Name="chk" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
@@ -110,15 +110,14 @@
                                                     <TextBlock Text="{Binding Value.Name}" Margin="3 7 3 7"/>
                                                 </Grid>
                                             </CheckBox>
+                                            <DataTemplate.Triggers>
+                                                <!--Opacity trigger-->
+                                                <DataTrigger Binding="{Binding Value.IsVisible}" Value="False">
+                                                    <Setter Property="Opacity" TargetName="chk" Value="0.5" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </HierarchicalDataTemplate.ItemTemplate>
-                                    
-                                    <!--<HierarchicalDataTemplate.Triggers>
-                                        --><!-- Opacity trigger --><!--
-                                        <DataTrigger Binding="{Binding IsVisible}" Value="False">
-                                            <Setter Property="Opacity" Value="0.5" />
-                                        </DataTrigger>
-                                    </HierarchicalDataTemplate.Triggers>-->
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                             

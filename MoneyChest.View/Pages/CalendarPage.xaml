@@ -23,7 +23,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -37,8 +36,13 @@
                                       PeriodFilter="{Binding Settings.PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
         <!-- Filter -->
-        <components:DataFilterControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" 
+        <components:DataFilterControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" 
                                       DataFilter="{Binding Settings.DataFilter, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <!-- Calendar days grid-->
+        <ScrollViewer Grid.Column="0" Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
+            <UniformGrid x:Name="daysGrid" Columns="7"/>
+        </ScrollViewer>
 
     </Grid>
 </local:PageBase>

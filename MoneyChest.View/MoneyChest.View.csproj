@@ -90,6 +90,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\CalendarDayControl.xaml.cs">
+      <DependentUpon>CalendarDayControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\CategorySelector.xaml.cs">
       <DependentUpon>CategorySelector.xaml</DependentUpon>
     </Compile>
@@ -226,6 +229,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MoneyChest.Calculation\MoneyChest.Calculation.csproj">
+      <Project>{DB809B22-130F-4FB6-A8AD-2B50B56C6098}</Project>
+      <Name>MoneyChest.Calculation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MoneyChest.Model\MoneyChest.Model.csproj">
       <Project>{AA3CD891-1018-489D-A0C5-16C295C2E636}</Project>
       <Name>MoneyChest.Model</Name>
@@ -244,6 +251,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Components\CalendarDayControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\CategorySelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.IconPacks;
+using MoneyChest.Calculation.Builders;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
@@ -28,9 +29,10 @@ namespace MoneyChest.View.Pages
     {
         #region Private fields
 
-        private CalendarPageViewModel _viewModel;
         private ITransactionService _service;
         private ICalendarSettingsService _settingsService;
+        private CalendarPageViewModel _viewModel;
+        private CalendarDataBuilder _builder;
 
         #endregion
 
@@ -43,6 +45,7 @@ namespace MoneyChest.View.Pages
             // init
             _service = ServiceManager.ConfigureService<TransactionService>();
             _settingsService = ServiceManager.ConfigureService<CalendarSettingsService>();
+            _builder = new CalendarDataBuilder(GlobalVariables.UserId, _service);
 
             InitializeViewModel();
         }
@@ -84,9 +87,26 @@ namespace MoneyChest.View.Pages
                 };
             }
 
+            // reload calendar data and update view
+            RefreshCalendar();
 
             // apply filter
             //ApplyDataFilter();
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private void RefreshCalendar()
+        {
+            // build data
+            var data = _builder.Build(_viewModel.Settings.PeriodFilter.DateFrom, _viewModel.Settings.PeriodFilter.DateUntil);
+
+            for(int iCol = 0; iCol < 7; iCol++)
+            {
+
+            }
         }
 
         #endregion

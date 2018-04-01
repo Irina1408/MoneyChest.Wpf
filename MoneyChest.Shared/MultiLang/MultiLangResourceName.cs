@@ -19,8 +19,8 @@ namespace MoneyChest.Shared.MultiLang
         public static string SaveFailed => "General_SaveFailed";
         public static string SaveFailedMessage => "General_SaveFailedMessage";
 
+        public static string Today => "General_Today";
         public static string None => "General_None";
-
         public static string All => "General_All";
 
         #endregion

@@ -772,4 +772,7 @@
   <data name="General_All" xml:space="preserve">
     <value>Все</value>
   </data>
+  <data name="General_Today" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
 </root>

@@ -70,7 +70,7 @@ namespace MoneyChest.View.Components
                 {
                     // load categories
                     ICategoryService categoryService = ServiceManager.ConfigureService<CategoryService>();
-                    var categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId)
+                    var categories = TreeHelper.BuildTree(categoryService.GetListForUser(GlobalVariables.UserId)
                         .OrderByDescending(_ => _.RecordType)
                         .ThenBy(_ => _.Name)
                         .ToList(), true);
@@ -106,7 +106,7 @@ namespace MoneyChest.View.Components
                 {
                     // load storages
                     IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
-                    var storages = storageService.GetVisible(GlobalVariables.UserId)
+                    var storages = storageService.GetListForUser(GlobalVariables.UserId)
                         .OrderByDescending(_ => _.StorageGroup.Name)
                         .ThenBy(_ => _.Name)
                         .ToList();

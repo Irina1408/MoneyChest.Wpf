@@ -10,6 +10,7 @@
     <Thickness x:Key="ControlMargin">5</Thickness>
     <system:Double x:Key="DefaultFontSize">14</system:Double>
     <system:Double x:Key="LargeFontSize">24</system:Double>
+    <system:Double x:Key="MiddleFontSize">20</system:Double>
     <system:Double x:Key="SmallFontSize">12</system:Double>
     <system:Double x:Key="ToolBarButtonSize">40</system:Double>
     <system:Double x:Key="TextInputControlWidth">200</system:Double>
@@ -736,10 +737,12 @@
     <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MCComboBoxFloatingHintStyle}"/>
 
     <!--*********************************** Label ***********************************-->
-    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MetroLabel}">
+    <Style x:Key="MCLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MetroLabel}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
+
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}"/>
 
     <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource MaterialDesignToolTip}">
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
