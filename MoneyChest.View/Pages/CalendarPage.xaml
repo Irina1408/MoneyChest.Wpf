@@ -40,9 +40,18 @@
                                       DataFilter="{Binding Settings.DataFilter, UpdateSourceTrigger=PropertyChanged}"/>
         
         <!-- Calendar days grid-->
-        <ScrollViewer Grid.Column="0" Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
-            <UniformGrid x:Name="daysGrid" Columns="7"/>
-        </ScrollViewer>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <UniformGrid x:Name="dayHeadersGrid" Columns="7" Rows="1"/>
+            
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
+                <UniformGrid x:Name="daysGrid" Columns="7"/>
+            </ScrollViewer>
+        </Grid>
 
     </Grid>
 </local:PageBase>
