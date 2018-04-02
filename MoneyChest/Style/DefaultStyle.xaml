@@ -10,7 +10,7 @@
     <Thickness x:Key="ControlMargin">5</Thickness>
     <system:Double x:Key="DefaultFontSize">14</system:Double>
     <system:Double x:Key="LargeFontSize">24</system:Double>
-    <system:Double x:Key="MiddleFontSize">20</system:Double>
+    <system:Double x:Key="MiddleFontSize">17</system:Double>
     <system:Double x:Key="SmallFontSize">12</system:Double>
     <system:Double x:Key="ToolBarButtonSize">40</system:Double>
     <system:Double x:Key="TextInputControlWidth">200</system:Double>

@@ -52,6 +52,8 @@ namespace MoneyChest.View.Components
             ? MultiLangResourceManager.Instance[MultiLangResourceName.Today] 
             : (Data != null && Data.DayOfMonth == 1 ? MultiLangResource.EnumItemDescription(typeof(Month), (Month)Data.Month) : "");
 
+        public bool IsActive => Data != null;
+
         #endregion
     }
 }

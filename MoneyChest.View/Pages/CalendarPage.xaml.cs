@@ -182,7 +182,9 @@ namespace MoneyChest.View.Pages
                 {
                     var lbl = new Label()
                     {
-                        Content = MultiLangResource.EnumItemDescription(typeof(DayOfWeek), _daysOfWeek[iCol])
+                        Content = MultiLangResource.EnumItemDescription(typeof(DayOfWeek), _daysOfWeek[iCol]),
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        HorizontalContentAlignment = HorizontalAlignment.Center
                     };
 
                     Grid.SetColumn(lbl, iCol);

@@ -84,12 +84,17 @@
                               Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
                     <iconPacks:PackIconModern Kind="Filter" />
                 </ToggleButton>
+
+            </ToolBar>
+            <ToolBar HorizontalContentAlignment="Center">
+                <components:PeriodSelectorControl HorizontalAlignment="Center"
+                                      PeriodFilter="{Binding PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>
             </ToolBar>
         </ToolBarTray>
         
         <!-- Period selector -->
-        <components:PeriodSelectorControl Grid.Row="1" Grid.Column="0"
-                                      PeriodFilter="{Binding PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>
+        <!--<components:PeriodSelectorControl Grid.Row="1" Grid.Column="0"
+                                      PeriodFilter="{Binding PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>-->
 
         <!-- Transactions grid -->
         <DataGrid x:Name="GridTransactions" Grid.Row="2" Grid.Column="0"

@@ -16,7 +16,7 @@
     
     <Grid>
         <!-- Main day border -->
-        <Border BorderThickness="1" BorderBrush="{DynamicResource GrayBrush8}">
+        <Border BorderThickness="1" BorderBrush="{DynamicResource GrayBrush7}">
             <Border.Background>
                 <SolidColorBrush Color="{DynamicResource Gray10}" Opacity="0.4"></SolidColorBrush>
             </Border.Background>
@@ -42,7 +42,7 @@
                         <Style TargetType="{x:Type Grid}">
                             <Setter Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource AccentColor2}" Opacity="0.5"/>
+                                    <SolidColorBrush Color="{DynamicResource AccentColor3}" Opacity="0.5"/>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>

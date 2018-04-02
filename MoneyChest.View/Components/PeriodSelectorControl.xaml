@@ -29,12 +29,13 @@
     <Grid>
         <StackPanel x:Name="MainPanel" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Height="{StaticResource PeriodSelectorHeight}" Width="{StaticResource PeriodSelectorHeight}" Margin="0"
-                    Command="{Binding PrevDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}">
+                    Command="{Binding PrevDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}"
+                    Background="{DynamicResource GrayBrush8}" Cursor="Hand">
                 <iconPacks:PackIconOcticons Kind="ChevronLeft" Height="Auto" Width="Auto"/>
             </Button>
 
-            <materialDesign:ColorZone Mode="PrimaryMid" Background="{DynamicResource GrayBrush7}" Height="34" Width="200"
-                                      Foreground="{DynamicResource BlackBrush}" Margin="0 1 0 0">
+            <materialDesign:ColorZone Mode="PrimaryMid" Background="{DynamicResource GrayBrush8}" Height="35" Width="200"
+                                      Foreground="{DynamicResource BlackBrush}" Margin="0" VerticalAlignment="Center">
                 <Grid VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -68,8 +69,9 @@
                 </Grid>
             </materialDesign:ColorZone>
 
-            <Button Height="{StaticResource PeriodSelectorHeight}" Width="{StaticResource PeriodSelectorHeight}" Margin="0"
-                    Command="{Binding NextDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}">
+            <Button Height="{StaticResource PeriodSelectorHeight}" Width="{StaticResource PeriodSelectorHeight}" Margin="-1 0 0 0"
+                    Command="{Binding NextDateRangeCommand}" BorderThickness="0" Style="{StaticResource PeriodButtonStyle}"
+                    Background="{DynamicResource GrayBrush8}" Cursor="Hand">
                 <iconPacks:PackIconOcticons Kind="ChevronRight" Height="Auto" Width="Auto"/>
             </Button>
         </StackPanel>
