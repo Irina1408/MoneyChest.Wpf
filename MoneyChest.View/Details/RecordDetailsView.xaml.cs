@@ -83,7 +83,7 @@ namespace MoneyChest.View.Details
         {
             base.PrepareParentWindow(window);
 
-            window.Height = 550;
+            window.Height = 575;
             window.Width = 530;
         }
 

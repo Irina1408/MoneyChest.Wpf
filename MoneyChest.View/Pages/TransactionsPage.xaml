@@ -143,7 +143,7 @@
 
                 <DataGridTextColumn Binding="{Binding TransactionValueDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Amount}" />
 
-                <DataGridTextColumn Binding="{Binding TransactionStorage, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding Storage_Singular}" />
+                <DataGridTextColumn Binding="{Binding TransactionStorageDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding Storage_Singular}" />
 
                 <DataGridTextColumn Binding="{Binding TransactionCategory.Name, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding Category_Singular}" />
 

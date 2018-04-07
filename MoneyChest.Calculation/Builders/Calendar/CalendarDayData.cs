@@ -19,7 +19,7 @@ namespace MoneyChest.Calculation.Builders
 
         #endregion
 
-        #region Required part
+        #region Date definition
 
         public DateTime Date { get; private set; }
         public int DayOfMonth => Date.Day;
@@ -36,7 +36,21 @@ namespace MoneyChest.Calculation.Builders
 
         #endregion
 
+        #region Filtered legend
+
+        public List<ITransaction> FilteredTransactions => Transactions;
+
+        #endregion
+
+        #region Totals
+
+
+
+        #endregion
+
         #region Summaries
+
+
 
         #endregion
     }

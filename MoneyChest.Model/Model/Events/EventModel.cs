@@ -125,6 +125,7 @@ namespace MoneyChest.Model.Model
 
         public decimal CommissionValue => CommissionType == CommissionType.Currency ? Commission : Commission / 100 * Value;
         public decimal ResultValue => Value + (IsExpense ? CommissionValue : -CommissionValue);
+        //public abstract bool IsCurrencyExchangeRateRequired { get; }
 
         #endregion
 

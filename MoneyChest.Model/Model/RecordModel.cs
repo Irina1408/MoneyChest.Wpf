@@ -65,7 +65,7 @@ namespace MoneyChest.Model.Model
         public string TransactionValueDetailed => ResultValueSignCurrency;
         public DateTime TransactionDate => Date;
         public bool IsPlanned => false;
-        public string TransactionStorage => Storage?.Name;
+        public string TransactionStorageDetailed => Storage?.Name;
         public int[] TransactionStorageIds => StorageId.HasValue ? new[] { StorageId.Value } : new[] { -1 };
         public CategoryReference TransactionCategory => Category;
         public bool IsExpense => RecordType == RecordType.Expense;

@@ -133,9 +133,6 @@ namespace MoneyChest.View.Pages
                 else break;
             }
 
-            // next row if first day of selected period is the last day of week
-            //if (iCol == _daysOfWeek.Count - 1) iRow += 1;
-
             // fill selected period days
             foreach(var d in data)
             {

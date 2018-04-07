@@ -25,8 +25,6 @@ namespace MoneyChest.Services.Services
         private IRecordService _recordService;
         private IMoneyTransferService _moneyTransferService;
         private IEventService _eventService;
-        private IMoneyTransferEventService _moneyTransferEventService;
-        private IRepayDebtEventService _repayDebtEventService;
 
         #endregion
 
@@ -77,6 +75,9 @@ namespace MoneyChest.Services.Services
             var result = new List<PlannedTransactionModel<EventModel>>();
             // load events
             var events = _eventService.GetActiveForPeriod(userId, dateFrom, dateUntil);
+            // update currency exchange rate for 
+            // load currency exchange rates
+            //var currencyExchageRates = _currencyExchangeRateService.GetListForUser(userId);
 
             // loop for every future day in selection
             var date = dateFrom <= DateTime.Today ? DateTime.Today.AddDays(1) : dateFrom.Date;

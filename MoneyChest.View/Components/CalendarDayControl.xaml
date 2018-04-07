@@ -13,16 +13,28 @@
             <Setter Property="Padding" Value="0"/>
         </Style>
     </UserControl.Resources>
-    
-    <Grid>
+
+    <Grid x:Name="MainGrid">
+        <!-- Change opacity for inacive day -->
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Setter Property="Opacity" Value="1"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsActive}" Value="false">
+                        <Setter Property="Opacity" Value="0.5"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        
         <!-- Main day border -->
         <Border BorderThickness="1" BorderBrush="{DynamicResource GrayBrush7}">
             <Border.Background>
-                <SolidColorBrush Color="{DynamicResource Gray10}" Opacity="0.4"></SolidColorBrush>
+                <SolidColorBrush Color="{DynamicResource Gray8}" Opacity="0.4"></SolidColorBrush>
             </Border.Background>
             
             <!-- Main data grid -->
-            <Grid x:Name="MainGrid">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -49,7 +61,7 @@
                                 <DataTrigger Binding="{Binding Data.IsToday}" Value="true">
                                     <Setter Property="Background">
                                         <Setter.Value>
-                                            <SolidColorBrush Color="{DynamicResource AccentColor}" Opacity="0.5"/>
+                                            <SolidColorBrush Color="{DynamicResource AccentColor}" Opacity="0.6"/>
                                         </Setter.Value>
                                     </Setter>
                                 </DataTrigger>
@@ -68,6 +80,9 @@
                 
                 <!-- Totals row -->
                 <Grid Grid.Row="2">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{DynamicResource Gray7}" Opacity="0.7"/>
+                    </Grid.Background>
                     <!--<Label HorizontalAlignment="Right" Content="{Binding TotValue}" Margin="0" Padding="0"/>-->
                 </Grid>
                 
@@ -78,7 +93,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.Background>
-                        <SolidColorBrush Color="{DynamicResource Gray10}" Opacity="0.25"/>
+                        <SolidColorBrush Color="{DynamicResource Gray6}" Opacity="0.7"/>
                     </Grid.Background>
 
                     <!--<Label Grid.Column="0" HorizontalAlignment="Left" Content="{Binding LimitSummary}" Margin="0" Padding="0"/>-->

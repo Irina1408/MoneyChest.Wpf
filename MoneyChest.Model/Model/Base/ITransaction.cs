@@ -8,21 +8,57 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public interface ITransaction
+    /// <summary>
+    /// Markers for color and opasity
+    /// </summary>
+    public interface ITransactionMarkers
     {
         bool IsPlanned { get; }
         bool IsExpense { get; }
         bool IsIncome { get; }
-        TransactionType TransactionType { get; }
-        DateTime TransactionDate { get; }
-        string TransactionValueDetailed { get; }
-        string TransactionStorage { get; }
-        int[] TransactionStorageIds { get; }
-        CategoryReference TransactionCategory { get; }
+    }
 
-        // General properties
+    /// <summary>
+    /// Properties for showing
+    /// </summary>
+    public interface ITransactionViewDetails
+    {
+        string TransactionValueDetailed { get; }
+        string TransactionStorageDetailed { get; }
+    }
+
+    /// <summary>
+    /// Properties for filtering
+    /// </summary>
+    public interface ITransactionValueTransfering
+    {
+        //StorageReference StorageFrom { get; }
+        //StorageReference StorageTo { get; }
+
+        //CurrencyReference CurrencyFrom { get; }
+        //CurrencyReference CurrencyTo { get; }
+
+        //decimal ValueFrom { get; }
+        //decimal ValueTo { get; }
+
+        int[] TransactionStorageIds { get; }
+    }
+
+    /// <summary>
+    /// General entities properties
+    /// </summary>
+    public interface ITransactionEntity
+    {
         int Id { get; }
         string Description { get; }
         string Remark { get; }
+    }
+
+    public interface ITransaction : ITransactionMarkers, ITransactionViewDetails, ITransactionValueTransfering, ITransactionEntity
+    {
+        // General transaction info
+        TransactionType TransactionType { get; }
+        DateTime TransactionDate { get; }
+        CategoryReference TransactionCategory { get; }
     }
 }
