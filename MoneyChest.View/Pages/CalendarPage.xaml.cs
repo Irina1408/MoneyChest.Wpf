@@ -209,16 +209,17 @@ namespace MoneyChest.View.Pages
                 // add to the list
                 _cellMapping.Add(cellMap);
 
-                // make sure grid contains correspond row
-                if (daysGrid.Rows < iRow + 1)
-                    daysGrid.Rows = iRow + 1;
                 // fill cell in grid
                 Grid.SetColumn(cellMap.Control, cellMap.ICol);
                 Grid.SetRow(cellMap.Control, cellMap.IRow);
                 daysGrid.Children.Add(cellMap.Control);
             }
-            
-            if(cellMap.Control.Parent == null)
+
+            // make sure grid contains correspond row
+            if (daysGrid.Rows < iRow + 1)
+                daysGrid.Rows = iRow + 1;
+
+            if (cellMap.Control.Parent == null)
                 daysGrid.Children.Add(cellMap.Control);
 
             cellMap.Control.Data = data;
