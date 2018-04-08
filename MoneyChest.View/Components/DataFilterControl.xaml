@@ -146,7 +146,7 @@
                         </StackPanel>
                     </Expander.Header>
                     <Grid>
-                        <TreeView x:Name="CategoriesTree" Focusable="False"
+                        <TreeView x:Name="CategoriesTree" Focusable="False" ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                   ItemContainerStyle="{DynamicResource CategoryTreeViewCheckableItemContainerStyle}"
                                   ItemTemplate="{DynamicResource CheckableCategoryTreeViewItemTemplate}">
                         </TreeView>
