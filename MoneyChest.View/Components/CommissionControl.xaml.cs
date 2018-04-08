@@ -21,7 +21,6 @@ namespace MoneyChest.View.Components
     [PropertyChanged.AddINotifyPropertyChangedInterface]
     public partial class CommissionControl : UserControl
     {
-        // TODO: replace here all properties like CommissionEnabled
         public CommissionControl()
         {
             InitializeComponent();

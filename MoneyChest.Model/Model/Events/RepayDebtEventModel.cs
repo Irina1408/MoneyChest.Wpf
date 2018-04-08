@@ -46,14 +46,16 @@ namespace MoneyChest.Model.Model
 
         #endregion
 
-        #region ITransaction implementation
+        #region Transaction characteristics
 
-        public override TransactionType TransactionType => 
+        public override TransactionType TransactionType =>
             Debt?.DebtType == DebtType.GiveBorrow ? TransactionType.Income : TransactionType.Expense;
         public override string TransactionValueDetailed => ResultValueSignCurrency;
-        public override string TransactionStorage => Storage?.Name;
+        public override string TransactionStorageDetailed => Storage?.Name;
         public override int[] TransactionStorageIds => Storage != null ? new[] { Storage.Id } : new[] { -1 };
         public override CategoryReference TransactionCategory => DebtCategory;
+        public override int TransactionCurrencyId => Storage.CurrencyId;
+        public override decimal TransactionAmount => IsValueInStorageCurrency ? ResultValueSign : ResultValueSign * CurrencyExchangeRate;
 
         #endregion
 

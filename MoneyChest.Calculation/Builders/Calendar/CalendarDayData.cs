@@ -1,4 +1,5 @@
-﻿using MoneyChest.Model.Model;
+﻿using MoneyChest.Calculation.Common;
+using MoneyChest.Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,13 +45,33 @@ namespace MoneyChest.Calculation.Builders
 
         #region Totals
 
+        public decimal TotDayAmount => FilteredTransactions
+            // TODO: filter by storage
+            .Sum(x => ToMainCurrency(x.TransactionAmount, x.TransactionCurrencyId));
 
+        public string TotDayAmountDetailed => FormatMainCurrency(TotDayAmount, true);
 
         #endregion
 
         #region Summaries
 
 
+
+        #endregion
+
+        #region Helper references
+
+        internal CalendarData CalendarData { get; set; }
+
+        #endregion
+
+        #region Private methods
+
+        private decimal ToMainCurrency(decimal val, int currencyId) => 
+            val != 0 ? CalculationHelper.ConvertToCurrency(val, currencyId, CalendarData.MainCurrency.Id, CalendarData.Rates) : 0;
+
+        private string FormatMainCurrency(decimal val, bool hideZero = false) =>
+            hideZero && val == 0 ? null : CalendarData.MainCurrency.FormatValue(val, true);
 
         #endregion
     }

@@ -10,23 +10,16 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class MoneyTransferModel : ITransaction, IHasId, INotifyPropertyChanged
+    public class MoneyTransferModel : TransactionBase, IHasId, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #region Private fields
-
-        private bool _comissionEnabled;
-
-        #endregion
-
+        
         #region Initialization
 
         public MoneyTransferModel()
         {
             CurrencyExchangeRate = 1;
             TakeCommissionFromReceiver = false;
-            CommissionEnabled = false;
             Date = DateTime.Today;
         }
 
@@ -34,10 +27,10 @@ namespace MoneyChest.Model.Model
 
         #region Main entity properties
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
-        [StringLength(1000)]
-        public string Description { get; set; }
+        //[StringLength(1000)]
+        //public string Description { get; set; }
         public DateTime Date { get; set; }
         public decimal Value { get; set; }  // always in StorageFrom currency
         public decimal CurrencyExchangeRate { get; set; }
@@ -45,8 +38,8 @@ namespace MoneyChest.Model.Model
         public CommissionType CommissionType { get; set; }
         public bool TakeCommissionFromReceiver { get; set; }
 
-        [StringLength(4000)]
-        public string Remark { get; set; }
+        //[StringLength(4000)]
+        //public string Remark { get; set; }
 
 
         public int StorageFromId { get; set; }
@@ -65,32 +58,23 @@ namespace MoneyChest.Model.Model
 
         #endregion
 
-        #region ITransaction implementation
+        #region Transaction overrides
 
-        public DateTime TransactionDate => Date;
-        public bool IsPlanned => false;
-        public TransactionType TransactionType => TransactionType.MoneyTransfer;
-        public string TransactionValueDetailed => ValueTransfering;
-        public string TransactionStorageDetailed => $"{StorageFrom?.Name} -> {StorageTo?.Name}";
-        public int[] TransactionStorageIds => new[] { StorageFromId, StorageToId };
-        public CategoryReference TransactionCategory => Category;
-        public bool IsExpense => Commission > 0;
-        public bool IsIncome => Commission < 0;
-
+        public override TransactionType TransactionType => TransactionType.MoneyTransfer;
+        public override string TransactionValueDetailed => ValueTransfering;
+        public override DateTime TransactionDate => Date;
+        public override bool IsPlanned => false;
+        public override bool IsExpense => Commission > 0;
+        public override bool IsIncome => Commission < 0;
+        public override string TransactionStorageDetailed => $"{StorageFrom?.Name} -> {StorageTo?.Name}";
+        public override int[] TransactionStorageIds => new[] { StorageFromId, StorageToId };
+        public override CategoryReference TransactionCategory => Category;
+        public override int TransactionCurrencyId => TakeCommissionFromReceiver ? StorageTo.CurrencyId : StorageFrom.CurrencyId;
+        public override decimal TransactionAmount => TakeCommissionFromReceiver ? -StorageToCommissionValue : -StorageFromCommissionValue;
+        
         #endregion
 
         #region Additional properties
-
-        public bool CommissionEnabled
-        {
-            get => _comissionEnabled;
-            set
-            {
-                _comissionEnabled = value;
-                if (!_comissionEnabled)
-                    Commission = 0;
-            }
-        }
 
         public bool IsDifferentCurrenciesSelected =>
             StorageFromCurrency != null && StorageToCurrency != null && StorageFromCurrency.Id != StorageToCurrency.Id;

@@ -104,9 +104,11 @@ namespace MoneyChest.Model.Model
 
         public abstract TransactionType TransactionType { get; }
         public abstract string TransactionValueDetailed { get; }
-        public abstract string TransactionStorage { get; }
+        public abstract string TransactionStorageDetailed { get; }
         public abstract int[] TransactionStorageIds { get; }
         public abstract CategoryReference TransactionCategory { get; }
+        public abstract int TransactionCurrencyId { get; }
+        public abstract decimal TransactionAmount { get; }
 
         #endregion
 

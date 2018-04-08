@@ -32,15 +32,8 @@ namespace MoneyChest.Model.Model
     /// </summary>
     public interface ITransactionValueTransfering
     {
-        //StorageReference StorageFrom { get; }
-        //StorageReference StorageTo { get; }
-
-        //CurrencyReference CurrencyFrom { get; }
-        //CurrencyReference CurrencyTo { get; }
-
-        //decimal ValueFrom { get; }
-        //decimal ValueTo { get; }
-
+        //CurrencyReference TransactionCurrency { get; }
+        //decimal TransactionAmount { get; }
         int[] TransactionStorageIds { get; }
     }
 
@@ -60,5 +53,8 @@ namespace MoneyChest.Model.Model
         TransactionType TransactionType { get; }
         DateTime TransactionDate { get; }
         CategoryReference TransactionCategory { get; }
+        //CurrencyReference TransactionCurrency { get; }
+        int TransactionCurrencyId { get; }
+        decimal TransactionAmount { get; }
     }
 }

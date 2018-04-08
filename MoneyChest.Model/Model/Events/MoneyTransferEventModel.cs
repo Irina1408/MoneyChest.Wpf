@@ -49,15 +49,17 @@ namespace MoneyChest.Model.Model
 
         #endregion
 
-        #region ITransaction implementation
+        #region Transaction characteristics
 
         public override TransactionType TransactionType => TransactionType.MoneyTransfer;
         public override string TransactionValueDetailed => ValueTransfering;
-        public override string TransactionStorage => $"{StorageFrom?.Name} -> {StorageTo?.Name}";
-        public override int[] TransactionStorageIds => new[] { StorageFromId, StorageToId };
-        public override CategoryReference TransactionCategory => Category;
         public override bool IsExpense => Commission > 0;
         public override bool IsIncome => Commission < 0;
+        public override string TransactionStorageDetailed => $"{StorageFrom?.Name} -> {StorageTo?.Name}";
+        public override int[] TransactionStorageIds => new[] { StorageFromId, StorageToId };
+        public override CategoryReference TransactionCategory => Category;
+        public override int TransactionCurrencyId => TakeCommissionFromReceiver ? StorageTo.CurrencyId : StorageFrom.CurrencyId;
+        public override decimal TransactionAmount => TakeCommissionFromReceiver ? -StorageToCommissionValue : -StorageFromCommissionValue;
 
         #endregion
 

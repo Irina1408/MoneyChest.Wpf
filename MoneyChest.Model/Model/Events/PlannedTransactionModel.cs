@@ -7,47 +7,45 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class PlannedTransactionModel<T> : ITransaction
+    public class PlannedTransactionModel<T> : TransactionBase
         where T : EventModel
     {
         #region Initialization
-
-        public PlannedTransactionModel()
-        { }
 
         public PlannedTransactionModel(T evnt, DateTime plannedExecutionDate)
         {
             Event = evnt;
             PlannedExecutionDate = plannedExecutionDate;
+
+            Id = Event.Id;
+            Description = Event.Description;
+            Remark = Event.Remark;
         }
 
         #endregion
 
-        #region ITransaction implementation
+        #region Transaction overrides
 
-        public DateTime TransactionDate => PlannedExecutionDate;
-        public bool IsPlanned => true;
+        public override DateTime TransactionDate => PlannedExecutionDate;
+        public override bool IsPlanned => true;
 
-        public bool IsExpense => Event.IsExpense;
-        public bool IsIncome => Event.IsIncome;
+        public override bool IsExpense => Event.IsExpense;
+        public override bool IsIncome => Event.IsIncome;
 
-        public TransactionType TransactionType => Event.TransactionType;
-        public string TransactionValueDetailed => Event.TransactionValueDetailed;
-        public string TransactionStorageDetailed => Event.TransactionStorage;
-        public int[] TransactionStorageIds => Event.TransactionStorageIds;
-        public CategoryReference TransactionCategory => Event.TransactionCategory;
-
-        // General event properties
-        public int Id => Event.Id;
-        public string Description => Event.Description;
-        public string Remark => Event.Remark;
+        public override TransactionType TransactionType => Event.TransactionType;
+        public override string TransactionValueDetailed => Event.TransactionValueDetailed;
+        public override string TransactionStorageDetailed => Event.TransactionStorageDetailed;
+        public override int[] TransactionStorageIds => Event.TransactionStorageIds;
+        public override CategoryReference TransactionCategory => Event.TransactionCategory;
+        public override int TransactionCurrencyId => Event.TransactionCurrencyId;
+        public override decimal TransactionAmount => Event.TransactionAmount;
 
         #endregion
 
         #region Public properties
 
-        public DateTime PlannedExecutionDate { get; set; }
-        public T Event { get; set; }
+        public DateTime PlannedExecutionDate { get; private set; }
+        public T Event { get; private set; }
 
         #endregion
     }

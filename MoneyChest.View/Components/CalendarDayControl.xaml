@@ -29,9 +29,9 @@
         
         <!-- Main day border -->
         <Border BorderThickness="1" BorderBrush="{DynamicResource GrayBrush7}">
-            <Border.Background>
-                <SolidColorBrush Color="{DynamicResource Gray8}" Opacity="0.4"></SolidColorBrush>
-            </Border.Background>
+            <!--<Border.Background>
+                <SolidColorBrush Color="{DynamicResource Gray10}" Opacity="0.4"></SolidColorBrush>
+            </Border.Background>-->
             
             <!-- Main data grid -->
             <Grid>
@@ -83,7 +83,7 @@
                     <Grid.Background>
                         <SolidColorBrush Color="{DynamicResource Gray7}" Opacity="0.7"/>
                     </Grid.Background>
-                    <!--<Label HorizontalAlignment="Right" Content="{Binding TotValue}" Margin="0" Padding="0"/>-->
+                    <Label HorizontalAlignment="Right" Content="{Binding Data.TotDayAmountDetailed}" Margin="0" Padding="0"/>
                 </Grid>
                 
                 <!-- Bottom row (Limits and Storage summary) -->

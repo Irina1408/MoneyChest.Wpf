@@ -43,14 +43,16 @@ namespace MoneyChest.Model.Model
 
         #endregion
 
-        #region ITransaction implementation
+        #region Transaction characteristics
 
         public override TransactionType TransactionType => 
             RecordType == RecordType.Income ? TransactionType.Income : TransactionType.Expense;
         public override string TransactionValueDetailed => ResultValueSignCurrency;
-        public override string TransactionStorage => Storage?.Name;
+        public override string TransactionStorageDetailed => Storage?.Name;
         public override int[] TransactionStorageIds => new[] { StorageId };
         public override CategoryReference TransactionCategory => Category;
+        public override int TransactionCurrencyId => Storage?.CurrencyId ?? CurrencyId;
+        public override decimal TransactionAmount => Storage?.CurrencyId != CurrencyId ? ResultValueSignExchangeRate : ResultValueSign;
 
         #endregion
 
@@ -60,6 +62,9 @@ namespace MoneyChest.Model.Model
         public decimal ResultValueSign => RecordType == RecordType.Expense ? -ResultValue : ResultValue;
         // TODO: CurrencyExchangeRate
         public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign) ?? ResultValueSign.ToString("0.##");
+
+        public decimal ResultValueExchangeRate => Storage?.CurrencyId != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
+        public decimal ResultValueSignExchangeRate => Storage?.CurrencyId != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
 
         #endregion
     }

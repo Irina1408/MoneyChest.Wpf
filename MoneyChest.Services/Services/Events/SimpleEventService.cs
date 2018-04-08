@@ -21,11 +21,8 @@ namespace MoneyChest.Services.Services
 
     public class SimpleEventService : HistoricizedIdManageableUserableListServiceBase<SimpleEvent, SimpleEventModel, SimpleEventConverter>, ISimpleEventService
     {
-        private ICurrencyExchangeRateService _currencyExchangeRateService;
-
         public SimpleEventService(ApplicationDbContext context) : base(context)
         {
-            _currencyExchangeRateService = new CurrencyExchangeRateService(context);
         }
 
         #region ISimpleEventService implementation
@@ -41,20 +38,6 @@ namespace MoneyChest.Services.Services
         #region Overrides
 
         protected override IQueryable<SimpleEvent> Scope => Entities.Include(_ => _.Storage.Currency).Include(_ => _.Currency).Include(_ => _.Category);
-
-        #endregion
-
-        #region Private methods
-
-        //private void UpdateCurrencyExchangeRate(List<SimpleEventModel> events)
-        //{
-        //    var requiredToUpdateEvents = events.Where(x => x.IsCurrencyExchangeRateRequired && x.TakeExistingCurrencyExchangeRate).ToList();
-        //    if (requiredToUpdateEvents.Count > 0)
-        //    {
-        //        // load currency exchange rates
-
-        //    }
-        //}
 
         #endregion
     }

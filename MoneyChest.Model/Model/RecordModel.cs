@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace MoneyChest.Model.Model
 {
-    public class RecordModel : ITransaction, IHasId, IHasUserId, INotifyPropertyChanged
+    public class RecordModel : TransactionBase, IHasId, IHasUserId, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -27,7 +27,7 @@ namespace MoneyChest.Model.Model
 
         #region Entity properties
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public DateTime Date { get; set; }
         public RecordType RecordType { get; set; }
         public decimal Value { get; set; }
@@ -35,11 +35,11 @@ namespace MoneyChest.Model.Model
         public decimal Commission { get; set; }
         public CommissionType CommissionType { get; set; }
 
-        [StringLength(1000)]
-        public string Description { get; set; }
+        //[StringLength(1000)]
+        //public string Description { get; set; }
 
-        [StringLength(4000)]
-        public string Remark { get; set; }
+        //[StringLength(4000)]
+        //public string Remark { get; set; }
         
         public int? CategoryId { get; set; }
         public int CurrencyId { get; set; }
@@ -58,18 +58,18 @@ namespace MoneyChest.Model.Model
 
         #endregion
 
-        #region ITransaction implementation
+        #region Transaction overrides
 
-        public TransactionType TransactionType =>
+        public override TransactionType TransactionType =>
             RecordType == RecordType.Income ? TransactionType.Income : TransactionType.Expense;
-        public string TransactionValueDetailed => ResultValueSignCurrency;
-        public DateTime TransactionDate => Date;
-        public bool IsPlanned => false;
-        public string TransactionStorageDetailed => Storage?.Name;
-        public int[] TransactionStorageIds => StorageId.HasValue ? new[] { StorageId.Value } : new[] { -1 };
-        public CategoryReference TransactionCategory => Category;
-        public bool IsExpense => RecordType == RecordType.Expense;
-        public bool IsIncome => RecordType == RecordType.Income;
+        public override string TransactionValueDetailed => ResultValueSignCurrency;
+        public override DateTime TransactionDate => Date;
+        public override bool IsPlanned => false;
+        public override string TransactionStorageDetailed => Storage?.Name;
+        public override int[] TransactionStorageIds => StorageId.HasValue ? new[] { StorageId.Value } : new[] { -1 };
+        public override CategoryReference TransactionCategory => Category;
+        public override int TransactionCurrencyId => Storage?.CurrencyId ?? CurrencyId;
+        public override decimal TransactionAmount => Storage?.CurrencyId != CurrencyId ? ResultValueSignExchangeRate : ResultValueSign;
 
         #endregion
 
@@ -83,6 +83,7 @@ namespace MoneyChest.Model.Model
         public bool IsTypeSelectionAllowed => !DebtId.HasValue;
         public int? CurrencyIdForRate => Debt != null && Debt.CurrencyId != CurrencyId ? Debt.CurrencyId : Storage?.CurrencyId;
 
+        // TODO: check service. Removed value from storage and from debt. Case when currency exchange rate is for debt currency
         public decimal ResultValueExchangeRate => CurrencyIdForRate.HasValue && CurrencyIdForRate.Value != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
         public decimal ResultValueSignExchangeRate => CurrencyIdForRate.HasValue && CurrencyIdForRate.Value != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
         public bool IsIncomeRecordType

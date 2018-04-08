@@ -68,6 +68,7 @@
     <Compile Include="Model\Base\IHasId.cs" />
     <Compile Include="Model\Base\IHasUserId.cs" />
     <Compile Include="Model\Base\ITransaction.cs" />
+    <Compile Include="Model\Base\TransactionBase.cs" />
     <Compile Include="Model\CategoryModel.cs" />
     <Compile Include="Model\CurrencyExchangeRateModel.cs" />
     <Compile Include="Model\CurrencyModel.cs" />

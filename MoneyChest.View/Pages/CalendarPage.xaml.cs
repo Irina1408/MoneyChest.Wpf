@@ -32,7 +32,10 @@ namespace MoneyChest.View.Pages
         #region Private fields
 
         private ITransactionService _service;
+        private ICurrencyService _currencyService;
+        private ICurrencyExchangeRateService _currencyExchangeRateService;
         private ICalendarSettingsService _settingsService;
+
         private CalendarPageViewModel _viewModel;
         private CalendarDataBuilder _builder;
         private List<CellMapping> _cellMapping;
@@ -49,8 +52,10 @@ namespace MoneyChest.View.Pages
 
             // init
             _service = ServiceManager.ConfigureService<TransactionService>();
+            _currencyService = ServiceManager.ConfigureService<CurrencyService>();
+            _currencyExchangeRateService = ServiceManager.ConfigureService<CurrencyExchangeRateService>();
             _settingsService = ServiceManager.ConfigureService<CalendarSettingsService>();
-            _builder = new CalendarDataBuilder(GlobalVariables.UserId, _service);
+            _builder = new CalendarDataBuilder(GlobalVariables.UserId, _service, _currencyService, _currencyExchangeRateService);
             _cellMapping = new List<CellMapping>();
             _daysOfWeek = new List<DayOfWeek>();
 
