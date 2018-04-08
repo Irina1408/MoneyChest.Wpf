@@ -55,7 +55,7 @@
     <Grid>
         <controls:HamburgerMenu x:Name="HamburgerMenuControl"
                                 HamburgerWidth="48"
-                                IsPaneOpen="true"
+                                IsPaneOpen="{Binding IsMenuHeadersShown}"
                                 ItemTemplate="{StaticResource HamburgerMenuImageItem}"
                                 OptionsItemTemplate="{StaticResource HamburgerOptionsMenuImageItem}"
                                 Content="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay, Path=SelectedItem}"

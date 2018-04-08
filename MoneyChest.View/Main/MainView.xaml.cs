@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using MoneyChest.View.Pages;
+using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace MoneyChest.View.Main
     {
         #region Private fields
 
+        private MainViewModel _viewModel;
 
         #endregion
 
@@ -33,6 +35,12 @@ namespace MoneyChest.View.Main
         public MainView()
         {
             InitializeComponent();
+
+            // init
+            _viewModel = new MainViewModel();
+
+            // init context
+            HamburgerMenuControl.DataContext = _viewModel;
         }
 
         #endregion
