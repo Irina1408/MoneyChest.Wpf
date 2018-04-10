@@ -83,7 +83,7 @@ namespace MoneyChest.Calculation.Builders
         private void UpdateStorageState(List<CalendarDayData> calendarDays)
         {
             // temporary local variables
-            var 
+            //var 
             // update past days
             foreach (var calendarDay in calendarDays.Where(x => !x.IsFutureDay && !x.IsToday).OrderByDescending(x => x.Date).ToList())
             {

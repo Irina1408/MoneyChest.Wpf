@@ -11,9 +11,9 @@ using MoneyChest.Services.Services;
 using MoneyChest.Model.Enums;
 using MoneyChest.Data.Entities;
 using MoneyChest.Services.Services.Settings;
-using MoneyChest.Calculation.Reports;
 using System.Diagnostics;
 using MoneyChest.Model.Model;
+using MoneyChest.Calculation.Reports;
 
 namespace MoneyChest.Tests.Reports
 {

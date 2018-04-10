@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders1\Base\DataBuilderBase.cs" />
+    <Compile Include="Builders1\Base\IDataBuilder.cs" />
+    <Compile Include="Builders1\Reports\ReportBuilder.cs" />
+    <Compile Include="Builders1\Reports\ReportUnit.cs" />
     <Compile Include="Builders\Calendar\CalendarData.cs" />
     <Compile Include="Builders\Calendar\CalendarDataBuilder.cs" />
     <Compile Include="Builders\Calendar\CalendarDayData.cs" />
