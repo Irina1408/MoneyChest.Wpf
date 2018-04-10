@@ -54,6 +54,7 @@ namespace MoneyChest.Model.Model
         public override string TransactionStorageDetailed => Storage?.Name;
         public override int[] TransactionStorageIds => Storage != null ? new[] { Storage.Id } : new[] { -1 };
         public override CategoryReference TransactionCategory => DebtCategory;
+        public override StorageReference TransactionStorage => Storage;
         public override int TransactionCurrencyId => Storage.CurrencyId;
         public override decimal TransactionAmount => IsValueInStorageCurrency ? ResultValueSign : ResultValueSign * CurrencyExchangeRate;
 

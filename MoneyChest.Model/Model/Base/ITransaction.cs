@@ -53,7 +53,7 @@ namespace MoneyChest.Model.Model
         TransactionType TransactionType { get; }
         DateTime TransactionDate { get; }
         CategoryReference TransactionCategory { get; }
-        //CurrencyReference TransactionCurrency { get; }
+        StorageReference TransactionStorage { get; }
         int TransactionCurrencyId { get; }
         decimal TransactionAmount { get; }
     }

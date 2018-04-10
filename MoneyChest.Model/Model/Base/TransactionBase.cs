@@ -18,6 +18,7 @@ namespace MoneyChest.Model.Model
         public abstract CategoryReference TransactionCategory { get; }
         public abstract int TransactionCurrencyId { get; }
         public abstract decimal TransactionAmount { get; }
+        public abstract StorageReference TransactionStorage { get; }
 
         public abstract string TransactionValueDetailed { get; }
         public abstract string TransactionStorageDetailed { get; }

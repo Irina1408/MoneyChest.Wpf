@@ -69,6 +69,7 @@ namespace MoneyChest.Model.Model
         public override string TransactionStorageDetailed => $"{StorageFrom?.Name} -> {StorageTo?.Name}";
         public override int[] TransactionStorageIds => new[] { StorageFromId, StorageToId };
         public override CategoryReference TransactionCategory => Category;
+        public override StorageReference TransactionStorage => TakeCommissionFromReceiver ? StorageTo : StorageFrom;
         public override int TransactionCurrencyId => TakeCommissionFromReceiver ? StorageTo.CurrencyId : StorageFrom.CurrencyId;
         public override decimal TransactionAmount => TakeCommissionFromReceiver ? -StorageToCommissionValue : -StorageFromCommissionValue;
         

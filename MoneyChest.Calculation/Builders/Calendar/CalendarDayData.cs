@@ -13,7 +13,6 @@ namespace MoneyChest.Calculation.Builders
         #region Initialization
 
         public CalendarDayData(DateTime date)
-            : base()
         {
             Date = date.Date;
         }
@@ -28,34 +27,32 @@ namespace MoneyChest.Calculation.Builders
         public int Year => Date.Year;
         public bool IsToday => Date == DateTime.Today;
         public bool IsWeekend => Date.DayOfWeek == DayOfWeek.Sunday || Date.DayOfWeek == DayOfWeek.Saturday;
+        public bool IsFutureDay => Date > DateTime.Today;
 
         #endregion
 
         #region Legend
 
         public List<ITransaction> Transactions { get; set; } = new List<ITransaction>();
+        public List<StorageState> Storages { get; set; } = new List<StorageState>();
 
         #endregion
 
         #region Filtered legend
 
         public List<ITransaction> FilteredTransactions => Transactions;
+        public List<StorageState> FilteredStorages => Storages;
 
         #endregion
 
-        #region Totals
+        #region Totals & Summaries
 
-        public decimal TotDayAmount => FilteredTransactions
-            // TODO: filter by storage
-            .Sum(x => ToMainCurrency(x.TransactionAmount, x.TransactionCurrencyId));
+        // TODO: filter by storage
+        public decimal TotDayAmount => FilteredTransactions.Sum(x => ToMainCurrency(x.TransactionAmount, x.TransactionCurrencyId));
+        public decimal TotStorageSummary => Storages.Sum(x => ToMainCurrency(x.Amount, x.Storage.CurrencyId));
 
         public string TotDayAmountDetailed => FormatMainCurrency(TotDayAmount, true);
-
-        #endregion
-
-        #region Summaries
-
-
+        public string TotStorageSummaryDetailed => FormatMainCurrency(TotStorageSummary, false, false);
 
         #endregion
 
@@ -70,8 +67,8 @@ namespace MoneyChest.Calculation.Builders
         private decimal ToMainCurrency(decimal val, int currencyId) => 
             val != 0 ? CalculationHelper.ConvertToCurrency(val, currencyId, CalendarData.MainCurrency.Id, CalendarData.Rates) : 0;
 
-        private string FormatMainCurrency(decimal val, bool hideZero = false) =>
-            hideZero && val == 0 ? null : CalendarData.MainCurrency.FormatValue(val, true);
+        private string FormatMainCurrency(decimal val, bool hideZero = false, bool showSign = true) =>
+            hideZero && val == 0 ? null : CalendarData.MainCurrency.FormatValue(val, showSign);
 
         #endregion
     }

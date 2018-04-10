@@ -37,6 +37,7 @@ namespace MoneyChest.Model.Model
         public override string TransactionStorageDetailed => Event.TransactionStorageDetailed;
         public override int[] TransactionStorageIds => Event.TransactionStorageIds;
         public override CategoryReference TransactionCategory => Event.TransactionCategory;
+        public override StorageReference TransactionStorage => Event.TransactionStorage;
         public override int TransactionCurrencyId => Event.TransactionCurrencyId;
         public override decimal TransactionAmount => Event.TransactionAmount;
 

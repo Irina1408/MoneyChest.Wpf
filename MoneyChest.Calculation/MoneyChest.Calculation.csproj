@@ -43,6 +43,7 @@
     <Compile Include="Builders\Calendar\CalendarData.cs" />
     <Compile Include="Builders\Calendar\CalendarDataBuilder.cs" />
     <Compile Include="Builders\Calendar\CalendarDayData.cs" />
+    <Compile Include="Builders\Calendar\StorageState.cs" />
     <Compile Include="SummaryCalculators\Summary\SimpleStorageSummary.cs" />
     <Compile Include="Common\CalculationHelper.cs" />
     <Compile Include="Common\Units\GroupedValueUnitCollection.cs" />

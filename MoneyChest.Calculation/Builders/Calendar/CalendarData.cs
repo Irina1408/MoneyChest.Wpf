@@ -11,5 +11,6 @@ namespace MoneyChest.Calculation.Builders
     {
         public CurrencyReference MainCurrency { get; set; }
         public List<CurrencyExchangeRateModel> Rates { get; set; } = new List<CurrencyExchangeRateModel>();
+        public List<StorageModel> Storages { get; set; } = new List<StorageModel>();
     }
 }
