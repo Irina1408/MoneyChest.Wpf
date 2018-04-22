@@ -65,7 +65,7 @@ namespace MoneyChest.View.Pages
                 SimpleEventsViewModel = new EntityListViewModel<SimpleEventViewModel>()
                 {
                     AddCommand = new Command(
-                        () => OpenDetails(new SimpleEventViewModel() { UserId = GlobalVariables.UserId, Schedule = new ScheduleModel() }, true)),
+                        () => OpenDetails(_simpleEventService.PrepareNew(new SimpleEventViewModel() { UserId = GlobalVariables.UserId, Schedule = new ScheduleModel() }) as SimpleEventViewModel, true)),
 
                     EditCommand = new DataGridSelectedItemCommand<SimpleEventViewModel>(GridSimpleEvents,
                     (item) => OpenDetails(item), null, true),
@@ -92,7 +92,7 @@ namespace MoneyChest.View.Pages
                 MoneyTransferEventsViewModel = new EntityListViewModel<MoneyTransferEventViewModel>()
                 {
                     AddCommand = new Command(
-                        () => OpenDetails(new MoneyTransferEventViewModel() { UserId = GlobalVariables.UserId }, true)),
+                        () => OpenDetails(_moneyTransferEventService.PrepareNew(new MoneyTransferEventViewModel() { UserId = GlobalVariables.UserId }) as MoneyTransferEventViewModel, true)),
 
                     EditCommand = new DataGridSelectedItemCommand<MoneyTransferEventViewModel>(GridMoneyTransferEvents,
                     (item) => OpenDetails(item), null, true),
@@ -119,7 +119,7 @@ namespace MoneyChest.View.Pages
                 RepayDebtEventsViewModel = new EntityListViewModel<RepayDebtEventViewModel>()
                 {
                     AddCommand = new Command(
-                        () => OpenDetails(new RepayDebtEventViewModel() { UserId = GlobalVariables.UserId }, true)),
+                        () => OpenDetails(_repayDebtEventService.PrepareNew(new RepayDebtEventViewModel() { UserId = GlobalVariables.UserId }) as RepayDebtEventViewModel, true)),
 
                     EditCommand = new DataGridSelectedItemCommand<RepayDebtEventViewModel>(GridRepayDebtEvents,
                     (item) => OpenDetails(item), null, true),
@@ -146,7 +146,7 @@ namespace MoneyChest.View.Pages
                 LimitsViewModel = new EntityListViewModel<LimitModel>()
                 {
                     AddCommand = new Command(
-                        () => OpenDetails(new LimitModel() { UserId = GlobalVariables.UserId }, true)),
+                        () => OpenDetails(_limitService.PrepareNew(new LimitModel { UserId = GlobalVariables.UserId }), true)),
 
                     EditCommand = new DataGridSelectedItemCommand<LimitModel>(GridLimits,
                     (item) => OpenDetails(item), null, true),

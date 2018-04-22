@@ -15,6 +15,7 @@ namespace MoneyChest.Services.Services.Base
     public interface IServiceBase<T>
         where T : class
     {
+        T PrepareNew(T entity);
         T Add(T entity);
         T Update(T entity);
         List<T> Update(IEnumerable<T> entities);

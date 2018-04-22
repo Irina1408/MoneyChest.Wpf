@@ -40,6 +40,7 @@ namespace MoneyChest.View.Pages
         private ITransactionService _service;
         private ITransactionsSettingsService _settingsService;
         private IStorageService _storageService;
+        private IRecordService _recordService;
         private ICategoryService _categoryService;
         private List<StorageModel> _storages;
 
@@ -55,6 +56,7 @@ namespace MoneyChest.View.Pages
             _service = ServiceManager.ConfigureService<TransactionService>();
             _settingsService = ServiceManager.ConfigureService<TransactionsSettingsService>();
             _storageService = ServiceManager.ConfigureService<StorageService>();
+            _recordService = ServiceManager.ConfigureService<RecordService>();
             _categoryService = ServiceManager.ConfigureService<CategoryService>();
 
             InitializeViewModel();
@@ -64,7 +66,9 @@ namespace MoneyChest.View.Pages
         {
             _viewModel = new TransactionsPageViewModel()
             {
-                AddRecordCommand = new Command(() => OpenDetails(new RecordModel() { UserId = GlobalVariables.UserId }, true)),
+                AddRecordCommand = new Command(() => 
+                    OpenDetails(_recordService.PrepareNew(new RecordModel() { UserId = GlobalVariables.UserId }), true)),
+
                 AddMoneyTransferCommand = new Command(() => OpenDetails(new MoneyTransferModel(), true)),
                 AddChequeCommand = new Command(() =>
                 {

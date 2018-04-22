@@ -37,6 +37,18 @@ namespace MoneyChest.Services.Services
 
         #region Overrides
 
+        public override SimpleEventModel PrepareNew(SimpleEventModel model)
+        {
+            // base preparing
+            base.PrepareNew(model);
+            // set default currency and storage
+            var mainCurrency = _context.Currencies.FirstOrDefault(x => x.IsMain);
+            model.CurrencyId = mainCurrency?.Id ?? 0;
+            model.StorageId = mainCurrency != null ? _context.Storages.FirstOrDefault(x => x.CurrencyId == mainCurrency.Id)?.Id ?? 0 : 0;
+
+            return model;
+        }
+
         protected override IQueryable<SimpleEvent> Scope => Entities.Include(_ => _.Storage.Currency).Include(_ => _.Currency).Include(_ => _.Category);
 
         #endregion

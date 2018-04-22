@@ -30,7 +30,9 @@ namespace MoneyChest.Services.Services.Base
 
         #endregion
 
-        #region Add/Update/Delete methods
+        #region Create/Add/Update/Delete methods
+        
+        public virtual TModel PrepareNew(TModel model) => model;
 
         public virtual TModel Add(TModel model)
         {
@@ -112,7 +114,7 @@ namespace MoneyChest.Services.Services.Base
 
         #endregion
 
-        #region Internal methods
+        #region Internal & protected methods
 
         internal protected TModel Convert(T entity) => _converter.ToModel(entity);
         internal protected List<TModel> Convert(List<T> entities) => entities.ConvertAll(Convert);

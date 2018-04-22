@@ -24,6 +24,17 @@ namespace MoneyChest.Services.Services
         {
         }
 
+        public override LimitModel PrepareNew(LimitModel model)
+        {
+            // base preparing
+            base.PrepareNew(model);
+            // set default currency
+            var mainCurrency = _context.Currencies.FirstOrDefault(x => x.IsMain);
+            model.CurrencyId = mainCurrency?.Id ?? 0;
+
+            return model;
+        }
+
         protected override IQueryable<Limit> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category);
     }
 }

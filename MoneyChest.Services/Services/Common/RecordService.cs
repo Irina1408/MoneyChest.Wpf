@@ -90,6 +90,18 @@ namespace MoneyChest.Services.Services
 
         #region Overrides
 
+        public override RecordModel PrepareNew(RecordModel model)
+        {
+            // base preparing
+            base.PrepareNew(model);
+            // set default currency and storage
+            var mainCurrency = _context.Currencies.FirstOrDefault(x => x.IsMain);
+            model.CurrencyId = mainCurrency?.Id ?? 0;
+            model.StorageId = _context.Storages.FirstOrDefault(x => x.CurrencyId == model.CurrencyId)?.Id ?? 0;
+
+            return model;
+        }
+
         public override void OnAdded(RecordModel model, Record entity)
         {
             base.OnAdded(model, entity);
@@ -153,7 +165,6 @@ namespace MoneyChest.Services.Services
             // save changes
             SaveChanges();
         }
-
 
         protected override IQueryable<Record> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category).Include(_ => _.Storage).Include(_ => _.Debt);
 
