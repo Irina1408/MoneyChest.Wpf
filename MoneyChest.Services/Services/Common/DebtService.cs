@@ -39,6 +39,18 @@ namespace MoneyChest.Services.Services
 
         protected override IQueryable<Debt> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category).Include(_ => _.Storage).Include(_ => _.DebtPenalties);
 
+        public override DebtModel PrepareNew(DebtModel model)
+        {
+            // base preparing
+            base.PrepareNew(model);
+            // set default currency and storage
+            var mainCurrency = _context.Currencies.FirstOrDefault(x => x.IsMain);
+            model.CurrencyId = mainCurrency?.Id ?? 0;
+            model.StorageId = _context.Storages.FirstOrDefault(x => x.CurrencyId == model.CurrencyId)?.Id ?? 0;
+
+            return model;
+        }
+
         public override void OnAdded(DebtModel model, Debt entity)
         {
             base.OnAdded(model, entity);

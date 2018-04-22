@@ -54,7 +54,7 @@ namespace MoneyChest.View.Pages
             _viewModel = new EntityListViewModel<DebtViewModel>()
             {
                 AddCommand = new Command(
-                () => OpenDetails(new DebtViewModel() { UserId = GlobalVariables.UserId }, true)),
+                () => OpenDetails(_service.PrepareNew(new DebtViewModel() { UserId = GlobalVariables.UserId }) as DebtViewModel, true)),
 
                 EditCommand = new DataGridSelectedItemCommand<DebtViewModel>(GridDebts,
                 (item) => OpenDetails(item), null, true),
