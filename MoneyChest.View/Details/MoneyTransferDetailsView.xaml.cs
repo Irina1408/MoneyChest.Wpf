@@ -63,7 +63,7 @@ namespace MoneyChest.View.Details
             // init
             _showHiddenStorages = showHiddenStorages;
             _storages = storages;
-            
+
             // initialize datacontexts
             IEnumerable<StorageModel> showStorages;
             if (_showHiddenStorages)

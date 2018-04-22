@@ -22,6 +22,8 @@ namespace MoneyChest.Services.Services
         List<MoneyTransferModel> GetAfterDate(int userId, DateTime date, List<int> storageGroupIds);
 
         List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until);
+
+        MoneyTransferModel Create(MoneyTransferEventModel model);
     }
 
     public class MoneyTransferService : HistoricizedIdManageableServiceBase<MoneyTransfer, MoneyTransferModel, MoneyTransferConverter>, IMoneyTransferService
@@ -52,6 +54,31 @@ namespace MoneyChest.Services.Services
         {
             return Scope.Where(item => item.StorageFrom.UserId == userId && item.Date >= from && item.Date <= until)
                 .ToList().ConvertAll(_converter.ToModel);
+        }
+
+        public MoneyTransferModel Create(MoneyTransferEventModel model)
+        {
+            return new MoneyTransferModel()
+            {
+                Date = DateTime.Now,
+                StorageFromId = model.StorageFromId,
+                StorageToId = model.StorageToId,
+                CategoryId = model.CategoryId,
+                Commission = model.Commission,
+                CommissionType = model.CommissionType,
+                CurrencyExchangeRate = model.CurrencyExchangeRate,
+                Description = model.Description,
+                Remark = model.Remark,
+                TakeCommissionFromReceiver = model.TakeCommissionFromReceiver,
+                Value = model.Value,
+                StorageFrom = model.StorageFrom,
+                StorageFromCurrency = model.StorageFromCurrency,
+                StorageTo = model.StorageTo,
+                StorageToCurrency = model.StorageToCurrency,
+                StorageFromValue = model.StorageFromValue,
+                StorageToValue = model.StorageToValue,
+                Category = model.Category
+            };
         }
 
         #endregion

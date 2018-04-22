@@ -775,4 +775,10 @@
   <data name="General_Today" xml:space="preserve">
     <value>Сегодня</value>
   </data>
+  <data name="Event_ApplyNow" xml:space="preserve">
+    <value>Применить сейчас</value>
+  </data>
+  <data name="Event_CreateTransaction" xml:space="preserve">
+    <value>Создать транзакцию</value>
+  </data>
 </root>

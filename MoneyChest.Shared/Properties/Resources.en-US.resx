@@ -778,4 +778,10 @@
   <data name="General_Today" xml:space="preserve">
     <value>Today</value>
   </data>
+  <data name="Event_ApplyNow" xml:space="preserve">
+    <value>Apply now</value>
+  </data>
+  <data name="Event_CreateTransaction" xml:space="preserve">
+    <value>Create transaction</value>
+  </data>
 </root>

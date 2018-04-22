@@ -33,16 +33,6 @@ namespace MoneyChest.Services.Services
 
         #endregion
 
-        public override RepayDebtEventModel PrepareNew(RepayDebtEventModel model)
-        {
-            // base preparing
-            base.PrepareNew(model);
-            // set default storage
-            model.StorageId = _context.Storages.FirstOrDefault(x => x.CurrencyId == model.Debt.CurrencyId)?.Id ?? 0;
-
-            return model;
-        }
-
         protected override IQueryable<RepayDebtEvent> Scope => Entities.Include(_ => _.Storage.Currency).Include(_ => _.Debt.Currency).Include(_ => _.Debt.Category);
     }
 }

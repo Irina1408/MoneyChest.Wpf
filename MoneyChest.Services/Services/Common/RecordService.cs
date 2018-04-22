@@ -14,6 +14,7 @@ using System.Data.Entity;
 using MoneyChest.Model.Extensions;
 using MoneyChest.Services.Converters;
 using MoneyChest.Model.Enums;
+using MoneyChest.Data.Extensions;
 
 namespace MoneyChest.Services.Services
 {
@@ -25,6 +26,9 @@ namespace MoneyChest.Services.Services
         List<RecordModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds);
 
         List<RecordModel> Get(int userId, DateTime from, DateTime until);
+
+        RecordModel Create(SimpleEventModel model);
+        RecordModel Create(RepayDebtEventModel model);
     }
 
     public class RecordService : HistoricizedIdManageableUserableListServiceBase<Record, RecordModel, RecordConverter>, IRecordService
@@ -84,6 +88,53 @@ namespace MoneyChest.Services.Services
         {
             return Scope.Where(item => item.UserId == userId && item.Date >= from && item.Date <= until)
                 .ToList().ConvertAll(_converter.ToModel);
+        }
+
+        public RecordModel Create(SimpleEventModel model)
+        {
+            return new RecordModel()
+            {
+                Date = DateTime.Now,
+                CategoryId = model.CategoryId,
+                Commission = model.Commission,
+                CommissionType = model.CommissionType,
+                CurrencyExchangeRate = model.CurrencyExchangeRate,
+                CurrencyId = model.CurrencyId,
+                Description = model.Description,
+                RecordType = model.RecordType,
+                StorageId = model.StorageId,
+                Value = model.Value,
+                UserId = model.UserId,
+                Remark = model.Remark,
+                Currency = model.Currency,
+                Storage = model.Storage,
+                Category = model.Category
+            };
+        }
+
+        public RecordModel Create(RepayDebtEventModel model)
+        {
+            var debt = _context.Debts.FirstOrDefault(x => x.Id == model.DebtId);
+
+            return new RecordModel()
+            {
+                Date = DateTime.Now,
+                CategoryId = debt.CategoryId,
+                Commission = model.Commission,
+                CommissionType = model.CommissionType,
+                CurrencyExchangeRate = model.CurrencyExchangeRate,
+                CurrencyId = model.Currency.Id,
+                Description = model.Description,
+                RecordType = debt.DebtType == DebtType.TakeBorrow ? RecordType.Expense : RecordType.Income,
+                StorageId = model.StorageId,
+                Value = model.Value,
+                UserId = model.UserId,
+                Remark = model.Remark,
+                DebtId = model.DebtId,
+                Debt = debt.ToReferenceView(),
+                Storage = model.Storage,
+                Category = model.DebtCategory
+            };
         }
 
         #endregion

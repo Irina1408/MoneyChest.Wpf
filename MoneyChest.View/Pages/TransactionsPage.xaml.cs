@@ -41,6 +41,7 @@ namespace MoneyChest.View.Pages
         private ITransactionsSettingsService _settingsService;
         private IStorageService _storageService;
         private IRecordService _recordService;
+        private IMoneyTransferService _moneyTransferService;
         private ICategoryService _categoryService;
         private List<StorageModel> _storages;
 
@@ -57,6 +58,7 @@ namespace MoneyChest.View.Pages
             _settingsService = ServiceManager.ConfigureService<TransactionsSettingsService>();
             _storageService = ServiceManager.ConfigureService<StorageService>();
             _recordService = ServiceManager.ConfigureService<RecordService>();
+            _moneyTransferService = ServiceManager.ConfigureService<MoneyTransferService>();
             _categoryService = ServiceManager.ConfigureService<CategoryService>();
 
             InitializeViewModel();
@@ -85,7 +87,7 @@ namespace MoneyChest.View.Pages
                         OpenDetails(item as RecordModel);
                     if(item is MoneyTransferModel)
                         OpenDetails(item as MoneyTransferModel);
-                }, null, true),
+                }, item => !item.IsPlanned, true),
 
                 DeleteCommand = new DataGridSelectedItemsCommand<ITransaction>(GridTransactions,
                 (items) =>
@@ -102,8 +104,57 @@ namespace MoneyChest.View.Pages
                             _viewModel.Entities.Remove(item);
                         NotifyDataChanged();
                     }
+                }, 
+                (items) => !items.Any(_ => _.IsPlanned)),
+
+                ApplyNowCommand = new DataGridSelectedItemsCommand<ITransaction>(GridTransactions,
+                (items) =>
+                {
+                    foreach(var item in items)
+                    {
+                        ITransaction newTransaction = null;
+                        var plannedTransaction = item as PlannedTransactionModel<EventModel>;
+
+                        // simple event
+                        if (plannedTransaction?.Event is SimpleEventModel)
+                            newTransaction = _recordService.Add(
+                                _recordService.Create(plannedTransaction.Event as SimpleEventModel));
+
+                        // repay debt
+                        if (plannedTransaction?.Event is RepayDebtEventModel)
+                            newTransaction = _recordService.Add(
+                                _recordService.Create(plannedTransaction.Event as RepayDebtEventModel));
+
+                        // money transfer
+                        if (plannedTransaction?.Event is MoneyTransferEventModel)
+                            newTransaction = _moneyTransferService.Add(
+                                _moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel));
+
+                        AddNew(newTransaction);
+                    }
+
+                    NotifyDataChanged();
                 },
-                (items) => !items.Any(_ => _.IsPlanned))
+                (items) => items.All(_ => _.IsPlanned)),
+
+                CreateTransactionCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
+                (item) =>
+                {
+                    var plannedTransaction = item as PlannedTransactionModel<EventModel>;
+
+                    // simple event
+                    if (plannedTransaction?.Event is SimpleEventModel)
+                        OpenDetails(_recordService.Create(plannedTransaction.Event as SimpleEventModel), true);
+
+                    // repay debt
+                    if (plannedTransaction?.Event is RepayDebtEventModel)
+                        OpenDetails(_recordService.Create(plannedTransaction.Event as RepayDebtEventModel), true);
+
+                    // money transfer
+                    if (plannedTransaction?.Event is MoneyTransferEventModel)
+                        OpenDetails(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel), true);
+
+                }, item => item.IsPlanned, true)
             };
 
             this.DataContext = _viewModel;
@@ -165,7 +216,7 @@ namespace MoneyChest.View.Pages
 
         private void OpenDetails(RecordModel model, bool isNew = false)
         {
-            this.OpenDetailsWindow(new RecordDetailsView(model, isNew), () =>
+            this.OpenDetailsWindow(new RecordDetailsView(_recordService, model, isNew), () =>
                 {
                     // update grid
                     if (isNew) AddNew(model);
@@ -177,7 +228,7 @@ namespace MoneyChest.View.Pages
 
         private void OpenDetails(MoneyTransferModel model, bool isNew = false)
         {
-            this.OpenDetailsWindow(new MoneyTransferDetailsView(model, isNew, false,
+            this.OpenDetailsWindow(new MoneyTransferDetailsView(_moneyTransferService, model, isNew, false,
                 _storages.OrderByDescending(_ => _.IsVisible).ThenBy(_ => _.Name)), () =>
                 {
                     // update grid
