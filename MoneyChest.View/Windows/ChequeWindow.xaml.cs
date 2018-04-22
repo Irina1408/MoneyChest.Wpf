@@ -119,7 +119,7 @@ namespace MoneyChest.View.Windows
             // fill defaults
             _viewModel.Date = DateTime.Now;
             _viewModel.CurrencyId = _currencies.FirstOrDefault(x => x.IsMain)?.Id ?? _currencies.FirstOrDefault()?.Id ?? 0;
-            _viewModel.StorageId = _storages.FirstOrDefault(x => x.CurrencyId == _viewModel.CurrencyId)?.Id;
+            _viewModel.StorageId = _storages.FirstOrDefault(x => x.CurrencyId == _viewModel.CurrencyId)?.Id ?? 0;
             //_viewModel.Storage = _storages.FirstOrDefault(x => x.CurrencyId == _viewModel.CurrencyId)?.ToReferenceView();
 
             this.DataContext = _viewModel;

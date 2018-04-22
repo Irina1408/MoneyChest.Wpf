@@ -24,7 +24,7 @@ namespace MoneyChest.Services.Converters
             entity.CommissionType = model.CommissionType;
             entity.CategoryId = model?.CategoryId;
             entity.CurrencyId = model.CurrencyId;
-            entity.StorageId = model?.StorageId;
+            entity.StorageId = model.StorageId;
             entity.DebtId = model?.DebtId;
             entity.UserId = model.UserId;
         }
@@ -42,7 +42,7 @@ namespace MoneyChest.Services.Converters
             model.CommissionType = entity.CommissionType;
             model.CategoryId = entity?.CategoryId;
             model.CurrencyId = entity.CurrencyId;
-            model.StorageId = entity?.StorageId;
+            model.StorageId = entity.StorageId;
             model.DebtId = entity?.DebtId;
             model.UserId = entity.UserId;
             model.Category = entity?.Category?.ToReferenceView();

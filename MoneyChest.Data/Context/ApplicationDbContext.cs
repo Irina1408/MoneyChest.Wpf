@@ -236,7 +236,7 @@ namespace MoneyChest.Data.Context
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Record>()
-                .HasOptional(e => e.Storage)
+                .HasRequired(e => e.Storage)
                 .WithMany()
                 .WillCascadeOnDelete(false);
 
@@ -278,7 +278,7 @@ namespace MoneyChest.Data.Context
 
             modelBuilder.Entity<Storage>()
                 .HasMany(e => e.Records)
-                .WithOptional(e => e.Storage)
+                .WithRequired(e => e.Storage)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Storage>()

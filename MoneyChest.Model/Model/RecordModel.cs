@@ -35,15 +35,9 @@ namespace MoneyChest.Model.Model
         public decimal Commission { get; set; }
         public CommissionType CommissionType { get; set; }
 
-        //[StringLength(1000)]
-        //public override string Description { get; set; }
-
-        //[StringLength(4000)]
-        //public override string Remark { get; set; }
-
         public int? CategoryId { get; set; }
         public int CurrencyId { get; set; }
-        public int? StorageId { get; set; }
+        public int StorageId { get; set; }
         public int? DebtId { get; set; }
         public int UserId { get; set; }
 
@@ -60,13 +54,15 @@ namespace MoneyChest.Model.Model
 
         #region Transaction overrides
 
+        public override bool IsExpense => RecordType == RecordType.Expense;
+        public override bool IsIncome => RecordType == RecordType.Income;
         public override TransactionType TransactionType =>
             RecordType == RecordType.Income ? TransactionType.Income : TransactionType.Expense;
         public override string TransactionValueDetailed => ResultValueSignCurrency;
         public override DateTime TransactionDate => Date;
         public override bool IsPlanned => false;
         public override string TransactionStorageDetailed => Storage?.Name;
-        public override int[] TransactionStorageIds => StorageId.HasValue ? new[] { StorageId.Value } : new[] { -1 };
+        public override int[] TransactionStorageIds => new[] { StorageId };
         public override CategoryReference TransactionCategory => Category;
         public override StorageReference TransactionStorage => Storage;
         public override int TransactionCurrencyId => Storage?.CurrencyId ?? CurrencyId;

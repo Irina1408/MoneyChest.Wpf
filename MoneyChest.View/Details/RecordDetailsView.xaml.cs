@@ -138,7 +138,7 @@ namespace MoneyChest.View.Details
 
         private void UpdateCurrenciesList()
         {
-            if (WrappedEntity.Entity.DebtId.HasValue && WrappedEntity.Entity.StorageId.HasValue)
+            if (WrappedEntity.Entity.DebtId.HasValue)
             {
                 // select correspond currency
                 if (WrappedEntity.Entity.CurrencyId > 0 && WrappedEntity.Entity.CurrencyId != WrappedEntity.Entity.Debt.CurrencyId

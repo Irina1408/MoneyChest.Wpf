@@ -41,7 +41,7 @@ namespace MoneyChest.Data.Entities
 
         public int CurrencyId { get; set; }
 
-        public int? StorageId { get; set; }
+        public int StorageId { get; set; }
 
         public int? DebtId { get; set; }
 

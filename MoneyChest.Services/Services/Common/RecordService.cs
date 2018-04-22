@@ -77,7 +77,7 @@ namespace MoneyChest.Services.Services
         public List<RecordModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds)
         {
             return Scope.Where(item => item.UserId == userId && item.Date >= from && item.Date <= until
-                && (!item.StorageId.HasValue || storageGroupIds.Contains(item.StorageId.Value))).ToList().ConvertAll(_converter.ToModel);
+                && (storageGroupIds.Contains(item.StorageId))).ToList().ConvertAll(_converter.ToModel);
         }
 
         public List<RecordModel> Get(int userId, DateTime from, DateTime until)
@@ -95,8 +95,7 @@ namespace MoneyChest.Services.Services
             base.OnAdded(model, entity);
 
             // update related storage
-            if (model.StorageId.HasValue)
-                AddValueToStorage(model.StorageId.Value, model.ResultValueSignExchangeRate);
+            AddValueToStorage(model.StorageId, model.ResultValueSignExchangeRate);
 
             // update related debt
             if (model.DebtId.HasValue)
@@ -114,15 +113,13 @@ namespace MoneyChest.Services.Services
             if (oldModel.StorageId != model.StorageId)
             {
                 // remove value from old storage
-                if(oldModel.StorageId.HasValue)
-                    AddValueToStorage(oldModel.StorageId.Value, -oldModel.ResultValueSignExchangeRate);
+                AddValueToStorage(oldModel.StorageId, -oldModel.ResultValueSignExchangeRate);
 
                 // add value to the new storage
-                if(model.StorageId.HasValue)
-                    AddValueToStorage(model.StorageId.Value, model.ResultValueSignExchangeRate);
+                AddValueToStorage(model.StorageId, model.ResultValueSignExchangeRate);
             }
-            else if(oldModel.ResultValueSignExchangeRate != model.ResultValueSignExchangeRate && model.StorageId.HasValue)
-                AddValueToStorage(model.StorageId.Value, model.ResultValueSignExchangeRate - oldModel.ResultValueSignExchangeRate);
+            else if(oldModel.ResultValueSignExchangeRate != model.ResultValueSignExchangeRate)
+                AddValueToStorage(model.StorageId, model.ResultValueSignExchangeRate - oldModel.ResultValueSignExchangeRate);
 
             // update related debt
             if (oldModel.DebtId != model.DebtId)
@@ -147,8 +144,7 @@ namespace MoneyChest.Services.Services
             base.OnDeleted(model);
 
             // update related storage
-            if (model.StorageId.HasValue)
-                AddValueToStorage(model.StorageId.Value, -model.ResultValueSignExchangeRate);
+            AddValueToStorage(model.StorageId, -model.ResultValueSignExchangeRate);
 
             // update related debt
             if (model.DebtId.HasValue)

@@ -59,7 +59,7 @@ namespace MoneyChest.View.Details
             
             // load storages
             IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
-            _storages = storageService.GetVisible(GlobalVariables.UserId, entity.StorageId);
+            _storages = storageService.GetVisible(GlobalVariables.UserId, entity.StorageId ?? 0);
 
             // add empty storage
             var storages = new List<StorageModel>();

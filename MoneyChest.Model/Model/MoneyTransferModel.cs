@@ -36,12 +36,6 @@ namespace MoneyChest.Model.Model
         public CommissionType CommissionType { get; set; }
         public bool TakeCommissionFromReceiver { get; set; }
 
-        //[StringLength(1000)]
-        //public override string Description { get; set; }
-
-        //[StringLength(4000)]
-        //public override string Remark { get; set; }
-
 
         public int StorageFromId { get; set; }
         public int StorageToId { get; set; }

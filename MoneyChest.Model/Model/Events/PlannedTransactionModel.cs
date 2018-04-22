@@ -27,12 +27,6 @@ namespace MoneyChest.Model.Model
 
         #region Transaction overrides
 
-        //[StringLength(1000)]
-        //public override string Description { get; set; }
-
-        //[StringLength(4000)]
-        //public override string Remark { get; set; }
-
         public override DateTime TransactionDate => PlannedExecutionDate;
         public override bool IsPlanned => true;
 

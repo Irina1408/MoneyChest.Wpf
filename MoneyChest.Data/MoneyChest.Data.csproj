@@ -117,6 +117,10 @@
     <Compile Include="Migrations\201803302008079_update_calendar_settings.Designer.cs">
       <DependentUpon>201803302008079_update_calendar_settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804221316025_make_storage_required_in_record.cs" />
+    <Compile Include="Migrations\201804221316025_make_storage_required_in_record.Designer.cs">
+      <DependentUpon>201804221316025_make_storage_required_in_record.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -145,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803302008079_update_calendar_settings.resx">
       <DependentUpon>201803302008079_update_calendar_settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804221316025_make_storage_required_in_record.resx">
+      <DependentUpon>201804221316025_make_storage_required_in_record.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
