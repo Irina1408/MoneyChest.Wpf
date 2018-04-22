@@ -12,7 +12,7 @@ namespace MoneyChest.Model.Model
 {
     public class RecordModel : TransactionBase, IHasId, IHasUserId, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
         #region Initialization
 
@@ -36,11 +36,11 @@ namespace MoneyChest.Model.Model
         public CommissionType CommissionType { get; set; }
 
         //[StringLength(1000)]
-        //public string Description { get; set; }
+        //public override string Description { get; set; }
 
         //[StringLength(4000)]
-        //public string Remark { get; set; }
-        
+        //public override string Remark { get; set; }
+
         public int? CategoryId { get; set; }
         public int CurrencyId { get; set; }
         public int? StorageId { get; set; }

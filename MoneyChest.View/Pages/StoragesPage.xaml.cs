@@ -197,6 +197,7 @@ namespace MoneyChest.View.Pages
             StoragesPanel.Children.Clear();
             _storageGroupPanel.Clear();
             _storageView.Clear();
+            _storages.Clear();
 
             // fill grid
             foreach (var storageGroup in storageGroups)

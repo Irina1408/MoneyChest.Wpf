@@ -73,6 +73,15 @@ namespace MoneyChest.Calculation.Builders
                 currDate = currDate.AddDays(1);
             }
 
+            // load transactions that include Today if selection doesn't include it
+            var missingTransactions = dateFrom > DateTime.Today 
+                ? _transactionService.Get(_userId, DateTime.Today, dateFrom.AddDays(-1))
+                : (dateUntil < DateTime.Today 
+                    ? _transactionService.Get(_userId, dateUntil.AddDays(1), DateTime.Today) 
+                    : new List<ITransaction>());
+            // update storages state
+            UpdateStorageState(result, missingTransactions);
+
             return result;
         }
 
@@ -80,24 +89,33 @@ namespace MoneyChest.Calculation.Builders
 
         #region Private methods
 
-        private void UpdateStorageState(List<CalendarDayData> calendarDays)
+        private void UpdateStorageState(List<CalendarDayData> calendarDays, List<ITransaction> missingTransactions)
         {
-            // temporary local variables
-            //var 
             // update past days
-            foreach (var calendarDay in calendarDays.Where(x => !x.IsFutureDay && !x.IsToday).OrderByDescending(x => x.Date).ToList())
+            foreach (var calendarDay in calendarDays.Where(x => !x.IsFutureDay && !x.IsToday).ToList())
             {
                 foreach (var storageState in calendarDay.Storages)
                 {
-                    //storageState.Amount += calendarDays.Sum(x => x.IsFutureDay)
+                    storageState.Amount -= calendarDays
+                        .Where(x => x.Date > calendarDay.Date)
+                        .SelectMany(x => x.Transactions)
+                        .Union(missingTransactions)
+                        .Where(x => !x.IsPlanned && x.TransactionStorage.Id == storageState.Storage.Id)
+                        .Sum(x => x.TransactionAmount);
                 }
             }
 
-            foreach (var calendarDay in calendarDays)
+            // update future days
+            foreach (var calendarDay in calendarDays.Where(x => x.IsFutureDay).ToList())
             {
                 foreach(var storageState in calendarDay.Storages)
                 {
-                    //storageState.Amount += calendarDays.Sum(x => x.IsFutureDay)
+                    storageState.Amount += calendarDays
+                        .Where(x => x.Date <= calendarDay.Date)
+                        .SelectMany(x => x.Transactions)
+                        .Union(missingTransactions)
+                        .Where(x => x.IsPlanned && x.TransactionStorage.Id == storageState.Storage.Id)
+                        .Sum(x => x.TransactionAmount);
                 }
             }
         }

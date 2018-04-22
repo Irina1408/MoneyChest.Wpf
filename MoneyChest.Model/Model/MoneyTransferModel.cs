@@ -12,7 +12,7 @@ namespace MoneyChest.Model.Model
 {
     public class MoneyTransferModel : TransactionBase, IHasId, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
         
         #region Initialization
 
@@ -28,9 +28,7 @@ namespace MoneyChest.Model.Model
         #region Main entity properties
 
         //public int Id { get; set; }
-
-        //[StringLength(1000)]
-        //public string Description { get; set; }
+        
         public DateTime Date { get; set; }
         public decimal Value { get; set; }  // always in StorageFrom currency
         public decimal CurrencyExchangeRate { get; set; }
@@ -38,8 +36,11 @@ namespace MoneyChest.Model.Model
         public CommissionType CommissionType { get; set; }
         public bool TakeCommissionFromReceiver { get; set; }
 
+        //[StringLength(1000)]
+        //public override string Description { get; set; }
+
         //[StringLength(4000)]
-        //public string Remark { get; set; }
+        //public override string Remark { get; set; }
 
 
         public int StorageFromId { get; set; }

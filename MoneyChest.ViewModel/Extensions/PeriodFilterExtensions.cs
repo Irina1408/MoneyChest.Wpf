@@ -18,17 +18,17 @@ namespace MoneyChest.ViewModel.Extensions
             {
                 case PeriodType.Month:
                     periodFilter.DateFrom = periodFilter.DateFrom.AddMonths(1);
-                    periodFilter.DateUntil = periodFilter.DateUntil.AddMonths(1);
+                    periodFilter.DateUntil = periodFilter.DateFrom.AddMonths(1).AddMilliseconds(-1);
                     break;
 
                 case PeriodType.Quarter:
                     periodFilter.DateFrom = periodFilter.DateFrom.AddMonths(3);
-                    periodFilter.DateUntil = periodFilter.DateUntil.AddMonths(3);
+                    periodFilter.DateUntil = periodFilter.DateFrom.AddMonths(3).AddMilliseconds(-1);
                     break;
 
                 case PeriodType.Year:
                     periodFilter.DateFrom = periodFilter.DateFrom.AddYears(1);
-                    periodFilter.DateUntil = periodFilter.DateUntil.AddYears(1);
+                    periodFilter.DateUntil = periodFilter.DateFrom.AddYears(1).AddMilliseconds(-1);
                     break;
 
                 default:
@@ -49,17 +49,17 @@ namespace MoneyChest.ViewModel.Extensions
             {
                 case PeriodType.Month:
                     periodFilter.DateFrom = periodFilter.DateFrom.AddMonths(-1);
-                    periodFilter.DateUntil = periodFilter.DateUntil.AddMonths(-1);
+                    periodFilter.DateUntil = periodFilter.DateFrom.AddMonths(1).AddMilliseconds(-1);
                     break;
 
                 case PeriodType.Quarter:
                     periodFilter.DateFrom = periodFilter.DateFrom.AddMonths(-3);
-                    periodFilter.DateUntil = periodFilter.DateUntil.AddMonths(-3);
+                    periodFilter.DateUntil = periodFilter.DateFrom.AddMonths(3).AddMilliseconds(-1);
                     break;
 
                 case PeriodType.Year:
                     periodFilter.DateFrom = periodFilter.DateFrom.AddYears(-1);
-                    periodFilter.DateUntil = periodFilter.DateUntil.AddYears(-1);
+                    periodFilter.DateUntil = periodFilter.DateFrom.AddYears(1).AddMilliseconds(-1);
                     break;
 
                 default:

@@ -1,6 +1,7 @@
 ﻿using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,12 @@ namespace MoneyChest.Model.Model
         #endregion
 
         #region Transaction overrides
+
+        //[StringLength(1000)]
+        //public override string Description { get; set; }
+
+        //[StringLength(4000)]
+        //public override string Remark { get; set; }
 
         public override DateTime TransactionDate => PlannedExecutionDate;
         public override bool IsPlanned => true;

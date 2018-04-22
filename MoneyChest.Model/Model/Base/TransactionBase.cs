@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,8 +9,10 @@ using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Model.Model
 {
-    public abstract class TransactionBase : ITransaction
+    public abstract class TransactionBase : ITransaction, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public abstract bool IsPlanned { get; }
         public virtual bool IsExpense => TransactionType == TransactionType.Expense;
         public virtual bool IsIncome => TransactionType == TransactionType.Income;
@@ -24,7 +28,11 @@ namespace MoneyChest.Model.Model
         public abstract string TransactionStorageDetailed { get; }
 
         public virtual int Id { get; set; }
+
+        [StringLength(1000)]
         public virtual string Description { get; set; }
+
+        [StringLength(4000)]
         public virtual string Remark { get; set; }
 
         public abstract int[] TransactionStorageIds { get; }

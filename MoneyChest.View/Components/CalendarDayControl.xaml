@@ -17,6 +17,7 @@
         <Style x:Key="TransactionLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
             <Setter Property="Margin" Value="3 1 3 1"/>
             <Setter Property="Padding" Value="0"/>
+            <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsPlanned}" Value="True">
                     <Setter Property="Opacity" Value="0.5" />
@@ -31,7 +32,8 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid x:Name="MainGrid" Height="150">
+    <!-- TODO: allow to select cell height-->
+    <Grid x:Name="MainGrid">
         <!-- Change opacity for inacive day -->
         <Grid.Style>
             <Style TargetType="{x:Type Grid}">
@@ -71,14 +73,14 @@
                         <Style TargetType="{x:Type Grid}">
                             <Setter Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource AccentColor3}" Opacity="0.5"/>
+                                    <SolidColorBrush Color="{DynamicResource AccentColor3}"/>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Data.IsToday}" Value="true">
                                     <Setter Property="Background">
                                         <Setter.Value>
-                                            <SolidColorBrush Color="{DynamicResource AccentColor}" Opacity="0.6"/>
+                                            <SolidColorBrush Color="{DynamicResource AccentColor}"/>
                                         </Setter.Value>
                                     </Setter>
                                 </DataTrigger>
@@ -118,7 +120,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Label Grid.Column="0" Content="{Binding Description}" Style="{StaticResource TransactionLabelStyle}"/>
+                                        <Label Grid.Column="0" Content="{Binding Description}" Style="{StaticResource TransactionLabelStyle}" ToolTip="{Binding Description}"/>
                                         <Label Grid.Column="1" Content="{Binding TransactionValueDetailed}" Style="{StaticResource TransactionLabelStyle}"/>
                                     </Grid>
                                 </Border>
@@ -129,10 +131,10 @@
                 </Grid>
                 
                 <!-- Totals row -->
-                <Grid Grid.Row="2">
-                    <Grid.Background>
+                <Grid Grid.Row="2" Margin="0 5 0 0">
+                    <!--<Grid.Background>
                         <SolidColorBrush Color="{DynamicResource Gray7}" Opacity="0.7"/>
-                    </Grid.Background>
+                    </Grid.Background>-->
                     <Label HorizontalAlignment="Right" Content="{Binding Data.TotDayAmountDetailed}" Padding="0"/>
                 </Grid>
                 
@@ -143,11 +145,11 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.Background>
-                        <SolidColorBrush Color="{DynamicResource Gray6}" Opacity="0.7"/>
+                        <SolidColorBrush Color="{DynamicResource Gray6}"/>
                     </Grid.Background>
 
                     <!--<Label Grid.Column="0" HorizontalAlignment="Left" Content="{Binding LimitSummary}" Margin="0" Padding="0"/>-->
-                    <!--<Label Grid.Column="1" HorizontalAlignment="Right" Content="{Binding StorageSummary}"/>-->
+                    <Label Grid.Column="1" HorizontalAlignment="Right" Content="{Binding Data.TotStorageSummaryDetailed}"/>
                 </Grid>
             </Grid>
         </Border>

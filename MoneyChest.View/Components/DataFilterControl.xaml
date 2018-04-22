@@ -18,7 +18,7 @@
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
     </UserControl.Resources>
 
-    <GroupBox DataContext="{Binding DataFilter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DataFilterControl}}}" >
+    <GroupBox DataContext="{Binding DataFilter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DataFilterControl}}}" Margin="0">
         <!--Visibility="{Binding IsFilterApplied, Converter={StaticResource BVConverter}}"-->
         <GroupBox.Header>
             <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
