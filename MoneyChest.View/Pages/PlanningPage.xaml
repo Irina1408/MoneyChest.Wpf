@@ -207,6 +207,12 @@
                                     <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Closed}">
                                         <Setter Property="Opacity" Value="0.5" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsIncome}" Value="True">
+                                        <Setter Property="Foreground" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsExpense}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>
