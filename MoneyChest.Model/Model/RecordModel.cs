@@ -73,10 +73,11 @@ namespace MoneyChest.Model.Model
         #region Additional properties
 
         public decimal CommissionValue => CommissionType == CommissionType.Currency ? Commission : Commission / 100 * Value;
+        [PropertyChanged.DependsOn(nameof(RecordType))]
         public decimal ResultValue => Value + (IsExpense ? CommissionValue : -CommissionValue);
         public decimal ResultValueSign => IsExpense ? -ResultValue : ResultValue;
         // TODO: CurrencyExchangeRate
-        public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign) ?? ResultValueSign.ToString("0.##");
+        public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign, true) ?? ResultValueSign.ToString("0.##");
         public bool IsTypeSelectionAllowed => !DebtId.HasValue;
         public int? CurrencyIdForRate => Debt != null && Debt.CurrencyId != CurrencyId ? Debt.CurrencyId : Storage?.CurrencyId;
 
