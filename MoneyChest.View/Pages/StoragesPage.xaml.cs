@@ -247,6 +247,13 @@ namespace MoneyChest.View.Pages
                 LoadMoneyTransfers();
         }
 
+        private void StorageItem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // open details by double click
+            if(e.ClickCount == 2 && (sender as FrameworkElement).DataContext is StorageViewModel)
+                OpenDetails((sender as FrameworkElement).DataContext as StorageViewModel);
+        }
+
         #endregion
 
         #region Private methods

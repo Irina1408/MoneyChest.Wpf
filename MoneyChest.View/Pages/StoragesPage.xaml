@@ -18,7 +18,7 @@
         <converters:PercentageConverter x:Key="PctConverter"/>
 
         <ControlTemplate x:Key="StorageItemControlTemplate" TargetType="{x:Type ContentControl}">
-            <Border Width="238" Height="200" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" ClipToBounds="True" Margin="0 7 7 7">
+            <Border Width="238" Height="200" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" ClipToBounds="True" Margin="0 7 7 7" MouseDown="StorageItem_MouseDown">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="Opacity" Value="1"/>
@@ -29,7 +29,7 @@
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <Grid>
+                <Grid Background="Transparent">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
