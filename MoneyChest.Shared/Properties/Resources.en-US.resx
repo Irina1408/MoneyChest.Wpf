@@ -629,7 +629,7 @@
     <value>Every {1} of every {0} week</value>
   </data>
   <data name="Schedule_Every_ForEveryMonth" xml:space="preserve">
-    <value>Every {1} of month</value>
+    <value>Every {0} of month</value>
   </data>
   <data name="Schedule_Every_ForMonth" xml:space="preserve">
     <value>Every {1} of {0}</value>

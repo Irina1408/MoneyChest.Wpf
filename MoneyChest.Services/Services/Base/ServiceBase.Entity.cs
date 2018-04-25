@@ -25,6 +25,11 @@ namespace MoneyChest.Services.Services.Base
             return Entities.Add(entity);
         }
 
+        internal virtual IEnumerable<T> Add(IEnumerable<T> entities)
+        {
+            return Entities.AddRange(entities);
+        }
+
         internal virtual T Update(T entity) => entity;
 
         internal virtual void Delete(T entity)

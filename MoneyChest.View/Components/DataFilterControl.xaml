@@ -67,15 +67,12 @@
                     </GroupBox.Header>
                     <StackPanel IsEnabled="{Binding IsTransactionTypeFiltered}">
                         <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_Expense}"
-                                     ToolTip="{moneyChestView:MultiLangBinding TransactionType_Expense}"
                          IsChecked="{Binding TransactionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:TransactionType.Expense}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                         <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_Income}"
-                                     ToolTip="{moneyChestView:MultiLangBinding TransactionType_Income}"
                          IsChecked="{Binding TransactionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:TransactionType.Income}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                         <RadioButton Content="{moneyChestView:MultiLangBinding TransactionType_MoneyTransfer}"
-                                     ToolTip="{moneyChestView:MultiLangBinding TransactionType_MoneyTransfer}"
                          IsChecked="{Binding TransactionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:TransactionType.MoneyTransfer}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </StackPanel>
                 </GroupBox>

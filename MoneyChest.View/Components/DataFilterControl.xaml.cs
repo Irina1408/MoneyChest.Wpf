@@ -107,7 +107,7 @@ namespace MoneyChest.View.Components
                     // load storages
                     IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
                     var storages = storageService.GetListForUser(GlobalVariables.UserId)
-                        .OrderByDescending(_ => _.StorageGroup.Name)
+                        .OrderBy(_ => _.StorageGroup.Name)
                         .ThenBy(_ => _.Name)
                         .ToList();
 

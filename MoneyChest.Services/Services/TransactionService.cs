@@ -48,7 +48,7 @@ namespace MoneyChest.Services.Services
             // load actual data
             result.AddRange(GetActual(userId, dateFrom, dateUntil));
             // add events in case when selected period contains future dates
-            if(dateUntil >= DateTime.Today)
+            if(dateUntil >= DateTime.Today.AddDays(1))
                 result.AddRange(GetPlanned(userId, dateFrom, dateUntil));
 
             return result.OrderByDescending(x => x.TransactionDate).ToList();

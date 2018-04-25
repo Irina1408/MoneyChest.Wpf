@@ -32,6 +32,15 @@ namespace MoneyChest.Services.Services.Base
             return entity;
         }
 
+        internal override IEnumerable<T> Add(IEnumerable<T> entities)
+        {
+            entities = base.Add(entities);
+            SaveChanges();
+            foreach(var entity in entities)
+                _historyService.WriteHistory(entity, ActionType.Add, UserId(entity));
+            return entities;
+        }
+
         internal override T Update(T entity)
         {
             if (_context.Entry(entity).State == EntityState.Modified)

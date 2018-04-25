@@ -48,6 +48,21 @@ namespace MoneyChest.Services.Services.Base
             return _converter.UpdateModel(GetDbDetailedEntity(entity), model);
         }
 
+        public virtual IEnumerable<TModel> Add(IEnumerable<TModel> models)
+        {
+            // convert to Db entities
+            var entities = models.Select(x => new { Entity = _converter.ToEntity(x), Model = x }).ToList();
+            // add to database
+            Add(entities.Select(x => x.Entity).AsEnumerable());
+            // save changes
+            SaveChanges();
+            // call OnAdded method
+            foreach(var entity in entities)
+                OnAdded(entity.Model, entity.Entity);
+
+            return entities.Select(x => _converter.UpdateModel(GetDbDetailedEntity(x.Entity), x.Model)).AsEnumerable();
+        }
+
         public virtual TModel Update(TModel model)
         {
             // get from database
@@ -67,7 +82,7 @@ namespace MoneyChest.Services.Services.Base
             return _converter.UpdateModel(GetDbDetailedEntity(dbEntity), model);
         }
 
-        public virtual List<TModel> Update(IEnumerable<TModel> models)
+        public virtual IEnumerable<TModel> Update(IEnumerable<TModel> models)
         {
             // TODO: update list. Not update every model separately 
 
@@ -88,7 +103,7 @@ namespace MoneyChest.Services.Services.Base
             foreach(var model in models)
                 Update(model);
 
-            return models.ToList();
+            return models.AsEnumerable();
         }
 
         public virtual void Delete(TModel model)
@@ -117,6 +132,7 @@ namespace MoneyChest.Services.Services.Base
         #region Internal & protected methods
 
         internal protected TModel Convert(T entity) => _converter.ToModel(entity);
+        internal protected T Convert(TModel model) => _converter.ToEntity(model);
         internal protected List<TModel> Convert(List<T> entities) => entities.ConvertAll(Convert);
 
         #endregion

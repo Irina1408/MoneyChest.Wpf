@@ -44,14 +44,14 @@
             <!-- Code -->
             <StackPanel Orientation="Horizontal">
                 <iconPacks:PackIconMaterial Kind="LabelOutline" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Symbol}" 
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Code}" 
                                      Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
             </StackPanel>
 
             <!-- Symbol -->
             <StackPanel Orientation="Horizontal">
                 <iconPacks:PackIconMaterial Kind="LabelOutline" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Code}" 
+                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Symbol}" 
                                      Text="{Binding Symbol, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
             </StackPanel>
         </StackPanel>

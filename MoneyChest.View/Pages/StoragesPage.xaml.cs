@@ -198,9 +198,10 @@ namespace MoneyChest.View.Pages
             _storageGroupPanel.Clear();
             _storageView.Clear();
             _storages.Clear();
+            _storageGroups.Clear();
 
             // fill grid
-            foreach (var storageGroup in storageGroups)
+            foreach (var storageGroup in storageGroups.OrderBy(x => x.Name))
             {
                 AddStorageGroupIntoView(storageGroup, storages);
             }

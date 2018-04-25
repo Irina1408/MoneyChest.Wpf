@@ -77,7 +77,7 @@ namespace MoneyChest.Calculation.Builders
             var missingTransactions = dateFrom > DateTime.Today 
                 ? _transactionService.Get(_userId, DateTime.Today, dateFrom.AddDays(-1))
                 : (dateUntil < DateTime.Today 
-                    ? _transactionService.Get(_userId, dateUntil.AddDays(1), DateTime.Today) 
+                    ? _transactionService.Get(_userId, dateUntil.Date.AddDays(1), DateTime.Today.AddDays(1).AddMilliseconds(-1)) 
                     : new List<ITransaction>());
             // update storages state
             UpdateStorageState(result, missingTransactions);
