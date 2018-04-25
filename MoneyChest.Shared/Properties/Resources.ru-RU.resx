@@ -781,4 +781,10 @@
   <data name="Event_CreateTransaction" xml:space="preserve">
     <value>Создать транзакцию</value>
   </data>
+  <data name="Transaction_Duplicate" xml:space="preserve">
+    <value>Дублировать</value>
+  </data>
+  <data name="Transaction_DuplicateAndApplyNow" xml:space="preserve">
+    <value>Дублировать и применить сейчас</value>
+  </data>
 </root>

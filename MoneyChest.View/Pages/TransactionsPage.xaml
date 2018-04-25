@@ -116,8 +116,11 @@
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
                     <Separator/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Transaction_DuplicateAndApplyNow}" Command="{Binding DuplicateAndApplyNowCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Transaction_Duplicate}" Command="{Binding DuplicateCommand}"/>
+                    <Separator/>
                     <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowCommand}"/>
-                    <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>                    
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

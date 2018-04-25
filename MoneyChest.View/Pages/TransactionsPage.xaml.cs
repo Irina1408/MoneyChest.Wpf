@@ -154,7 +154,95 @@ namespace MoneyChest.View.Pages
                     if (plannedTransaction?.Event is MoneyTransferEventModel)
                         OpenDetails(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel), true);
 
-                }, item => item.IsPlanned, true)
+                }, item => item.IsPlanned, true),
+
+                DuplicateAndApplyNowCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
+                (item) =>
+                {
+                    if (item is RecordModel)
+                    {
+                        var record = item as RecordModel;
+                        AddNew(_recordService.Add(new RecordModel()
+                        {
+                            Date = DateTime.Now,
+                            Description = record.Description,
+                            RecordType = record.RecordType,
+                            Value = record.Value,
+                            Remark = record.Remark,
+                            CurrencyExchangeRate = record.CurrencyExchangeRate,
+                            Commission = record.Commission,
+                            CommissionType = record.CommissionType,
+                            CategoryId = record?.CategoryId,
+                            CurrencyId = record.CurrencyId,
+                            StorageId = record.StorageId,
+                            DebtId = record?.DebtId,
+                            UserId = record.UserId
+                        }));
+                    }
+                    if (item is MoneyTransferModel)
+                    {
+                        var moneyTransfer = item as MoneyTransferModel;
+                        AddNew(_moneyTransferService.Add(new MoneyTransferModel()
+                        {
+                            Date = DateTime.Now,
+                            CurrencyExchangeRate = moneyTransfer.CurrencyExchangeRate,
+                            Value = moneyTransfer.Value,
+                            Description = moneyTransfer.Description,
+                            Commission = moneyTransfer.Commission,
+                            CommissionType = moneyTransfer.CommissionType,
+                            TakeCommissionFromReceiver = moneyTransfer.TakeCommissionFromReceiver,
+                            Remark = moneyTransfer.Remark,
+                            StorageFromId = moneyTransfer.StorageFromId,
+                            StorageToId = moneyTransfer.StorageToId,
+                            CategoryId = moneyTransfer.CategoryId
+                        }));
+                    }
+
+                }, item => !item.IsPlanned),
+
+                DuplicateCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
+                (item) =>
+                {
+                    if (item is RecordModel)
+                    {
+                        var record = item as RecordModel;
+                        OpenDetails(new RecordModel()
+                        {
+                            Date = DateTime.Now,
+                            Description = record.Description,
+                            RecordType = record.RecordType,
+                            Value = record.Value,
+                            Remark = record.Remark,
+                            CurrencyExchangeRate = record.CurrencyExchangeRate,
+                            Commission = record.Commission,
+                            CommissionType = record.CommissionType,
+                            CategoryId = record?.CategoryId,
+                            CurrencyId = record.CurrencyId,
+                            StorageId = record.StorageId,
+                            DebtId = record?.DebtId,
+                            UserId = record.UserId
+                        }, true);
+                    }
+                    if (item is MoneyTransferModel)
+                    {
+                        var moneyTransfer = item as MoneyTransferModel;
+                        OpenDetails(new MoneyTransferModel()
+                        {
+                            Date = DateTime.Now,
+                            CurrencyExchangeRate = moneyTransfer.CurrencyExchangeRate,
+                            Value = moneyTransfer.Value,
+                            Description = moneyTransfer.Description,
+                            Commission = moneyTransfer.Commission,
+                            CommissionType = moneyTransfer.CommissionType,
+                            TakeCommissionFromReceiver = moneyTransfer.TakeCommissionFromReceiver,
+                            Remark = moneyTransfer.Remark,
+                            StorageFromId = moneyTransfer.StorageFromId,
+                            StorageToId = moneyTransfer.StorageToId,
+                            CategoryId = moneyTransfer.CategoryId
+                        }, true);
+                    }
+
+                }, item => !item.IsPlanned)
             };
 
             this.DataContext = _viewModel;

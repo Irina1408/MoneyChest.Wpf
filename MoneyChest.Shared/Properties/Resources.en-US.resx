@@ -784,4 +784,10 @@
   <data name="Event_CreateTransaction" xml:space="preserve">
     <value>Create transaction</value>
   </data>
+  <data name="Transaction_Duplicate" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="Transaction_DuplicateAndApplyNow" xml:space="preserve">
+    <value>Duplicate and apply now</value>
+  </data>
 </root>
