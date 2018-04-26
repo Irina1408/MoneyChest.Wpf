@@ -132,23 +132,46 @@
                 <Expander Name="CategoriesExpander" Grid.Row="4" ExpandDirection="Down" Margin="5" Focusable="False"
                               Background="{DynamicResource AccentColorBrush}" BorderThickness="1" Padding="0">
                     <Expander.Header>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <!--<iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}"/>-->
-                            <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="5">
+                                <!--<iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}"/>-->
+                                <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center"
                                            Text="{moneyChestView:MultiLangBinding Category_Plural}"/>
-                            <!-- show selected categories count-->
-                            <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center" Text=" ("/>
-                            <TextBlock x:Name="txtCatsCount" Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center"/>
-                            <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center" Text=")"/>
-                        </StackPanel>
+                                <!-- show selected categories count-->
+                                <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center" Text=" ("/>
+                                <TextBlock x:Name="txtCatsCount" Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" VerticalAlignment="Center" Text=")"/>
+                            </StackPanel>
+
+                            <ToggleButton Grid.Column="1" IsChecked="{Binding IsCategoryBranchSelection, UpdateSourceTrigger=PropertyChanged}"
+                                          ToolTip="{moneyChestView:MultiLangBinding Category_BranchSelection}" 
+                                          Style="{DynamicResource CircleToggleButtonStyle}"
+                                          Foreground="{DynamicResource IdealForegroundColorBrush}"
+                                          Height="30" Width="30">
+                                <iconPacks:PackIconMaterial Kind="CheckboxMultipleMarkedOutline" />
+                            </ToggleButton>
+                        </Grid>
                     </Expander.Header>
                     <Grid>
-                        <TreeView x:Name="TreeViewCategories" Focusable="False" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        <TreeView x:Name="TreeViewCategories" ScrollViewer.VerticalScrollBarVisibility="Disabled" Focusable="False"
                                   ItemContainerStyle="{DynamicResource CategoryTreeViewCheckableItemContainerStyle}"
                                   ItemTemplate="{DynamicResource CheckableCategoryTreeViewItemTemplate}"
                                   ItemsSource="{Binding Categories}">
                             <TreeView.ContextMenu>
                                 <ContextMenu>
+                                    <!--<MenuItem Header="{moneyChestView:MultiLangBinding Category_SelectBranch}" Command="{Binding SelectBranchCommand}"/>
+                                    <MenuItem Header="{moneyChestView:MultiLangBinding Category_UnselectBranch}" Command="{Binding UnselectBranchCommand}"/>
+
+                                    <Separator/>-->
+                                    <MenuItem Header="{moneyChestView:MultiLangBinding Category_SelectAll}" Command="{Binding SelectAllCommand}"/>
+                                    <MenuItem Header="{moneyChestView:MultiLangBinding Category_UnselectAll}" Command="{Binding UnselectAllCommand}"/>
+
+                                    <Separator/>
                                     <MenuItem Header="{moneyChestView:MultiLangBinding Category_ExpandAll}" Command="{Binding ExpandAllCommand}"/>
                                     <MenuItem Header="{moneyChestView:MultiLangBinding Category_CollapseAll}" Command="{Binding CollapseAllCommand}"/>
                                 </ContextMenu>

@@ -39,8 +39,16 @@ namespace MoneyChest.View.Components
         private void DataFilter_Loaded(object sender, RoutedEventArgs e)
         {
             // init commands
-            ExpandAllCommand = new Command(() => Categories.ExpandAll());
-            CollapseAllCommand = new Command(() => Categories.CollapseAll());
+            SelectBranchCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories, 
+                (item) => Categories.SelectBranch(item, true));
+            UnselectBranchCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
+                (item) => Categories.SelectBranch(item, false));
+
+            SelectAllCommand = new Command(() => Categories.SelectAll(true));
+            UnselectAllCommand = new Command(() => Categories.SelectAll(false));
+
+            ExpandAllCommand = new Command(() => Categories.ExpandAll(true));
+            CollapseAllCommand = new Command(() => Categories.ExpandAll(false));
 
             // init datacontext
             TreeViewCategories.DataContext = this;
@@ -145,6 +153,7 @@ namespace MoneyChest.View.Components
         #region Private methods (Categories)
 
         private bool isCatsApplying = false;
+        private bool isSelectionChanged = false;
 
         private void ApplySelectedCategories()
         {
@@ -162,8 +171,12 @@ namespace MoneyChest.View.Components
                     // add event on category selection changed
                     cat.PropertyChanged += (sender, e) =>
                     {
-                        if(e.PropertyName == nameof(CategoryViewModel.IsSelected))
+                        if(e.PropertyName == nameof(CategoryViewModel.IsSelected) && !isSelectionChanged)
                         {
+                            isSelectionChanged = true;
+                            // select full branch when IsCategoryBranchSelection
+                            if (DataFilter.IsCategoryBranchSelection)
+                                cat.Children.GetDescendants().ToList().ForEach(x => x.IsSelected = cat.IsSelected);
                             // get all categories
                             var allCats = Categories.GetDescendants().ToList();
                             // check all categories selected
@@ -179,6 +192,8 @@ namespace MoneyChest.View.Components
                                 DataFilter.CategoryIds = allCats.Where(x => x.IsSelected).Select(x => x.Id).ToList();
                                 txtCatsCount.Text = DataFilter.CategoryIds.Count.ToString();
                             }
+
+                            isSelectionChanged = false;
                         }
                     };
                 }
@@ -187,6 +202,16 @@ namespace MoneyChest.View.Components
                 var allcats = Categories.GetDescendants().ToList();
                 // check all categories selected
                 allSelected = allcats.Count == allcats.Where(x => x.IsSelected).Count();
+                // collapse all if all are selected 
+                if (allSelected)
+                    allcats.ForEach(x => x.IsExpanded = false);
+                else
+                    allcats.ForEach(x => 
+                    {
+                        // expand only selected
+                        if (x.IsSelected)
+                            Categories.ExpandToDescendant(x, true);
+                    });
                 // expand categories expander if any category is selected
                 CategoriesExpander.IsExpanded = DataFilter.CategoryIds.Count > 0;
                 // populate selected categories count
@@ -280,6 +305,12 @@ namespace MoneyChest.View.Components
         #endregion
 
         #region Commands
+
+        public ICommand SelectBranchCommand { get; set; }
+        public ICommand UnselectBranchCommand { get; set; }
+
+        public ICommand SelectAllCommand { get; set; }
+        public ICommand UnselectAllCommand { get; set; }
 
         public ICommand ExpandAllCommand { get; set; }
         public ICommand CollapseAllCommand { get; set; }

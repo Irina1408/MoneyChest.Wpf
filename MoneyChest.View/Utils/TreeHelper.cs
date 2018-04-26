@@ -1,5 +1,6 @@
 ﻿using MoneyChest.Model.Model;
 using MoneyChest.Shared.MultiLang;
+using MoneyChest.ViewModel.Extensions;
 using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -51,8 +52,7 @@ namespace MoneyChest.View.Utils
                 category.IsSelected = true;
                 result.ExpandToDescendant(category, true);
             }
-
-
+            
             return result;
         }
 

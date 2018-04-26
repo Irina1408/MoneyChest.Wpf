@@ -89,8 +89,8 @@ namespace MoneyChest.View.Pages
                     NotifyDataChanged();
                 }),
 
-                ExpandAllCommand = new Command(() => _viewModel.Categories.ExpandAllMain()),
-                CollapseAllCommand = new Command(() => _viewModel.Categories.CollapseAllMain())
+                ExpandAllCommand = new Command(() => _viewModel.Categories.ExpandAllMain(true)),
+                CollapseAllCommand = new Command(() => _viewModel.Categories.ExpandAllMain(false))
             };
 
             this.DataContext = _viewModel;

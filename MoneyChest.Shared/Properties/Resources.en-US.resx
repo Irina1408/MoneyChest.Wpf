@@ -790,10 +790,25 @@
   <data name="Transaction_DuplicateAndApplyNow" xml:space="preserve">
     <value>Duplicate and apply now</value>
   </data>
+  <data name="Category_BranchSelection" xml:space="preserve">
+    <value>Multiple selection (selects full branch)</value>
+  </data>
   <data name="Category_CollapseAll" xml:space="preserve">
     <value>Collapse all</value>
   </data>
   <data name="Category_ExpandAll" xml:space="preserve">
     <value>Expand all</value>
+  </data>
+  <data name="Category_SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="Category_SelectBranch" xml:space="preserve">
+    <value>Select branch</value>
+  </data>
+  <data name="Category_UnselectAll" xml:space="preserve">
+    <value>Unselect all</value>
+  </data>
+  <data name="Category_UnselectBranch" xml:space="preserve">
+    <value>Unselect branch</value>
   </data>
 </root>

@@ -793,4 +793,19 @@
   <data name="Category_ExpandAll" xml:space="preserve">
     <value>Развернуть все</value>
   </data>
+  <data name="Category_BranchSelection" xml:space="preserve">
+    <value>Множественный выбор (выбор ветви)</value>
+  </data>
+  <data name="Category_SelectAll" xml:space="preserve">
+    <value>Выбрать все</value>
+  </data>
+  <data name="Category_SelectBranch" xml:space="preserve">
+    <value>Выбрать ветвь</value>
+  </data>
+  <data name="Category_UnselectAll" xml:space="preserve">
+    <value>Очистить все</value>
+  </data>
+  <data name="Category_UnselectBranch" xml:space="preserve">
+    <value>Очистить ветвь</value>
+  </data>
 </root>

@@ -45,28 +45,28 @@ namespace MoneyChest.ViewModel.ViewModel
             return false;
         }
 
-        public void ExpandToDescendant(CategoryViewModel item, bool isExpanded)
-        {
-            // update parent nodes
-            var tmp = item;
-            while (tmp.HasParent)
-            {
-                var parent = this.GetDescendants().FirstOrDefault(_ => _.Id == tmp.ParentCategoryId.Value);
-                parent.IsExpanded = isExpanded;
-                tmp = parent;
-            }
-        }
+        //public void ExpandToDescendant(CategoryViewModel item, bool isExpanded)
+        //{
+        //    // update parent nodes
+        //    var tmp = item;
+        //    while (tmp.HasParent)
+        //    {
+        //        var parent = this.GetDescendants().FirstOrDefault(_ => _.Id == tmp.ParentCategoryId.Value);
+        //        parent.IsExpanded = isExpanded;
+        //        tmp = parent;
+        //    }
+        //}
 
-        public void ExpandMainViewToDescendant(CategoryViewModel item, bool isExpanded)
-        {
-            // update parent nodes
-            var tmp = item;
-            while (tmp.HasParent)
-            {
-                var parent = this.GetDescendants().FirstOrDefault(_ => _.Id == tmp.ParentCategoryId.Value);
-                parent.IsExpandedMainView = isExpanded;
-                tmp = parent;
-            }
-        }
+        //public void ExpandMainViewToDescendant(CategoryViewModel item, bool isExpanded)
+        //{
+        //    // update parent nodes
+        //    var tmp = item;
+        //    while (tmp.HasParent)
+        //    {
+        //        var parent = this.GetDescendants().FirstOrDefault(_ => _.Id == tmp.ParentCategoryId.Value);
+        //        parent.IsExpandedMainView = isExpanded;
+        //        tmp = parent;
+        //    }
+        //}
     }
 }

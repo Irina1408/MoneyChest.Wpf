@@ -43,8 +43,8 @@ namespace MoneyChest.View.Components
         private void CategorySelector_Loaded(object sender, RoutedEventArgs e)
         {
             // init commands
-            ExpandAllCommand = new Command(() => Categories.ExpandAll());
-            CollapseAllCommand = new Command(() => Categories.CollapseAll());
+            ExpandAllCommand = new Command(() => Categories.ExpandAll(true));
+            CollapseAllCommand = new Command(() => Categories.ExpandAll(false));
 
             // init datacontext
             TreeViewCategories.DataContext = this;
