@@ -81,7 +81,8 @@
                                 <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
                                 <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
                                 <Separator/>
-                                <!-- TODO: add "Apply now" etc. -->
+                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowCommand}"/>
+                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -180,7 +181,8 @@
                                 <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
                                 <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
                                 <Separator/>
-                                <!-- TODO: add "Apply now" etc. -->
+                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowCommand}"/>
+                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -272,7 +274,8 @@
                                 <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
                                 <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
                                 <Separator/>
-                                <!-- TODO: add "Apply now" etc. -->
+                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowCommand}"/>
+                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>

@@ -38,6 +38,8 @@ namespace MoneyChest.View.Pages
         private IRepayDebtEventService _repayDebtEventService;
         private ISimpleEventService _simpleEventService;
         private ILimitService _limitService;
+        private IRecordService _recordService;
+        private IMoneyTransferService _moneyTransferService;
         private PlanningPageViewModel _viewModel;
         private bool _areLimitsLoaded;
 
@@ -54,6 +56,9 @@ namespace MoneyChest.View.Pages
             _repayDebtEventService = ServiceManager.ConfigureService<RepayDebtEventService>();
             _simpleEventService = ServiceManager.ConfigureService<SimpleEventService>();
             _limitService = ServiceManager.ConfigureService<LimitService>();
+            _recordService = ServiceManager.ConfigureService<RecordService>();
+            _moneyTransferService = ServiceManager.ConfigureService<MoneyTransferService>();
+
             InitializeViewModel();
             _areLimitsLoaded = false;
         }
@@ -62,7 +67,7 @@ namespace MoneyChest.View.Pages
         {
             _viewModel = new PlanningPageViewModel()
             {
-                SimpleEventsViewModel = new EntityListViewModel<SimpleEventViewModel>()
+                SimpleEventsViewModel = new EventListViewModel<SimpleEventViewModel>()
                 {
                     AddCommand = new Command(
                         () => OpenDetails(_simpleEventService.PrepareNew(new SimpleEventViewModel() { UserId = GlobalVariables.UserId, Schedule = new ScheduleModel() }) as SimpleEventViewModel, true)),
@@ -86,10 +91,22 @@ namespace MoneyChest.View.Pages
 
                             NotifyDataChanged();
                         }
-                    })
+                    }),
+
+                    ApplyNowCommand = new DataGridSelectedItemsCommand<SimpleEventViewModel>(GridSimpleEvents,
+                    (items) =>
+                    {
+                        foreach (var item in items)
+                            _recordService.Add(_recordService.Create(item));
+
+                        NotifyDataChanged();
+                    }),
+
+                    CreateTransactionCommand = new DataGridSelectedItemCommand<SimpleEventViewModel>(GridSimpleEvents,
+                    (item) => OpenDetails(_recordService.Create(item), true))
                 },
 
-                MoneyTransferEventsViewModel = new EntityListViewModel<MoneyTransferEventViewModel>()
+                MoneyTransferEventsViewModel = new EventListViewModel<MoneyTransferEventViewModel>()
                 {
                     AddCommand = new Command(
                         () => OpenDetails(_moneyTransferEventService.PrepareNew(new MoneyTransferEventViewModel() { UserId = GlobalVariables.UserId }) as MoneyTransferEventViewModel, true)),
@@ -113,10 +130,22 @@ namespace MoneyChest.View.Pages
 
                             NotifyDataChanged();
                         }
-                    })
+                    }),
+
+                    ApplyNowCommand = new DataGridSelectedItemsCommand<MoneyTransferEventViewModel>(GridMoneyTransferEvents,
+                    (items) =>
+                    {
+                        foreach (var item in items)
+                            _moneyTransferService.Add(_moneyTransferService.Create(item));
+
+                        NotifyDataChanged();
+                    }),
+
+                    CreateTransactionCommand = new DataGridSelectedItemCommand<MoneyTransferEventViewModel>(GridMoneyTransferEvents,
+                    (item) => OpenDetails(_moneyTransferService.Create(item), true))
                 },
 
-                RepayDebtEventsViewModel = new EntityListViewModel<RepayDebtEventViewModel>()
+                RepayDebtEventsViewModel = new EventListViewModel<RepayDebtEventViewModel>()
                 {
                     AddCommand = new Command(
                         () => OpenDetails(_repayDebtEventService.PrepareNew(new RepayDebtEventViewModel() { UserId = GlobalVariables.UserId }) as RepayDebtEventViewModel, true)),
@@ -140,7 +169,19 @@ namespace MoneyChest.View.Pages
 
                             NotifyDataChanged();
                         }
-                    })
+                    }),
+
+                    ApplyNowCommand = new DataGridSelectedItemsCommand<RepayDebtEventViewModel>(GridRepayDebtEvents,
+                    (items) =>
+                    {
+                        foreach (var item in items)
+                            _recordService.Add(_recordService.Create(item));
+
+                        NotifyDataChanged();
+                    }),
+
+                    CreateTransactionCommand = new DataGridSelectedItemCommand<RepayDebtEventViewModel>(GridRepayDebtEvents,
+                    (item) => OpenDetails(_recordService.Create(item), true))
                 },
 
                 LimitsViewModel = new EntityListViewModel<LimitModel>()
@@ -280,6 +321,12 @@ namespace MoneyChest.View.Pages
                 NotifyDataChanged();
             });
         }
+
+        private void OpenDetails(RecordModel model, bool isNew = false) =>
+            this.OpenDetailsWindow(new RecordDetailsView(_recordService, model, isNew), () => NotifyDataChanged());
+
+        private void OpenDetails(MoneyTransferModel model, bool isNew = false) =>
+            this.OpenDetailsWindow(new MoneyTransferDetailsView(model, isNew, false), () => NotifyDataChanged());
 
         private void InsertNewLimit(ObservableCollection<LimitModel> entities, LimitModel model)
         {
