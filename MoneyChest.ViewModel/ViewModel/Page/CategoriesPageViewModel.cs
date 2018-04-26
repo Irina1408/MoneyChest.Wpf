@@ -18,6 +18,7 @@ namespace MoneyChest.ViewModel.ViewModel
         public CategoryViewModelCollection Categories { get; set; }
 
         public IMCCommand AddCommand { get; set; }
+        public IMCCommand AddChildCommand { get; set; }
         public IMCCommand EditCommand { get; set; }
         public IMCCommand DeleteCommand { get; set; }
         public IMCCommand ChangeActivityCommand { get; set; }

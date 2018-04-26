@@ -793,6 +793,9 @@
   <data name="Category_ExpandAll" xml:space="preserve">
     <value>Развернуть все</value>
   </data>
+  <data name="Category_AddChild" xml:space="preserve">
+    <value>Добавить дочернюю</value>
+  </data>
   <data name="Category_BranchSelection" xml:space="preserve">
     <value>Множественный выбор (выбор ветви)</value>
   </data>

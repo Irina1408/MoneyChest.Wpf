@@ -57,6 +57,15 @@ namespace MoneyChest.View.Pages
                 AddCommand = new Command(
                 () => OpenDetails(new CategoryViewModel() { UserId = GlobalVariables.UserId }, true)),
 
+                AddChildCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
+                (item) => OpenDetails(new CategoryViewModel()
+                {
+                    UserId = GlobalVariables.UserId,
+                    ParentCategoryId = item.Id,
+                    RecordType = item.RecordType,
+                    IsActive = item.IsActive
+                }, true)),
+
                 EditCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
                 (item) => OpenDetails(item), null, true),
 

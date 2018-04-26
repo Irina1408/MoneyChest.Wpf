@@ -790,6 +790,9 @@
   <data name="Transaction_DuplicateAndApplyNow" xml:space="preserve">
     <value>Duplicate and apply now</value>
   </data>
+  <data name="Category_AddChild" xml:space="preserve">
+    <value>Add child</value>
+  </data>
   <data name="Category_BranchSelection" xml:space="preserve">
     <value>Multiple selection (selects full branch)</value>
   </data>
