@@ -32,7 +32,6 @@
                 </Button>
 
                 <Separator/>
-
                 <ToggleButton IsChecked="{Binding SelectedCategoryIsActive, UpdateSourceTrigger=PropertyChanged}" 
                               Command="{Binding ChangeActivityCommand}" 
                               Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
@@ -48,6 +47,17 @@
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
+
+                <Separator/>
+                <Button Command="{Binding ExpandAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_ExpandAll}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="SectionExpandAll" />
+                </Button>
+
+                <Button Command="{Binding CollapseAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_CollapseAll}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="SectionCollapseAll" />
+                </Button>
             </ToolBar>
         </ToolBarTray>
 
