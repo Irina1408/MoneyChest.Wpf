@@ -20,13 +20,18 @@
                                DialogClosing="CategoryDialogClosingEventHandler">
         <materialDesign:DialogHost.DialogContent>
             <Grid Width="300" Margin="5">
+                <Grid.Resources>
+                    <Style TargetType="TreeViewItem" BasedOn="{StaticResource CategoryTreeViewSelectableItemContainerStyle}"/>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TreeView x:Name="TreeViewCategories" Grid.Row="0" ItemsSource="{Binding Categories}"
-                                  ItemContainerStyle="{DynamicResource CategoryTreeViewSelectableItemContainerStyle}"
                                   ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
+                    <!--<TreeView.Resources>
+                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource CategoryTreeViewSelectableItemContainerStyle}"/>
+                    </TreeView.Resources>-->
                     <TreeView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="{moneyChestView:MultiLangBinding Category_ExpandAll}" Command="{Binding ExpandAllCommand}"/>

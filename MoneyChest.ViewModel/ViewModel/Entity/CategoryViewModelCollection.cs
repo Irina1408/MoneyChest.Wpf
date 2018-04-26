@@ -24,7 +24,7 @@ namespace MoneyChest.ViewModel.ViewModel
             {
                 yield return item;
 
-                foreach (var childItem in item.Children)
+                foreach (var childItem in item.Children.GetDescendants())
                     yield return childItem;
             }
         }

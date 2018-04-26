@@ -38,9 +38,6 @@ namespace MoneyChest.View.Components
 
         private void DataFilter_Loaded(object sender, RoutedEventArgs e)
         {
-            // prepare trees
-            //TreeViewCategories.ItemsSource = Categories;
-
             // init commands
             ExpandAllCommand = new Command(() => Categories.ExpandAll());
             CollapseAllCommand = new Command(() => Categories.CollapseAll());
