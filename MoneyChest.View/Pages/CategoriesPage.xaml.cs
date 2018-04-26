@@ -23,6 +23,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MoneyChest.ViewModel.Extensions;
 
 namespace MoneyChest.View.Pages
 {
@@ -86,7 +87,10 @@ namespace MoneyChest.View.Pages
                     // reload data
                     Reload();
                     NotifyDataChanged();
-                })
+                }),
+
+                ExpandAllCommand = new Command(() => _viewModel.Categories.ExpandAllMain()),
+                CollapseAllCommand = new Command(() => _viewModel.Categories.CollapseAllMain())
             };
 
             this.DataContext = _viewModel;

@@ -787,4 +787,10 @@
   <data name="Transaction_DuplicateAndApplyNow" xml:space="preserve">
     <value>Дублировать и применить сейчас</value>
   </data>
+  <data name="Category_CollapseAll" xml:space="preserve">
+    <value>Свернуть все</value>
+  </data>
+  <data name="Category_ExpandAll" xml:space="preserve">
+    <value>Развернуть все</value>
+  </data>
 </root>

@@ -4,6 +4,8 @@ using MoneyChest.Services.Services;
 using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Utils;
+using MoneyChest.ViewModel.Commands;
+using MoneyChest.ViewModel.Extensions;
 using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -32,11 +34,22 @@ namespace MoneyChest.View.Components
             InitializeComponent();
         }
 
+        #region Event handlers
+
         private void DataFilter_Loaded(object sender, RoutedEventArgs e)
         {
             // prepare trees
-            CategoriesTree.ItemsSource = Categories;
+            //TreeViewCategories.ItemsSource = Categories;
+
+            // init commands
+            ExpandAllCommand = new Command(() => Categories.ExpandAll());
+            CollapseAllCommand = new Command(() => Categories.CollapseAll());
+
+            // init datacontext
+            TreeViewCategories.DataContext = this;
         }
+
+        #endregion
 
         #region DataFilter Property
 
@@ -266,6 +279,13 @@ namespace MoneyChest.View.Components
                 StoragesTree.ItemsSource = storages;
             }
         }
+
+        #endregion
+
+        #region Commands
+
+        public ICommand ExpandAllCommand { get; set; }
+        public ICommand CollapseAllCommand { get; set; }
 
         #endregion
     }

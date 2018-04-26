@@ -43,8 +43,9 @@
 
             <!-- Parent category -->
             <components:CategorySelector x:Name="ParentCategorySelector" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                         SelectedCategoryId="{Binding ParentCategoryId}" ShowEmptyCategory="True"
-                                         Hint="{moneyChestView:MultiLangBinding Category_ParentCategory}"/>
+                                    SelectedCategoryId="{Binding ParentCategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ShowEmptyCategory="True"
+                                    Hint="{moneyChestView:MultiLangBinding Category_ParentCategory}"/>
 
             <!-- Remark -->
             <StackPanel Orientation="Horizontal">

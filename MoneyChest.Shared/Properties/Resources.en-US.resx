@@ -790,4 +790,10 @@
   <data name="Transaction_DuplicateAndApplyNow" xml:space="preserve">
     <value>Duplicate and apply now</value>
   </data>
+  <data name="Category_CollapseAll" xml:space="preserve">
+    <value>Collapse all</value>
+  </data>
+  <data name="Category_ExpandAll" xml:space="preserve">
+    <value>Expand all</value>
+  </data>
 </root>

@@ -73,6 +73,9 @@
                             </Style>
                         </MenuItem.Style>
                     </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Category_ExpandAll}" Command="{Binding ExpandAllCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Category_CollapseAll}" Command="{Binding CollapseAllCommand}"/>
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>

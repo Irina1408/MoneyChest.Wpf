@@ -143,9 +143,16 @@
                         </StackPanel>
                     </Expander.Header>
                     <Grid>
-                        <TreeView x:Name="CategoriesTree" Focusable="False" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        <TreeView x:Name="TreeViewCategories" Focusable="False" ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                   ItemContainerStyle="{DynamicResource CategoryTreeViewCheckableItemContainerStyle}"
-                                  ItemTemplate="{DynamicResource CheckableCategoryTreeViewItemTemplate}">
+                                  ItemTemplate="{DynamicResource CheckableCategoryTreeViewItemTemplate}"
+                                  ItemsSource="{Binding Categories}">
+                            <TreeView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{moneyChestView:MultiLangBinding Category_ExpandAll}" Command="{Binding ExpandAllCommand}"/>
+                                    <MenuItem Header="{moneyChestView:MultiLangBinding Category_CollapseAll}" Command="{Binding CollapseAllCommand}"/>
+                                </ContextMenu>
+                            </TreeView.ContextMenu>
                         </TreeView>
                     </Grid>
                 </Expander>

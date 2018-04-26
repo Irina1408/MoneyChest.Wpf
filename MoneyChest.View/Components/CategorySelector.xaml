@@ -9,7 +9,8 @@
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
              xmlns:converters="clr-namespace:MoneyChest.View.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Loaded="CategorySelector_Loaded">
 
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
@@ -23,10 +24,15 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TreeView Grid.Row="0" ItemsSource="{Binding Categories, 
-                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}"
+                <TreeView x:Name="TreeViewCategories" Grid.Row="0" ItemsSource="{Binding Categories}"
                                   ItemContainerStyle="{DynamicResource CategoryTreeViewSelectableItemContainerStyle}"
                                   ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding Category_ExpandAll}" Command="{Binding ExpandAllCommand}"/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding Category_CollapseAll}" Command="{Binding CollapseAllCommand}"/>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
                 </TreeView>
                 <StackPanel Grid.Row="1" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 

@@ -4,6 +4,8 @@ using MoneyChest.Services.Services;
 using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Utils;
+using MoneyChest.ViewModel.Commands;
+using MoneyChest.ViewModel.Extensions;
 using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -36,6 +38,18 @@ namespace MoneyChest.View.Components
             InitializeComponent();
         }
 
+        #region Event handlers
+
+        private void CategorySelector_Loaded(object sender, RoutedEventArgs e)
+        {
+            // init commands
+            ExpandAllCommand = new Command(() => Categories.ExpandAll());
+            CollapseAllCommand = new Command(() => Categories.CollapseAll());
+
+            // init datacontext
+            TreeViewCategories.DataContext = this;
+        }
+
         public void CategoryDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
             if (!Equals(eventArgs.Parameter, "1")) return;
@@ -49,6 +63,8 @@ namespace MoneyChest.View.Components
 
             SelectedCategoryId = selectedCategory.Id != EmptyCategoryId ? (int?)selectedCategory.Id : null;
         }
+
+        #endregion
 
         #region Hint Property
 
@@ -200,6 +216,13 @@ namespace MoneyChest.View.Components
         public static readonly DependencyProperty ShowIconProperty = DependencyProperty.Register(
             nameof(ShowIcon), typeof(bool), typeof(CategorySelector),
             new FrameworkPropertyMetadata(true));
+
+        #endregion
+
+        #region Commands
+        
+        public ICommand ExpandAllCommand { get; set; }
+        public ICommand CollapseAllCommand { get; set; }
 
         #endregion
     }
