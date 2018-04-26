@@ -25,6 +25,7 @@ namespace MoneyChest.Services.Services
         private IRecordService _recordService;
         private IMoneyTransferService _moneyTransferService;
         private IEventService _eventService;
+        private ICurrencyExchangeRateService _currencyExchangeRateService;
 
         #endregion
 
@@ -35,6 +36,7 @@ namespace MoneyChest.Services.Services
             _recordService = new RecordService(context);
             _moneyTransferService = new MoneyTransferService(context);
             _eventService = new EventService(context);
+            _currencyExchangeRateService = new CurrencyExchangeRateService(context);
         }
 
         #endregion
@@ -75,6 +77,18 @@ namespace MoneyChest.Services.Services
             var result = new List<PlannedTransactionModel<EventModel>>();
             // load events
             var events = _eventService.GetActiveForPeriod(userId, dateFrom, dateUntil);
+            var currencyExchangeRates = _currencyExchangeRateService.GetList(events
+                .Where(x => x.TakeExistingCurrencyExchangeRate && x.IsCurrencyExchangeRateRequired)
+                .Select(x => new[] { x.CurrencyFromId, x.CurrencyToId })
+                .SelectMany(x => x)
+                .ToList());
+
+            // update currency exchange rates for all events
+            foreach(var evnt in events.Where(x => x.TakeExistingCurrencyExchangeRate && x.IsCurrencyExchangeRateRequired).ToList())
+            {
+                evnt.CurrencyExchangeRate = currencyExchangeRates.FirstOrDefault(x =>
+                    x.CurrencyFromId == evnt.CurrencyFromId && x.CurrencyToId == evnt.CurrencyToId)?.Rate ?? 1;
+            }
 
             // loop for every future day in selection
             var date = dateFrom <= DateTime.Today ? DateTime.Today.AddDays(1) : dateFrom.Date;

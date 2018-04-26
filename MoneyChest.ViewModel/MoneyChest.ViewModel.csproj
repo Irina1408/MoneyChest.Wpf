@@ -84,6 +84,10 @@
     <Compile Include="Wrappers\EntityWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MoneyChest.Calculation\MoneyChest.Calculation.csproj">
+      <Project>{DB809B22-130F-4FB6-A8AD-2B50B56C6098}</Project>
+      <Name>MoneyChest.Calculation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MoneyChest.Model\MoneyChest.Model.csproj">
       <Project>{aa3cd891-1018-489d-a0c5-16c295c2e636}</Project>
       <Name>MoneyChest.Model</Name>

@@ -40,7 +40,7 @@ namespace MoneyChest.Calculation.Builders
 
         #region Filtered legend
 
-        public List<ITransaction> FilteredTransactions => Transactions;
+        public List<ITransaction> FilteredTransactions { get; set; }
         public List<StorageState> FilteredStorages => Storages;
 
         #endregion
@@ -49,7 +49,7 @@ namespace MoneyChest.Calculation.Builders
 
         // TODO: filter by storage
         public decimal TotDayAmount => FilteredTransactions.Sum(x => ToMainCurrency(x.TransactionAmount, x.TransactionCurrencyId));
-        public decimal TotStorageSummary => Storages.Sum(x => ToMainCurrency(x.Amount, x.Storage.CurrencyId));
+        public decimal TotStorageSummary => FilteredStorages.Sum(x => ToMainCurrency(x.Amount, x.Storage.CurrencyId));
 
         public string TotDayAmountDetailed => FormatMainCurrency(TotDayAmount, true);
         public string TotStorageSummaryDetailed => FormatMainCurrency(TotStorageSummary, false, false);

@@ -33,6 +33,31 @@ namespace MoneyChest.Services.Services
 
         #endregion
 
+        public override MoneyTransferEventModel Add(MoneyTransferEventModel model)
+        {
+            if (string.IsNullOrEmpty(model.Description))
+            {
+                var category = _context.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
+                model.Description = category.Name;
+            }
+
+            return base.Add(model);
+        }
+
+        public override IEnumerable<MoneyTransferEventModel> Add(IEnumerable<MoneyTransferEventModel> models)
+        {
+            var categoryIds = models.Where(x => x.CategoryId != null).Select(x => x.CategoryId).Distinct().ToList();
+            var categories = _context.Categories.Where(x => categoryIds.Contains(x.Id));
+
+            foreach (var model in models.Where(x => string.IsNullOrEmpty(x.Description)).ToList())
+            {
+                var category = categories.FirstOrDefault(x => x.Id == model.CategoryId);
+                model.Description = category.Name;
+            }
+
+            return base.Add(models);
+        }
+
         protected override IQueryable<MoneyTransferEvent> Scope => Entities.Include(_ => _.StorageFrom.Currency).Include(_ => _.StorageTo.Currency).Include(_ => _.Category);
     }
 }

@@ -12,6 +12,7 @@ using MoneyChest.Model.Extensions;
 using System.Data.Entity;
 using MoneyChest.Services.Converters;
 using MoneyChest.Data.Enums;
+using MoneyChest.Data.Extensions;
 
 namespace MoneyChest.Services.Services
 {
@@ -37,6 +38,31 @@ namespace MoneyChest.Services.Services
 
         #region Overrides
 
+        public override DebtModel Add(DebtModel model)
+        {
+            if (string.IsNullOrEmpty(model.Description))
+            {
+                var category = _context.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
+                model.Description = category.Name;
+            }
+
+            return base.Add(model);
+        }
+
+        public override IEnumerable<DebtModel> Add(IEnumerable<DebtModel> models)
+        {
+            var categoryIds = models.Where(x => x.CategoryId != null).Select(x => x.CategoryId).Distinct().ToList();
+            var categories = _context.Categories.Where(x => categoryIds.Contains(x.Id));
+
+            foreach (var model in models.Where(x => string.IsNullOrEmpty(x.Description)).ToList())
+            {
+                var category = categories.FirstOrDefault(x => x.Id == model.CategoryId);
+                model.Description = category.Name;
+            }
+
+            return base.Add(models);
+        }
+
         protected override IQueryable<Debt> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category).Include(_ => _.Storage).Include(_ => _.DebtPenalties);
 
         public override DebtModel PrepareNew(DebtModel model)
@@ -46,7 +72,12 @@ namespace MoneyChest.Services.Services
             // set default currency and storage
             var mainCurrency = _context.Currencies.FirstOrDefault(x => x.IsMain);
             model.CurrencyId = mainCurrency?.Id ?? 0;
-            model.StorageId = _context.Storages.FirstOrDefault(x => x.CurrencyId == model.CurrencyId)?.Id ?? 0;
+            model.Currency = mainCurrency?.ToReferenceView();
+            
+            // set default storage
+            var storage = _context.Storages.FirstOrDefault(x => x.CurrencyId == model.CurrencyId);
+            model.StorageId = storage?.Id ?? 0;
+            model.Storage = storage?.ToReferenceView();
 
             return model;
         }

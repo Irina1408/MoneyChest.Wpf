@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.IconPacks;
 using MoneyChest.Calculation.Builders;
 using MoneyChest.Model.Enums;
+using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
@@ -115,7 +116,7 @@ namespace MoneyChest.View.Pages
         private void RefreshCalendar()
         {
             // build data
-            var data = _builder.Build(_viewModel.Settings.PeriodFilter.DateFrom, _viewModel.Settings.PeriodFilter.DateUntil);
+            _viewModel.Data = _builder.Build(_viewModel.Settings.PeriodFilter.DateFrom, _viewModel.Settings.PeriodFilter.DateUntil);
 
             // fill headers
             FeelHeaders();
@@ -141,7 +142,7 @@ namespace MoneyChest.View.Pages
             }
 
             // fill selected period days
-            foreach(var d in data)
+            foreach(var d in _viewModel.Data)
             {
                 SetDay(iCol, iRow, d);
 
@@ -227,6 +228,34 @@ namespace MoneyChest.View.Pages
                 daysGrid.Children.Add(cellMap.Control);
 
             cellMap.Control.Data = data;
+        }
+
+        private void ApplyDataFilter()
+        {
+            var filters = new List<Func<ITransaction, bool>>();
+
+            if (_viewModel.Settings.DataFilter.IsFilterApplied)
+            {
+                // TODO: replace filter builder
+                if (!string.IsNullOrEmpty(_viewModel.Settings.DataFilter.Description))
+                    filters.Add((t) => !string.IsNullOrEmpty(t.Description) && t.Description.Contains(_viewModel.Settings.DataFilter.Description));
+
+                if (!string.IsNullOrEmpty(_viewModel.Settings.DataFilter.Remark))
+                    filters.Add((t) => !string.IsNullOrEmpty(t.Remark) && t.Remark.Contains(_viewModel.Settings.DataFilter.Remark));
+
+                if (_viewModel.Settings.DataFilter.TransactionType.HasValue)
+                    filters.Add((t) => t.TransactionType == _viewModel.Settings.DataFilter.TransactionType.Value);
+
+                if (_viewModel.Settings.DataFilter.CategoryIds.Count > 0)
+                    filters.Add((t) => (_viewModel.Settings.DataFilter.CategoryIds.Contains(-1) && t.TransactionCategory == null)
+                        || (t.TransactionCategory != null && _viewModel.Settings.DataFilter.CategoryIds.Contains(t.TransactionCategory.Id)));
+
+                if (_viewModel.Settings.DataFilter.StorageIds.Count > 0)
+                    filters.Add((t) => t.TransactionStorageIds.Any(x => _viewModel.Settings.DataFilter.StorageIds.Contains(x)));
+            }
+
+            _viewModel.Data.ForEach(x => x.FilteredTransactions = x.Transactions.Where(e => 
+                filters.Count == 0 || filters.All(f => f(e))).ToList());
         }
 
         #endregion

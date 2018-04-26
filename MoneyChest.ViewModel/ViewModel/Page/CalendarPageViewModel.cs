@@ -1,4 +1,5 @@
-﻿using MoneyChest.Model.Model;
+﻿using MoneyChest.Calculation.Builders;
+using MoneyChest.Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace MoneyChest.ViewModel.ViewModel
     public class CalendarPageViewModel
     {
         public CalendarSettingsModel Settings { get; set; }
+        public List<CalendarDayData> Data { get; set; }
     }
 }

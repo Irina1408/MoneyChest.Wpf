@@ -33,6 +33,31 @@ namespace MoneyChest.Services.Services
 
         #endregion
 
+        public override RepayDebtEventModel Add(RepayDebtEventModel model)
+        {
+            if (string.IsNullOrEmpty(model.Description))
+            {
+                var debt = _context.Debts.Include(_ => _.Category).FirstOrDefault(x => x.Id == model.DebtId);
+                model.Description = debt.Category?.Name;
+            }
+
+            return base.Add(model);
+        }
+
+        public override IEnumerable<RepayDebtEventModel> Add(IEnumerable<RepayDebtEventModel> models)
+        {
+            var debtIds = models.Select(x => x.DebtId).Distinct().ToList();
+            var debts = _context.Debts.Include(_ => _.Category).Where(x => debtIds.Contains(x.Id));
+
+            foreach (var model in models.Where(x => string.IsNullOrEmpty(x.Description)).ToList())
+            {
+                var debt = debts.FirstOrDefault(x => x.Id == model.DebtId);
+                model.Description = debt.Category?.Name;
+            }
+
+            return base.Add(models);
+        }
+
         protected override IQueryable<RepayDebtEvent> Scope => Entities.Include(_ => _.Storage.Currency).Include(_ => _.Debt.Currency).Include(_ => _.Debt.Category);
     }
 }

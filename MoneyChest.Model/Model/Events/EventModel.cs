@@ -26,7 +26,7 @@ namespace MoneyChest.Model.Model
 
         public EventModel()
         {
-            DateFrom = DateTime.Today;
+            DateFrom = DateTime.Today.AddDays(1);
             EventState = EventState.Active;
             AutoExecution = false;
             ConfirmBeforeExecute = false;
@@ -114,6 +114,10 @@ namespace MoneyChest.Model.Model
         #endregion
 
         #region Additional properties
+
+        public virtual bool IsCurrencyExchangeRateRequired => CurrencyFromId != CurrencyToId;
+        public abstract int CurrencyFromId { get; }
+        public abstract int CurrencyToId { get; }
 
         public bool CommissionEnabled
         {

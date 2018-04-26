@@ -62,6 +62,7 @@ namespace MoneyChest.Calculation.Builders
                 // fill existing records and money transfers in this day
                 calendarDayData.Transactions = transactions.Where(x => x.TransactionDate.Day == calendarDayData.DayOfMonth
                     && x.TransactionDate.Month == calendarDayData.Month && x.TransactionDate.Year == calendarDayData.Year).ToList();
+                calendarDayData.FilteredTransactions = calendarDayData.Transactions;
                 // populate storage initial state
                 calendarDayData.Storages = _data.Storages.Select(x => new StorageState()
                 {
@@ -79,6 +80,7 @@ namespace MoneyChest.Calculation.Builders
                 : (dateUntil < DateTime.Today 
                     ? _transactionService.Get(_userId, dateUntil.Date.AddDays(1), DateTime.Today.AddDays(1).AddMilliseconds(-1)) 
                     : new List<ITransaction>());
+
             // update storages state
             UpdateStorageState(result, missingTransactions);
 

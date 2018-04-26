@@ -61,6 +61,9 @@ namespace MoneyChest.Model.Model
         #endregion
 
         #region Additional properties
+        
+        public override int CurrencyFromId => Currency?.Id ?? 0;
+        public override int CurrencyToId => CurrencyForRate?.Id ?? 0;
 
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
         public decimal ResultValueSign => Debt?.DebtType == DebtType.TakeBorrow ? -ResultValue : ResultValue;

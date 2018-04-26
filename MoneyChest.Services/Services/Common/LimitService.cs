@@ -11,6 +11,7 @@ using MoneyChest.Model.Model;
 using MoneyChest.Model.Extensions;
 using System.Data.Entity;
 using MoneyChest.Services.Converters;
+using MoneyChest.Data.Extensions;
 
 namespace MoneyChest.Services.Services
 {
@@ -24,6 +25,31 @@ namespace MoneyChest.Services.Services
         {
         }
 
+        public override LimitModel Add(LimitModel model)
+        {
+            if (string.IsNullOrEmpty(model.Description))
+            {
+                var category = _context.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
+                model.Description = category.Name;
+            }
+
+            return base.Add(model);
+        }
+
+        public override IEnumerable<LimitModel> Add(IEnumerable<LimitModel> models)
+        {
+            var categoryIds = models.Where(x => x.CategoryId != null).Select(x => x.CategoryId).Distinct().ToList();
+            var categories = _context.Categories.Where(x => categoryIds.Contains(x.Id));
+
+            foreach (var model in models.Where(x => string.IsNullOrEmpty(x.Description)).ToList())
+            {
+                var category = categories.FirstOrDefault(x => x.Id == model.CategoryId);
+                model.Description = category.Name;
+            }
+
+            return base.Add(models);
+        }
+
         public override LimitModel PrepareNew(LimitModel model)
         {
             // base preparing
@@ -31,6 +57,7 @@ namespace MoneyChest.Services.Services
             // set default currency
             var mainCurrency = _context.Currencies.FirstOrDefault(x => x.IsMain);
             model.CurrencyId = mainCurrency?.Id ?? 0;
+            model.Currency = mainCurrency?.ToReferenceView();
 
             return model;
         }

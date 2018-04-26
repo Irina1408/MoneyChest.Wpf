@@ -58,6 +58,9 @@ namespace MoneyChest.Model.Model
         #endregion
 
         #region Additional properties
+        
+        public override int CurrencyFromId => CurrencyId;
+        public override int CurrencyToId => Storage?.CurrencyId ?? 0;
 
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
         public decimal ResultValueSign => RecordType == RecordType.Expense ? -ResultValue : ResultValue;

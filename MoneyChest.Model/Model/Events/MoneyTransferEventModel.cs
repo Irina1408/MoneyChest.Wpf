@@ -65,15 +65,15 @@ namespace MoneyChest.Model.Model
         #endregion
 
         #region Additional properties
-
-        public bool IsDifferentCurrenciesSelected =>
-            StorageFromCurrency != null && StorageToCurrency != null && StorageFromCurrency.Id != StorageToCurrency.Id;
+        
+        public override int CurrencyFromId => StorageFromCurrency?.Id ?? 0;
+        public override int CurrencyToId => StorageToCurrency?.Id ?? 0;
 
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
         private decimal StorageFromCommissionValue => CommissionValue;
 
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
-        private decimal StorageToCommissionValue => IsDifferentCurrenciesSelected ? CommissionValue * CurrencyExchangeRate : CommissionValue;
+        private decimal StorageToCommissionValue => IsCurrencyExchangeRateRequired ? CommissionValue * CurrencyExchangeRate : CommissionValue;
         
         public decimal StorageFromCommission => TakeCommissionFromReceiver ? 0 : StorageFromCommissionValue;
         public decimal StorageToCommission => TakeCommissionFromReceiver ? StorageToCommissionValue : 0;
@@ -88,11 +88,11 @@ namespace MoneyChest.Model.Model
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
         public decimal StorageToValue
         {
-            get => IsDifferentCurrenciesSelected ? Value * CurrencyExchangeRate - StorageToCommission : Value - StorageToCommission;
+            get => IsCurrencyExchangeRateRequired ? Value * CurrencyExchangeRate - StorageToCommission : Value - StorageToCommission;
             set
             {
                 // take into account currency exchange rate and commission
-                if (IsDifferentCurrenciesSelected && CurrencyExchangeRate != 0)
+                if (IsCurrencyExchangeRateRequired && CurrencyExchangeRate != 0)
                     Value = value / CurrencyExchangeRate + StorageToCommission;
                 else
                     Value = value + StorageToCommission;
