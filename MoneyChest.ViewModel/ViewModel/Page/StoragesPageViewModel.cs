@@ -31,5 +31,8 @@ namespace MoneyChest.ViewModel.ViewModel
         public ICommand DeleteMoneyTransferCommand { get; set; }
 
         public ObservableCollection<MoneyTransferModel> MoneyTransfers { get; set; }
+        public List<MoneyTransferModel> FilteredMoneyTransfers { get; set; }
+        public DataFilterModel MoneyTransfersDataFilter { get; set; }
+        public PeriodFilterModel MoneyTransfersPeriodFilter { get; set; }
     }
 }

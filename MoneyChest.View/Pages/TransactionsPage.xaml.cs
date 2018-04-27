@@ -345,33 +345,7 @@ namespace MoneyChest.View.Pages
                 _viewModel.Entities.Move(_viewModel.Entities.IndexOf(transaction), 0);
         }
 
-        private void ApplyDataFilter()
-        {
-            var filters = new List<Func<ITransaction, bool>>();
-
-            if (_viewModel.DataFilter.IsFilterApplied)
-            {
-                // TODO: replace filter builder
-                if (!string.IsNullOrEmpty(_viewModel.DataFilter.Description))
-                    filters.Add((t) => !string.IsNullOrEmpty(t.Description) && t.Description.Contains(_viewModel.DataFilter.Description));
-
-                if (!string.IsNullOrEmpty(_viewModel.DataFilter.Remark))
-                    filters.Add((t) => !string.IsNullOrEmpty(t.Remark) && t.Remark.Contains(_viewModel.DataFilter.Remark));
-
-                if (_viewModel.DataFilter.TransactionType.HasValue)
-                    filters.Add((t) => t.TransactionType == _viewModel.DataFilter.TransactionType.Value);
-
-                if (_viewModel.DataFilter.CategoryIds.Count > 0)
-                    filters.Add((t) => (_viewModel.DataFilter.CategoryIds.Contains(-1) && t.TransactionCategory == null)
-                        || (t.TransactionCategory != null && _viewModel.DataFilter.CategoryIds.Contains(t.TransactionCategory.Id)));
-
-                if (_viewModel.DataFilter.StorageIds.Count > 0)
-                    filters.Add((t) => t.TransactionStorageIds.Any(x => _viewModel.DataFilter.StorageIds.Contains(x)));
-            }
-
-            _viewModel.FilteredEntities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(
-                _viewModel.Entities.Where(x => filters.Count == 0 || filters.All(f => f(x))));
-        }
+        private void ApplyDataFilter() => _viewModel.FilteredEntities = _viewModel.DataFilter.ApplyFilter(_viewModel.Entities);
 
         #endregion
     }

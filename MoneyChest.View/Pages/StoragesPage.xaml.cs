@@ -7,6 +7,7 @@ using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Details;
 using MoneyChest.View.Utils;
 using MoneyChest.ViewModel.Commands;
+using MoneyChest.ViewModel.Extensions;
 using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -260,8 +261,36 @@ namespace MoneyChest.View.Pages
 
         private void LoadMoneyTransfers()
         {
+            if(_viewModel.MoneyTransfersDataFilter == null)
+            {
+                // TODO: load from database
+                _viewModel.MoneyTransfersPeriodFilter = new PeriodFilterModel();
+                _viewModel.MoneyTransfersPeriodFilter.OnPeriodChanged += (sender, e) =>
+                {
+                    // save changes
+                    //_settingsService.Update(settings);
+                    // reload money transfers
+                    LoadMoneyTransfers();
+                };
+
+                // TODO: load from database
+                _viewModel.MoneyTransfersDataFilter = new DataFilterModel();
+
+                _viewModel.MoneyTransfersDataFilter.PropertyChanged += (sender, e) =>
+                {
+                    // save changes
+                    //_settingsService.Update(settings);
+                    // apply filter
+                    ApplyDataFilter();
+                };
+            }
+
             _viewModel.MoneyTransfers = new ObservableCollection<MoneyTransferModel>(
-                _moneyTransferService.GetListForUser(GlobalVariables.UserId).OrderByDescending(_ => _.Date));
+                _moneyTransferService.Get(GlobalVariables.UserId, _viewModel.MoneyTransfersPeriodFilter.DateFrom, _viewModel.MoneyTransfersPeriodFilter.DateUntil).OrderByDescending(_ => _.Date));
+
+            _viewModel.MoneyTransfers.CollectionChanged += (sender, e) => ApplyDataFilter();
+
+            ApplyDataFilter();
 
             _areMoneyTransfersLoaded = true;
         }
@@ -389,6 +418,9 @@ namespace MoneyChest.View.Pages
             var storageTo = _storages.First(_ => _.Id == moneyTransfer.StorageToId);
             storageTo.UpdateData(_service.Get(storageTo.Id));
         }
+
+        private void ApplyDataFilter() => 
+            _viewModel.FilteredMoneyTransfers = _viewModel.MoneyTransfersDataFilter.ApplyFilter(_viewModel.MoneyTransfers);
 
         #endregion
     }

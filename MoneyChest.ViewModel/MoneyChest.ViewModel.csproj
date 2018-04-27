@@ -55,6 +55,7 @@
     <Compile Include="Commands\ParametrizedCommand.cs" />
     <Compile Include="Commands\TreeViewSelectedItemCommand.cs" />
     <Compile Include="Extensions\CategoryViewModelCollectionExtensions.cs" />
+    <Compile Include="Extensions\DataFilterExtensions.cs" />
     <Compile Include="Extensions\PeriodFilterExtensions.cs" />
     <Compile Include="Extensions\ScheduleExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
