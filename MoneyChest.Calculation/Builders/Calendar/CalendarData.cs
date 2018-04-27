@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Calculation.Builders
 {
-    internal class CalendarData
+    public class CalendarData
     {
         public CurrencyReference MainCurrency { get; set; }
         public List<CurrencyExchangeRateModel> Rates { get; set; } = new List<CurrencyExchangeRateModel>();

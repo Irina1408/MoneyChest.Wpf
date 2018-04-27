@@ -24,7 +24,7 @@
                                   Height="10" Width="10" Foreground="Green"/>
             <iconPacks:PackIconModern Name="IconMinus" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
                                   Height="10" Width="10" Foreground="Red"/>
-            <iconPacks:PackIconMaterial Name="EmptyPlace" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
+            <iconPacks:PackIconModern Name="IconPlusMinus" Kind="MathPlusMinus" Visibility="Collapsed" Margin="3 7 0 7"
                                   Height="10" Width="10"/>
             <TextBlock x:Name="txtName" Text="{Binding Name}" Margin="3 7 3 7"/>
             <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="Gray"/>
@@ -59,7 +59,7 @@
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
 
-            <!-- Empty space trigger -->
+            <!-- Icon Plus and Minus trigger -->
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsPlus}" Value="False"/>
@@ -67,7 +67,7 @@
                     <Condition Binding="{Binding HasParent}" Value="False"/>
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
-                    <Setter Property="Visibility" TargetName="EmptyPlace" Value="Hidden" />
+                    <Setter Property="Visibility" TargetName="IconPlusMinus" Value="Visible" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
             
@@ -95,8 +95,8 @@
                                   Height="10" Width="10" Foreground="Green" Grid.Column="0"/>
                 <iconPacks:PackIconModern Name="IconMinus" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
                                   Height="10" Width="10" Foreground="Red" Grid.Column="0"/>
-                <!--<iconPacks:PackIconMaterial Name="EmptyPlace" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
-                                  Height="10" Width="10"/>-->
+                <iconPacks:PackIconModern Name="IconPlusMinus" Kind="MathPlusMinus" Visibility="Collapsed" Margin="3 7 0 7"
+                                  Height="10" Width="10"/>
                 <TextBlock x:Name="txtName" Text="{Binding Name}" Margin="3 7 3 7" Grid.Column="1"/>
                 <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="Gray" Grid.Column="2"/>
             </Grid>
@@ -136,17 +136,17 @@
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
 
-            <!-- Empty space trigger -->
-            <!--<MultiDataTrigger>
+            <!-- Icon Plus and Minus trigger -->
+            <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsPlus}" Value="False"/>
                     <Condition Binding="{Binding IsMinus}" Value="False"/>
                     <Condition Binding="{Binding HasParent}" Value="False"/>
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
-                    <Setter Property="Visibility" TargetName="EmptyPlace" Value="Hidden" />
+                    <Setter Property="Visibility" TargetName="IconPlusMinus" Value="Visible" />
                 </MultiDataTrigger.Setters>
-            </MultiDataTrigger>-->
+            </MultiDataTrigger>
 
             <!-- Foreground -->
             <DataTrigger Binding="{Binding IsPlus}" Value="True">

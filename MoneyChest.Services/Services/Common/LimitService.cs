@@ -30,7 +30,7 @@ namespace MoneyChest.Services.Services
             if (string.IsNullOrEmpty(model.Description))
             {
                 var category = _context.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
-                model.Description = category.Name;
+                model.Description = category?.Name;
             }
 
             return base.Add(model);
@@ -44,7 +44,7 @@ namespace MoneyChest.Services.Services
             foreach (var model in models.Where(x => string.IsNullOrEmpty(x.Description)).ToList())
             {
                 var category = categories.FirstOrDefault(x => x.Id == model.CategoryId);
-                model.Description = category.Name;
+                model.Description = category?.Name;
             }
 
             return base.Add(models);
@@ -55,7 +55,7 @@ namespace MoneyChest.Services.Services
             // base preparing
             base.PrepareNew(model);
             // set default currency
-            var mainCurrency = _context.Currencies.FirstOrDefault(x => x.IsMain);
+            var mainCurrency = _context.Currencies.FirstOrDefault(x => x.IsMain && model.UserId == x.UserId);
             model.CurrencyId = mainCurrency?.Id ?? 0;
             model.Currency = mainCurrency?.ToReferenceView();
 

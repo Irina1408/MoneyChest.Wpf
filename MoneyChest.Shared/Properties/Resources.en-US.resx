@@ -814,4 +814,7 @@
   <data name="Category_UnselectBranch" xml:space="preserve">
     <value>Unselect branch</value>
   </data>
+  <data name="General_ShowFilter" xml:space="preserve">
+    <value>Show filter</value>
+  </data>
 </root>

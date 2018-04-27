@@ -16,6 +16,6 @@ namespace MoneyChest.Model.Model
 
         public string FormatValue(decimal value, bool showSign = false) => SymbolAlignment == Enums.CurrencySymbolAlignment.Right
             ? $"{value.ToString(showSign ? "+#.##;-#.##;0" : "0.##")}{Symbol}"
-            : $"{Symbol}{value.ToString(showSign ? "+#.##;-#.##;0" : "0.##")}";
+            : $"{value.ToString(showSign ? $"+ {Symbol}#.##;- {Symbol}#.##;0" : $"{Symbol}#.##;- {Symbol}#.##;0")}";
     }
 }

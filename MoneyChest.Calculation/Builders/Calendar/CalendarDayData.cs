@@ -41,7 +41,7 @@ namespace MoneyChest.Calculation.Builders
         #region Filtered legend
 
         public List<ITransaction> FilteredTransactions { get; set; }
-        public List<StorageState> FilteredStorages => Storages;
+        public List<StorageState> FilteredStorages { get; set; }
 
         #endregion
 
@@ -58,7 +58,7 @@ namespace MoneyChest.Calculation.Builders
 
         #region Helper references
 
-        internal CalendarData CalendarData { get; set; }
+        public CalendarData CalendarData { get; set; }
 
         #endregion
 

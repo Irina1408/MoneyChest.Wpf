@@ -77,6 +77,13 @@
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
+                                <DataTrigger Binding="{Binding Data.IsWeekend}" Value="true">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <SolidColorBrush Color="LightPink"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
                                 <DataTrigger Binding="{Binding Data.IsToday}" Value="true">
                                     <Setter Property="Background">
                                         <Setter.Value>

@@ -811,4 +811,7 @@
   <data name="Category_UnselectBranch" xml:space="preserve">
     <value>Очистить ветвь</value>
   </data>
+  <data name="General_ShowFilter" xml:space="preserve">
+    <value>Показать фильтр</value>
+  </data>
 </root>

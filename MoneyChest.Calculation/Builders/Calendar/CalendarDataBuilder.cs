@@ -1,4 +1,5 @@
-﻿using MoneyChest.Model.Extensions;
+﻿using MoneyChest.Model.Calendar;
+using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Services;
 using System;
@@ -69,6 +70,7 @@ namespace MoneyChest.Calculation.Builders
                     Storage = x,
                     Amount = x.Value
                 }).ToList();
+                calendarDayData.FilteredStorages = calendarDayData.Storages;
 
                 result.Add(calendarDayData);
                 currDate = currDate.AddDays(1);

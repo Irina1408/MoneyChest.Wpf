@@ -42,7 +42,7 @@
                 <StackPanel Grid.Row="1" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 
                                     CommandParameter="1" Style="{DynamicResource AccentedButtonStyle}"
-                                    Content="{moneyChestView:MultiLangBinding General_Ok}"/>
+                                    Content="{moneyChestView:MultiLangBinding General_Ok}" IsDefault="True"/>
                     <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0"
                                     Content="{moneyChestView:MultiLangBinding General_Cancel}"/>
                 </StackPanel>
@@ -64,7 +64,7 @@
                        Margin="0 0 10 0"/>
             </StackPanel>
 
-            <Button Grid.Column="1" Content="..." Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+            <Button Grid.Column="1" Content="..." Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Focusable="False">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TextBoxButtonStyle}">
                         <Style.Triggers>

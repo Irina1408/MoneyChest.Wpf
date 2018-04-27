@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.IconPacks;
 using MoneyChest.Calculation.Builders;
+using MoneyChest.Model.Calendar;
 using MoneyChest.Model.Enums;
 using MoneyChest.Model.Model;
 using MoneyChest.Services;
@@ -98,7 +99,7 @@ namespace MoneyChest.View.Pages
                     // save changes
                     _settingsService.Update(_viewModel.Settings);
                     // apply filter
-                    //ApplyDataFilter();
+                    ApplyDataFilter();
                 };
             }
 
@@ -106,7 +107,7 @@ namespace MoneyChest.View.Pages
             RefreshCalendar();
 
             // apply filter
-            //ApplyDataFilter();
+            ApplyDataFilter();
         }
 
         #endregion
@@ -254,8 +255,12 @@ namespace MoneyChest.View.Pages
                     filters.Add((t) => t.TransactionStorageIds.Any(x => _viewModel.Settings.DataFilter.StorageIds.Contains(x)));
             }
 
-            _viewModel.Data.ForEach(x => x.FilteredTransactions = x.Transactions.Where(e => 
-                filters.Count == 0 || filters.All(f => f(e))).ToList());
+            _viewModel.Data.ForEach(x => 
+            {
+                x.FilteredTransactions = x.Transactions.Where(e => filters.Count == 0 || filters.All(f => f(e))).ToList();
+                if (_viewModel.Settings.DataFilter.StorageIds.Count > 0)
+                    x.FilteredStorages = x.Storages.Where(e => _viewModel.Settings.DataFilter.StorageIds.Contains(e.Storage.Id)).ToList();
+            });
         }
 
         #endregion

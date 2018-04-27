@@ -33,10 +33,14 @@
         </Grid.ColumnDefinitions>
         
         <!-- Menu -->
-        <ToolBarTray Grid.Column="0" ClipToBounds="True" VerticalAlignment="Top" IsLocked="True"
-                     Background="{DynamicResource MaterialDesignToolBarBackground}" Grid.ColumnSpan="2">
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                
+        <Grid Grid.Column="0" Background="{DynamicResource MaterialDesignToolBarBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" HorizontalAlignment="Left" Grid.Column="0" 
+                     ToolBarTray.IsLocked="True">
                 <Button ToolTip="{moneyChestView:MultiLangBinding General_Add}" Style="{DynamicResource ToolBarButtonBaseStyle}"
                                     Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
                     <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False"
@@ -44,7 +48,7 @@
                                              Foreground="{DynamicResource IdealForegroundColorBrush}"
                                              Style="{DynamicResource MaterialDesignPopupBox}" Margin="0">
                         <materialDesign:PopupBox.ToggleContent>
-                            <Grid Background="Transparent" Height="34" Width="34">
+                            <Grid Background="Transparent" Height="28" Width="28">
                                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <iconPacks:PackIconMaterial Kind="Plus"/>
                                 </Grid>
@@ -79,22 +83,19 @@
                 </Button>
 
                 <Separator/>
-                <ToggleButton IsChecked="{Binding DataFilter.IsFilterApplied, UpdateSourceTrigger=PropertyChanged}" 
-                              ToolTip="{moneyChestView:MultiLangBinding General_Filter}"
+                <ToggleButton IsChecked="{Binding DataFilter.IsFilterVisible, UpdateSourceTrigger=PropertyChanged}" 
+                              ToolTip="{moneyChestView:MultiLangBinding General_ShowFilter}" HorizontalAlignment="Right"
                               Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
                     <iconPacks:PackIconModern Kind="Filter" />
                 </ToggleButton>
-
             </ToolBar>
-            <ToolBar HorizontalContentAlignment="Center">
+
+            <!-- Period selector -->
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" HorizontalAlignment="Center" Grid.ColumnSpan="2" ToolBarTray.IsLocked="True">
                 <components:PeriodSelectorControl HorizontalAlignment="Center"
                                       PeriodFilter="{Binding PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>
             </ToolBar>
-        </ToolBarTray>
-        
-        <!-- Period selector -->
-        <!--<components:PeriodSelectorControl Grid.Row="1" Grid.Column="0"
-                                      PeriodFilter="{Binding PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>-->
+        </Grid>
 
         <!-- Transactions grid -->
         <DataGrid x:Name="GridTransactions" Grid.Row="2" Grid.Column="0"
@@ -174,7 +175,7 @@
         </DataGrid>
         
         <!-- Filter -->
-        <components:DataFilterControl Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
+        <components:DataFilterControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" 
                                       DataFilter="{Binding DataFilter, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </local:PageBase>

@@ -34,7 +34,8 @@
                 <iconPacks:PackIconOcticons Kind="ChevronLeft" Height="Auto" Width="Auto"/>
             </Button>
 
-            <materialDesign:ColorZone Mode="PrimaryMid" Background="{DynamicResource GrayBrush8}" Height="35" Width="200"
+            <materialDesign:ColorZone Mode="PrimaryMid" Background="{DynamicResource GrayBrush8}" 
+                                      Height="{StaticResource PeriodSelectorHeight}" Width="200"
                                       Foreground="{DynamicResource BlackBrush}" Margin="0" VerticalAlignment="Center">
                 <Grid VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
