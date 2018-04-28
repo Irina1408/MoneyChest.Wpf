@@ -24,22 +24,74 @@
                     <Style TargetType="TreeViewItem" BasedOn="{StaticResource CategoryTreeViewSelectableItemContainerStyle}"/>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TreeView x:Name="TreeViewCategories" Grid.Row="0" ItemsSource="{Binding Categories}"
+                <!--<Grid x:Name="MainToolBarTray" Background="{DynamicResource MaterialDesignToolBarBackground}" HorizontalAlignment="Stretch">
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                        <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                            <iconPacks:PackIconMaterial Kind="Plus"/>
+                        </Button>
+
+                        <ToggleButton IsChecked="{Binding ShowInactive, UpdateSourceTrigger=PropertyChanged}" 
+                                      Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}"
+                                      ToolTip="{moneyChestView:MultiLangBinding Category_ShowInactive}">
+                            <iconPacks:PackIconModern Kind="Checkmark"/>
+                        </ToggleButton>
+
+                        <Separator/>
+                        <Button Command="{Binding ExpandAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_ExpandAll}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                            <iconPacks:PackIconModern Kind="SectionExpandAll" />
+                        </Button>
+
+                        <Button Command="{Binding CollapseAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_CollapseAll}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                            <iconPacks:PackIconModern Kind="SectionCollapseAll" />
+                        </Button>
+                    </ToolBar>
+                </Grid>-->
+                
+                <ToolBarTray x:Name="MainToolBarTray" ClipToBounds="True" VerticalAlignment="Top" Background="{DynamicResource MaterialDesignToolBarBackground}" Focusable="False">
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" Focusable="False">
+                        <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}" Focusable="False">
+                            <iconPacks:PackIconMaterial Kind="Plus"/>
+                        </Button>
+
+                        <ToggleButton IsChecked="{Binding ShowInactive, UpdateSourceTrigger=PropertyChanged}" 
+                                      Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}"
+                                      ToolTip="{moneyChestView:MultiLangBinding Category_ShowInactive}" Focusable="False">
+                            <iconPacks:PackIconModern Kind="Checkmark"/>
+                        </ToggleButton>
+
+                        <Separator/>
+                        <Button Command="{Binding ExpandAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_ExpandAll}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}" Focusable="False">
+                            <iconPacks:PackIconModern Kind="SectionExpandAll" />
+                        </Button>
+
+                        <Button Command="{Binding CollapseAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_CollapseAll}" 
+                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}" Focusable="False">
+                            <iconPacks:PackIconModern Kind="SectionCollapseAll" />
+                        </Button>
+                    </ToolBar>
+                </ToolBarTray>
+                
+                <TreeView x:Name="TreeViewCategories" Grid.Row="1" ItemsSource="{Binding Categories}"
                                   ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
-                    <!--<TreeView.Resources>
-                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource CategoryTreeViewSelectableItemContainerStyle}"/>
-                    </TreeView.Resources>-->
                     <TreeView.ContextMenu>
                         <ContextMenu>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding Category_AddChild}" Command="{Binding AddChildCommand}"/>
+                            <Separator/>
                             <MenuItem Header="{moneyChestView:MultiLangBinding Category_ExpandAll}" Command="{Binding ExpandAllCommand}"/>
                             <MenuItem Header="{moneyChestView:MultiLangBinding Category_CollapseAll}" Command="{Binding CollapseAllCommand}"/>
                         </ContextMenu>
                     </TreeView.ContextMenu>
                 </TreeView>
-                <StackPanel Grid.Row="1" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
+                
+                <StackPanel Grid.Row="2" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 
                                     CommandParameter="1" Style="{DynamicResource AccentedButtonStyle}"
                                     Content="{moneyChestView:MultiLangBinding General_Ok}" IsDefault="True"/>

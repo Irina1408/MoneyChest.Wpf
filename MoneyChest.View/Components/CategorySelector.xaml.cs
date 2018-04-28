@@ -3,6 +3,7 @@ using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
+using MoneyChest.View.Details;
 using MoneyChest.View.Utils;
 using MoneyChest.ViewModel.Commands;
 using MoneyChest.ViewModel.Extensions;
@@ -32,10 +33,14 @@ namespace MoneyChest.View.Components
     public partial class CategorySelector : UserControl
     {
         private const int EmptyCategoryId = -1;
+        private ICategoryService categoryService;
 
         public CategorySelector()
         {
             InitializeComponent();
+
+            // init
+            categoryService = ServiceManager.ConfigureService<CategoryService>();
         }
 
         #region Event handlers
@@ -45,9 +50,20 @@ namespace MoneyChest.View.Components
             // init commands
             ExpandAllCommand = new Command(() => Categories.ExpandAll(true));
             CollapseAllCommand = new Command(() => Categories.ExpandAll(false));
+            AddCommand = new Command(() => OpenDetails(new CategoryViewModel() { UserId = GlobalVariables.UserId }, true));
+
+            AddChildCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
+            (item) => OpenDetails(new CategoryViewModel()
+            {
+                UserId = GlobalVariables.UserId,
+                ParentCategoryId = item.Id,
+                RecordType = item.RecordType,
+                IsActive = item.IsActive
+            }, true));
 
             // init datacontext
             TreeViewCategories.DataContext = this;
+            MainToolBarTray.DataContext = this;
         }
 
         public void CategoryDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
@@ -163,13 +179,12 @@ namespace MoneyChest.View.Components
                 if((CategoryViewModelCollection)this.GetValue(CategoriesProperty) == null)
                 {
                     // load categories
-                    ICategoryService categoryService = ServiceManager.ConfigureService<CategoryService>();
-                    var categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId, SelectedCategoryId)
-                        .OrderByDescending(_ => _.RecordType)
-                        .ThenBy(_ => _.Name)
-                        .ToList(), SelectedCategoryId, ShowEmptyCategory);
+                    //var categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId, SelectedCategoryId)
+                    //    .OrderByDescending(_ => _.RecordType)
+                    //    .ThenBy(_ => _.Name)
+                    //    .ToList(), SelectedCategoryId, ShowEmptyCategory);
 
-                    this.SetValue(CategoriesProperty, categories);
+                    this.SetValue(CategoriesProperty, LoadCategories());
                 }
 
                 return (CategoryViewModelCollection)this.GetValue(CategoriesProperty);
@@ -192,9 +207,9 @@ namespace MoneyChest.View.Components
 
         public static readonly DependencyProperty SmallModeProperty = DependencyProperty.Register(
             nameof(SmallMode), typeof(bool), typeof(CategorySelector), 
-            new FrameworkPropertyMetadata(false, ShowTextBlockChangedCallback));
+            new FrameworkPropertyMetadata(false, SmallModeBlockChangedCallback));
 
-        private static void ShowTextBlockChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void SmallModeBlockChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // get selector
             var categorySelector = (d as CategorySelector);
@@ -219,10 +234,66 @@ namespace MoneyChest.View.Components
 
         #endregion
 
+        #region ShowInactive Property
+
+        public bool ShowInactive
+        {
+            get => (bool)this.GetValue(ShowInactiveProperty);
+            set => this.SetValue(ShowInactiveProperty, value);
+        }
+
+        public static readonly DependencyProperty ShowInactiveProperty = DependencyProperty.Register(
+            nameof(ShowInactive), typeof(bool), typeof(CategorySelector),
+            new FrameworkPropertyMetadata(false, ShowInactiveBlockChangedCallback));
+
+        private static void ShowInactiveBlockChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // get selector
+            var categorySelector = (d as CategorySelector);
+            // reload categories list
+            categorySelector.Categories = categorySelector.LoadCategories();
+        }
+
+        #endregion
+
         #region Commands
         
+        public IMCCommand AddCommand { get; set; }
+        public IMCCommand AddChildCommand { get; set; }
         public ICommand ExpandAllCommand { get; set; }
         public ICommand CollapseAllCommand { get; set; }
+
+        #endregion
+
+        #region Private methods
+
+        private void OpenDetails(CategoryViewModel model, bool isNew = false)
+        {
+            this.OpenDetailsWindow(new CategoryDetailsView(categoryService, model, isNew, Categories), () =>
+            {
+                // set expanded branch where category was changed
+                Categories.ExpandToDescendant(model, true);
+                model.IsSelected = true;
+
+                // reload data
+                Categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId, SelectedCategoryId)
+                        .OrderByDescending(_ => _.RecordType)
+                        .ThenBy(_ => _.Name)
+                        .ToList(), SelectedCategoryId, ShowEmptyCategory);
+            });
+        }
+
+        private CategoryViewModelCollection LoadCategories()
+        {
+            var categories = ShowInactive 
+                ? categoryService.GetListForUser(GlobalVariables.UserId)
+                : categoryService.GetActive(GlobalVariables.UserId, SelectedCategoryId);
+
+            return TreeHelper.BuildTree(categories
+                .OrderByDescending(_ => _.RecordType)
+                .ThenBy(_ => _.Name)
+                .ToList(), SelectedCategoryId, ShowEmptyCategory);
+        }
 
         #endregion
     }

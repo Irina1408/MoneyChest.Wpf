@@ -841,4 +841,7 @@
   <data name="General_ShowSettings" xml:space="preserve">
     <value>Показать настройки</value>
   </data>
+  <data name="Category_ShowInactive" xml:space="preserve">
+    <value>Показать неактивные</value>
+  </data>
 </root>
