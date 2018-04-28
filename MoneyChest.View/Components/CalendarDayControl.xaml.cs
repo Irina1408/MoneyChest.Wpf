@@ -4,6 +4,7 @@ using MoneyChest.Model.Enums;
 using MoneyChest.Shared.MultiLang;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,9 +23,10 @@ namespace MoneyChest.View.Components
     /// <summary>
     /// Interaction logic for CalendarDayControl.xaml
     /// </summary>
-    [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public partial class CalendarDayControl : UserControl
+    public partial class CalendarDayControl : UserControl, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public CalendarDayControl()
         {
             InitializeComponent();
@@ -42,7 +44,18 @@ namespace MoneyChest.View.Components
         }
 
         public static readonly DependencyProperty DataProperty = DependencyProperty.Register(
-            nameof(Data), typeof(CalendarDayData), typeof(CalendarDayControl));
+            nameof(Data), typeof(CalendarDayData), typeof(CalendarDayControl), new FrameworkPropertyMetadata(null, DataChangedCallback));
+
+        private static void DataChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // get control
+            var control = (d as CalendarDayControl);
+            control.Data.PropertyChanged += (sender, arg) =>
+            {
+                if (arg.PropertyName == nameof(CalendarDayData.IsLimitedTransactions))
+                    control.PropertyChanged?.Invoke(control, new PropertyChangedEventArgs(nameof(ShowDots)));
+            };
+        }
 
         #endregion
 
@@ -54,6 +67,7 @@ namespace MoneyChest.View.Components
             : (Data != null && Data.DayOfMonth == 1 ? MultiLangResource.EnumItemDescription(typeof(Month), (Month)Data.Month) : "");
 
         public bool IsActive => Data != null;
+        public bool ShowDots => Data?.IsLimitedTransactions ?? false;
 
         #endregion
     }

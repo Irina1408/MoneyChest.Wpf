@@ -86,6 +86,18 @@ namespace MoneyChest.View.Pages
             {
                 _viewModel.Settings = _settingsService.GetForUser(GlobalVariables.UserId);
 
+                _viewModel.Settings.PropertyChanged += (sender, e) =>
+                {
+                    if (e.PropertyName == nameof(CalendarSettingsModel.MaxTransactionsCountPerDay) ||
+                        e.PropertyName == nameof(CalendarSettingsModel.ShowAllTransactionsPerDay))
+                    {
+                        // save changes
+                        _settingsService.Update(_viewModel.Settings);
+                        // apply settings
+                        ApplySettings();
+                    }
+                };
+
                 // add notifications for reload and apply filter
                 _viewModel.Settings.PeriodFilter.OnPeriodChanged += (sender, e) =>
                 {
@@ -106,9 +118,10 @@ namespace MoneyChest.View.Pages
 
             // reload calendar data and update view
             RefreshCalendar();
-
             // apply filter
             ApplyDataFilter();
+            // apply settings
+            ApplySettings();
         }
 
         #endregion
@@ -241,6 +254,15 @@ namespace MoneyChest.View.Pages
                 x.FilteredTransactions = x.Transactions.Where(e => filters.Count == 0 || filters.All(f => f(e))).ToList();
                 if (_viewModel.Settings.DataFilter.StorageIds.Count > 0)
                     x.FilteredStorages = x.Storages.Where(e => _viewModel.Settings.DataFilter.StorageIds.Contains(e.Storage.Id)).ToList();
+                x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay;
+            });
+        }
+
+        private void ApplySettings()
+        {
+            _viewModel.Data.ForEach(x =>
+            {
+                x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay;
             });
         }
 

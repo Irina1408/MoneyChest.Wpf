@@ -16,8 +16,10 @@ namespace MoneyChest.Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }
-
+        public bool ShowSettings { get; set; }
         public bool ShowLimits { get; set; }
+        public bool ShowAllTransactionsPerDay { get; set; }
+        public int MaxTransactionsCountPerDay { get; set; }
         public int DataFilterId { get; set; }
         public int PeriodFilterId { get; set; }
 

@@ -14,6 +14,7 @@
     <system:Double x:Key="SmallFontSize">12</system:Double>
     <system:Double x:Key="ToolBarButtonSize">35</system:Double>
     <system:Double x:Key="TextInputControlWidth">200</system:Double>
+    <system:Double x:Key="SliderControlWidth">200</system:Double>
     <system:Double x:Key="TextButtonInputControlWidth">165</system:Double>
 
     <Style TargetType="{x:Type Control}">

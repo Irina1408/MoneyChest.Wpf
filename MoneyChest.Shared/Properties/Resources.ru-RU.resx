@@ -826,4 +826,19 @@
   <data name="General_DeletionErrorMessagePlural" xml:space="preserve">
     <value>{0} {1} нельзя удалить, поскольку сущности используется. Пожалуйста, удалите все связанные объекты и повторите попытку.</value>
   </data>
+  <data name="Calendar_MaxTransactionsCountPerDay" xml:space="preserve">
+    <value>Максимальное количество транзакций, отображаемых в день</value>
+  </data>
+  <data name="Calendar_MaxTransactionsCountPerDay_All" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="Calendar_ShowLimits" xml:space="preserve">
+    <value>Показать лимиты</value>
+  </data>
+  <data name="General_Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="General_ShowSettings" xml:space="preserve">
+    <value>Показать настройки</value>
+  </data>
 </root>

@@ -29,21 +29,32 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
+        <!-- Menu -->
         <Grid Grid.Column="0" Background="{DynamicResource MaterialDesignToolBarBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Show filter -->
+            <!-- Menu -->
             <ToolBar Style="{DynamicResource MaterialDesignToolBar}" HorizontalAlignment="Left" Grid.Column="0" 
                      ToolBarTray.IsLocked="True">
+
+                <!-- Show filter -->
                 <ToggleButton IsChecked="{Binding Settings.DataFilter.IsFilterVisible, UpdateSourceTrigger=PropertyChanged}" 
-                              ToolTip="{moneyChestView:MultiLangBinding General_ShowFilter}" HorizontalAlignment="Right"
+                              ToolTip="{moneyChestView:MultiLangBinding General_ShowFilter}"
                               Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
                     <iconPacks:PackIconModern Kind="Filter" />
+                </ToggleButton>
+
+                <!-- Show settings -->
+                <ToggleButton IsChecked="{Binding Settings.ShowSettings, UpdateSourceTrigger=PropertyChanged}" 
+                              ToolTip="{moneyChestView:MultiLangBinding General_ShowSettings}"
+                              Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconOcticons Kind="Gear" />
                 </ToggleButton>
             </ToolBar>
 
@@ -57,6 +68,41 @@
         <!-- Filter -->
         <components:DataFilterControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" 
                                       DataFilter="{Binding Settings.DataFilter, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <!-- Settings -->
+        <GroupBox Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" 
+                   Margin="0" Visibility="{Binding Settings.ShowSettings, Converter={StaticResource BVConverter}}">
+            <GroupBox.Header>
+                <TextBlock Text="{moneyChestView:MultiLangBinding General_Settings}" VerticalAlignment="Center"
+                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
+            </GroupBox.Header>
+
+            <StackPanel>
+                <GroupBox Margin="0 0 0 5">
+                    <GroupBox.Header>
+                        <TextBlock Text="{moneyChestView:MultiLangBinding Calendar_MaxTransactionsCountPerDay}" MaxWidth="200"
+                           TextWrapping="WrapWithOverflow" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+                    </GroupBox.Header>
+
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{moneyChestView:MultiLangBinding Calendar_MaxTransactionsCountPerDay_All}" 
+                              IsChecked="{Binding Settings.ShowAllTransactionsPerDay}" VerticalAlignment="Bottom"
+                                  Margin="1 5 5 5"/>
+
+                        <Slider Width="{DynamicResource SliderControlWidth}" Margin="5" Maximum="50" Minimum="0" 
+                            Style="{DynamicResource MaterialDesignDiscreteSlider}"
+                            ToolTip="{moneyChestView:MultiLangBinding Calendar_MaxTransactionsCountPerDay}"
+                            Value="{Binding Settings.MaxTransactionsCountPerDay,UpdateSourceTrigger=Default}" 
+                            IsEnabled="{Binding Settings.TransactionsCountPerDayAvailable}" Focusable="False"/>
+                    </StackPanel>
+
+                </GroupBox>
+
+                <CheckBox Content="{moneyChestView:MultiLangBinding Calendar_ShowLimits}" 
+                              IsChecked="{Binding Settings.ShowLimits}"/>
+            </StackPanel>
+        </GroupBox>
         
         <!-- Calendar days grid-->
         <Grid Grid.Column="0" Grid.Row="1">

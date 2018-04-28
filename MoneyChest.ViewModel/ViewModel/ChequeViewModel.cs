@@ -23,7 +23,7 @@ namespace MoneyChest.ViewModel.ViewModel
         public ObservableCollection<RecordModel> Entities { get; set; }
 
         public IMCCommand AddCommand { get; set; }
-        //public IMCCommand DublicateCommand { get; set; }
+        public IMCCommand DuplicateCommand { get; set; }
         public IMCCommand DeleteCommand { get; set; }
 
         public IMCCommand SaveCommand { get; set; }

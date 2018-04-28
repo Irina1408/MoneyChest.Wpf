@@ -123,9 +123,9 @@
                   ItemsSource="{Binding Entities}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCurrencyCommand}"/>
-                    <!--<MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCurrencyCommand}"/>-->
-                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCurrencyCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Transaction_Duplicate}" Command="{Binding DuplicateCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

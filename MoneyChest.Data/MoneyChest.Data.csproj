@@ -123,6 +123,10 @@
     <Compile Include="Migrations\201804280709585_update_datafilter_settings.Designer.cs">
       <DependentUpon>201804280709585_update_datafilter_settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804281446558_update_calendar_settings1.cs" />
+    <Compile Include="Migrations\201804281446558_update_calendar_settings1.Designer.cs">
+      <DependentUpon>201804281446558_update_calendar_settings1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -157,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804280709585_update_datafilter_settings.resx">
       <DependentUpon>201804280709585_update_datafilter_settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804281446558_update_calendar_settings1.resx">
+      <DependentUpon>201804281446558_update_calendar_settings1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

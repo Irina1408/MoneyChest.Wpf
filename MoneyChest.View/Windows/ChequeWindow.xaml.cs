@@ -82,6 +82,19 @@ namespace MoneyChest.View.Windows
                 _viewModel.Entities.Add(record);
             });
 
+            _viewModel.DuplicateCommand = new DataGridSelectedItemCommand<RecordModel>(GridRecords, (item) =>
+            {
+                _viewModel.Entities.Add(new RecordModel()
+                {
+                    Description = item.Description,
+                    RecordType = item.RecordType,
+                    Value = item.Value,
+                    Remark = item.Remark,
+                    CategoryId = item.CategoryId,
+                    UserId = item.UserId
+                });
+            });
+
             _viewModel.DeleteCommand = new DataGridSelectedItemsCommand<RecordModel>(GridRecords, (items) =>
             {
                 // remove in only grid

@@ -1,15 +1,17 @@
 ﻿using MoneyChest.Model.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Calendar
 {
-    [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public class CalendarDayData
+    public class CalendarDayData : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         #region Initialization
 
         public CalendarDayData(DateTime date)
@@ -42,6 +44,10 @@ namespace MoneyChest.Model.Calendar
 
         public List<ITransaction> FilteredTransactions { get; set; }
         public List<StorageState> FilteredStorages { get; set; }
+
+        public int MaxTransactionsCount { get; set; } = -1;
+        public List<ITransaction> LimitedTransactions => MaxTransactionsCount < 0 ? FilteredTransactions : FilteredTransactions.Take(MaxTransactionsCount).ToList();
+        public bool IsLimitedTransactions => MaxTransactionsCount > 0 && MaxTransactionsCount < FilteredTransactions.Count;
 
         #endregion
 
