@@ -73,7 +73,7 @@
                         <ComboBox x:Name="comboCurrencies" 
                           materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
                           DisplayMemberPath="Name" SelectedValuePath="Id"
-                          SelectedValue="{Binding CurrencyId}"/>
+                          SelectedValue="{Binding CurrencyId}" SelectionChanged="comboCurrencies_SelectionChanged"/>
                     </StackPanel>
 
                     <!-- Description -->
@@ -189,11 +189,24 @@
             </DataGrid.RowStyle>
         </DataGrid>
 
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0 0 5 5">
-            <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Style="{DynamicResource AccentedButtonStyle}" 
+        <!-- Totals row and exit buttons -->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="5 0 5 5" Grid.Column="0">
+                <Label Content="{moneyChestView:MultiLangBinding General_TotalAmount}"/>
+                <Label Content="{Binding TotalAmountDetailed}"/>
+            </StackPanel>
+            
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0 0 5 5" Grid.Column="1">
+                <Button Content="{moneyChestView:MultiLangBinding General_Ok}" Style="{DynamicResource AccentedButtonStyle}" 
                     Command="{Binding SaveCommand}" IsDefault="True"/>
 
-            <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" IsCancel="True" Command="{Binding CancelCommand}"/>
-        </StackPanel>
+                <Button Content="{moneyChestView:MultiLangBinding General_Cancel}" IsCancel="True" Command="{Binding CancelCommand}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </controls:MetroWindow>

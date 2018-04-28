@@ -276,7 +276,7 @@ namespace MoneyChest.View.Pages
                     // save changes
                     _settingsService.Update(settings);
                     // reload page
-                    Reload();
+                    ReloadTransactions();
                 };
 
                 _viewModel.DataFilter = settings.DataFilter;
@@ -289,6 +289,11 @@ namespace MoneyChest.View.Pages
                 };
             }
 
+            ReloadTransactions();
+        }
+
+        private void ReloadTransactions()
+        {
             // load transactions
             _viewModel.Entities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(_service.Get(GlobalVariables.UserId, _viewModel.PeriodFilter.DateFrom, _viewModel.PeriodFilter.DateUntil));
 

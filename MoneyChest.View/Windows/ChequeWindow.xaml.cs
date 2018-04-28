@@ -65,11 +65,22 @@ namespace MoneyChest.View.Windows
         {
             _viewModel = new ChequeViewModel();
 
-            _viewModel.AddCommand = new Command(() => _viewModel.Entities.Add(new RecordModel()
+            _viewModel.AddCommand = new Command(() =>
             {
-                UserId = GlobalVariables.UserId,
-                RecordType = _viewModel.Entities.Count > 0 ? _viewModel.Entities.Last().RecordType : RecordType.Expense
-            }));
+                var record = new RecordModel()
+                {
+                    UserId = GlobalVariables.UserId,
+                    RecordType = _viewModel.Entities.Count > 0 ? _viewModel.Entities.Last().RecordType : RecordType.Expense
+                };
+
+                record.PropertyChanged += (sender, e) =>
+                {
+                    if(e.PropertyName == nameof(RecordModel.Value) || e.PropertyName == nameof(RecordModel.RecordType))
+                        _viewModel.RefreshTotalAmount();
+                };
+
+                _viewModel.Entities.Add(record);
+            });
 
             _viewModel.DeleteCommand = new DataGridSelectedItemsCommand<RecordModel>(GridRecords, (items) =>
             {
@@ -119,8 +130,11 @@ namespace MoneyChest.View.Windows
             // fill defaults
             _viewModel.Date = DateTime.Now;
             _viewModel.CurrencyId = _currencies.FirstOrDefault(x => x.IsMain)?.Id ?? _currencies.FirstOrDefault()?.Id ?? 0;
+            _viewModel.Currency = _currencies.FirstOrDefault(x => x.Id == _viewModel.CurrencyId)?.ToReferenceView();
             _viewModel.StorageId = _storages.FirstOrDefault(x => x.CurrencyId == _viewModel.CurrencyId)?.Id ?? 0;
-            //_viewModel.Storage = _storages.FirstOrDefault(x => x.CurrencyId == _viewModel.CurrencyId)?.ToReferenceView();
+            _viewModel.Storage = _storages.FirstOrDefault(x => x.Id == _viewModel.StorageId)?.ToReferenceView();
+
+            _viewModel.Entities.CollectionChanged += (sender, e) => _viewModel.RefreshTotalAmount();
 
             this.DataContext = _viewModel;
         }
@@ -133,6 +147,12 @@ namespace MoneyChest.View.Windows
         {
             // update storage reference
             _viewModel.Storage = _storages.FirstOrDefault(x => x.Id == _viewModel.StorageId)?.ToReferenceView();
+        }
+
+        private void comboCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // update currency reference
+            _viewModel.Currency = _currencies.FirstOrDefault(x => x.Id == _viewModel.CurrencyId)?.ToReferenceView();
         }
 
         private void ChequeWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

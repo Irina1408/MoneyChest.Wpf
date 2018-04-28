@@ -817,4 +817,7 @@
   <data name="General_ShowFilter" xml:space="preserve">
     <value>Show filter</value>
   </data>
+  <data name="General_TotalAmount" xml:space="preserve">
+    <value>Total amount</value>
+  </data>
 </root>
