@@ -817,4 +817,13 @@
   <data name="General_TotalAmount" xml:space="preserve">
     <value>Итого</value>
   </data>
+  <data name="General_DeletionError" xml:space="preserve">
+    <value>Ошибка удаления</value>
+  </data>
+  <data name="General_DeletionErrorMessageOne" xml:space="preserve">
+    <value>{0} {1} нельзя удалить, поскольку сущность используется. Пожалуйста, удалите все связанные объекты и повторите попытку.</value>
+  </data>
+  <data name="General_DeletionErrorMessagePlural" xml:space="preserve">
+    <value>{0} {1} нельзя удалить, поскольку сущности используется. Пожалуйста, удалите все связанные объекты и повторите попытку.</value>
+  </data>
 </root>

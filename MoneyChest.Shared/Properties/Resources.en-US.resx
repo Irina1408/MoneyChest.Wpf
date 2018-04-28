@@ -820,4 +820,13 @@
   <data name="General_TotalAmount" xml:space="preserve">
     <value>Total amount</value>
   </data>
+  <data name="General_DeletionError" xml:space="preserve">
+    <value>Deletion error</value>
+  </data>
+  <data name="General_DeletionErrorMessageOne" xml:space="preserve">
+    <value>{0} {1} cannot be removed because it's used. Please, remove all related entities and try again.</value>
+  </data>
+  <data name="General_DeletionErrorMessagePlural" xml:space="preserve">
+    <value>{0} {1} cannot be removed because they are used. Please, remove all related entities and try again.</value>
+  </data>
 </root>

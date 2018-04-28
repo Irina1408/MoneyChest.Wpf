@@ -90,20 +90,12 @@ namespace MoneyChest.View.Pages
                     (item) => OpenDetails(item)),
 
                 DeleteStorageCommand = new ParametrizedCommand<StorageViewModel>(
-                    (item) =>
+                    (item) => EntityViewHelper.ConfirmAndRemoveNamed(_service, item, () =>
                     {
-                        var message = MultiLangResource.DeletionConfirmationMessage(typeof(StorageModel), new[] { item.Name });
-
-                        if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                            MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                        {
-                            // remove in database
-                            _service.Delete(item);
-                            // remove in view
-                            _storageGroupPanel[item.StorageGroupId].Children.Remove(_storageView[item.Id]);
-                            NotifyDataChanged();
-                        }
-                    }),
+                        // remove in view
+                        _storageGroupPanel[item.StorageGroupId].Children.Remove(_storageView[item.Id]);
+                        NotifyDataChanged();
+                    })),
 
                 TransferMoneyCommand = new ParametrizedCommand<StorageViewModel>(
                     (item) => OpenDetails(new MoneyTransferModel()
@@ -130,22 +122,14 @@ namespace MoneyChest.View.Pages
                     }),
 
                 DeleteStorageGroupCommand = new ParametrizedCommand<StorageGroupViewModel>(
-                    (item) =>
+                    (item) => EntityViewHelper.ConfirmAndRemoveNamed(_storageGroupService, item, () =>
                     {
-                        var message = MultiLangResource.DeletionConfirmationMessage(typeof(StorageGroupModel), new[] { item.Name });
-
-                        if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                            MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                        {
-                            // remove in database
-                            _storageGroupService.Delete(item);
-                            // update list
-                            _storageGroups.Remove(_storageGroups.First(_ => _.Id == item.Id));
-                            // remove in view
-                            StoragesPanel.Children.Remove(_storageGroupPanel[item.Id].Parent as ContentControl);
-                            NotifyDataChanged();
-                        }
-                    }),
+                        // update list
+                        _storageGroups.Remove(_storageGroups.First(_ => _.Id == item.Id));
+                        // remove in view
+                        StoragesPanel.Children.Remove(_storageGroupPanel[item.Id].Parent as ContentControl);
+                        NotifyDataChanged();
+                    })),
 
                 AddMoneyTransferCommand = new Command(
                     () => OpenDetails(new MoneyTransferModel(), true)),
@@ -154,26 +138,17 @@ namespace MoneyChest.View.Pages
                 (item) => OpenDetails(item), null, true),
 
                 DeleteMoneyTransferCommand = new DataGridSelectedItemsCommand<MoneyTransferModel>(GridMoneyTransfers,
-                (items) =>
+                (items) => EntityViewHelper.ConfirmAndRemove(_moneyTransferService, items, () =>
                 {
-                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(MoneyTransferModel), 
-                        items.Select(_ => _.Description));
-
-                    if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                        MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                    // remove in grid
+                    foreach (var item in items.ToList())
                     {
-                        // remove in database
-                        _moneyTransferService.Delete(items);
-                        // remove in grid
-                        foreach (var item in items.ToList())
-                        {
-                            _viewModel.MoneyTransfers.Remove(item);
-                            // update existing storages
-                            UpdateStorages(item);
-                        }
-                        NotifyDataChanged();
+                        _viewModel.MoneyTransfers.Remove(item);
+                        // update existing storages
+                        UpdateStorages(item);
                     }
-                })
+                    NotifyDataChanged();
+                }))
             };
 
             this.DataContext = _viewModel;

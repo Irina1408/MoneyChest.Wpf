@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class UserModel : IHasId
+    public class UserModel : IHasId, IHasName
     {
         public UserModel()
         {

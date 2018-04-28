@@ -90,21 +90,13 @@ namespace MoneyChest.View.Pages
                 }, item => !item.IsPlanned, true),
 
                 DeleteCommand = new DataGridSelectedItemsCommand<ITransaction>(GridTransactions,
-                (items) =>
+                (items) => EntityViewHelper.ConfirmAndRemove(items, _service.Delete, "Transaction", items.Select(_ => _.Description), () =>
                 {
-                    var message = MultiLangResource.DeletionConfirmationMessage("Transaction", items.Select(_ => _.Description));
-
-                    if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                        MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                    {
-                        // remove in database
-                        _service.Delete(items);
-                        // remove in grid
-                        foreach (var item in items.ToList())
-                            _viewModel.Entities.Remove(item);
-                        NotifyDataChanged();
-                    }
-                }, 
+                    // remove in grid
+                    foreach (var item in items.ToList())
+                        _viewModel.Entities.Remove(item);
+                    NotifyDataChanged();
+                }), 
                 (items) => !items.Any(_ => _.IsPlanned)),
 
                 ApplyNowCommand = new DataGridSelectedItemsCommand<ITransaction>(GridTransactions,

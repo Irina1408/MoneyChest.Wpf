@@ -40,11 +40,11 @@ namespace MoneyChest.Model.Model
     /// <summary>
     /// General entities properties
     /// </summary>
-    public interface ITransactionEntity
+    public interface ITransactionEntity : IHasId, IHasDescription, IHasRemark
     {
-        int Id { get; }
-        string Description { get; }
-        string Remark { get; }
+        //int Id { get; }
+        //string Description { get; }
+        //string Remark { get; }
     }
 
     public interface ITransaction : ITransactionMarkers, ITransactionViewDetails, ITransactionValueTransfering, ITransactionEntity

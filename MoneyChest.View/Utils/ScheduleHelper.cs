@@ -18,7 +18,7 @@ namespace MoneyChest.View.Utils
             for (int i = 1; i <= 31; i++)
                 result.Add(new ItemViewModel(i, i.ToString()));
 
-            // add last day of mont
+            // add last day of month
             result.Add(new ItemViewModel(-1, MultiLangResourceManager.Instance[MultiLangResourceName.LastForDayOfMonth]));
 
             return result;

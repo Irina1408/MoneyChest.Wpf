@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class DebtPenaltyModel : IHasId, INotifyPropertyChanged
+    public class DebtPenaltyModel : IHasId, IHasDescription, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

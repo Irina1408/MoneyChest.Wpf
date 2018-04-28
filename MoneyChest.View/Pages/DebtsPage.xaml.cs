@@ -60,21 +60,13 @@ namespace MoneyChest.View.Pages
                 (item) => OpenDetails(item), null, true),
 
                 DeleteCommand = new DataGridSelectedItemsCommand<DebtViewModel>(GridDebts,
-                (items) =>
+                (items) => EntityViewHelper.ConfirmAndRemove(_service, items, () =>
                 {
-                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(DebtModel), items.Select(_ => _.Description));
-
-                    if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                        MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                    {
-                        // remove in database
-                        _service.Delete(items);
-                        // remove in grid
-                        foreach (var item in items.ToList())
-                            _viewModel.Entities.Remove(item);
-                        NotifyDataChanged();
-                    }
-                })
+                    // remove in grid
+                    foreach (var item in items.ToList())
+                        _viewModel.Entities.Remove(item);
+                    NotifyDataChanged();
+                }))
             };
 
             this.DataContext = _viewModel;

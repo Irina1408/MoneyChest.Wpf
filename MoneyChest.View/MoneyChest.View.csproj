@@ -167,6 +167,7 @@
       <DependentUpon>StorageDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Base\PageBase.cs" />
+    <Compile Include="Utils\EntityViewHelper.cs" />
     <Compile Include="Utils\EnumViewHelper.cs" />
     <Compile Include="Utils\MultiLangBinding.cs" />
     <Compile Include="Utils\PageHelper.cs" />

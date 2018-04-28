@@ -70,6 +70,8 @@
     <Compile Include="Converters\StorageConverter.cs" />
     <Compile Include="Converters\StorageGroupConverter.cs" />
     <Compile Include="Converters\UserConverter.cs" />
+    <Compile Include="Exceptions\ReferenceConstraintException.cs" />
+    <Compile Include="Exceptions\ViolationOfConstraintException.cs" />
     <Compile Include="ServiceManager.cs" />
     <Compile Include="Services\Base\InterfaceImplementationsBase\HistoricizedIdManageableServiceBase.cs" />
     <Compile Include="Services\Base\InterfaceImplementationsBase\HistoricizedIdManageableUserableListServiceBase.cs" />

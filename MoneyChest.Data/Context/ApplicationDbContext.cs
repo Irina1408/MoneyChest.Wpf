@@ -8,7 +8,6 @@ using System.Configuration;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SqlClient;
-using MoneyChest.Data.Exceptions;
 using System.Data.Entity.Infrastructure;
 using MoneyChest.Data.Entities.History;
 
@@ -324,82 +323,6 @@ namespace MoneyChest.Data.Context
                 .WithRequired(e => e.PeriodFilter)
                 .WillCascadeOnDelete(false);
         }
-        
-        public override int SaveChanges()
-        {
-            try
-            {
-                return base.SaveChanges();
-            }
-            catch (DbUpdateException dbUpdateException)
-            {
-                // wrap common exceptions 
-                var sqlException = dbUpdateException.InnerException.InnerException as SqlException;
-
-                if (sqlException != null)
-                {
-                    switch (sqlException.Number)
-                    {
-                        case 547: throw new ReferenceConstraintException("A constraint reference has been detected while saving data. Please verify entries and try again.", dbUpdateException);
-                        case 2627: throw new ViolationOfConstraintException("A constraint violation has been detected while saving data. Please verify entries and try again.", dbUpdateException);
-                        default: throw;
-                    }
-                }
-
-                throw;
-            }
-        }
-
-        public override Task<int> SaveChangesAsync()
-        {
-            try
-            {
-                return base.SaveChangesAsync();
-            }
-            catch (DbUpdateException dbUpdateException)
-            {
-                // wrap common exceptions 
-                SqlException sqlException = dbUpdateException.InnerException.InnerException as SqlException;
-
-                if (sqlException != null)
-                {
-                    switch (sqlException.Number)
-                    {
-                        case 547: throw new ReferenceConstraintException("A constraint reference has been detected while saving data. Please verify entries and try again.", dbUpdateException);
-                        case 2627: throw new ViolationOfConstraintException("A constraint violation has been detected while saving data. Please verify entries and try again.", dbUpdateException);
-                        default: throw;
-                    }
-                }
-
-                throw;
-            }
-        }
-
-        public override Task<int> SaveChangesAsync(System.Threading.CancellationToken cancellationToken)
-        {
-            try
-            {
-                return base.SaveChangesAsync(cancellationToken);
-            }
-            catch (DbUpdateException dbUpdateException)
-            {
-                // wrap common exceptions 
-                SqlException sqlException = dbUpdateException.InnerException.InnerException as SqlException;
-
-                if (sqlException != null)
-                {
-                    switch (sqlException.Number)
-                    {
-                        case 547: throw new ReferenceConstraintException("A constraint reference has been detected while saving data. Please verify entries and try again.", dbUpdateException);
-                        case 2627: throw new ViolationOfConstraintException("A constraint violation has been detected while saving data. Please verify entries and try again.", dbUpdateException);
-                        default: throw;
-                    }
-                }
-
-                throw;
-            }
-        }
-
 
         #endregion
     }

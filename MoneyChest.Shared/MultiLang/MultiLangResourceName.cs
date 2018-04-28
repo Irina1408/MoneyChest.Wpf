@@ -12,6 +12,9 @@ namespace MoneyChest.Shared.MultiLang
 
         public static string DeletionConfirmation => "General_DeletionConfirmation";
         public static string DeletionConfirmationMessage => "General_DeletionConfirmationMessage";
+        public static string DeletionError => "General_DeletionError";
+        public static string DeletionErrorMessageOne => "General_DeletionErrorMessageOne";
+        public static string DeletionErrorMessagePlural => "General_DeletionErrorMessagePlural";
 
         public static string SaveChangesConfirmation => "General_SaveChangesConfirmation";
         public static string SaveChangesConfirmationMessage => "General_SaveChangesConfirmationMessage";

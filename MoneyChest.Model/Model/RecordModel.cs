@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace MoneyChest.Model.Model
 {
-    public class RecordModel : TransactionBase, IHasId, IHasUserId, INotifyPropertyChanged
+    public class RecordModel : TransactionBase, IHasId, IHasUserId, IHasDescription, IHasRemark, INotifyPropertyChanged
     {
         //public event PropertyChangedEventHandler PropertyChanged;
 

@@ -58,21 +58,13 @@ namespace MoneyChest.View.Pages
                 (item) => OpenDetails(item), null, true),
 
                 DeleteCurrencyCommand = new DataGridSelectedItemsCommand<CurrencyModel>(GridCurrencies,
-                (items) =>
+                (items) => EntityViewHelper.ConfirmAndRemoveNamed(_service, items, () =>
                 {
-                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(CurrencyModel), items.Select(_ => _.Name));
-
-                    if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation], 
-                        MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                    {
-                        // remove in database
-                        _service.Delete(items);
-                        // remove in grid
-                        foreach (var item in items.ToList())
-                            _viewModel.Currencies.Remove(item);
-                        NotifyDataChanged();
-                    }
-                },
+                    // remove in grid
+                    foreach (var item in items.ToList())
+                        _viewModel.Currencies.Remove(item);
+                    NotifyDataChanged();
+                }),
                 (items) => !items.Any(_ => _.IsMain)),
 
                 SetMainCommand = new DataGridSelectedItemCommand<CurrencyModel>(GridCurrencies,

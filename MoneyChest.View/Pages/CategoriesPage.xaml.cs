@@ -70,20 +70,13 @@ namespace MoneyChest.View.Pages
                 (item) => OpenDetails(item), null, true),
 
                 DeleteCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
-                (item) =>
+                (item) => EntityViewHelper.ConfirmAndRemoveNamed(_service, item, () => 
                 {
-                    var message = MultiLangResource.DeletionConfirmationMessage(typeof(CategoryModel), new [] { item.Name });
+                    // remove in collection
+                    _viewModel.Categories.RemoveDescendant(item);
+                    NotifyDataChanged();
+                }),
 
-                    if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                        MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                    {
-                        // remove in database
-                        _service.Delete(item);
-                        // remove in collection
-                        _viewModel.Categories.RemoveDescendant(item);
-                        NotifyDataChanged();
-                    }
-                },
                 (item) => item.Children.Count == 0),
 
                 ChangeActivityCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,

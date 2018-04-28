@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class CategoryModel : IHasId, IHasUserId, INotifyPropertyChanged
+    public class CategoryModel : IHasId, IHasUserId, IHasName, IHasRemark, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

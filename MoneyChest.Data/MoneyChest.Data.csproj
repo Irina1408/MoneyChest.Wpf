@@ -95,8 +95,6 @@
     <Compile Include="Entities\StorageGroup.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\ActionType.cs" />
-    <Compile Include="Exceptions\ReferenceConstraintException.cs" />
-    <Compile Include="Exceptions\ViolationOfConstraintException.cs" />
     <Compile Include="Migrations\201803150826127_initial_migration.cs" />
     <Compile Include="Migrations\201803150826127_initial_migration.Designer.cs">
       <DependentUpon>201803150826127_initial_migration.cs</DependentUpon>
@@ -161,6 +159,7 @@
       <DependentUpon>201804280709585_update_datafilter_settings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

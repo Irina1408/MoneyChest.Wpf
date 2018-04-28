@@ -1,8 +1,10 @@
 ﻿using MahApps.Metro.IconPacks;
+using MoneyChest.Model.Base;
 using MoneyChest.Model.Enums;
 using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
+using MoneyChest.Services.Services.Base;
 using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Details;
@@ -76,22 +78,7 @@ namespace MoneyChest.View.Pages
                     (item) => OpenDetails(item), null, true),
 
                     DeleteCommand = new DataGridSelectedItemsCommand<SimpleEventViewModel>(GridSimpleEvents,
-                    (items) =>
-                    {
-                        var message = MultiLangResource.DeletionConfirmationMessage(typeof(SimpleEventModel), items.Select(_ => _.Description));
-
-                        if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                            MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                        {
-                            // remove in database
-                            _simpleEventService.Delete(items);
-                            // remove in grid
-                            foreach (var item in items.ToList())
-                                _viewModel.SimpleEventsViewModel.Entities.Remove(item);
-
-                            NotifyDataChanged();
-                        }
-                    }),
+                    (items) => Delete(_simpleEventService, items, _viewModel.SimpleEventsViewModel)),
 
                     ApplyNowCommand = new DataGridSelectedItemsCommand<SimpleEventViewModel>(GridSimpleEvents,
                     (items) =>
@@ -115,22 +102,7 @@ namespace MoneyChest.View.Pages
                     (item) => OpenDetails(item), null, true),
 
                     DeleteCommand = new DataGridSelectedItemsCommand<MoneyTransferEventViewModel>(GridMoneyTransferEvents,
-                    (items) =>
-                    {
-                        var message = MultiLangResource.DeletionConfirmationMessage(typeof(MoneyTransferEventModel), items.Select(_ => _.Description));
-
-                        if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                            MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                        {
-                            // remove in database
-                            _moneyTransferEventService.Delete(items);
-                            // remove in grid
-                            foreach (var item in items.ToList())
-                                _viewModel.MoneyTransferEventsViewModel.Entities.Remove(item);
-
-                            NotifyDataChanged();
-                        }
-                    }),
+                    (items) => Delete(_moneyTransferEventService, items, _viewModel.MoneyTransferEventsViewModel)),
 
                     ApplyNowCommand = new DataGridSelectedItemsCommand<MoneyTransferEventViewModel>(GridMoneyTransferEvents,
                     (items) =>
@@ -154,22 +126,7 @@ namespace MoneyChest.View.Pages
                     (item) => OpenDetails(item), null, true),
 
                     DeleteCommand = new DataGridSelectedItemsCommand<RepayDebtEventViewModel>(GridRepayDebtEvents,
-                    (items) =>
-                    {
-                        var message = MultiLangResource.DeletionConfirmationMessage(typeof(RepayDebtEventModel), items.Select(_ => _.Description));
-
-                        if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                            MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                        {
-                            // remove in database
-                            _repayDebtEventService.Delete(items);
-                            // remove in grid
-                            foreach (var item in items.ToList())
-                                _viewModel.RepayDebtEventsViewModel.Entities.Remove(item);
-
-                            NotifyDataChanged();
-                        }
-                    }),
+                    (items) => Delete(_repayDebtEventService, items, _viewModel.RepayDebtEventsViewModel)),
 
                     ApplyNowCommand = new DataGridSelectedItemsCommand<RepayDebtEventViewModel>(GridRepayDebtEvents,
                     (items) =>
@@ -193,22 +150,7 @@ namespace MoneyChest.View.Pages
                     (item) => OpenDetails(item), null, true),
 
                     DeleteCommand = new DataGridSelectedItemsCommand<LimitModel>(GridLimits,
-                    (items) =>
-                    {
-                        var message = MultiLangResource.DeletionConfirmationMessage(typeof(LimitModel), null);
-
-                        if (MessageBox.Show(message, MultiLangResourceManager.Instance[MultiLangResourceName.DeletionConfirmation],
-                            MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                        {
-                            // remove in database
-                            _limitService.Delete(items);
-                            // remove in grid
-                            foreach (var item in items.ToList())
-                                _viewModel.LimitsViewModel.Entities.Remove(item);
-
-                            NotifyDataChanged();
-                        }
-                    })
+                    (items) => Delete<LimitModel, LimitModel>(_limitService, items, _viewModel.LimitsViewModel))
                 }
             };
 
@@ -359,6 +301,20 @@ namespace MoneyChest.View.Pages
             }
             else
                 events.Add(model);
+        }
+
+        private void Delete<T, TView>(IServiceBase<T> service, IEnumerable<TView> items, EntityListViewModel<TView> entityListViewModel)
+            where T : class, IHasDescription
+            where TView : class, T
+        {
+            EntityViewHelper.ConfirmAndRemove(service, items, () =>
+            {
+                // remove in grid
+                foreach (var item in items.ToList())
+                    entityListViewModel.Entities.Remove(item);
+
+                NotifyDataChanged();
+            });
         }
 
         private void LoadLimits()

@@ -9,6 +9,8 @@ namespace MoneyChest.Shared.MultiLang
 {
     public static class MultiLangResource
     {
+        #region Deletion messages
+
         public static string DeletionConfirmationMessage(Type entityType, IEnumerable<string> items) =>
             DeletionConfirmationMessage(entityType.Name.Replace("Model", ""), items);
 
@@ -18,6 +20,18 @@ namespace MoneyChest.Shared.MultiLang
                 ? MultiLangResourceManager.Instance[MultiLangResourceName.Singular(entityName)]?.ToLower()
                 : MultiLangResourceManager.Instance[MultiLangResourceName.Plural(entityName)]?.ToLower(),
                 string.Join(";", items));
+
+        public static string DeletionErrorMessage(Type entityType, IEnumerable<string> items) =>
+            DeletionErrorMessage(entityType.Name.Replace("Model", ""), items);
+
+        public static string DeletionErrorMessage(string entityName, IEnumerable<string> items) =>
+            items == null || items.Count() <= 1
+            ? string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.DeletionErrorMessageOne],
+                MultiLangResourceManager.Instance[MultiLangResourceName.Singular(entityName)], string.Join(";", items))
+            : string.Format(MultiLangResourceManager.Instance[MultiLangResourceName.DeletionErrorMessagePlural],
+                MultiLangResourceManager.Instance[MultiLangResourceName.Plural(entityName)], string.Join(";", items));
+
+        #endregion
 
         #region Enum
 

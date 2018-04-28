@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class DebtModel : IHasId, IHasUserId, INotifyPropertyChanged
+    public class DebtModel : IHasId, IHasUserId, IHasDescription, IHasRemark, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private ObservableCollection<DebtPenaltyModel> penalties;

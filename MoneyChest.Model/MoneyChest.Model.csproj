@@ -69,8 +69,7 @@
     <Compile Include="Enums\Settings\PeriodFilterType.cs" />
     <Compile Include="Enums\Settings\ReportType.cs" />
     <Compile Include="Enums\RecordType.cs" />
-    <Compile Include="Model\Base\IHasId.cs" />
-    <Compile Include="Model\Base\IHasUserId.cs" />
+    <Compile Include="Model\Base\IHas.cs" />
     <Compile Include="Model\Base\ITransaction.cs" />
     <Compile Include="Model\Base\TransactionBase.cs" />
     <Compile Include="Model\CategoryModel.cs" />
