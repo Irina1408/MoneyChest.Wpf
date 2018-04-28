@@ -225,6 +225,9 @@
     <Compile Include="Windows\DateRangeSelectorWindow.xaml.cs">
       <DependentUpon>DateRangeSelectorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\DateSelectorWindow.xaml.cs">
+      <DependentUpon>DateSelectorWindow.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -396,6 +399,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\DateRangeSelectorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\DateSelectorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -30,5 +30,8 @@ namespace MoneyChest.ViewModel.ViewModel
     {
         public IMCCommand ApplyNowCommand { get; set; }
         public IMCCommand CreateTransactionCommand { get; set; }
+        public IMCCommand RunCommand { get; set; }
+        public IMCCommand PauseCommand { get; set; }
+        public IMCCommand CloseCommand { get; set; }
     }
 }

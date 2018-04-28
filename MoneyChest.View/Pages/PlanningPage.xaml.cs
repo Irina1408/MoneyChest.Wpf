@@ -90,7 +90,11 @@ namespace MoneyChest.View.Pages
                     }),
 
                     CreateTransactionCommand = new DataGridSelectedItemCommand<SimpleEventViewModel>(GridSimpleEvents,
-                    (item) => OpenDetails(_recordService.Create(item), true))
+                    (item) => OpenDetails(_recordService.Create(item), true)),
+
+                    RunCommand = ChangeStateCommand(_simpleEventService, EventState.Active, GridSimpleEvents),
+                    PauseCommand = ChangeStateCommand(_simpleEventService, EventState.Paused, GridSimpleEvents),
+                    CloseCommand = ChangeStateCommand(_simpleEventService, EventState.Closed, GridSimpleEvents)
                 },
 
                 MoneyTransferEventsViewModel = new EventListViewModel<MoneyTransferEventViewModel>()
@@ -114,7 +118,11 @@ namespace MoneyChest.View.Pages
                     }),
 
                     CreateTransactionCommand = new DataGridSelectedItemCommand<MoneyTransferEventViewModel>(GridMoneyTransferEvents,
-                    (item) => OpenDetails(_moneyTransferService.Create(item), true))
+                    (item) => OpenDetails(_moneyTransferService.Create(item), true)),
+
+                    RunCommand = ChangeStateCommand(_moneyTransferEventService, EventState.Active, GridMoneyTransferEvents),
+                    PauseCommand = ChangeStateCommand(_moneyTransferEventService, EventState.Paused, GridMoneyTransferEvents),
+                    CloseCommand = ChangeStateCommand(_moneyTransferEventService, EventState.Closed, GridMoneyTransferEvents)
                 },
 
                 RepayDebtEventsViewModel = new EventListViewModel<RepayDebtEventViewModel>()
@@ -138,7 +146,11 @@ namespace MoneyChest.View.Pages
                     }),
 
                     CreateTransactionCommand = new DataGridSelectedItemCommand<RepayDebtEventViewModel>(GridRepayDebtEvents,
-                    (item) => OpenDetails(_recordService.Create(item), true))
+                    (item) => OpenDetails(_recordService.Create(item), true)),
+
+                    RunCommand = ChangeStateCommand(_repayDebtEventService, EventState.Active, GridRepayDebtEvents),
+                    PauseCommand = ChangeStateCommand(_repayDebtEventService, EventState.Paused, GridRepayDebtEvents),
+                    CloseCommand = ChangeStateCommand(_repayDebtEventService, EventState.Closed, GridRepayDebtEvents)
                 },
 
                 LimitsViewModel = new EntityListViewModel<LimitModel>()
@@ -324,6 +336,28 @@ namespace MoneyChest.View.Pages
 
             GridLimits.ItemsSource = _viewModel.LimitsViewModel.Entities;
             _areLimitsLoaded = true;
+        }
+
+        private IMCCommand ChangeStateCommand<T>(IServiceBase<T> service, EventState eventState, DataGrid eventsGrid)
+            where T : EventModel
+        {
+            return new DataGridSelectedItemCommand<T>(eventsGrid,
+                (item) =>
+                {
+                    if(eventState == EventState.Paused)
+                    {
+                        var date = DateTime.Today.AddDays(1);
+                        if (this.ShowDateSelector(ref date, MultiLangResourceManager.Instance[MultiLangResourceName.SuspendUntil]))
+                            item.PausedToDate = date;
+                        else
+                            return;
+                    }
+
+                    item.EventState = eventState;
+                    service.Update(item);
+                    eventsGrid.UpdateLayout();
+                },
+                (item) => item.EventState != eventState);
         }
 
         #endregion

@@ -40,6 +40,22 @@ namespace MoneyChest.View.Utils
             return false;
         }
 
+        public static bool ShowDateSelector(this UserControl control, ref DateTime date, string caption)
+        {
+            var dateSeletor = new MoneyChest.View.Windows.DateSelectorWindow();
+            dateSeletor.Owner = Window.GetWindow(control);
+            dateSeletor.Date = date;
+            dateSeletor.Caption = caption;
+
+            if (dateSeletor.ShowDialog() == true)
+            {
+                date = dateSeletor.Date;
+                return true;
+            }
+
+            return false;
+        }
+
         public static void OpenDetailsWindow(this UserControl control, IEntityDetailsView detailsView, Action success = null)
         {
             // init window

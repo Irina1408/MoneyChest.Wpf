@@ -308,7 +308,7 @@
     <value>Активно</value>
   </data>
   <data name="EventState_Closed" xml:space="preserve">
-    <value>Закрыто</value>
+    <value>Остановлено</value>
   </data>
   <data name="EventState_EnumName" xml:space="preserve">
     <value>Состояние</value>
@@ -843,5 +843,17 @@
   </data>
   <data name="Category_ShowInactive" xml:space="preserve">
     <value>Показать неактивные</value>
+  </data>
+  <data name="Event_Close" xml:space="preserve">
+    <value>Остановить</value>
+  </data>
+  <data name="Event_Pause" xml:space="preserve">
+    <value>Приостановить</value>
+  </data>
+  <data name="Event_Run" xml:space="preserve">
+    <value>Запустить</value>
+  </data>
+  <data name="Event_SuspendUntil" xml:space="preserve">
+    <value>Приостановить до</value>
   </data>
 </root>

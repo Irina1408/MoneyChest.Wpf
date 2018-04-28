@@ -25,6 +25,7 @@ namespace MoneyChest.Shared.MultiLang
         public static string Today => "General_Today";
         public static string None => "General_None";
         public static string All => "General_All";
+        public static string SuspendUntil => "Event_SuspendUntil";
 
         #endregion
 

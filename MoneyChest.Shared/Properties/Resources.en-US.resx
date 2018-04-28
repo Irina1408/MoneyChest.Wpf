@@ -308,13 +308,13 @@
     <value>Active</value>
   </data>
   <data name="EventState_Closed" xml:space="preserve">
-    <value>Closed</value>
+    <value>Stopped</value>
   </data>
   <data name="EventState_EnumName" xml:space="preserve">
     <value>State</value>
   </data>
   <data name="EventState_Paused" xml:space="preserve">
-    <value>Paused</value>
+    <value>Suspended</value>
   </data>
   <data name="Event_AutoExecution" xml:space="preserve">
     <value>Auto execution</value>
@@ -846,5 +846,17 @@
   </data>
   <data name="Category_ShowInactive" xml:space="preserve">
     <value>Show inactive</value>
+  </data>
+  <data name="Event_Close" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Event_Pause" xml:space="preserve">
+    <value>Suspend</value>
+  </data>
+  <data name="Event_Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Event_SuspendUntil" xml:space="preserve">
+    <value>Suspend until</value>
   </data>
 </root>

@@ -50,11 +50,12 @@ namespace MoneyChest.View.Components
         {
             // get control
             var control = (d as CalendarDayControl);
-            control.Data.PropertyChanged += (sender, arg) =>
-            {
-                if (arg.PropertyName == nameof(CalendarDayData.IsLimitedTransactions))
-                    control.PropertyChanged?.Invoke(control, new PropertyChangedEventArgs(nameof(ShowDots)));
-            };
+            if(control.Data != null)
+                control.Data.PropertyChanged += (sender, arg) =>
+                {
+                    if (arg.PropertyName == nameof(CalendarDayData.IsLimitedTransactions))
+                        control.PropertyChanged?.Invoke(control, new PropertyChangedEventArgs(nameof(ShowDots)));
+                };
         }
 
         #endregion
