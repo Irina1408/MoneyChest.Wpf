@@ -8,6 +8,7 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
 	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                               xmlns:components="clr-namespace:MoneyChest.View.Components"
+                              xmlns:input="clr-namespace:MoneyChest.View.Components.Input"
                               mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -48,11 +49,7 @@
         <!-- Main data panel -->
         <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="5 0 5 0">
             <!-- Name -->
-            <StackPanel Orientation="Horizontal">
-                <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
-                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
-            </StackPanel>
+            <input:NameInput EntityName="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
             <!-- Storage group -->
             <StackPanel Orientation="Horizontal" Grid.Row="0">
@@ -80,12 +77,7 @@
             </StackPanel>
 
             <!-- Remark -->
-            <StackPanel Orientation="Horizontal">
-                <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
-                <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
-                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
-                                     Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
+            <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         </StackPanel>
 
         <!-- Ok/Cancel buttons -->

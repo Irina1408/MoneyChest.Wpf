@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Data.Enums;
+using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
-        [StringLength(100)]
+        [StringLength(MaxSize.NameLength)]
         public string Name { get; set; }
 
         public RecordType? RecordType { get; set; }
@@ -46,7 +47,7 @@ namespace MoneyChest.Data.Entities.History
 
         public int? ParentCategoryId { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
     }
 }

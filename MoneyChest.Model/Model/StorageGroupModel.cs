@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Base;
+using MoneyChest.Model.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,7 @@ namespace MoneyChest.Model.Model
 
         public int Id { get; set; }
 
-        [StringLength(100)]
+        [StringLength(MaxSize.NameLength)]
         public string Name { get; set; }
         
         public int UserId { get; set; }

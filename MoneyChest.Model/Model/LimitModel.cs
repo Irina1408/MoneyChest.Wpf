@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Base;
+using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace MoneyChest.Model.Model
         public decimal Value { get; set; }
         public decimal SpentValue { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
         
         public int CurrencyId { get; set; }

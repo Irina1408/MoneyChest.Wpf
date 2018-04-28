@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Data.Enums;
+using MoneyChest.Model.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,7 +37,7 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
-        [StringLength(100)]
+        [StringLength(MaxSize.NameLength)]
         public string Name { get; set; }
 
         public bool IsVisible { get; set; }
@@ -45,7 +46,7 @@ namespace MoneyChest.Data.Entities.History
 
         public decimal Value { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
         public int CurrencyId { get; set; }

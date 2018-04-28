@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Base;
+using MoneyChest.Model.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,14 +17,14 @@ namespace MoneyChest.Model.Model
         
         public int Id { get; set; }
 
-        [StringLength(100)]
+        [StringLength(MaxSize.NameLength)]
         public string Name { get; set; }
         
         public decimal Value { get; set; }
 
         public bool IsVisible { get; set; } = true;
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
         [Required]

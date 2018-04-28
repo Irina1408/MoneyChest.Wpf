@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Base;
+using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -21,16 +22,17 @@ namespace MoneyChest.Data.Entities
         [Key]
         public int Id { get; set; }
         public bool IsFilterApplied { get; set; }
+        public bool IsFilterVisible { get; set; } = false;
+        public bool IsCategoryBranchSelection { get; set; } = false;
+        public bool IncludeWithoutCategory { get; set; }
         public TransactionType? TransactionType { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(MaxSize.DescriptionLength)]
         public string Description { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
         
-        public bool IncludeWithoutCategory { get; set; }
-
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Storage> Storages { get; set; }
         public virtual ICollection<TransactionsSettings> TransactionsSettings { get; set; }

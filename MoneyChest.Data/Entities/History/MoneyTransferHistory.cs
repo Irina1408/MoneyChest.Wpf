@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Data.Enums;
+using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(MaxSize.DescriptionLength)]
         public string Description { get; set; }
 
         [Column(TypeName = "date")]
@@ -53,7 +54,7 @@ namespace MoneyChest.Data.Entities.History
 
         public bool TakeCommissionFromReceiver { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
 

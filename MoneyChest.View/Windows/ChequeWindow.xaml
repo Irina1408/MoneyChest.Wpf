@@ -11,7 +11,8 @@
         xmlns:components="clr-namespace:MoneyChest.View.Components"
         xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
         xmlns:converters="clr-namespace:MoneyChest.View.Converters"
-        mc:Ignorable="d"
+                      xmlns:input="clr-namespace:MoneyChest.View.Components.Input"
+                      mc:Ignorable="d"
         Title="Money chest" Height="635" Width="795"
         Style="{DynamicResource MoneyChestWindowStyle}"
         WindowStartupLocation="CenterOwner" Padding="10"
@@ -77,19 +78,10 @@
                     </StackPanel>
 
                     <!-- Description -->
-                    <StackPanel Orientation="Horizontal">
-                        <iconpacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
-                        <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
-                                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
-                    </StackPanel>
+                    <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                     <!-- Remark -->
-                    <StackPanel Orientation="Horizontal">
-                        <iconpacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
-                        <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
-                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
-                                     Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 5 0"/>
-                    </StackPanel>
+                    <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </StackPanel>
                 
                 <!-- Storage -->
@@ -158,7 +150,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Description}" />
+                <DataGridTextColumn Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Description}"/>
 
                 <DataGridTextColumn Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Amount}" />
 

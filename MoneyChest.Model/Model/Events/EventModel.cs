@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Base;
+using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace MoneyChest.Model.Model
 
         public int Id { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(MaxSize.DescriptionLength)]
         public string Description { get; set; }
 
         public virtual decimal Value { get; set; }
@@ -90,7 +91,7 @@ namespace MoneyChest.Model.Model
         public bool ConfirmBeforeExecute { get; set; }
 
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
         
         public int UserId { get; set; }

@@ -20,10 +20,10 @@ namespace MoneyChest.Model.Model
 
         public bool IsFilterVisible { get; set; }
         public bool IsFilterApplied { get; set; }
+        public bool IsCategoryBranchSelection { get; set; }
         public string Description { get; set; }
         public string Remark { get; set; }
         public TransactionType? TransactionType { get; set; }
-        public bool IsCategoryBranchSelection { get; set; }
         
         public List<int> CategoryIds { get; set; }
         public List<int> StorageIds { get; set; }

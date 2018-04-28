@@ -8,7 +8,8 @@
              xmlns:components="clr-namespace:MoneyChest.View.Components"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
-             mc:Ignorable="d" 
+                            xmlns:input="clr-namespace:MoneyChest.View.Components.Input"
+                            mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
@@ -56,23 +57,14 @@
         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="0 2 0 0">
 
             <!-- Description -->
-            <StackPanel Orientation="Horizontal">
-                <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
-                                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
-            </StackPanel>
+            <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
             <!-- Category -->
             <components:CategorySelector VerticalAlignment="Center" ShowEmptyCategory="True"
                                          SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Remark -->
-            <StackPanel Orientation="Horizontal">
-                <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
-                <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
-                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
-                                     Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
+            <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         </StackPanel>
 
         <!-- Ok/Cancel buttons -->

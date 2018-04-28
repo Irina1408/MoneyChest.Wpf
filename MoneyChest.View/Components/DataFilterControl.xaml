@@ -9,6 +9,7 @@
              xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:input="clr-namespace:MoneyChest.View.Components.Input"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="DataFilter_Loaded">
@@ -44,19 +45,10 @@
                 </Grid.RowDefinitions>
 
                 <!-- Description -->
-                <StackPanel Orientation="Horizontal" Grid.Row="0">
-                    <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
-                    <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
-                                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, Mode=TwoWay}"/>
-                </StackPanel>
+                <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="0"/>
 
                 <!-- Remark -->
-                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <iconPacks:PackIconModern Kind="TagLabel" Style="{DynamicResource TextBoxMultilineIconStyle}"/>
-                    <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
-                                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
-                                     Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5 5 5 0"/>
-                </StackPanel>
+                <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="1"/>
 
                 <!-- Transaction type -->
                 <GroupBox Grid.Row="2" Margin="5 15 5 5">
@@ -92,8 +84,7 @@
                         </StackPanel>
                     </Expander.Header>
                     <Grid>
-                        <TreeView x:Name="StoragesTree">
-                            
+                        <TreeView x:Name="StoragesTree" PreviewMouseWheel="HandlePreviewMouseWheel">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Storages}">
                                     <TextBlock Text="{Binding StorageGroup.Name}"/>
@@ -161,7 +152,7 @@
                         <TreeView x:Name="TreeViewCategories" ScrollViewer.VerticalScrollBarVisibility="Disabled" Focusable="False"
                                   ItemContainerStyle="{DynamicResource CategoryTreeViewCheckableItemContainerStyle}"
                                   ItemTemplate="{DynamicResource CheckableCategoryTreeViewItemTemplate}"
-                                  ItemsSource="{Binding Categories}">
+                                  ItemsSource="{Binding Categories}" PreviewMouseWheel="HandlePreviewMouseWheel">
                             <TreeView.ContextMenu>
                                 <ContextMenu>
                                     <!--<MenuItem Header="{moneyChestView:MultiLangBinding Category_SelectBranch}" Command="{Binding SelectBranchCommand}"/>

@@ -10,7 +10,8 @@
              xmlns:converters="clr-namespace:MoneyChest.View.Converters"
              xmlns:components="clr-namespace:MoneyChest.View.Components"
              xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
-             mc:Ignorable="d" 
+                               xmlns:input="clr-namespace:MoneyChest.View.Components.Input"
+                               mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <local:CurrencyDetailsViewBase.Resources>
@@ -35,11 +36,7 @@
 
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="5 0 5 0">
             <!-- Name -->
-            <StackPanel Orientation="Horizontal">
-                <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
-                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
-            </StackPanel>
+            <input:NameInput EntityName="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
             <!-- Code -->
             <StackPanel Orientation="Horizontal">

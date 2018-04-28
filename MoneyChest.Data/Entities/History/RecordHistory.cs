@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Data.Enums;
+using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -40,14 +41,14 @@ namespace MoneyChest.Data.Entities.History
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(MaxSize.DescriptionLength)]
         public string Description { get; set; }
 
         public RecordType RecordType { get; set; }
 
         public decimal Value { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
         public int CategoryId { get; set; }

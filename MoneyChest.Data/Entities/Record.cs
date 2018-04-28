@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
 using MoneyChest.Data.Entities.History;
 using MoneyChest.Model.Base;
+using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Data.Entities
@@ -21,7 +22,7 @@ namespace MoneyChest.Data.Entities
 
         public DateTime Date { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(MaxSize.DescriptionLength)]
         public string Description { get; set; }
 
         public RecordType RecordType { get; set; }
@@ -34,7 +35,7 @@ namespace MoneyChest.Data.Entities
 
         public CommissionType CommissionType { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
         public int? CategoryId { get; set; }

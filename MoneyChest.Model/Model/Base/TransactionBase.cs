@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Model.Model
@@ -29,10 +30,10 @@ namespace MoneyChest.Model.Model
 
         public virtual int Id { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(MaxSize.DescriptionLength)]
         public virtual string Description { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public virtual string Remark { get; set; }
 
         public abstract int[] TransactionStorageIds { get; }

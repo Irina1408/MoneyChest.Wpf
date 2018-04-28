@@ -108,6 +108,15 @@
     <Compile Include="Components\DetailsViewCommandsPanel.xaml.cs">
       <DependentUpon>DetailsViewCommandsPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Input\DescriptionInput.xaml.cs">
+      <DependentUpon>DescriptionInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Input\NameInput.xaml.cs">
+      <DependentUpon>NameInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Input\RemarkInput.xaml.cs">
+      <DependentUpon>RemarkInput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\PeriodSelectorControl.xaml.cs">
       <DependentUpon>PeriodSelectorControl.xaml</DependentUpon>
     </Compile>
@@ -274,6 +283,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\DetailsViewCommandsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Input\DescriptionInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Input\NameInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Input\RemarkInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

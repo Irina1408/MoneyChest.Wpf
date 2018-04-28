@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Model.Enums;
+using MoneyChest.Model.Constants;
 
 namespace MoneyChest.Data.Entities
 {
@@ -21,7 +22,7 @@ namespace MoneyChest.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(MaxSize.DescriptionLength)]
         public string Description { get; set; }
 
         public decimal Value { get; set; }
@@ -57,7 +58,7 @@ namespace MoneyChest.Data.Entities
 
         public bool ConfirmBeforeExecute { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
         [Required]

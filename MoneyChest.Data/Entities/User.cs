@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
 using MoneyChest.Model.Base;
+using MoneyChest.Model.Constants;
 
 namespace MoneyChest.Data.Entities
 {
@@ -43,7 +44,7 @@ namespace MoneyChest.Data.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(MaxSize.NameLength)]
         public string Name { get; set; }
 
         [Required]

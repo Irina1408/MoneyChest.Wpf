@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
 using MoneyChest.Data.Entities.History;
 using MoneyChest.Model.Base;
+using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Data.Entities
@@ -19,7 +20,7 @@ namespace MoneyChest.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(MaxSize.DescriptionLength)]
         public string Description { get; set; }
 
         [Column(TypeName = "date")]
@@ -32,7 +33,7 @@ namespace MoneyChest.Data.Entities
 
         public decimal SpentValue { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
         public int CurrencyId { get; set; }

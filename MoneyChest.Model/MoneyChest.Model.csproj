@@ -49,6 +49,7 @@
     <Compile Include="Calendar\CalendarData.cs" />
     <Compile Include="Calendar\CalendarDayData.cs" />
     <Compile Include="Calendar\StorageState.cs" />
+    <Compile Include="Constants\MaxSize.cs" />
     <Compile Include="Enums\CurrencySymbolAlignment.cs" />
     <Compile Include="Enums\DebtPaymentType.cs" />
     <Compile Include="Enums\Settings\PeriodType.cs" />

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MoneyChest.Data.Attributes;
 using MoneyChest.Data.Entities.History;
 using MoneyChest.Model.Base;
+using MoneyChest.Model.Constants;
 
 namespace MoneyChest.Data.Entities
 {
@@ -31,14 +32,14 @@ namespace MoneyChest.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [StringLength(100)]
+        [StringLength(MaxSize.NameLength)]
         public string Name { get; set; }
 
         public decimal Value { get; set; }
 
         public bool IsVisible { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
         public int CurrencyId { get; set; }
