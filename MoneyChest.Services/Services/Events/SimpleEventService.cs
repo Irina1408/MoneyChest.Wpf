@@ -34,6 +34,11 @@ namespace MoneyChest.Services.Services
             return Scope.Where(filter).ToList().ConvertAll(_converter.ToModel);
         }
 
+        public List<SimpleEventModel> GetNotClosed(int userId)
+        {
+            return Scope.Where(x => x.EventState != EventState.Closed && x.UserId == userId).ToList().ConvertAll(_converter.ToModel);
+        }
+
         #endregion
 
         #region Overrides

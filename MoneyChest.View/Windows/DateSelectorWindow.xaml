@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MoneyChest.View.Windows"
         xmlns:moneyChestView="clr-namespace:MoneyChest.View"
-        Style="{DynamicResource MoneyChestWindowStyle}"
+        Style="{DynamicResource MCWindowStyle}"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         mc:Ignorable="d"
         Height="515" Width="310">

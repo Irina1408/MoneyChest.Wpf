@@ -95,7 +95,8 @@ namespace MoneyChest.Services.Services
             while (date <= dateUntil)
             {
                 // write events for this day
-                WriteEvents(result, events, date);
+                WriteEvents(result, events.Where(x => (x.EventState != EventState.Paused || x.PausedToDate <= date)
+                    && x.DateFrom <= date && (x.DateUntil == null || x.DateUntil > date)).ToList(), date);
                 // next day
                 date = date.AddDays(1);
             }

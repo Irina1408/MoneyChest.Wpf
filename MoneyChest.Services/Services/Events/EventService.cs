@@ -19,10 +19,13 @@ namespace MoneyChest.Services.Services
             where T : EventModel
     {
         List<T> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil);
+        List<T> GetNotClosed(int userId);
     }
 
     public interface IEventService : IEventService<EventModel>
     {
+        void UpdateEventsState(int userId);
+        bool UpdateEventState(EventModel model);
     }
 
     public class EventService : ServiceBase, IEventService
@@ -57,6 +60,50 @@ namespace MoneyChest.Services.Services
             result.AddRange(_moneyTransferEventService.GetActiveForPeriod(userId, dateFrom, dateUntil));
 
             return result;
+        }
+
+        public List<EventModel> GetNotClosed(int userId)
+        {
+            var result = new List<EventModel>();
+
+            result.AddRange(_simpleEventService.GetNotClosed(userId));
+            result.AddRange(_repayDebtEventService.GetNotClosed(userId));
+            result.AddRange(_moneyTransferEventService.GetNotClosed(userId));
+
+            return result;
+        }
+
+        public void UpdateEventsState(int userId)
+        {
+            var events = GetNotClosed(userId);
+            
+            foreach(var evnt in events)
+            {
+                if (UpdateEventState(evnt))
+                {
+                    if (evnt is SimpleEventModel)
+                        _simpleEventService.Update(evnt as SimpleEventModel);
+                    else if (evnt is MoneyTransferEventModel)
+                        _moneyTransferEventService.Update(evnt as MoneyTransferEventModel);
+                    else if (evnt is RepayDebtEventModel)
+                        _repayDebtEventService.Update(evnt as RepayDebtEventModel);
+                }
+            }
+        }
+
+        public bool UpdateEventState(EventModel model)
+        {
+            if (model.EventState == EventState.Active && model.DateUntil != null && model.DateUntil <= DateTime.Today)
+                model.EventState = EventState.Closed;
+            else if (model.EventState == EventState.Active && model.Schedule.ScheduleType == ScheduleType.Once 
+                    && model.DateFrom <= DateTime.Today)
+                model.EventState = EventState.Closed;
+            else if (model.EventState == EventState.Paused && model.PausedToDate != null && model.PausedToDate <= DateTime.Today)
+                model.EventState = EventState.Active;
+            else
+                return false;
+
+            return true;
         }
 
         #endregion

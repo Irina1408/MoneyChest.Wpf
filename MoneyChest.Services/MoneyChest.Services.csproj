@@ -72,6 +72,7 @@
     <Compile Include="Converters\UserConverter.cs" />
     <Compile Include="Exceptions\ReferenceConstraintException.cs" />
     <Compile Include="Exceptions\ViolationOfConstraintException.cs" />
+    <Compile Include="Execution\MCTaskScheduler.cs" />
     <Compile Include="ServiceManager.cs" />
     <Compile Include="Services\Base\InterfaceImplementationsBase\HistoricizedIdManageableServiceBase.cs" />
     <Compile Include="Services\Base\InterfaceImplementationsBase\HistoricizedIdManageableUserableListServiceBase.cs" />

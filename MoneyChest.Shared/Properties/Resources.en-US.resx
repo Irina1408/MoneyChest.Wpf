@@ -859,4 +859,10 @@
   <data name="Event_SuspendUntil" xml:space="preserve">
     <value>Suspend until</value>
   </data>
+  <data name="Calendar_ShowAllStorages" xml:space="preserve">
+    <value>Show all accounts</value>
+  </data>
+  <data name="Calendar_IsAnyAccountNegative" xml:space="preserve">
+    <value>Some accounts have a negative amount!</value>
+  </data>
 </root>

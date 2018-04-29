@@ -52,13 +52,18 @@ namespace MoneyChest.Model.Calendar
         #endregion
 
         #region Totals & Summaries
-
-        // TODO: filter by storage
+        
         public decimal TotDayAmount => FilteredTransactions.Sum(x => ToMainCurrency(x.TransactionAmount, x.TransactionCurrencyId));
         public decimal TotStorageSummary => FilteredStorages.Sum(x => ToMainCurrency(x.Amount, x.Storage.CurrencyId));
 
         public string TotDayAmountDetailed => FormatMainCurrency(TotDayAmount, true);
         public string TotStorageSummaryDetailed => FormatMainCurrency(TotStorageSummary, false, false);
+
+        #endregion
+
+        #region Alerts
+
+        public bool IsAnyAccountNegative => FilteredStorages.Any(x => x.Amount < 0);
 
         #endregion
 

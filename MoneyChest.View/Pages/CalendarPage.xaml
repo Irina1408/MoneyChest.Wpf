@@ -103,6 +103,8 @@
 
                 <CheckBox Content="{moneyChestView:MultiLangBinding Calendar_ShowLimits}" 
                               IsChecked="{Binding Settings.ShowLimits}"/>
+                <CheckBox Content="{moneyChestView:MultiLangBinding Calendar_ShowAllStorages}" 
+                              IsChecked="{Binding Settings.ShowAllStorages}"/>
             </StackPanel>
         </GroupBox>
         

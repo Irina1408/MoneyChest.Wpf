@@ -94,7 +94,10 @@
         
         <!-- Simple events -->
         <Border x:Name="SimpleEventsBorder" Grid.Column="0" Grid.Row="0" BorderThickness="0 1 0 0" 
-                BorderBrush="{DynamicResource BlackColorBrush}">
+                BorderBrush="{DynamicResource BlackColorBrush}" 
+                MaxHeight="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
+                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.7,
+                UpdateSourceTrigger=PropertyChanged}">
             <Expander IsExpanded="True" Background="{DynamicResource GrayBrush5}" BorderThickness="0" Padding="0 5 0 5">
                 <Expander.Header>
                     <Grid>
@@ -202,7 +205,10 @@
 
         <!-- Money transfer events -->
         <Border x:Name="MoneyTransferEventsBorder" Grid.Column="0" Grid.Row="1" BorderThickness="0 1 0 0" 
-                BorderBrush="{DynamicResource BlackColorBrush}">
+                BorderBrush="{DynamicResource BlackColorBrush}" 
+                MaxHeight="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
+                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.7,
+                UpdateSourceTrigger=PropertyChanged}">
             <Expander IsExpanded="True" Background="{DynamicResource GrayBrush5}" BorderThickness="0" Padding="0 5 0 5">
                 <Expander.Header>
                     <Grid>
@@ -304,7 +310,10 @@
 
         <!-- Repay Debt Events -->
         <Border x:Name="RepayDebtEventsBorder" Grid.Column="0" Grid.Row="2" BorderThickness="0 1 0 0" 
-                BorderBrush="{DynamicResource BlackColorBrush}">
+                BorderBrush="{DynamicResource BlackColorBrush}" 
+                MaxHeight="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
+                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.7,
+                UpdateSourceTrigger=PropertyChanged}">
             <Expander IsExpanded="True" Background="{DynamicResource GrayBrush5}" BorderThickness="0" Padding="0 5 0 5">
                 <Expander.Header>
                     <Grid>

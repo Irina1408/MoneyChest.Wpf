@@ -8,7 +8,7 @@
                       xmlns:moneyChestView="clr-namespace:MoneyChest.View"
                       mc:Ignorable="d"
                       Title="Money chest" Height="515" Width="605"
-                      Style="{DynamicResource MoneyChestWindowStyle}"
+                      Style="{DynamicResource MCWindowStyle}"
                       WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>

@@ -79,7 +79,7 @@
                 </ToolBarTray>
                 
                 <TreeView x:Name="TreeViewCategories" Grid.Row="1" ItemsSource="{Binding Categories}"
-                                  ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}">
+                                  ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}" Focusable="False">
                     <TreeView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>

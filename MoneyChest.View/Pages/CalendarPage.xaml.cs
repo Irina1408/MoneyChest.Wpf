@@ -88,8 +88,8 @@ namespace MoneyChest.View.Pages
 
                 _viewModel.Settings.PropertyChanged += (sender, e) =>
                 {
-                    if (e.PropertyName == nameof(CalendarSettingsModel.MaxTransactionsCountPerDay) ||
-                        e.PropertyName == nameof(CalendarSettingsModel.ShowAllTransactionsPerDay))
+                    if (e.PropertyName != nameof(CalendarSettingsModel.DataFilter) ||
+                        e.PropertyName == nameof(CalendarSettingsModel.PeriodFilter))
                     {
                         // save changes
                         _settingsService.Update(_viewModel.Settings);
@@ -170,11 +170,19 @@ namespace MoneyChest.View.Pages
                     iCol += 1;
             }
 
+            if (iCol == 0) iRow--;
+
             // populate empty days after selected period
             for (; iCol > 0 && iCol < _daysOfWeek.Count; iCol++)
             {
                 SetDay(iCol, iRow, null);
             }
+
+            // make sure 6-th row (if exists) is hidden in case when month contains 5 weeks
+            foreach (var cellMap in _cellMapping.Where(x => x.IRow > iRow))
+                cellMap.Control.Visibility = Visibility.Collapsed;
+            // make sure grid doesn't contain external rows
+            daysGrid.Rows = iRow + 1;
         }
 
         private void FeelHeaders()
@@ -242,6 +250,7 @@ namespace MoneyChest.View.Pages
             if (cellMap.Control.Parent == null)
                 daysGrid.Children.Add(cellMap.Control);
 
+            cellMap.Control.Visibility = Visibility.Visible;
             cellMap.Control.Data = data;
         }
 
@@ -258,10 +267,16 @@ namespace MoneyChest.View.Pages
 
         private void ApplySettings()
         {
-            _viewModel.Data.ForEach(x =>
-            {
-                x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay;
-            });
+            //_viewModel.Data.ForEach(x =>
+            //{
+            //    x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay;
+            //});
+
+            Parallel.ForEach(_viewModel.Data, x =>
+            x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay);
+
+            //_cellMapping.ForEach(x => x.Control.ShowAllStorages = _viewModel.Settings.ShowAllStorages);
+            Parallel.ForEach(_cellMapping, x => x.Control.ShowAllStorages = _viewModel.Settings.ShowAllStorages);
         }
 
         #endregion

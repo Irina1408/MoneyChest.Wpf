@@ -24,6 +24,8 @@ namespace MoneyChest.Model.Model
         public int UserId { get; set; }
 
         public bool ShowSettings { get; set; }
+        public bool ShowAllStorages { get; set; }
+        //public bool ShowFullAlerts { get; set; }
         public bool ShowLimits { get; set; }
         public bool ShowAllTransactionsPerDay { get; set; }
         public int MaxTransactionsCountPerDay { get; set; } = 3;

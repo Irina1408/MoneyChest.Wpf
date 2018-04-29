@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Calendar;
+using MoneyChest.Model.Enums;
 using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Services;
@@ -96,16 +97,31 @@ namespace MoneyChest.Calculation.Builders
         private void UpdateStorageState(List<CalendarDayData> calendarDays, List<ITransaction> missingTransactions)
         {
             // update past days
+            var alltransactions = calendarDays.SelectMany(x => x.Transactions).Union(missingTransactions).ToList();
+
             foreach (var calendarDay in calendarDays.Where(x => !x.IsFutureDay && !x.IsToday).ToList())
             {
                 foreach (var storageState in calendarDay.Storages)
                 {
-                    storageState.Amount -= calendarDays
-                        .Where(x => x.Date > calendarDay.Date)
-                        .SelectMany(x => x.Transactions)
-                        .Union(missingTransactions)
-                        .Where(x => !x.IsPlanned && x.TransactionStorage.Id == storageState.Storage.Id)
-                        .Sum(x => x.TransactionAmount);
+                    // get actual transactions after current date
+                    var transactions = alltransactions
+                        .Where(x => !x.IsPlanned && x.TransactionDate > calendarDay.Date.AddDays(1).AddMilliseconds(-1) 
+                            && x.TransactionStorageIds.Contains(storageState.Storage.Id))
+                        .ToList();
+                    
+                    storageState.Amount -= transactions
+                        .Where(x => x.TransactionStorage.Id == storageState.Storage.Id).Sum(x => x.TransactionAmount);
+
+                    // get related money transfers
+                    var moneyTransfers = transactions
+                        .Where(x => x.TransactionStorageIds.Contains(storageState.Storage.Id) 
+                            && x.TransactionType ==  TransactionType.MoneyTransfer)
+                        .Select(x => x as MoneyTransferModel)
+                        .ToList();
+
+                    // revert money transfers
+                    storageState.Amount += moneyTransfers.Where(x => x.StorageFromId == storageState.Storage.Id).Sum(x => x.StorageFromValue);
+                    storageState.Amount -= moneyTransfers.Where(x => x.StorageToId == storageState.Storage.Id).Sum(x => x.StorageToValue);
                 }
             }
 
@@ -114,12 +130,25 @@ namespace MoneyChest.Calculation.Builders
             {
                 foreach(var storageState in calendarDay.Storages)
                 {
-                    storageState.Amount += calendarDays
-                        .Where(x => x.Date <= calendarDay.Date)
-                        .SelectMany(x => x.Transactions)
-                        .Union(missingTransactions)
-                        .Where(x => x.IsPlanned && x.TransactionStorage.Id == storageState.Storage.Id)
-                        .Sum(x => x.TransactionAmount);
+                    // get planned transactions before current date
+                    var transactions = alltransactions
+                        .Where(x => x.IsPlanned && x.TransactionDate <= calendarDay.Date.AddDays(1).AddMilliseconds(-1)
+                            && x.TransactionStorageIds.Contains(storageState.Storage.Id))
+                        .ToList();
+
+                    storageState.Amount += transactions
+                        .Where(x => x.TransactionStorage.Id == storageState.Storage.Id).Sum(x => x.TransactionAmount);
+
+                    // get related money transfers
+                    var moneyTransfers = transactions
+                        .Where(x => x.TransactionStorageIds.Contains(storageState.Storage.Id) 
+                            && x.TransactionType == TransactionType.MoneyTransfer)
+                        .Select(x => (x as PlannedTransactionModel<EventModel>).Event as MoneyTransferEventModel)
+                        .ToList();
+
+                    // apply money transfers
+                    storageState.Amount -= moneyTransfers.Where(x => x.StorageFromId == storageState.Storage.Id).Sum(x => x.StorageFromValue);
+                    storageState.Amount += moneyTransfers.Where(x => x.StorageToId == storageState.Storage.Id).Sum(x => x.StorageToValue);
                 }
             }
         }

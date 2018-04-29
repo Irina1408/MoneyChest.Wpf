@@ -856,4 +856,10 @@
   <data name="Event_SuspendUntil" xml:space="preserve">
     <value>Приостановить до</value>
   </data>
+  <data name="Calendar_ShowAllStorages" xml:space="preserve">
+    <value>Показывать все аккаунты</value>
+  </data>
+  <data name="Calendar_IsAnyAccountNegative" xml:space="preserve">
+    <value>Некоторые счета имеют отрицательную сумму!</value>
+  </data>
 </root>

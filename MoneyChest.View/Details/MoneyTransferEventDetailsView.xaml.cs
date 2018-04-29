@@ -44,6 +44,7 @@ namespace MoneyChest.View.Details
         #region Private fields
 
         private IEnumerable<StorageModel> _storages;
+        private IEventService eventService;
 
         #endregion
 
@@ -53,7 +54,10 @@ namespace MoneyChest.View.Details
             : base(service, entity, isNew)
         {
             InitializeComponent();
-            
+
+            // init
+            eventService = ServiceManager.ConfigureService<EventService>();
+
             // load storages
             IStorageService storageService = ServiceManager.ConfigureService<StorageService>();
             _storages = storageService.GetVisible(GlobalVariables.UserId, entity.StorageFromId, entity.StorageToId);
@@ -75,6 +79,18 @@ namespace MoneyChest.View.Details
 
             window.Height = 600;
             window.Width = 800;
+        }
+
+        #endregion
+
+        #region Overrides
+
+        protected override void SaveChanges()
+        {
+            // update event state
+            eventService.UpdateEventState(WrappedEntity.Entity);
+            // save changes
+            base.SaveChanges();
         }
 
         #endregion

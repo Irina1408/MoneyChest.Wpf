@@ -14,7 +14,7 @@
                       xmlns:input="clr-namespace:MoneyChest.View.Components.Input"
                       mc:Ignorable="d"
         Title="Money chest" Height="635" Width="795"
-        Style="{DynamicResource MoneyChestWindowStyle}"
+        Style="{DynamicResource MCWindowStyle}"
         WindowStartupLocation="CenterOwner" Padding="10"
         Closing="ChequeWindow_Closing">
 

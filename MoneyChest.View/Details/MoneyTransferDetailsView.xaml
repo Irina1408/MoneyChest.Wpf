@@ -42,7 +42,7 @@
 
             <!-- Category -->
             <components:CategorySelector HorizontalAlignment="Right" VerticalAlignment="Center"
-                                         SelectedCategoryId="{Binding CategoryId}" ShowEmptyCategory="True"/>
+                                         SelectedCategoryId="{Binding CategoryId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ShowEmptyCategory="True"/>
 
             <!-- Remark -->
             <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

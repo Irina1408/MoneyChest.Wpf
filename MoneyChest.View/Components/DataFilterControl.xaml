@@ -19,7 +19,8 @@
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
     </UserControl.Resources>
 
-    <GroupBox DataContext="{Binding DataFilter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DataFilterControl}}}" Margin="0" Visibility="{Binding IsFilterVisible, Converter={StaticResource BVConverter}}">
+    <GroupBox DataContext="{Binding DataFilter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DataFilterControl}}}" Margin="0" Visibility="{Binding IsFilterVisible, Converter={StaticResource BVConverter}}"
+              MaxWidth="255">
         <!--Visibility="{Binding IsFilterApplied, Converter={StaticResource BVConverter}}"-->
         <GroupBox.Header>
             <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
@@ -51,7 +52,7 @@
                 <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="1"/>
 
                 <!-- Transaction type -->
-                <GroupBox Grid.Row="2" Margin="5 15 5 5">
+                <GroupBox Grid.Row="2" Margin="0 15 5 5" Width="230" HorizontalAlignment="Left">
                     <GroupBox.Header>
                         <CheckBox Content="{moneyChestView:MultiLangBinding TransactionType_EnumName}"
                                   Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"
@@ -70,8 +71,8 @@
                 </GroupBox>
 
                 <!-- Storages expander -->
-                <Expander Name="StoragesExpander" Grid.Row="3" ExpandDirection="Down" Margin="5" Focusable="False"
-                              Background="{DynamicResource AccentColorBrush}" BorderThickness="1" Padding="0">
+                <Expander Name="StoragesExpander" Grid.Row="3" ExpandDirection="Down" Margin="0 5 5 5" Focusable="False"
+                              Background="{DynamicResource AccentColorBrush}" BorderThickness="1" Padding="0" Width="230" HorizontalAlignment="Left">
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <!--<iconPacks:PackIconMaterial Kind="Bank" Style="{DynamicResource TextBoxIconStyle}"/>-->
@@ -120,8 +121,8 @@
                 </Expander>
 
                 <!-- Categories expander -->
-                <Expander Name="CategoriesExpander" Grid.Row="4" ExpandDirection="Down" Margin="5" Focusable="False"
-                              Background="{DynamicResource AccentColorBrush}" BorderThickness="1" Padding="0">
+                <Expander Name="CategoriesExpander" Grid.Row="4" ExpandDirection="Down" Margin="0 5 5 5" Focusable="False"
+                              Background="{DynamicResource AccentColorBrush}" BorderThickness="1" Padding="0" Width="230" HorizontalAlignment="Left">
                     <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>

@@ -16,7 +16,7 @@ namespace MoneyChest.View.Utils
         {
             return new MetroWindow()
             {
-                Style = Application.Current.FindResource("MoneyChestWindowStyle") as System.Windows.Style,
+                Style = Application.Current.FindResource("MCWindowStyle") as System.Windows.Style,
                 Owner = Window.GetWindow(control),
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 ResizeMode = resizable ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize

@@ -69,7 +69,7 @@ namespace MoneyChest.Services.Services.Base
             catch (DbUpdateException dbUpdateException)
             {
                 // cleanup changes
-                ReloadChanged();
+                await ReloadChangedAsync();
 
                 // wrap common exceptions
                 var sqlException = dbUpdateException.InnerException.InnerException as SqlException;
@@ -90,7 +90,7 @@ namespace MoneyChest.Services.Services.Base
             catch (Exception)
             {
                 // cleanup changes
-                ReloadChanged();
+                await ReloadChangedAsync();
 
                 throw;
             }
@@ -98,6 +98,12 @@ namespace MoneyChest.Services.Services.Base
 
         private void ReloadChanged() =>
             _context.ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList().ForEach(x => x.Reload());
+
+        private async Task ReloadChangedAsync()
+        {
+            foreach(var x in _context.ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList())
+                await x.ReloadAsync();
+        }
 
         #endregion
 

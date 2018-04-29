@@ -31,6 +31,11 @@ namespace MoneyChest.Services.Services
             return Scope.Where(filter).ToList().ConvertAll(_converter.ToModel);
         }
 
+        public List<RepayDebtEventModel> GetNotClosed(int userId)
+        {
+            return Scope.Where(x => x.EventState != Model.Enums.EventState.Closed && x.UserId == userId).ToList().ConvertAll(_converter.ToModel);
+        }
+
         #endregion
 
         public override RepayDebtEventModel Add(RepayDebtEventModel model)
