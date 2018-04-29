@@ -72,7 +72,7 @@ namespace MoneyChest.View.Pages
                 SimpleEventsViewModel = new EventListViewModel<SimpleEventViewModel>()
                 {
                     AddCommand = new Command(
-                        () => OpenDetails(_simpleEventService.PrepareNew(new SimpleEventViewModel() { UserId = GlobalVariables.UserId, Schedule = new ScheduleModel() }) as SimpleEventViewModel, true)),
+                        () => OpenDetails(_simpleEventService.PrepareNew(new SimpleEventViewModel() { UserId = GlobalVariables.UserId }) as SimpleEventViewModel, true)),
 
                     EditCommand = new DataGridSelectedItemCommand<SimpleEventViewModel>(GridSimpleEvents,
                     (item) => OpenDetails(item), null, true),

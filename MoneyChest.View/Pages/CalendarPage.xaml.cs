@@ -107,7 +107,7 @@ namespace MoneyChest.View.Pages
                     Reload();
                 };
                 
-                _viewModel.Settings.DataFilter.PropertyChanged += (sender, e) =>
+                _viewModel.Settings.DataFilter.OnFilterChanged += (sender, e) =>
                 {
                     // save changes
                     _settingsService.Update(_viewModel.Settings);
@@ -247,11 +247,9 @@ namespace MoneyChest.View.Pages
 
         private void ApplyDataFilter()
         {
-            var filters = _viewModel.Settings.DataFilter.BuildFilters();
-
             _viewModel.Data.ForEach(x => 
             {
-                x.FilteredTransactions = x.Transactions.Where(e => filters.Count == 0 || filters.All(f => f(e))).ToList();
+                x.FilteredTransactions = _viewModel.Settings.DataFilter.ApplyFilter(x.Transactions);
                 if (_viewModel.Settings.DataFilter.StorageIds.Count > 0)
                     x.FilteredStorages = x.Storages.Where(e => _viewModel.Settings.DataFilter.StorageIds.Contains(e.Storage.Id)).ToList();
                 x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay;

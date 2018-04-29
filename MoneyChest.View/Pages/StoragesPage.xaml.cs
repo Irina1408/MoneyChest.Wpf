@@ -251,7 +251,7 @@ namespace MoneyChest.View.Pages
                 // TODO: load from database
                 _viewModel.MoneyTransfersDataFilter = new DataFilterModel();
 
-                _viewModel.MoneyTransfersDataFilter.PropertyChanged += (sender, e) =>
+                _viewModel.MoneyTransfersDataFilter.OnFilterChanged += (sender, e) =>
                 {
                     // save changes
                     //_settingsService.Update(settings);

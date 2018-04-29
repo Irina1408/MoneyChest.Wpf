@@ -32,24 +32,24 @@ namespace MoneyChest.View.Components
         public DataFilterControl()
         {
             InitializeComponent();
+
+            // init commands
+            SelectBranchCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
+                (item) => Apply(() => Categories.SelectBranch(item, true)));
+            UnselectBranchCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
+                (item) => Apply(() => Categories.SelectBranch(item, false)));
+
+            SelectAllCommand = new Command(() => Apply(() => Categories.SelectAll(true)));
+            UnselectAllCommand = new Command(() => Apply(() => Categories.SelectAll(false)));
+
+            ExpandAllCommand = new Command(() => Apply(() => Categories.ExpandAll(true)));
+            CollapseAllCommand = new Command(() => Apply(() => Categories.ExpandAll(false)));
         }
 
         #region Event handlers
 
         private void DataFilter_Loaded(object sender, RoutedEventArgs e)
         {
-            // init commands
-            SelectBranchCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories, 
-                (item) => Categories.SelectBranch(item, true));
-            UnselectBranchCommand = new TreeViewSelectedItemCommand<CategoryViewModel>(TreeViewCategories,
-                (item) => Categories.SelectBranch(item, false));
-
-            SelectAllCommand = new Command(() => Categories.SelectAll(true));
-            UnselectAllCommand = new Command(() => Categories.SelectAll(false));
-
-            ExpandAllCommand = new Command(() => Categories.ExpandAll(true));
-            CollapseAllCommand = new Command(() => Categories.ExpandAll(false));
-
             // init datacontext
             TreeViewCategories.DataContext = this;
         }
@@ -85,8 +85,10 @@ namespace MoneyChest.View.Components
         {
             // get filter
             var filter = (d as DataFilterControl);
+            filter.DataFilter.IsPopulation = true;
             filter.ApplySelectedCategories();
             filter.ApplySelectedStorages();
+            filter.DataFilter.IsPopulation = false;
         }
 
         #endregion
@@ -122,7 +124,9 @@ namespace MoneyChest.View.Components
         {
             // get filter
             var filter = (d as DataFilterControl);
+            filter.DataFilter.IsPopulation = true;
             filter.ApplySelectedCategories();
+            filter.DataFilter.IsPopulation = false;
         }
 
         #endregion
@@ -158,7 +162,9 @@ namespace MoneyChest.View.Components
         {
             // get filter
             var filter = (d as DataFilterControl);
+            filter.DataFilter.IsPopulation = true;
             filter.ApplySelectedStorages();
+            filter.DataFilter.IsPopulation = false;
         }
 
         #endregion
@@ -316,6 +322,13 @@ namespace MoneyChest.View.Components
         }
 
         #endregion
+
+        private void Apply(Action apply)
+        {
+            if(DataFilter != null) DataFilter.IsPopulation = true;
+            apply?.Invoke();
+            if (DataFilter != null) DataFilter.IsPopulation = false;
+        }
 
         #region Commands
 

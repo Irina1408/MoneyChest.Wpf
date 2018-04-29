@@ -45,7 +45,7 @@ namespace MoneyChest.Services.Converters
             model.Description = entity.Description;
             model.Value = entity.Value;
             model.EventState = entity.EventState;
-            model.Schedule = SerializationUtils.Deserialize<ScheduleModel>(entity.Schedule) ?? new ScheduleModel();
+            model.Schedule = SerializationUtils.Deserialize<ScheduleModel>(entity.Schedule) ?? new ScheduleModel(true);
             model.DateFrom = entity.DateFrom;
             model.DateUntil = entity?.DateUntil;
             model.PausedToDate = entity?.PausedToDate;

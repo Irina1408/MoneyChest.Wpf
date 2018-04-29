@@ -46,7 +46,7 @@ namespace MoneyChest.Services.Converters
             model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
             model.Commission = entity.Commission;
             model.CommissionType = entity.CommissionType;
-            model.Schedule = SerializationUtils.Deserialize<ScheduleModel>(entity.Schedule) ?? new ScheduleModel();
+            model.Schedule = SerializationUtils.Deserialize<ScheduleModel>(entity.Schedule) ?? new ScheduleModel(true);
             model.DateFrom = entity.DateFrom;
             model.DateUntil = entity?.DateUntil;
             model.PausedToDate = entity?.PausedToDate;

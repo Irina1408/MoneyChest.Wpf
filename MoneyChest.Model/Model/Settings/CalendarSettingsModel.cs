@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
+    [PropertyChanged.AddINotifyPropertyChangedInterface]
     public class CalendarSettingsModel : IHasUserId, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

@@ -95,7 +95,7 @@
         <!-- Simple events -->
         <Border x:Name="SimpleEventsBorder" Grid.Column="0" Grid.Row="0" BorderThickness="0 1 0 0" 
                 BorderBrush="{DynamicResource BlackColorBrush}">
-            <Expander IsExpanded="True" Background="{DynamicResource AccentColorBrush}" BorderThickness="0" Padding="0 5 0 5">
+            <Expander IsExpanded="True" Background="{DynamicResource GrayBrush5}" BorderThickness="0" Padding="0 5 0 5">
                 <Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -203,7 +203,7 @@
         <!-- Money transfer events -->
         <Border x:Name="MoneyTransferEventsBorder" Grid.Column="0" Grid.Row="1" BorderThickness="0 1 0 0" 
                 BorderBrush="{DynamicResource BlackColorBrush}">
-            <Expander IsExpanded="True" Background="{DynamicResource AccentColorBrush}" BorderThickness="0" Padding="0 5 0 5">
+            <Expander IsExpanded="True" Background="{DynamicResource GrayBrush5}" BorderThickness="0" Padding="0 5 0 5">
                 <Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -305,7 +305,7 @@
         <!-- Repay Debt Events -->
         <Border x:Name="RepayDebtEventsBorder" Grid.Column="0" Grid.Row="2" BorderThickness="0 1 0 0" 
                 BorderBrush="{DynamicResource BlackColorBrush}">
-            <Expander IsExpanded="True" Background="{DynamicResource AccentColorBrush}" BorderThickness="0" Padding="0 5 0 5">
+            <Expander IsExpanded="True" Background="{DynamicResource GrayBrush5}" BorderThickness="0" Padding="0 5 0 5">
                 <Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -415,7 +415,7 @@
 
         <!-- Limits expander -->
         <Expander x:Name="ExpanderLimits" Grid.Column="1" Grid.RowSpan="4" ExpandDirection="Right" 
-                  Background="{DynamicResource AccentColorBrush}"
+                  Background="{DynamicResource GrayBrush5}"
                   BorderThickness="0" IsExpanded="False" Padding="0" Expanded="ExpanderLimits_Expanded">
             <Expander.Style>
                 <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}">

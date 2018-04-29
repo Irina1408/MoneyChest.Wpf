@@ -272,7 +272,7 @@ namespace MoneyChest.View.Pages
                 };
 
                 _viewModel.DataFilter = settings.DataFilter;
-                _viewModel.DataFilter.PropertyChanged += (sender, e) =>
+                _viewModel.DataFilter.OnFilterChanged += (sender, e) =>
                 {
                     // save changes
                     _settingsService.Update(settings);

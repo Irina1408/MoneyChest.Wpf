@@ -16,13 +16,26 @@ namespace MoneyChest.Model.Model
         private ObservableCollection<Month> monthes;
         private ObservableCollection<DayOfWeek> daysOfWeek;
 
-        public ScheduleModel()
+        public ScheduleModel() : this(false)
+        { }
+
+        public ScheduleModel(bool populateDefaults)
         {
             ScheduleType = ScheduleType.Once;
             Period = 1;
+            DayOfMonth = 1;
 
             Months = new ObservableCollection<Month>();
             DaysOfWeek = new ObservableCollection<DayOfWeek>();
+
+            if(populateDefaults)
+            {
+                foreach (Month month in Enum.GetValues(typeof(Month)))
+                    Months.Add(month);
+
+                foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)))
+                    DaysOfWeek.Add(dayOfWeek);
+            }
         }
 
         public ScheduleType ScheduleType { get; set; }

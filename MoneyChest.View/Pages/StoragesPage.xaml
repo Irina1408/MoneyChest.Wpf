@@ -25,7 +25,7 @@
                         <Setter Property="Opacity" Value="1"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsVisible}" Value="false">
-                                <Setter Property="Opacity" Value="0.5"/>
+                                <Setter Property="Opacity" Value="0.6"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -124,7 +124,7 @@
 
         <ControlTemplate x:Key="StorageGroupControlTemplate" TargetType="{x:Type ContentControl}">
             <Border BorderThickness="0 1 0 0" BorderBrush="{DynamicResource BlackColorBrush}">
-                <Expander IsExpanded="True" Content="{TemplateBinding Content}" Background="{DynamicResource AccentColorBrush}"
+                <Expander IsExpanded="True" Content="{TemplateBinding Content}" Background="{DynamicResource GrayBrush5}"
                           BorderThickness="0" Padding="5 5 0 5">
                     <Expander.Header>
                         <Grid>
@@ -219,7 +219,7 @@
         
         <!-- Money transfers expander -->
         <Expander x:Name="ExpanderMoneyTransfers" Grid.Column="1" Grid.RowSpan="2" ExpandDirection="Right" 
-                  Background="{DynamicResource AccentColorBrush}"
+                  Background="{DynamicResource GrayBrush5}"
                   BorderThickness="0" IsExpanded="False" Padding="0" Expanded="ExpanderMoneyTransfers_Expanded">
             <Expander.Style>
                 <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}">
