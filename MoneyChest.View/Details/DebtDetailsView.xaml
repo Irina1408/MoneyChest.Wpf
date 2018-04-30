@@ -9,9 +9,9 @@
 	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:converters="clr-namespace:MoneyChest.View.Converters"
              xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
-                           xmlns:components="clr-namespace:MoneyChest.View.Components"
-                           xmlns:input="clr-namespace:MoneyChest.View.Components.Input"
-                           mc:Ignorable="d" 
+             xmlns:components="clr-namespace:MoneyChest.View.Components"
+             xmlns:input="clr-namespace:MoneyChest.View.Components.Input"
+             mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
@@ -30,18 +30,10 @@
                         <DatePicker SelectedDate="{Binding Date}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
 
                         <!-- Description -->
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Description}" 
-                                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
-                        </StackPanel>
+                        <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                         <!-- Value -->
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Amount}"
-                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
-                        </StackPanel>
+                        <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </StackPanel>
 
                     <Button Grid.Column="1" Command="{Binding DeleteCommand}" Margin="0"
@@ -72,7 +64,7 @@
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Label x:Name="LabelHeader" FontSize="{DynamicResource LargeFontSize}"/>
+            <Label x:Name="LabelHeader" Style="{DynamicResource MCDetailsHeaderLabelStyle}"/>
             <RadioButton Content="{moneyChestView:MultiLangBinding DebtType_TakeBorrow}" GroupName="1"
                          IsChecked="{Binding DebtType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtType.TakeBorrow}}"/>
             <RadioButton Content="{moneyChestView:MultiLangBinding DebtType_GiveBorrow}" GroupName="1"
@@ -82,34 +74,24 @@
         <!-- Part "Value and details"-->
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
             <!-- Date -->
-            <DatePicker SelectedDate="{Binding TakingDate}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
+            <DatePicker SelectedDate="{Binding TakingDate}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"
+                        Style="{DynamicResource MCDatePickerStyle}"/>
             
             <!-- Due date -->
             <DatePicker SelectedDate="{Binding DueDate}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Debt_DueDate}"/>
-            
+
             <!-- Value -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Amount}"
-                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
-            </StackPanel>
+            <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
 
             <!-- Currency -->
-            <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
-                <iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
-                <ComboBox x:Name="comboCurrencies" 
-                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
-                          DisplayMemberPath="Name" SelectedValuePath="Id"
-                          SelectedValue="{Binding CurrencyId}"
-                          SelectionChanged="comboCurrencies_SelectionChanged"/>
-            </StackPanel>
-            
+            <components:CurrencySelector CurrencyId="{Binding CurrencyId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         CurrencyReference="{Binding Currency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         HorizontalAlignment="Stretch"/>
+
             <!-- Initial fee -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Debt_InitialFee}"
-                                     Text="{Binding InitialFee, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
-            </StackPanel>
+            <input:AmountInput Amount="{Binding InitialFee, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                               Caption="{moneyChestView:MultiLangBinding Debt_InitialFee}"
+                               HorizontalAlignment="Stretch"/>
 
             <!-- Description -->
             <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -131,8 +113,8 @@
 
             <!-- Value to be paid -->
             <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{moneyChestView:MultiLangBinding Debt_ValueToBePaid}" Margin="0 0 10 0" HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding ValueToBePaidCurrency}" FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+                <TextBlock Text="{moneyChestView:MultiLangBinding Debt_ValueToBePaid}" Margin="0 0 10 0"/>
+                <TextBlock Text="{Binding ValueToBePaidCurrency}" FontSize="{DynamicResource LargeFontSize}"/>
                 <!-- TODO: add RemainsToPay value-->
             </StackPanel>
             
@@ -192,11 +174,7 @@
         </Grid>
 
         <!-- Payment conditions -->
-        <GroupBox Grid.Row="1" Grid.Column="2">
-            <GroupBox.Header>
-                <TextBlock Text="{moneyChestView:MultiLangBinding Debt_PaymentConditions}"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
-            </GroupBox.Header>
+        <GroupBox Grid.Row="1" Grid.Column="2" Header="{moneyChestView:MultiLangBinding Debt_PaymentConditions}">
             <StackPanel>
                 <RadioButton Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_FixedAdditionalAmount}" 
                              IsChecked="{Binding PaymentType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtPaymentType.FixedAmount}}" GroupName="2" Margin="0 5 0 5"/>
@@ -204,11 +182,7 @@
                 <StackPanel Margin="10 0 0 0" IsEnabled="{Binding PaymentType, 
                     Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtPaymentType.FixedAmount}}">
                     <!-- Value -->
-                    <StackPanel Orientation="Horizontal">
-                        <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
-                        <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Amount}"
-                                     Text="{Binding FixedAmount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
-                    </StackPanel>
+                    <input:AmountInput Amount="{Binding FixedAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </StackPanel>
 
                 <RadioButton Content="{moneyChestView:MultiLangBinding Debt_PaymentConditions_InterestRate}" IsChecked="{Binding PaymentTypeIsRate}" GroupName="2" Margin="0 30 0 5"/>
@@ -245,15 +219,14 @@
         <!-- Penalties -->
         <GroupBox Grid.Row="1" Grid.Column="3" Width="315">
             <GroupBox.Header>
-                <Grid Margin="-5">
+                <Grid Margin="-3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" Text="{moneyChestView:MultiLangBinding DebtPenalty_Plural}"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="10 5 5 5" HorizontalAlignment="Left"
-                               VerticalAlignment="Center"/>
+                              Style="{DynamicResource MCGroupBoxHeaderTextBlockStyle}"/>
 
                     <Button Grid.Column="1" Command="{Binding AddPenaltyCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}"
                             Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"

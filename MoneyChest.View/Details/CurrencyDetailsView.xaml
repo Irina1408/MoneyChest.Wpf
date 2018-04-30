@@ -31,8 +31,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="LabelHeader" Grid.Column="0" Grid.Row="0"
-               FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+        <Label x:Name="LabelHeader" Grid.Column="0" Grid.Row="0" Style="{DynamicResource MCDetailsHeaderLabelStyle}"/>
 
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="5 0 5 0">
             <!-- Name -->
@@ -55,21 +54,19 @@
 
         <!-- IsMain and IsActive checkboxes-->
         <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
-            <ToggleButton x:Name="btnIsMain" Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsMain}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsMain}">
+            <ToggleButton x:Name="btnIsMain" Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsMain}"
+                          ToolTip="{moneyChestView:MultiLangBinding Currency_IsMain}">
                 <iconPacks:PackIconMaterial Kind="Star" />
             </ToggleButton>
-            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsActive}" ToolTip="{moneyChestView:MultiLangBinding Currency_IsActive}">
+            <ToggleButton Style="{DynamicResource CircleToggleButtonStyle}" IsChecked="{Binding IsActive}"
+                          ToolTip="{moneyChestView:MultiLangBinding Currency_IsActive}">
                 <iconPacks:PackIconModern Kind="Checkmark" />
             </ToggleButton>
         </StackPanel>
 
         <!-- Symbol alignment -->
         <StackPanel Grid.Column="2" Grid.Row="1">
-            <GroupBox>
-                <GroupBox.Header>
-                    <TextBlock Text="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
-                </GroupBox.Header>
+            <GroupBox Header="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_EnumName}">
                 <StackPanel>
                     <RadioButton Content="{moneyChestView:MultiLangBinding CurrencySymbolAlignment_Right}"
                          IsChecked="{Binding CurrencySymbolAlignment, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:CurrencySymbolAlignment.Right}}"/>

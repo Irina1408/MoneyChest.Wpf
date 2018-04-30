@@ -16,7 +16,7 @@
         <TextBox Style="{DynamicResource HintMultilineTextBoxStyle}"
                  MaxLength="{x:Static constants:MaxSize.RemarkLength}"
                  materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Remark}" 
-                 Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:RemarkInput}}}"/>
+                 Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:RemarkInput}}, Mode=TwoWay}"/>
     </StackPanel>
     
 </UserControl>

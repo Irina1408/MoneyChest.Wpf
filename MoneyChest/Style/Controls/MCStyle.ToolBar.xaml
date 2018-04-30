@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MoneyChest.Style.Controls">
+
+    <!--*********************************** Tool bar ***********************************-->
+    <Style x:Key="MCToolBarTrayStyle" TargetType="{x:Type ToolBarTray}">
+        <Setter Property="IsLocked" Value="True"/>
+        <Setter Property="ClipToBounds" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource ToolBarBackground}" />
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+    </Style>
+
+    <Style x:Key="MCToolBarStyle" TargetType="{x:Type ToolBar}" BasedOn="{StaticResource MaterialDesignToolBar}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="ToolBarTray.IsLocked" Value="True"/>
+    </Style>
+
+    <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Height" Value="{DynamicResource ToolBarButtonSize}"/>
+        <Setter Property="Width" Value="{DynamicResource ToolBarButtonSize}"/>
+    </Style>
+
+    <Style x:Key="{x:Static ToolBar.ToggleButtonStyleKey}" TargetType="{x:Type ToggleButton}" 
+           BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Height" Value="{DynamicResource ToolBarButtonSize}"/>
+        <Setter Property="Width" Value="{DynamicResource ToolBarButtonSize}"/>
+    </Style>
+
+</ResourceDictionary>

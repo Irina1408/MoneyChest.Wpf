@@ -21,58 +21,31 @@
         <materialDesign:DialogHost.DialogContent>
             <Grid Width="300" Margin="5">
                 <Grid.Resources>
-                    <Style TargetType="TreeViewItem" BasedOn="{StaticResource CategoryTreeViewSelectableItemContainerStyle}"/>
+                    <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource CategoryTreeViewSelectableItemContainerStyle}"/>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <!--<Grid x:Name="MainToolBarTray" Background="{DynamicResource MaterialDesignToolBarBackground}" HorizontalAlignment="Stretch">
-                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                        <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+
+                <ToolBarTray x:Name="MainToolBarTray">
+                    <ToolBar>
+                        <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}">
                             <iconPacks:PackIconMaterial Kind="Plus"/>
                         </Button>
 
                         <ToggleButton IsChecked="{Binding ShowInactive, UpdateSourceTrigger=PropertyChanged}" 
-                                      Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}"
                                       ToolTip="{moneyChestView:MultiLangBinding Category_ShowInactive}">
                             <iconPacks:PackIconModern Kind="Checkmark"/>
                         </ToggleButton>
 
                         <Separator/>
-                        <Button Command="{Binding ExpandAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_ExpandAll}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                        <Button Command="{Binding ExpandAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_ExpandAll}">
                             <iconPacks:PackIconModern Kind="SectionExpandAll" />
                         </Button>
 
-                        <Button Command="{Binding CollapseAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_CollapseAll}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
-                            <iconPacks:PackIconModern Kind="SectionCollapseAll" />
-                        </Button>
-                    </ToolBar>
-                </Grid>-->
-                
-                <ToolBarTray x:Name="MainToolBarTray" ClipToBounds="True" VerticalAlignment="Top" Background="{DynamicResource MaterialDesignToolBarBackground}" Focusable="False">
-                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" Focusable="False">
-                        <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}" Focusable="False">
-                            <iconPacks:PackIconMaterial Kind="Plus"/>
-                        </Button>
-
-                        <ToggleButton IsChecked="{Binding ShowInactive, UpdateSourceTrigger=PropertyChanged}" 
-                                      Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}"
-                                      ToolTip="{moneyChestView:MultiLangBinding Category_ShowInactive}" Focusable="False">
-                            <iconPacks:PackIconModern Kind="Checkmark"/>
-                        </ToggleButton>
-
-                        <Separator/>
-                        <Button Command="{Binding ExpandAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_ExpandAll}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}" Focusable="False">
-                            <iconPacks:PackIconModern Kind="SectionExpandAll" />
-                        </Button>
-
-                        <Button Command="{Binding CollapseAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_CollapseAll}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}" Focusable="False">
+                        <Button Command="{Binding CollapseAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_CollapseAll}">
                             <iconPacks:PackIconModern Kind="SectionCollapseAll" />
                         </Button>
                     </ToolBar>
@@ -108,10 +81,13 @@
             
             <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
                 <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}" VerticalAlignment="Center"
-                  Visibility="{Binding ShowIcon, Converter={StaticResource BVConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}"/>
+                                          Visibility="{Binding ShowIcon, Converter={StaticResource BVConverter}, 
+                                          RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}"/>
+                
                 <TextBox x:Name="txtCategory" Style="{DynamicResource HintButtonTextBoxStyle}" IsReadOnly="True"
-                                     materialDesign:HintAssist.Hint="{Binding Hint, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}" VerticalAlignment="Center"
-                     FontSize="{DynamicResource DefaultFontSize}"/>
+                         materialDesign:HintAssist.Hint="{Binding Hint, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategorySelector}}}" VerticalAlignment="Center"
+                         FontSize="{DynamicResource DefaultFontSize}"/>
+                
                 <TextBlock x:Name="txtCategoryBlock" IsEnabled="False" Visibility="Collapsed" Width="Auto" VerticalAlignment="Center"
                        Margin="0 0 10 0"/>
             </StackPanel>

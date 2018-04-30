@@ -28,33 +28,28 @@
         </Grid.ColumnDefinitions>
 
         <!-- Menu -->
-        <ToolBarTray Grid.Column="0" ClipToBounds="True" VerticalAlignment="Top" IsLocked="True"
-                     Background="{DynamicResource MaterialDesignToolBarBackground}">
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                <Button Command="{Binding AddCurrencyCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+        <ToolBarTray Grid.Column="0">
+            <ToolBar>
+                <Button Command="{Binding AddCurrencyCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}">
                     <iconpacks:PackIconMaterial Kind="Plus"/>
                 </Button>
 
-                <Button Command="{Binding EditCurrencyCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding EditCurrencyCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}">
                     <iconpacks:PackIconModern Kind="Edit"/>
                 </Button>
 
-                <Button Command="{Binding DeleteCurrencyCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding DeleteCurrencyCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
                     <iconpacks:PackIconModern Kind="Delete"/>
                 </Button>
 
                 <Separator/>
 
-                <Button Command="{Binding SetMainCommand}" ToolTip="{moneyChestView:MultiLangBinding Currencies_SetAsMain}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding SetMainCommand}" ToolTip="{moneyChestView:MultiLangBinding Currencies_SetAsMain}">
                     <iconpacks:PackIconMaterial Kind="Star"/>
                 </Button>
 
                 <ToggleButton IsChecked="{Binding SelectedCurrenciesAreActive, UpdateSourceTrigger=PropertyChanged}" 
-                              Command="{Binding ChangeActivityCommand}" 
-                              Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                              Command="{Binding ChangeActivityCommand}" >
                     <iconpacks:PackIconModern Kind="Checkmark"/>
                     <ToggleButton.Style>
                         <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
@@ -71,13 +66,7 @@
         </ToolBarTray>
 
         <!-- Currencies grid -->
-        <DataGrid x:Name="GridCurrencies" Grid.Row="1" Grid.Column="0"
-                  Margin="5"
-                  AutoGenerateColumns="False"
-                  HeadersVisibility="Column"
-                  SelectionUnit="FullRow"
-                  IsReadOnly="True"
-                  SelectionChanged="GridCurrencies_SelectionChanged"
+        <DataGrid x:Name="GridCurrencies" Grid.Row="1" Grid.Column="0" SelectionChanged="GridCurrencies_SelectionChanged"
                   ItemsSource="{Binding Currencies}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -145,12 +134,11 @@
         </DataGrid>
 
         <!-- Currency exchange rates expander --> 
-        <Expander x:Name="ExpanderCurrencyExchangeRate" Grid.Column="1" Grid.RowSpan="2" ExpandDirection="Right"
-                  Background="{DynamicResource GrayBrush5}" Foreground="{DynamicResource IdealForegroundColorBrush}"
-                  BorderThickness="0" IsExpanded="False" Expanded="ExpanderCurrencyExchangeRate_Expanded"
-                  Padding="0">
+        <Expander x:Name="ExpanderCurrencyExchangeRate" Grid.Column="1" Grid.RowSpan="2" 
+                  Expanded="ExpanderCurrencyExchangeRate_Expanded"
+                  Header="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Plural}">
             <Expander.Style>
-                <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}">
+                <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCRightEntitiesExpanderStyle}">
                     <Style.Triggers>
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter Property="Width" Value="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
@@ -160,14 +148,6 @@
                     </Style.Triggers>
                 </Style>
             </Expander.Style>
-            <Expander.Header>
-                <TextBlock RenderTransformOrigin=".5 .5" Text="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Plural}"
-                         Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="10" FontSize="{DynamicResource DefaultFontSize}">
-                    <TextBlock.LayoutTransform>
-                        <RotateTransform Angle="90" />
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
-            </Expander.Header>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -175,23 +155,18 @@
                 </Grid.RowDefinitions>
 
                 <!--Menu--> 
-                <ToolBarTray ClipToBounds="True" VerticalAlignment="Top" Background="{DynamicResource MaterialDesignToolBarBackground}">
-                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                        <Button Command="{Binding AddCurrencyExchangeRateCommand}" 
-                                ToolTip="{moneyChestView:MultiLangBinding General_Add}" 
-                                Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <ToolBarTray>
+                    <ToolBar>
+                        <Button Command="{Binding AddCurrencyExchangeRateCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" >
                             <iconpacks:PackIconMaterial Kind="Plus"/>
                         </Button>
 
-                        <Button Command="{Binding EditCurrencyExchangeRateCommand}" 
-                                ToolTip="{moneyChestView:MultiLangBinding General_Edit}"
-                                Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                        <Button Command="{Binding EditCurrencyExchangeRateCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}">
                             <iconpacks:PackIconModern Kind="Edit"/>
                         </Button>
 
                         <Button Command="{Binding DeleteCurrencyExchangeRateCommand}" 
-                                ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
-                                Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                                ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
                             <iconpacks:PackIconModern Kind="Delete"/>
                         </Button>
                     </ToolBar>
@@ -199,13 +174,7 @@
 
 
                 <!-- Currency exchange rates grid-->
-                <DataGrid x:Name="GridCurrencyExchangeRates" Grid.Row="1"
-                    Margin="5"
-                    AutoGenerateColumns="False"
-                    HeadersVisibility="Column"
-                    SelectionUnit="FullRow"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding CurrencyExchangeRates}">
+                <DataGrid x:Name="GridCurrencyExchangeRates" Grid.Row="1" ItemsSource="{Binding CurrencyExchangeRates}">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" 

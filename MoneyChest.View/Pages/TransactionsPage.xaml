@@ -33,16 +33,14 @@
         </Grid.ColumnDefinitions>
         
         <!-- Menu -->
-        <Grid Grid.Column="0" Background="{DynamicResource MaterialDesignToolBarBackground}">
+        <Grid Grid.Column="0" Background="{DynamicResource ToolBarBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" HorizontalAlignment="Left" Grid.Column="0" 
-                     ToolBarTray.IsLocked="True">
-                <Button ToolTip="{moneyChestView:MultiLangBinding General_Add}" Style="{DynamicResource ToolBarButtonBaseStyle}"
-                                    Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+            <ToolBar HorizontalAlignment="Left" Grid.Column="0">
+                <Button ToolTip="{moneyChestView:MultiLangBinding General_Add}" Style="{DynamicResource ToolBarButtonBaseStyle}">
                     <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False"
                                              HorizontalAlignment="Left" VerticalAlignment="Center" 
                                              Foreground="{DynamicResource IdealForegroundColorBrush}"
@@ -67,44 +65,35 @@
                     </materialDesign:PopupBox>
                 </Button>
 
-                <Button Command="{Binding AddChequeCommand}" ToolTip="{moneyChestView:MultiLangBinding Transactions_AddCheque}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding AddChequeCommand}" ToolTip="{moneyChestView:MultiLangBinding Transactions_AddCheque}">
                     <iconPacks:PackIconModern Kind="AddMultiple" />
                 </Button>
 
-                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}">
                     <iconPacks:PackIconModern Kind="Edit"/>
                 </Button>
 
-                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
                     <iconPacks:PackIconModern Kind="Delete"/>
                 </Button>
 
                 <Separator/>
                 <ToggleButton IsChecked="{Binding DataFilter.IsFilterVisible, UpdateSourceTrigger=PropertyChanged}" 
-                              ToolTip="{moneyChestView:MultiLangBinding General_ShowFilter}" HorizontalAlignment="Right"
-                              Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                              ToolTip="{moneyChestView:MultiLangBinding General_ShowFilter}" HorizontalAlignment="Right">
                     <iconPacks:PackIconModern Kind="Filter" />
                 </ToggleButton>
             </ToolBar>
 
             <!-- Period selector -->
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" HorizontalAlignment="Center" Grid.ColumnSpan="2" ToolBarTray.IsLocked="True">
+            <ToolBar HorizontalAlignment="Center" Grid.ColumnSpan="2" ToolBarTray.IsLocked="True">
                 <components:PeriodSelectorControl HorizontalAlignment="Center"
                                       PeriodFilter="{Binding PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>
             </ToolBar>
         </Grid>
 
         <!-- Transactions grid -->
-        <DataGrid x:Name="GridTransactions" Grid.Row="2" Grid.Column="0"
-                  Margin="5"
-                  AutoGenerateColumns="False"
-                  HeadersVisibility="Column"
-                  SelectionUnit="FullRow"
-                  IsReadOnly="True"
-                  ItemsSource="{Binding FilteredEntities}">
+        <DataGrid x:Name="GridTransactions" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding FilteredEntities}"
+                  RowStyle="{DynamicResource TransactionRowStyle}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}">
@@ -155,23 +144,8 @@
                 <DataGridTextColumn Binding="{Binding TransactionCategory.Name, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding Category_Singular}" />
 
                 <DataGridTextColumn Binding="{Binding Remark, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Remark}" />
-                
+
             </DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsPlanned}" Value="True">
-                            <Setter Property="Opacity" Value="0.5" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsIncome}" Value="True">
-                            <Setter Property="Foreground" Value="Green" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsExpense}" Value="True">
-                            <Setter Property="Foreground" Value="Red" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
         </DataGrid>
         
         <!-- Filter -->

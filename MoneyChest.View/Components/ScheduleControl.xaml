@@ -19,13 +19,8 @@
     </UserControl.Resources>
 
     <!-- Required for binding: Schedule.ScheduleType, DateFrom, DateUntil, Schedule.IsDateRange, Schedule.Period, Schedule.DayOfMonth -->
-    
-    <GroupBox Grid.Row="1" Grid.Column="1">
-        <GroupBox.Header>
-            <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"
-                           Text="{moneyChestView:MultiLangBinding Event_Schedule}">
-            </TextBlock>
-        </GroupBox.Header>
+
+    <GroupBox Grid.Row="1" Grid.Column="1" Header="{moneyChestView:MultiLangBinding Event_Schedule}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

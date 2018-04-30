@@ -63,7 +63,6 @@ namespace MoneyChest.View.Details
             // load currencies
             ICurrencyService currencyService = ServiceManager.ConfigureService<CurrencyService>();
             _currencies = currencyService.GetActive(GlobalVariables.UserId, entity.CurrencyId, entity.Storage?.CurrencyId, entity.Debt?.CurrencyId);
-            comboCurrencies.ItemsSource = _currencies;
 
             // load debts
             IDebtService debtService = ServiceManager.ConfigureService<DebtService>();
@@ -101,11 +100,11 @@ namespace MoneyChest.View.Details
             UpdateCurrenciesList();
         }
 
-        private void comboCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!WrappedEntity.IsChanged) return;
-            WrappedEntity.Entity.Currency = _currencies.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.CurrencyId)?.ToReferenceView();
-        }
+        //private void comboCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if (!WrappedEntity.IsChanged) return;
+        //    WrappedEntity.Entity.Currency = _currencies.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.CurrencyId)?.ToReferenceView();
+        //}
 
         private void comboDebt_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -146,11 +145,11 @@ namespace MoneyChest.View.Details
                     WrappedEntity.Entity.CurrencyId = WrappedEntity.Entity.Debt.CurrencyId;
 
                 // limit currencies
-                comboCurrencies.ItemsSource = _currencies.Where(x => x.Id == WrappedEntity.Entity.Debt.CurrencyId
+                CurrencySelector.Currencies = _currencies.Where(x => x.Id == WrappedEntity.Entity.Debt.CurrencyId
                     || x.Id == WrappedEntity.Entity.Storage.CurrencyId).ToList();
             }
             else
-                comboCurrencies.ItemsSource = _currencies;
+                CurrencySelector.Currencies = _currencies;
         }
 
         #endregion

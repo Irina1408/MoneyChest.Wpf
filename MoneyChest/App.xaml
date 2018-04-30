@@ -31,15 +31,16 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro.IconPacks;component/Themes/IconPacks.xaml" />
                 
                 <!-- Accent and AppTheme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Violet.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
 
                 <!-- Local styles -->
-                <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.PackIcon.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/DefaultStyle.Specific.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/MCStyle.Constants.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/MCStyle.Colors.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/MCStyle.Defaults.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

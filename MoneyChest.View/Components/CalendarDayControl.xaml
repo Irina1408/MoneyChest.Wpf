@@ -15,30 +15,10 @@
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
         <converters:PercentageConverter x:Key="PctConverter"/>
-        
-        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
-            <Setter Property="Margin" Value="3 1 3 1"/>
-            <Setter Property="Padding" Value="0"/>
-        </Style>
-        <Style x:Key="TransactionLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
-            <Setter Property="Margin" Value="3 1 3 1"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsPlanned}" Value="True">
-                    <Setter Property="Opacity" Value="0.5" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IsIncome}" Value="True">
-                    <Setter Property="Foreground" Value="Green" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IsExpense}" Value="True">
-                    <Setter Property="Foreground" Value="Red" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCCalendarLabelStyle}"/>
     </UserControl.Resources>
 
-    <!-- TODO: allow to select cell height-->
     <Grid x:Name="MainGrid">
         <!-- Change opacity for inacive day -->
         <Grid.Style>
@@ -54,10 +34,7 @@
         
         <!-- Main day border -->
         <Border BorderThickness="1" BorderBrush="{DynamicResource GrayBrush7}">
-            <!--<Border.Background>
-                <SolidColorBrush Color="{DynamicResource Gray10}" Opacity="0.4"></SolidColorBrush>
-            </Border.Background>-->
-            
+
             <!-- Main data grid -->
             <Grid>
                 <Grid.RowDefinitions>
@@ -74,28 +51,16 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Change background for today -->
+                    <!-- Change background for today and weekend -->
                     <Grid.Style>
                         <Style TargetType="{x:Type Grid}">
-                            <Setter Property="Background">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource AccentColor3}"/>
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Data.IsWeekend}" Value="true">
-                                    <Setter Property="Background">
-                                        <Setter.Value>
-                                            <SolidColorBrush Color="LightPink"/>
-                                        </Setter.Value>
-                                    </Setter>
+                                    <Setter Property="Background" Value="{DynamicResource CalendarWeekendBackground}"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Data.IsToday}" Value="true">
-                                    <Setter Property="Background">
-                                        <Setter.Value>
-                                            <SolidColorBrush Color="{DynamicResource AccentColor}"/>
-                                        </Setter.Value>
-                                    </Setter>
+                                    <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -112,72 +77,37 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel>
-                        <ItemsControl ItemsSource="{Binding Data.LimitedTransactions}" Grid.Row="0" Focusable="False" Background="Transparent">
+                    <StackPanel Grid.Row="0">
+                        <ItemsControl ItemsSource="{Binding Data.LimitedTransactions}" Style="{StaticResource TransactionsItemsControlStyle}"
+                                      Foreground="{DynamicResource BlackBrush}">
                             <ItemsControl.ToolTip>
                                 <ToolTip Placement="Mouse">
-                                    <ItemsControl ItemsSource="{Binding Data.FilteredTransactions}" Focusable="False">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate DataType="{x:Type model:ITransaction}">
-                                                <Border BorderThickness="0.5" BorderBrush="{Binding IdealForegroundColorBrush}">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
-
-                                                        <Label Grid.Column="0" Content="{Binding Description}" 
-                                                           Foreground="{DynamicResource IdealForegroundColorBrush}"/>
-                                                        <Label Grid.Column="1" Content="{Binding TransactionValueDetailed}"
-                                                           Foreground="{DynamicResource IdealForegroundColorBrush}"/>
-                                                    </Grid>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
+                                    <ItemsControl ItemsSource="{Binding Data.FilteredTransactions}" Style="{StaticResource TransactionsToolTipItemsControlStyle}" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
                                 </ToolTip>
                             </ItemsControl.ToolTip>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type model:ITransaction}">
-                                    <Border BorderThickness="0.5" BorderBrush="{Binding IdealForegroundColorBrush}">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <Label Grid.Column="0" Content="{Binding Description}" Style="{StaticResource TransactionLabelStyle}"/>
-                                            <Label Grid.Column="1" Content="{Binding TransactionValueDetailed}" Style="{StaticResource TransactionLabelStyle}"/>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-                    
-                    <iconPacks:PackIconEntypo Kind="DotsThreeHorizontal" Grid.Row="1" Visibility="{Binding ShowDots, Converter={StaticResource BVConverter}}" Margin="5 -2 5 -10"/>
+
+                    <iconPacks:PackIconEntypo Kind="DotsThreeHorizontal" Grid.Row="1"
+                                              Visibility="{Binding ShowDots, Converter={StaticResource BVConverter}}" Margin="5 -2 5 -10"/>
                 </Grid>
                 
                 <!-- Totals row -->
                 <Grid Grid.Row="2" Margin="0 5 0 0">
-                    <!--<Grid.Background>
-                        <SolidColorBrush Color="{DynamicResource Gray7}" Opacity="0.7"/>
-                    </Grid.Background>-->
+                    <!--<Label Grid.Column="0" HorizontalAlignment="Left" Content="{Binding LimitSummary}" Margin="0" Padding="0"/>-->
                     <Label HorizontalAlignment="Right" Content="{Binding Data.TotDayAmountDetailed}" Padding="0"/>
                 </Grid>
                 
-                <!-- Bottom row (Limits and Storage summary) -->
-                <Grid Grid.Row="3">
+                <!-- Bottom row (Storage summary) -->
+                <Grid Grid.Row="3" Background="{DynamicResource GrayBrush6}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Grid.Background>
-                        <SolidColorBrush Color="{DynamicResource Gray6}"/>
-                    </Grid.Background>
-
-                    <Label Grid.Column="0" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center"
+                    
+                    <!-- Alert icon -->
+                    <Label Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"
                            Visibility="{Binding ShowAnyAccountNegative, Converter={StaticResource BVConverter}}">
                         <Label.ToolTip>
                             <ToolTip Placement="Mouse">
@@ -188,14 +118,13 @@
                                 </StackPanel>
                             </ToolTip>
                         </Label.ToolTip>
-                        <iconPacks:PackIconOcticons Kind="Alert" Foreground="Red"/>
+                        <iconPacks:PackIconOcticons Kind="Alert" Foreground="{DynamicResource RedBrush}"/>
                     </Label>
-                    
-                    <!--<Label Grid.Column="0" HorizontalAlignment="Left" Content="{Binding LimitSummary}" Margin="0" Padding="0"/>-->
-                    <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Focusable="False" 
-                                  Grid.Column="2" HorizontalAlignment="Right" Background="Transparent">
+
+                    <!-- Full storages list (if ShowAllStorages) -->
+                    <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Grid.Column="2" HorizontalAlignment="Right">
                         <ItemsControl.Style>
-                            <Style TargetType="{x:Type ItemsControl}">
+                            <Style TargetType="{x:Type ItemsControl}" BasedOn="{StaticResource StoragesItemsControlStyle}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ShowAllStorages}" Value="true">
@@ -204,72 +133,12 @@
                                 </Style.Triggers>
                             </Style>
                         </ItemsControl.Style>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}">
-                                    <!--<StackPanel.Style>
-                                        <Style TargetType="{x:Type StackPanel}">
-                                            <Setter Property="MaxWidth" Value="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
-                                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=1,
-                                UpdateSourceTrigger=PropertyChanged}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Data.IsAnyAccountNegative}" Value="True">
-                                                    <Setter Property="Width" Value="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
-                                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.9,
-                                UpdateSourceTrigger=PropertyChanged}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Style>-->
-                                </StackPanel>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type modelCal:StorageState}">
-                                <Border BorderThickness="0.5" BorderBrush="{Binding IdealForegroundColorBrush}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label Grid.Column="0" Content="{Binding Storage.Name}" FontSize="{DynamicResource SmallFontSize}">
-                                            <Label.Style>
-                                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
-                                                    <Setter Property="Margin" Value="3 1 3 1"/>
-                                                    <Setter Property="Padding" Value="0"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsNegative}" Value="true">
-                                                            <Setter Property="Foreground" Value="Red"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Label.Style>
-                                        </Label>
-                                        <Label Grid.Column="1" Content="{Binding AmountDetailed}" Margin="5 0 0 0">
-                                            <Label.Style>
-                                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
-                                                    <Setter Property="Padding" Value="0"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsNegative}" Value="true">
-                                                            <Setter Property="Foreground" Value="Red"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Label.Style>
-                                        </Label>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    
-                    <Label Grid.Column="2" HorizontalAlignment="Right" Background="Transparent" 
-                           Content="{Binding Data.TotStorageSummaryDetailed}">
+
+                    <!-- Storage summary (if not ShowAllStorages) -->
+                    <Label Grid.Column="2" HorizontalAlignment="Right" Content="{Binding Data.TotStorageSummaryDetailed}">
                         <Label.Style>
-                            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
-                                <Setter Property="Margin" Value="3 1 3 1"/>
-                                <Setter Property="Padding" Value="0"/>
+                            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCCalendarLabelStyle}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ShowAllStorages}" Value="true">
                                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -278,50 +147,8 @@
                             </Style>
                         </Label.Style>
                         <Label.ToolTip>
-                            <ToolTip>
-                                <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Focusable="False">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type modelCal:StorageState}">
-                                            <Border BorderThickness="0.5" BorderBrush="{Binding IdealForegroundColorBrush}">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <Label Grid.Column="0" Content="{Binding Storage.Name}">
-                                                        <Label.Style>
-                                                            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
-                                                                <Setter Property="Padding" Value="0"/>
-                                                                <Setter Property="Foreground" 
-                                                                        Value="{DynamicResource IdealForegroundColorBrush}"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding IsNegative}" Value="true">
-                                                                        <Setter Property="Foreground" Value="Red"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Label.Style>
-                                                    </Label>
-                                                    <Label Grid.Column="1" Content="{Binding AmountDetailed}">
-                                                        <Label.Style>
-                                                            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
-                                                                <Setter Property="Padding" Value="0"/>
-                                                                <Setter Property="Foreground" 
-                                                                        Value="{DynamicResource IdealForegroundColorBrush}"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding IsNegative}" Value="true">
-                                                                        <Setter Property="Foreground" Value="Red"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Label.Style>
-                                                    </Label>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                            <ToolTip Placement="Mouse">
+                                <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Style="{DynamicResource StoragesItemsControlStyle}"/>
                             </ToolTip>
                         </Label.ToolTip>
                     </Label>

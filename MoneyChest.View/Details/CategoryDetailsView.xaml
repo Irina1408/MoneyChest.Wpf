@@ -31,8 +31,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="LabelHeader" Grid.Column="0" Grid.Row="0"
-               FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+        <Label x:Name="LabelHeader" Grid.Column="0" Grid.Row="0" Style="{DynamicResource MCDetailsHeaderLabelStyle}"/>
 
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="5 0 5 0">
             <!-- Name -->

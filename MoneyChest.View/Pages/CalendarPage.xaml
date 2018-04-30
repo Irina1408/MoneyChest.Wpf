@@ -33,15 +33,14 @@
         </Grid.ColumnDefinitions>
 
         <!-- Menu -->
-        <Grid Grid.Column="0" Background="{DynamicResource MaterialDesignToolBarBackground}">
+        <Grid Grid.Column="0" Background="{DynamicResource ToolBarBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Menu -->
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" HorizontalAlignment="Left" Grid.Column="0" 
-                     ToolBarTray.IsLocked="True">
+            <ToolBar HorizontalAlignment="Left" Grid.Column="0">
 
                 <!-- Show filter -->
                 <ToggleButton IsChecked="{Binding Settings.DataFilter.IsFilterVisible, UpdateSourceTrigger=PropertyChanged}" 
@@ -59,7 +58,7 @@
             </ToolBar>
 
             <!-- Period selector -->
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" HorizontalAlignment="Center" Grid.ColumnSpan="2" ToolBarTray.IsLocked="True">
+            <ToolBar HorizontalAlignment="Center" Grid.ColumnSpan="2">
                 <components:PeriodSelectorControl HorizontalAlignment="Center"
                                       PeriodFilter="{Binding Settings.PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>
             </ToolBar>
@@ -74,8 +73,8 @@
                    Margin="0" Visibility="{Binding Settings.ShowSettings, Converter={StaticResource BVConverter}}">
             <GroupBox.Header>
                 <Grid Height="45">
-                    <TextBlock Text="{moneyChestView:MultiLangBinding General_Settings}" VerticalAlignment="Center"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
+                    <TextBlock Text="{moneyChestView:MultiLangBinding General_Settings}" 
+                               Style="{DynamicResource MCGroupBoxHeaderTextBlockStyle}"/>
                 </Grid>
             </GroupBox.Header>
 
@@ -83,8 +82,7 @@
                 <GroupBox Margin="0 0 0 5">
                     <GroupBox.Header>
                         <TextBlock Text="{moneyChestView:MultiLangBinding Calendar_MaxTransactionsCountPerDay}" MaxWidth="200"
-                           TextWrapping="WrapWithOverflow" HorizontalAlignment="Center"
-                                   Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+                           Style="{DynamicResource MCGroupBoxHeaderTextBlockStyle}"/>
                     </GroupBox.Header>
 
                     <StackPanel Orientation="Horizontal">
@@ -92,8 +90,7 @@
                               IsChecked="{Binding Settings.ShowAllTransactionsPerDay}" VerticalAlignment="Bottom"
                                   Margin="1 5 5 5"/>
 
-                        <Slider Width="{DynamicResource SliderControlWidth}" Margin="5" Maximum="50" Minimum="0" 
-                            Style="{DynamicResource MaterialDesignDiscreteSlider}"
+                        <Slider Maximum="50" Minimum="0" 
                             ToolTip="{moneyChestView:MultiLangBinding Calendar_MaxTransactionsCountPerDay}"
                             Value="{Binding Settings.MaxTransactionsCountPerDay,UpdateSourceTrigger=Default}" 
                             IsEnabled="{Binding Settings.TransactionsCountPerDayAvailable}" Focusable="False"/>

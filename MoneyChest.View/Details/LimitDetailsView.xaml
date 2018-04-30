@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
         
         <!-- Header -->
-        <Label x:Name="LabelHeader" Grid.Row="0" Grid.ColumnSpan="2" FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+        <Label x:Name="LabelHeader" Grid.Row="0" Grid.ColumnSpan="2" Style="{DynamicResource MCDetailsHeaderLabelStyle}"/>
 
         <!-- Main data panel -->
         <StackPanel Grid.Row="1" Grid.Column="0">
@@ -37,20 +37,12 @@
                             materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_DateUntil}"/>
 
             <!-- Value -->
-            <StackPanel Orientation="Horizontal">
-                <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Balance}"
-                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
-            </StackPanel>
+            <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                               Caption="{moneyChestView:MultiLangBinding General_Balance}"/>
 
             <!-- Currency -->
-            <StackPanel Orientation="Horizontal" Grid.Row="0">
-                <iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
-                <ComboBox x:Name="comboCurrencies" 
-                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
-                                      DisplayMemberPath="Name" SelectedValuePath="Id"
-                                      SelectedValue="{Binding CurrencyId}"/>
-            </StackPanel>
+            <components:CurrencySelector CurrencyId="{Binding CurrencyId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         CurrencyReference="{Binding Currency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         </StackPanel>
 
         <!-- Description data panel -->

@@ -15,26 +15,23 @@
         </Grid.RowDefinitions>
 
         <!-- Menu -->
-        <ToolBarTray ClipToBounds="True" VerticalAlignment="Top" Background="{DynamicResource MaterialDesignToolBarBackground}">
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+        <ToolBarTray>
+            <ToolBar>
+                <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}">
                     <iconPacks:PackIconMaterial Kind="Plus"/>
                 </Button>
 
-                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}">
                     <iconPacks:PackIconModern Kind="Edit"/>
                 </Button>
 
-                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
                     <iconPacks:PackIconModern Kind="Delete"/>
                 </Button>
 
                 <Separator/>
                 <ToggleButton IsChecked="{Binding SelectedCategoryIsActive, UpdateSourceTrigger=PropertyChanged}" 
-                              Command="{Binding ChangeActivityCommand}" 
-                              Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                              Command="{Binding ChangeActivityCommand}" >
                     <iconPacks:PackIconModern Kind="Checkmark"/>
                     <ToggleButton.Style>
                         <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
@@ -49,13 +46,11 @@
                 </ToggleButton>
 
                 <Separator/>
-                <Button Command="{Binding ExpandAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_ExpandAll}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding ExpandAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_ExpandAll}">
                     <iconPacks:PackIconModern Kind="SectionExpandAll" />
                 </Button>
 
-                <Button Command="{Binding CollapseAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_CollapseAll}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding CollapseAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Category_CollapseAll}">
                     <iconPacks:PackIconModern Kind="SectionCollapseAll" />
                 </Button>
             </ToolBar>

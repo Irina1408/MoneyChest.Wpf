@@ -13,12 +13,8 @@
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
     </UserControl.Resources>
-    
-    <GroupBox Margin="0">
-        <GroupBox.Header>
-            <TextBlock Text="{moneyChestView:MultiLangBinding General_ExchangeRate}"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
-        </GroupBox.Header>
+
+    <GroupBox Margin="0" Header="{moneyChestView:MultiLangBinding General_ExchangeRate}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

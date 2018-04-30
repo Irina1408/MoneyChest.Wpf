@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MoneyChest.Style">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.Button.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.Calendar.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.DataGrid.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.DatePicker.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.Expander.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.InputBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.GroupBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.Label.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.ListBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.PackIcon.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.ToolBar.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.ToolTip.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.Slider.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.Window.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.TreeView.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MoneyChest;component/Style/Controls/MCStyle.ItemsControl.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Style TargetType="{x:Type Control}">
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MCButtonStyle}"/>
+    <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MCRadioButtonStyle}"/>
+    <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MCCheckBoxStyle}"/>
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MCTextBoxStyle}"/>
+    <Style TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource MCPasswordBoxStyle}"/>
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MCComboBoxFloatingHintStyle}"/>
+    <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MCGroupBoxStyle}"/>
+
+    <Style TargetType="{x:Type Calendar}" BasedOn="{StaticResource MCDatePickerCalendarPortrait}"/>
+    <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MCDatePickerStyle}"/>
+
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}"/>
+    <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource MCToolTipStyle}"/>
+    <Style TargetType="{x:Type ToolBarTray}" BasedOn="{StaticResource MCToolBarTrayStyle}"/>
+    <Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource MCToolBarStyle}"/>
+    <Style TargetType="{x:Type Slider}" BasedOn="{StaticResource MCSliderStyle}"/>
+
+    <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource MCListBoxStyle}"/>
+    <Style TargetType="{x:Type TreeView}" BasedOn="{StaticResource MCTreeViewStyle}"/>
+    <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource MCDataGridStyle}"/>
+    <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MCDataGridRowStyle}"/>
+    <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MCDataGridCellStyle}"/>
+    
+    <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}"/>
+
+</ResourceDictionary>

@@ -1,5 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using MoneyChest.Services;
+using MoneyChest.Services.Execution;
+using MoneyChest.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,11 @@ namespace MoneyChest
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            MCTaskScheduler.Instance.Start(GlobalVariables.UserId);
         }
     }
 }

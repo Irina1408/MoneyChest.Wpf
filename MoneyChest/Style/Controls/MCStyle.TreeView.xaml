@@ -1,8 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                    xmlns:local="clr-namespace:MoneyChest.Style">
+                    xmlns:local="clr-namespace:MoneyChest.Style.Controls">
 
+    <!-- *********************************** Tree view (BASE) *********************************** -->
+    <Style x:Key="MCTreeViewStyle"  TargetType="{x:Type TreeView}" BasedOn="{StaticResource VirtualisedMetroTreeView}">
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+    <!-- *********************************** Category *********************************** -->
+    
     <Style x:Key="CategoryTreeViewMainViewItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
         <Setter Property="IsSelected" Value="{Binding IsSelectedMainView, Mode=TwoWay}" />
         <Setter Property="IsExpanded" Value="{Binding IsExpandedMainView, Mode=TwoWay}" />
@@ -27,16 +34,16 @@
             <iconPacks:PackIconModern Name="IconPlusMinus" Kind="MathPlusMinus" Visibility="Collapsed" Margin="3 7 0 7"
                                   Height="10" Width="10"/>
             <TextBlock x:Name="txtName" Text="{Binding Name}" Margin="3 7 3 7"/>
-            <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="Gray"/>
+            <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="{StaticResource RemarkForeground}"/>
         </StackPanel>
-        
+
         <HierarchicalDataTemplate.Triggers>
-            
+
             <!-- Opacity trigger -->
             <DataTrigger Binding="{Binding IsActive}" Value="False">
                 <Setter Property="Opacity" TargetName="panel" Value="0.5" />
             </DataTrigger>
-      
+
             <!-- Icon Plus trigger -->
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -70,17 +77,17 @@
                     <Setter Property="Visibility" TargetName="IconPlusMinus" Value="Visible" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
-            
+
             <!-- Foreground -->
             <DataTrigger Binding="{Binding IsPlus}" Value="True">
-                <Setter Property="Foreground" TargetName="txtName" Value="Green"/>
+                <Setter Property="Foreground" TargetName="txtName" Value="{StaticResource GreenBrush}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding IsMinus}" Value="True">
-                <Setter Property="Foreground" TargetName="txtName" Value="Red"/>
+                <Setter Property="Foreground" TargetName="txtName" Value="{StaticResource RedBrush}"/>
             </DataTrigger>
         </HierarchicalDataTemplate.Triggers>
     </HierarchicalDataTemplate>
-    
+
     <HierarchicalDataTemplate x:Key="CheckableCategoryTreeViewItemTemplate" ItemsSource="{Binding Path=Children}">
         <CheckBox Name="chk" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent"
                   IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -98,16 +105,11 @@
                 <iconPacks:PackIconModern Name="IconPlusMinus" Kind="MathPlusMinus" Visibility="Collapsed" Margin="3 7 0 7"
                                   Height="10" Width="10"/>
                 <TextBlock x:Name="txtName" Text="{Binding Name}" Margin="3 7 3 7" Grid.Column="1"/>
-                <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="Gray" Grid.Column="2"/>
+                <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="{StaticResource RemarkForeground}" Grid.Column="2"/>
             </Grid>
         </CheckBox>
 
         <HierarchicalDataTemplate.Triggers>
-
-            <!-- Selection trigger -->
-            <!--<DataTrigger Binding="{Binding IsSelected}" Value="True">
-                <Setter Property="IsChecked" TargetName="chk" Value="True" />
-            </DataTrigger>-->
 
             <!-- Opacity trigger -->
             <DataTrigger Binding="{Binding IsActive}" Value="False">
@@ -150,39 +152,41 @@
 
             <!-- Foreground -->
             <DataTrigger Binding="{Binding IsPlus}" Value="True">
-                <Setter Property="Foreground" TargetName="txtName" Value="Green"/>
+                <Setter Property="Foreground" TargetName="txtName" Value="{StaticResource GreenBrush}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding IsMinus}" Value="True">
-                <Setter Property="Foreground" TargetName="txtName" Value="Red"/>
+                <Setter Property="Foreground" TargetName="txtName" Value="{StaticResource RedBrush}"/>
             </DataTrigger>
         </HierarchicalDataTemplate.Triggers>
     </HierarchicalDataTemplate>
 
-    <HierarchicalDataTemplate x:Key="CheckableStorageTreeViewItemTemplate" ItemsSource="{Binding Path=Children}">
-        <CheckBox Name="chk" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent"
-                  IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <StackPanel Name="panel" Orientation="Horizontal" Margin="0" HorizontalAlignment="Stretch">
-                <TextBlock x:Name="txtName" Text="{Binding Name}" Margin="3 7 3 7"/>
-                <TextBlock Text="{Binding Remark}" Margin="7 7 3 7" Foreground="Gray"/>
-            </StackPanel>
-        </CheckBox>
+    <!-- *********************************** Storage *********************************** -->
 
-        <HierarchicalDataTemplate.Triggers>
+    <HierarchicalDataTemplate x:Key="CheckableStorageTreeViewItemTemplate" ItemsSource="{Binding Storages}">
+        <TextBlock Text="{Binding StorageGroup.Name}"/>
 
-            <!-- Selection trigger -->
-            <!--<DataTrigger Binding="{Binding IsSelected}" Value="True">
-                <Setter Property="IsChecked" TargetName="chk" Value="True" />
-            </DataTrigger>-->
-
-            <!-- Opacity trigger -->
-            <DataTrigger Binding="{Binding IsActive}" Value="False">
-                <Setter Property="Opacity" TargetName="panel" Value="0.5" />
-            </DataTrigger>
-        </HierarchicalDataTemplate.Triggers>
+        <HierarchicalDataTemplate.ItemTemplate>
+            <DataTemplate>
+                <CheckBox Name="chk" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                                      Background="Transparent" HorizontalContentAlignment="Stretch"
+                                                      IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <Grid Name="panel" Margin="0" HorizontalAlignment="Stretch">
+                        <TextBlock Text="{Binding Value.Name}" Margin="3 7 3 7"/>
+                    </Grid>
+                </CheckBox>
+                <DataTemplate.Triggers>
+                    <!--Opacity trigger-->
+                    <DataTrigger Binding="{Binding Value.IsVisible}" Value="False">
+                        <Setter Property="Opacity" TargetName="chk" Value="0.5" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </HierarchicalDataTemplate.ItemTemplate>
     </HierarchicalDataTemplate>
 
     <Style x:Key="StorageTreeViewCheckableItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+        <Setter Property="Focusable" Value="False" />
     </Style>
-    
+
 </ResourceDictionary>

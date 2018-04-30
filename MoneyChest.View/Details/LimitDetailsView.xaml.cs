@@ -37,11 +37,6 @@ namespace MoneyChest.View.Details
         {
             InitializeComponent();
 
-            // load currencies
-            ICurrencyService currencyService = ServiceManager.ConfigureService<CurrencyService>();
-            var currencies = currencyService.GetActive(GlobalVariables.UserId, entity.CurrencyId);
-            comboCurrencies.ItemsSource = currencies;
-
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;
             CommandsPanel.DataContext = Commands;

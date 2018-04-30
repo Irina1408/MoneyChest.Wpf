@@ -102,11 +102,17 @@
     <Compile Include="Components\CurrencyExchangeRateControl.xaml.cs">
       <DependentUpon>CurrencyExchangeRateControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\CurrencySelector.xaml.cs">
+      <DependentUpon>CurrencySelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\DataFilterControl.xaml.cs">
       <DependentUpon>DataFilterControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\DetailsViewCommandsPanel.xaml.cs">
       <DependentUpon>DetailsViewCommandsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Input\AmountInput.xaml.cs">
+      <DependentUpon>AmountInput.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Input\DescriptionInput.xaml.cs">
       <DependentUpon>DescriptionInput.xaml</DependentUpon>
@@ -282,11 +288,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Components\CurrencySelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\DataFilterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\DetailsViewCommandsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Input\AmountInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

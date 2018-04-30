@@ -19,8 +19,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="LabelHeader" Grid.Row="0"
-               FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+        <Label x:Name="LabelHeader" Grid.Row="0" Style="{DynamicResource MCDetailsHeaderLabelStyle}"/>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

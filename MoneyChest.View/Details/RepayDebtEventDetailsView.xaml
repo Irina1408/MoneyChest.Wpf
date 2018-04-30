@@ -34,7 +34,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Header -->
-        <Label x:Name="LabelHeader" FontSize="{DynamicResource LargeFontSize}" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+        <Label x:Name="LabelHeader" Grid.Row="0" Grid.ColumnSpan="3" Style="{DynamicResource MCDetailsHeaderLabelStyle}"/>
 
         <!-- Part "Description and Value" -->
         <Grid Grid.Row="1" Grid.Column="0" Margin="5">
@@ -45,11 +45,7 @@
 
             <StackPanel Grid.Row="0">
                 <!-- Value -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                    <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
-                    <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Amount}"
-                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
-                </StackPanel>
+                <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
 
                 <!-- Currency -->
                 <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">

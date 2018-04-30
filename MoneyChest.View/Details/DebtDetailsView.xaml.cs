@@ -43,7 +43,6 @@ namespace MoneyChest.View.Details
     {
         #region Private fields
         
-        private IEnumerable<CurrencyModel> _currencies;
         private IEnumerable<StorageModel> _storages;
         private ICommand DeletePenaltyCommand;
 
@@ -71,13 +70,12 @@ namespace MoneyChest.View.Details
 
             // load currencies
             ICurrencyService currencyService = ServiceManager.ConfigureService<CurrencyService>();
-            _currencies = currencyService.GetActive(GlobalVariables.UserId, entity.CurrencyId, entity.Storage?.CurrencyId);
-            comboCurrencies.ItemsSource = _currencies;
+            var currencies = currencyService.GetActive(GlobalVariables.UserId, entity.CurrencyId, entity.Storage?.CurrencyId);
             
             FillPenalties();
 
             // set currencies list
-            compCurrencyExchangeRate.CurrencyIds = _storages.Select(_ => _.CurrencyId).Concat(_currencies.Select(c => c.Id))
+            compCurrencyExchangeRate.CurrencyIds = _storages.Select(_ => _.CurrencyId).Concat(currencies.Select(c => c.Id))
                 .Distinct().ToList();
 
             // set header and commands panel context
@@ -134,13 +132,6 @@ namespace MoneyChest.View.Details
             if (!WrappedEntity.IsChanged) return;
             // update storage currency
             WrappedEntity.Entity.Storage = _storages.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.StorageId)?.ToReferenceView();
-        }
-
-        private void comboCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!WrappedEntity.IsChanged) return;
-            // update debt currency
-            WrappedEntity.Entity.Currency = _currencies.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.CurrencyId)?.ToReferenceView();
         }
 
         #endregion

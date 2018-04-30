@@ -42,8 +42,7 @@
                     </Style>
                 </ToggleButton.Style>
             </ToggleButton>
-            <Label x:Name="LabelHeader"
-               FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+            <Label x:Name="LabelHeader" Style="{DynamicResource MCDetailsHeaderLabelStyle}"/>
         </StackPanel>
 
         <!-- Main data panel -->
@@ -61,20 +60,12 @@
             </StackPanel>
 
             <!-- Value -->
-            <StackPanel Orientation="Horizontal">
-                <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
-                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Balance}"
-                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
-            </StackPanel>
+            <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
 
             <!-- Currency -->
-            <StackPanel Orientation="Horizontal" Grid.Row="0">
-                <iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
-                <ComboBox x:Name="comboCurrencies" 
-                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
-                                      DisplayMemberPath="Name" SelectedValuePath="Id"
-                                      SelectedValue="{Binding CurrencyId}"/>
-            </StackPanel>
+            <components:CurrencySelector x:Name="CurrencySelector"
+                CurrencyId="{Binding CurrencyId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                CurrencyReference="{Binding Currency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
             <!-- Remark -->
             <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

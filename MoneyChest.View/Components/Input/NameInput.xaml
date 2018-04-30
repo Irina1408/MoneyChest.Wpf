@@ -15,7 +15,7 @@
         <iconPacks:PackIconMaterial Kind="Label" Style="{DynamicResource TextBoxIconStyle}"/>
         <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Name}" 
                  MaxLength="{x:Static constants:MaxSize.NameLength}"
-                 Text="{Binding EntityName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:NameInput}}}"/>
+                 Text="{Binding EntityName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:NameInput}}, Mode=TwoWay}"/>
     </StackPanel>
     
 </UserControl>

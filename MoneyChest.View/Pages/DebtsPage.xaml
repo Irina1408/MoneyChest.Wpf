@@ -22,27 +22,24 @@
         </Grid.RowDefinitions>
 
         <!-- Menu -->
-        <ToolBarTray VerticalAlignment="Top">
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+        <ToolBarTray>
+            <ToolBar>
+                <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}">
                     <iconpacks:PackIconMaterial Kind="Plus"/>
                 </Button>
 
-                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}">
                     <iconpacks:PackIconModern Kind="Edit"/>
                 </Button>
 
-                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
                     <iconpacks:PackIconModern Kind="Delete"/>
                 </Button>
             </ToolBar>
         </ToolBarTray>
 
         <!-- Debts grid -->
-        <DataGrid x:Name="GridDebts" Grid.Row="1"
-                  ItemsSource="{Binding Entities}">
+        <DataGrid x:Name="GridDebts" Grid.Row="1" ItemsSource="{Binding Entities}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
@@ -78,10 +75,10 @@
                             <Setter Property="Opacity" Value="0.5" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding DebtType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtType.GiveBorrow}}" Value="True">
-                            <Setter Property="Foreground" Value="Green" />
+                            <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding DebtType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtType.TakeBorrow}}" Value="True">
-                            <Setter Property="Foreground" Value="Red" />
+                            <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

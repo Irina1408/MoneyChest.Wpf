@@ -34,30 +34,21 @@
         </Grid.RowDefinitions>
 
         <!-- Menu -->
-        <ToolBarTray VerticalAlignment="Top" Grid.Column="0" Grid.Row="0">
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+        <ToolBarTray Grid.Column="0" Grid.Row="0">
+            <ToolBar>
+                <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}">
                     <iconpacks:PackIconMaterial Kind="Plus"/>
                 </Button>
 
-                <!--<Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
-                    <iconpacks:PackIconModern Kind="Edit"/>
-                </Button>-->
-
-                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
                     <iconpacks:PackIconModern Kind="Delete"/>
                 </Button>
             </ToolBar>
         </ToolBarTray>
 
         <!-- Parameters -->
-        <GroupBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0 5 10 5">
-            <GroupBox.Header> 
-                <TextBlock Text="{moneyChestView:MultiLangBinding General_Parameters}"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
-            </GroupBox.Header>
+        <GroupBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0 5 10 5" 
+                  Header="{moneyChestView:MultiLangBinding General_Parameters}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -69,13 +60,9 @@
                     <DatePicker SelectedDate="{Binding Date}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
 
                     <!-- Currency -->
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
-                        <iconpacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
-                        <ComboBox x:Name="comboCurrencies" 
-                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
-                          DisplayMemberPath="Name" SelectedValuePath="Id"
-                          SelectedValue="{Binding CurrencyId}" SelectionChanged="comboCurrencies_SelectionChanged"/>
-                    </StackPanel>
+                    <components:CurrencySelector CurrencyId="{Binding CurrencyId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         CurrencyReference="{Binding Currency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         HorizontalAlignment="Stretch"/>
 
                     <!-- Description -->
                     <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -85,13 +72,7 @@
                 </StackPanel>
                 
                 <!-- Storage -->
-                <GroupBox Grid.Row="1" Margin="5 10 5 5">
-                    <GroupBox.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"
-                                           Text="{moneyChestView:MultiLangBinding Storage_Singular}"/>
-                        </StackPanel>
-                    </GroupBox.Header>
+                <GroupBox Grid.Row="1" Margin="5 10 5 5" Header="{moneyChestView:MultiLangBinding Storage_Singular}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -115,12 +96,8 @@
         </GroupBox>
 
         <!-- Records grid -->
-        <DataGrid x:Name="GridRecords" Grid.Row="1" Grid.Column="0" Margin="5 0 5 5"
-                  AutoGenerateColumns="False"
-                  HeadersVisibility="Column"
-                  SelectionUnit="FullRow"
-                  IsReadOnly="False" CanUserAddRows="False"
-                  ItemsSource="{Binding Entities}">
+        <DataGrid x:Name="GridRecords" Grid.Row="1" Grid.Column="0" Margin="5 0 5 5" IsReadOnly="False" ItemsSource="{Binding Entities}"
+                  RowStyle="{DynamicResource TransactionRowStyle}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
@@ -167,18 +144,6 @@
                 <DataGridTextColumn Binding="{Binding Remark, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Remark}" />
 
             </DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsIncome}" Value="True">
-                            <Setter Property="Foreground" Value="Green" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsExpense}" Value="True">
-                            <Setter Property="Foreground" Value="Red" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
         </DataGrid>
 
         <!-- Totals row and exit buttons -->

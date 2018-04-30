@@ -30,54 +30,47 @@
             <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
         </ContextMenu>
 
-        <Style x:Key="EventButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource CircleButtonStyle}">
-            <Setter Property="Foreground" Value="{DynamicResource IdealForegroundColorBrush}"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="false">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <SolidColorBrush Color="{DynamicResource WhiteColor}" Opacity="0.3"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <ControlTemplate x:Key="EventButtonsPanel" TargetType="ContentControl">
+        <ControlTemplate x:Key="EventButtonsPanel" TargetType="{x:Type ContentControl}">
             <StackPanel Orientation="Horizontal">
                 <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" 
-                    Style="{StaticResource EventButtonStyle}">
+                    Style="{DynamicResource ExpanderButtonStyle}">
                     <iconpacks:PackIconMaterial Kind="Plus"/>
                 </Button>
 
                 <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}"
-                    Style="{StaticResource EventButtonStyle}">
+                    Style="{DynamicResource ExpanderButtonStyle}">
                     <iconpacks:PackIconModern Kind="Edit"/>
                 </Button>
 
                 <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}"
-                    Style="{StaticResource EventButtonStyle}">
+                    Style="{DynamicResource ExpanderButtonStyle}">
                     <iconpacks:PackIconModern Kind="Delete"/>
                 </Button>
 
                 <Button Command="{Binding RunCommand}" ToolTip="{moneyChestView:MultiLangBinding Event_Run}"
-                    Style="{StaticResource EventButtonStyle}">
+                    Style="{DynamicResource ExpanderButtonStyle}">
                     <iconpacks:PackIconFontAwesome Kind="Play" />
                 </Button>
 
                 <Button Command="{Binding PauseCommand}" ToolTip="{moneyChestView:MultiLangBinding Event_Pause}"
-                    Style="{StaticResource EventButtonStyle}">
+                    Style="{DynamicResource ExpanderButtonStyle}">
                     <iconpacks:PackIconModern Kind="ControlPause" />
                 </Button>
 
                 <Button Command="{Binding CloseCommand}" ToolTip="{moneyChestView:MultiLangBinding Event_Close}"
-                    Style="{StaticResource EventButtonStyle}">
+                    Style="{DynamicResource ExpanderButtonStyle}">
                     <iconpacks:PackIconMaterial Kind="Stop" />
                 </Button>
             </StackPanel>
         </ControlTemplate>
 
+        <Style x:Key="EventsBorderStyle" TargetType="{x:Type Border}">
+            <Setter Property="BorderThickness" Value="0 1 0 0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <!--<Setter Property="MaxWidth" Value="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
+                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.7,
+                UpdateSourceTrigger=PropertyChanged}"/>-->
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -93,12 +86,9 @@
         </Grid.ColumnDefinitions>
         
         <!-- Simple events -->
-        <Border x:Name="SimpleEventsBorder" Grid.Column="0" Grid.Row="0" BorderThickness="0 1 0 0" 
-                BorderBrush="{DynamicResource BlackColorBrush}" 
-                MaxHeight="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
-                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.7,
-                UpdateSourceTrigger=PropertyChanged}">
-            <Expander IsExpanded="True" Background="{DynamicResource GrayBrush5}" BorderThickness="0" Padding="0 5 0 5">
+        <Border x:Name="SimpleEventsBorder" Grid.Column="0" Grid.Row="0" Style="{StaticResource EventsBorderStyle}"
+                BorderThickness="0">
+            <Expander IsExpanded="True" Style="{DynamicResource MCEntitiesExpanderStyle}" Padding="0 5 0 5">
                 <Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -110,51 +100,12 @@
                                    VerticalAlignment="Center" Margin="10" Foreground="{DynamicResource IdealForegroundColorBrush}"  FontSize="{DynamicResource DefaultFontSize}"/>
 
                         <ContentControl Template="{StaticResource EventButtonsPanel}" Margin="0" Grid.Column="1"/>
-                        <!--<StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Button Command="{Binding AddCommand}" 
-                                        ToolTip="{moneyChestView:MultiLangBinding General_Add}"
-                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
-
-                                <iconpacks:PackIconMaterial Kind="Plus"/>
-                            </Button>
-
-                            <Button Command="{Binding EditCommand}" 
-                                        ToolTip="{moneyChestView:MultiLangBinding General_Edit}"
-                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
-
-                                <iconpacks:PackIconModern Kind="Edit"/>
-                            </Button>
-
-                            <Button Command="{Binding DeleteCommand}"
-                                        ToolTip="{moneyChestView:MultiLangBinding General_Delete}"
-                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
-
-                                <iconpacks:PackIconModern Kind="Delete"/>
-                            </Button>
-                        </StackPanel>-->
                     </Grid>
                 </Expander.Header>
                 <Expander.Content>
                     <!-- Simple events grid -->
                     <DataGrid x:Name="GridSimpleEvents" Margin="5" AutoGenerateColumns="False" HeadersVisibility="Column"
-                              SelectionUnit="FullRow" IsReadOnly="True" ContextMenu="{StaticResource EventContextMenu}">   
-                        <!--<DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
-                                <Separator/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_Run}" Command="{Binding RunCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_Pause}" Command="{Binding PauseCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_Close}" Command="{Binding CloseCommand}"/>
-                                <Separator/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>-->
+                              SelectionUnit="FullRow" IsReadOnly="True" ContextMenu="{StaticResource EventContextMenu}"> 
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Binding="{Binding EventStateDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding EventState_EnumName}" />
@@ -169,31 +120,25 @@
 
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
-                            <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
+                            <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource EventsRowStyle}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Closed}">
-                                        <Setter Property="Opacity" Value="0.5" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Paused}">
-                                        <Setter Property="Opacity" Value="0.5" />
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding RecordType}" Value="{x:Static enums:RecordType.Income}">
-                                        <Setter Property="Foreground" Value="Green" />
+                                        <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding RecordType}" Value="{x:Static enums:RecordType.Expense}">
-                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>
                         <DataGrid.CellStyle>
-                            <Style BasedOn="{StaticResource MetroDataGridCell}" TargetType="{x:Type DataGridCell}">
+                            <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MCDataGridCellStyle}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding RecordType}" Value="{x:Static enums:RecordType.Income}">
-                                        <Setter Property="Foreground" Value="Green" />
+                                        <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding RecordType}" Value="{x:Static enums:RecordType.Expense}">
-                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -204,12 +149,8 @@
         </Border>
 
         <!-- Money transfer events -->
-        <Border x:Name="MoneyTransferEventsBorder" Grid.Column="0" Grid.Row="1" BorderThickness="0 1 0 0" 
-                BorderBrush="{DynamicResource BlackColorBrush}" 
-                MaxHeight="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
-                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.7,
-                UpdateSourceTrigger=PropertyChanged}">
-            <Expander IsExpanded="True" Background="{DynamicResource GrayBrush5}" BorderThickness="0" Padding="0 5 0 5">
+        <Border x:Name="MoneyTransferEventsBorder" Grid.Column="0" Grid.Row="1" Style="{StaticResource EventsBorderStyle}">
+            <Expander IsExpanded="True" Style="{DynamicResource MCEntitiesExpanderStyle}" Padding="0 5 0 5">
                 <Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -221,52 +162,11 @@
                                    VerticalAlignment="Center" Margin="10" Foreground="{DynamicResource IdealForegroundColorBrush}"  FontSize="{DynamicResource DefaultFontSize}"/>
 
                         <ContentControl Template="{StaticResource EventButtonsPanel}" Margin="0" Grid.Column="1"/>
-                        
-                        <!--<StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Button Command="{Binding AddCommand}" 
-                                        ToolTip="{moneyChestView:MultiLangBinding General_Add}"
-                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
-
-                                <iconpacks:PackIconMaterial Kind="Plus"/>
-                            </Button>
-
-                            <Button Command="{Binding EditCommand}" 
-                                        ToolTip="{moneyChestView:MultiLangBinding General_Edit}"
-                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
-
-                                <iconpacks:PackIconModern Kind="Edit"/>
-                            </Button>
-
-                            <Button Command="{Binding DeleteCommand}"
-                                        ToolTip="{moneyChestView:MultiLangBinding General_Delete}"
-                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
-
-                                <iconpacks:PackIconModern Kind="Delete"/>
-                            </Button>
-                        </StackPanel>-->
                     </Grid>
                 </Expander.Header>
                 <Expander.Content>
                     <!-- Money Transfer Events grid -->
-                    <DataGrid x:Name="GridMoneyTransferEvents" Margin="5" AutoGenerateColumns="False" HeadersVisibility="Column"
-                              SelectionUnit="FullRow" IsReadOnly="True" ContextMenu="{StaticResource EventContextMenu}">
-                        <!--<DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
-                                <Separator/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_Run}" Command="{Binding RunCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_Pause}" Command="{Binding PauseCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_Close}" Command="{Binding CloseCommand}"/>
-                                <Separator/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>-->
+                    <DataGrid x:Name="GridMoneyTransferEvents" ContextMenu="{StaticResource EventContextMenu}">
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Binding="{Binding EventStateDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding EventState_EnumName}" />
@@ -286,19 +186,13 @@
 
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
-                            <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
+                            <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource EventsRowStyle}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Closed}">
-                                        <Setter Property="Opacity" Value="0.5" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Paused}">
-                                        <Setter Property="Opacity" Value="0.5" />
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding IsIncome}" Value="True">
-                                        <Setter Property="Foreground" Value="Green" />
+                                        <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsExpense}" Value="True">
-                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -309,12 +203,8 @@
         </Border>
 
         <!-- Repay Debt Events -->
-        <Border x:Name="RepayDebtEventsBorder" Grid.Column="0" Grid.Row="2" BorderThickness="0 1 0 0" 
-                BorderBrush="{DynamicResource BlackColorBrush}" 
-                MaxHeight="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
-                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.7,
-                UpdateSourceTrigger=PropertyChanged}">
-            <Expander IsExpanded="True" Background="{DynamicResource GrayBrush5}" BorderThickness="0" Padding="0 5 0 5">
+        <Border x:Name="RepayDebtEventsBorder" Grid.Column="0" Grid.Row="2" Style="{StaticResource EventsBorderStyle}">
+            <Expander IsExpanded="True" Style="{DynamicResource MCEntitiesExpanderStyle}" Padding="0 5 0 5">
                 <Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -326,52 +216,11 @@
                                    VerticalAlignment="Center" Margin="10" Foreground="{DynamicResource IdealForegroundColorBrush}"  FontSize="{DynamicResource DefaultFontSize}"/>
 
                         <ContentControl Template="{StaticResource EventButtonsPanel}" Margin="0" Grid.Column="1"/>
-                        
-                        <!--<StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Button Command="{Binding AddCommand}" 
-                                        ToolTip="{moneyChestView:MultiLangBinding General_Add}"
-                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
-
-                                <iconpacks:PackIconMaterial Kind="Plus"/>
-                            </Button>
-
-                            <Button Command="{Binding EditCommand}" 
-                                        ToolTip="{moneyChestView:MultiLangBinding General_Edit}"
-                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
-
-                                <iconpacks:PackIconModern Kind="Edit"/>
-                            </Button>
-
-                            <Button Command="{Binding DeleteCommand}"
-                                        ToolTip="{moneyChestView:MultiLangBinding General_Delete}"
-                                        Style="{DynamicResource CircleButtonStyle}" HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource IdealForegroundColorBrush}">
-
-                                <iconpacks:PackIconModern Kind="Delete"/>
-                            </Button>
-                        </StackPanel>-->
                     </Grid>
                 </Expander.Header>
                 <Expander.Content>
                     <!-- Repay Debt Events grid -->
-                    <DataGrid x:Name="GridRepayDebtEvents" Margin="5" AutoGenerateColumns="False" HeadersVisibility="Column"
-                              SelectionUnit="FullRow" IsReadOnly="True" ContextMenu="{StaticResource EventContextMenu}">
-                        <!--<DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
-                                <Separator/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_Run}" Command="{Binding RunCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_Pause}" Command="{Binding PauseCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_Close}" Command="{Binding CloseCommand}"/>
-                                <Separator/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowCommand}"/>
-                                <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>-->
+                    <DataGrid x:Name="GridRepayDebtEvents" ContextMenu="{StaticResource EventContextMenu}">
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Binding="{Binding EventStateDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding EventState_EnumName}" />
@@ -388,31 +237,25 @@
 
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
-                            <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
+                            <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource EventsRowStyle}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Closed}">
-                                        <Setter Property="Opacity" Value="0.5" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding EventState}" Value="{x:Static enums:EventState.Paused}">
-                                        <Setter Property="Opacity" Value="0.5" />
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding Debt.DebtType}" Value="{x:Static enums:DebtType.GiveBorrow}">
-                                        <Setter Property="Foreground" Value="Green" />
+                                        <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Debt.DebtType}" Value="{x:Static enums:DebtType.TakeBorrow}">
-                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>
                         <DataGrid.CellStyle>
-                            <Style BasedOn="{StaticResource MetroDataGridCell}" TargetType="{x:Type DataGridCell}">
+                            <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MCDataGridCellStyle}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Debt.DebtType}" Value="{x:Static enums:DebtType.GiveBorrow}">
-                                        <Setter Property="Foreground" Value="Green" />
+                                        <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Debt.DebtType}" Value="{x:Static enums:DebtType.TakeBorrow}">
-                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -423,11 +266,10 @@
         </Border>
 
         <!-- Limits expander -->
-        <Expander x:Name="ExpanderLimits" Grid.Column="1" Grid.RowSpan="4" ExpandDirection="Right" 
-                  Background="{DynamicResource GrayBrush5}"
-                  BorderThickness="0" IsExpanded="False" Padding="0" Expanded="ExpanderLimits_Expanded">
+        <Expander x:Name="ExpanderLimits" Grid.Column="1" Grid.RowSpan="4" Expanded="ExpanderLimits_Expanded"
+                  Header="{moneyChestView:MultiLangBinding Limit_Plural}">
             <Expander.Style>
-                <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}">
+                <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MCRightEntitiesExpanderStyle}">
                     <Style.Triggers>
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter Property="Width" Value="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
@@ -437,14 +279,6 @@
                     </Style.Triggers>
                 </Style>
             </Expander.Style>
-            <Expander.Header>
-                <TextBlock RenderTransformOrigin=".5 .5" Text="{moneyChestView:MultiLangBinding Limit_Plural}"
-                         Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="10" FontSize="{DynamicResource DefaultFontSize}">
-                    <TextBlock.LayoutTransform>
-                        <RotateTransform Angle="90" />
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
-            </Expander.Header>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -452,31 +286,24 @@
                 </Grid.RowDefinitions>
 
                 <!-- Menu -->
-                <ToolBarTray ClipToBounds="True" VerticalAlignment="Top" Background="{DynamicResource MaterialDesignToolBarBackground}">
-                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                        <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}" Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                <ToolBarTray>
+                    <ToolBar>
+                        <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}">
                             <iconpacks:PackIconMaterial Kind="Plus"/>
                         </Button>
 
-                        <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                        <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}">
                             <iconpacks:PackIconModern Kind="Edit"/>
                         </Button>
 
-                        <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}" 
-                        Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                        <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
                             <iconpacks:PackIconModern Kind="Delete"/>
                         </Button>
                     </ToolBar>
                 </ToolBarTray>
 
                 <!-- Limits grid -->
-                <DataGrid x:Name="GridLimits" Grid.Row="1"
-                  Margin="5"
-                  AutoGenerateColumns="False"
-                  HeadersVisibility="Column"
-                  SelectionUnit="FullRow"
-                  IsReadOnly="True">
+                <DataGrid x:Name="GridLimits" Grid.Row="1">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" 
@@ -508,14 +335,14 @@
                                             Header="{moneyChestView:MultiLangBinding General_Remark}" />
                     </DataGrid.Columns>
                     <DataGrid.RowStyle>
-                        <Style BasedOn="{StaticResource MCDataGridRowStyle}" TargetType="{x:Type DataGridRow}">
+                        <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MCDataGridRowStyle}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding State, Converter={StaticResource EBConverter}, 
                                     ConverterParameter={x:Static enums:LimitState.Active}}" Value="False">
                                     <Setter Property="Opacity" Value="0.5" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsExceeded}" Value="true">
-                                    <Setter Property="Foreground" Value="Red" />
+                                    <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

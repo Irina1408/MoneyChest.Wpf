@@ -44,7 +44,7 @@ namespace MoneyChest.View.Details
             
             // initialize datacontexts
             comboStorageGroups.ItemsSource = storageGroups;
-            comboCurrencies.ItemsSource = currencies;
+            CurrencySelector.Currencies = currencies;
 
             // set header and commands panel context
             LabelHeader.Content = ViewHeader;

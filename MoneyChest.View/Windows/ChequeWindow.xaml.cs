@@ -56,7 +56,6 @@ namespace MoneyChest.View.Windows
             // load currencies
             ICurrencyService currencyService = ServiceManager.ConfigureService<CurrencyService>();
             _currencies = currencyService.GetActive(GlobalVariables.UserId);
-            comboCurrencies.ItemsSource = _currencies;
 
             InitializeViewModel();
         }
@@ -160,12 +159,6 @@ namespace MoneyChest.View.Windows
         {
             // update storage reference
             _viewModel.Storage = _storages.FirstOrDefault(x => x.Id == _viewModel.StorageId)?.ToReferenceView();
-        }
-
-        private void comboCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // update currency reference
-            _viewModel.Currency = _currencies.FirstOrDefault(x => x.Id == _viewModel.CurrencyId)?.ToReferenceView();
         }
 
         private void ChequeWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

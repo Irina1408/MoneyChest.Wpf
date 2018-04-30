@@ -21,7 +21,6 @@
 
     <GroupBox DataContext="{Binding DataFilter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DataFilterControl}}}" Margin="0" Visibility="{Binding IsFilterVisible, Converter={StaticResource BVConverter}}"
               MaxWidth="255">
-        <!--Visibility="{Binding IsFilterApplied, Converter={StaticResource BVConverter}}"-->
         <GroupBox.Header>
             <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
                 <ToggleButton IsChecked="{Binding IsFilterApplied, UpdateSourceTrigger=PropertyChanged}" 
@@ -32,7 +31,7 @@
                 </ToggleButton>
 
                 <TextBlock Text="{moneyChestView:MultiLangBinding General_Filter}" VerticalAlignment="Center"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
+                           Style="{DynamicResource MCGroupBoxHeaderTextBlockStyle}"/>
             </StackPanel>
         </GroupBox.Header>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden" IsEnabled="{Binding IsFilterApplied}">
@@ -71,8 +70,7 @@
                 </GroupBox>
 
                 <!-- Storages expander -->
-                <Expander Name="StoragesExpander" Grid.Row="3" ExpandDirection="Down" Margin="0 5 5 5" Focusable="False"
-                              Background="{DynamicResource AccentColorBrush}" BorderThickness="1" Padding="0" Width="230" HorizontalAlignment="Left">
+                <Expander Name="StoragesExpander" Grid.Row="3" Style="{DynamicResource MCSettingsExpanderStyle}">
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <!--<iconPacks:PackIconMaterial Kind="Bank" Style="{DynamicResource TextBoxIconStyle}"/>-->
@@ -85,44 +83,14 @@
                         </StackPanel>
                     </Expander.Header>
                     <Grid>
-                        <TreeView x:Name="StoragesTree" PreviewMouseWheel="HandlePreviewMouseWheel">
-                            <TreeView.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Storages}">
-                                    <TextBlock Text="{Binding StorageGroup.Name}"/>
-
-                                    <HierarchicalDataTemplate.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox Name="chk" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                                                      Background="Transparent" HorizontalContentAlignment="Stretch"
-                                                      IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                <Grid Name="panel" Margin="0" HorizontalAlignment="Stretch">
-                                                    <TextBlock Text="{Binding Value.Name}" Margin="3 7 3 7"/>
-                                                </Grid>
-                                            </CheckBox>
-                                            <DataTemplate.Triggers>
-                                                <!--Opacity trigger-->
-                                                <DataTrigger Binding="{Binding Value.IsVisible}" Value="False">
-                                                    <Setter Property="Opacity" TargetName="chk" Value="0.5" />
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </HierarchicalDataTemplate.ItemTemplate>
-                                </HierarchicalDataTemplate>
-                            </TreeView.ItemTemplate>
-                            
-                            <TreeView.ItemContainerStyle>
-                                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
-                                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                                    <Setter Property="Focusable" Value="False" />
-                                </Style>
-                            </TreeView.ItemContainerStyle>
-                        </TreeView>
+                        <TreeView x:Name="StoragesTree" PreviewMouseWheel="HandlePreviewMouseWheel"
+                                  ItemTemplate="{DynamicResource CheckableStorageTreeViewItemTemplate}"
+                                  ItemContainerStyle="{DynamicResource StorageTreeViewCheckableItemContainerStyle}"/>
                     </Grid>
                 </Expander>
 
                 <!-- Categories expander -->
-                <Expander Name="CategoriesExpander" Grid.Row="4" ExpandDirection="Down" Margin="0 5 5 5" Focusable="False"
-                              Background="{DynamicResource AccentColorBrush}" BorderThickness="1" Padding="0" Width="230" HorizontalAlignment="Left">
+                <Expander Name="CategoriesExpander" Grid.Row="4" Style="{DynamicResource MCSettingsExpanderStyle}">
                     <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -156,10 +124,6 @@
                                   ItemsSource="{Binding Categories}" PreviewMouseWheel="HandlePreviewMouseWheel">
                             <TreeView.ContextMenu>
                                 <ContextMenu>
-                                    <!--<MenuItem Header="{moneyChestView:MultiLangBinding Category_SelectBranch}" Command="{Binding SelectBranchCommand}"/>
-                                    <MenuItem Header="{moneyChestView:MultiLangBinding Category_UnselectBranch}" Command="{Binding UnselectBranchCommand}"/>
-
-                                    <Separator/>-->
                                     <MenuItem Header="{moneyChestView:MultiLangBinding Category_SelectAll}" Command="{Binding SelectAllCommand}"/>
                                     <MenuItem Header="{moneyChestView:MultiLangBinding Category_UnselectAll}" Command="{Binding UnselectAllCommand}"/>
 

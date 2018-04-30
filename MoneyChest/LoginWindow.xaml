@@ -12,7 +12,7 @@
     xmlns:moneyChestView="clr-namespace:MoneyChest.View;assembly=MoneyChest.View"
     mc:Ignorable="d"
     Height="350" Width="550" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-    Style="{StaticResource MoneyChestWindowStyle}"
+    Style="{StaticResource MCWindowStyle}"
     Loaded="LoginWindow_Loaded">
 
     <Grid Margin="10">

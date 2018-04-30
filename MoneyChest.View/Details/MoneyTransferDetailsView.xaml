@@ -29,8 +29,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="LabelHeader" Grid.Row="0" Grid.ColumnSpan="2"
-               FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
+        <Label x:Name="LabelHeader" Grid.Row="0" Grid.ColumnSpan="2" Style="{DynamicResource MCDetailsHeaderLabelStyle}"/>
 
         <!-- Right part (Date, Description, Category, Remark) -->
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="20 10 5 0">

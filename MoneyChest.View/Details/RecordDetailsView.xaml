@@ -35,7 +35,7 @@
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Label x:Name="LabelHeader" FontSize="{DynamicResource LargeFontSize}"/>
+            <Label x:Name="LabelHeader" Style="{DynamicResource MCDetailsHeaderLabelStyle}"/>
             <RadioButton Content="{moneyChestView:MultiLangBinding RecordType_Expense}" GroupName="1"
                          IsChecked="{Binding RecordType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:RecordType.Expense}}" IsEnabled="{Binding IsTypeSelectionAllowed}"/>
             <RadioButton Content="{moneyChestView:MultiLangBinding RecordType_Income}" GroupName="1"
@@ -52,23 +52,24 @@
             <StackPanel Grid.Row="0">
                 <!-- Date -->
                 <DatePicker SelectedDate="{Binding Date}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
-                
+
                 <!-- Value -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                    <iconPacks:PackIconModern Kind="Money" Style="{DynamicResource TextBoxIconStyle}"/>
-                    <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Amount}"
-                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.##}}"/>
-                </StackPanel>
+                <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
 
                 <!-- Currency -->
-                <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
+                <components:CurrencySelector x:Name="CurrencySelector" 
+                                             CurrencyId="{Binding CurrencyId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             CurrencyReference="{Binding Currency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             HorizontalAlignment="Stretch"/>
+                
+                <!--<StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
                     <iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
                     <ComboBox x:Name="comboCurrencies" 
                           materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
                           DisplayMemberPath="Name" SelectedValuePath="Id"
                           SelectedValue="{Binding CurrencyId}"
                           SelectionChanged="comboCurrencies_SelectionChanged"/>
-                </StackPanel>
+                </StackPanel>-->
 
                 <!-- Debt -->
                 <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">

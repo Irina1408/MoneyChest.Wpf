@@ -19,12 +19,8 @@
     </UserControl.Resources>
 
     <!-- Required for binding: CommissionType, TakeCommissionFromReceiver (if ShowTakeCommissionFromReceiver), Commission -->
-    
-    <GroupBox Margin="0">
-        <GroupBox.Header>
-            <TextBlock Text="{moneyChestView:MultiLangBinding General_Commission}"
-                              Foreground="{DynamicResource IdealForegroundColorBrush}" Margin="5 0 0 0"/>
-        </GroupBox.Header>
+
+    <GroupBox Margin="0" Header="{moneyChestView:MultiLangBinding General_Commission}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -39,12 +35,13 @@
                         <iconPacks:PackIconFontAwesome Kind="Percent" />
                     </RadioButton.Content>
                 </RadioButton>
+                
                 <RadioButton IsChecked="{Binding CommissionType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:CommissionType.Currency}}">
                     <RadioButton.Content>
                         <StackPanel Orientation="Horizontal">
                             <iconPacks:PackIconFontAwesome Kind="Money" />
-                            <TextBlock FontSize="{DynamicResource DefaultFontSize}"
-                                               Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center">
+                            <TextBlock FontSize="{DynamicResource DefaultFontSize}" Foreground="{DynamicResource BlackBrush}"
+                                       VerticalAlignment="Center">
                                         <Run Text=" ("/>
                                         <Run Text="{Binding CurrencySymbol, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CommissionControl}}}"/>
                                         <Run Text=")"/>

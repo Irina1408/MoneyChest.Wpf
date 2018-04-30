@@ -102,7 +102,7 @@ namespace MoneyChest.Services.Services
             }
             
             // update related storage
-            if(model.StorageId.HasValue)
+            if(model.StorageId.HasValue && model.StorageId > 0)
                 AddValueToStorage(model.StorageId.Value, (model.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * (model.Value - model.InitialFee));
                 
             // save changes
