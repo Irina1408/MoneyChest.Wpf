@@ -40,7 +40,7 @@
             </Grid.ColumnDefinitions>
 
             <ToolBar HorizontalAlignment="Left" Grid.Column="0">
-                <Button ToolTip="{moneyChestView:MultiLangBinding General_Add}" Style="{DynamicResource ToolBarButtonBaseStyle}">
+                <!--<Button ToolTip="{moneyChestView:MultiLangBinding General_Add}" Style="{DynamicResource ToolBarButtonBaseStyle}">
                     <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False"
                                              HorizontalAlignment="Left" VerticalAlignment="Center" 
                                              Foreground="{DynamicResource IdealForegroundColorBrush}"
@@ -63,8 +63,22 @@
                                 Content="{moneyChestView:MultiLangBinding MoneyTransfer_Singular}"/>
                         </StackPanel>
                     </materialDesign:PopupBox>
+                </Button>-->
+
+                <Button Command="{Binding AddRecordCommand}" ToolTip="{moneyChestView:MultiLangBinding Record_Add}">
+                    <Grid>
+                        <iconPacks:PackIconMaterial Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <iconPacks:PackIconModern Kind="MathPlusMinus" Style="{DynamicResource MiniRightBottomIconStyle}"/>
+                    </Grid>
                 </Button>
 
+                <Button Command="{Binding AddMoneyTransferCommand}" ToolTip="{moneyChestView:MultiLangBinding MoneyTransfer_Add}">
+                    <Grid>
+                        <iconPacks:PackIconMaterial Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <iconPacks:PackIconModern Kind="ArrowRightLeft"  Style="{DynamicResource MiniRightBottomIconStyle}"/>
+                    </Grid>
+                </Button>
+                
                 <Button Command="{Binding AddChequeCommand}" ToolTip="{moneyChestView:MultiLangBinding Transactions_AddCheque}">
                     <iconPacks:PackIconModern Kind="AddMultiple" />
                 </Button>
@@ -96,13 +110,9 @@
                   RowStyle="{DynamicResource TransactionRowStyle}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}">
-                        <MenuItem Header="{moneyChestView:MultiLangBinding Record_Singular}" Command="{Binding AddRecordCommand}"
-                                  ToolTip="{moneyChestView:MultiLangBinding Record_Add}"/>
-                        <MenuItem Header="{moneyChestView:MultiLangBinding MoneyTransfer_Singular}" 
-                                  Command="{Binding AddMoneyTransferCommand}" 
-                                  ToolTip="{moneyChestView:MultiLangBinding MoneyTransfer_Add}"/>
-                    </MenuItem>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Record_Add}" Command="{Binding AddRecordCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding MoneyTransfer_Add}" Command="{Binding AddMoneyTransferCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Transactions_AddCheque}" Command="{Binding AddChequeCommand}"/>
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
                     <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
                     <Separator/>
@@ -114,24 +124,37 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
-                <!-- TODO: Add type icon -->
-                <!--<DataGridTemplateColumn>
+                <!-- Add type icon -->
+                <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ContentControl ToolTip="{moneyChestView:MultiLangBinding Currency_IsMain}">
-                                <iconPacks:PackIconMaterial Name="Picture" Visibility="Hidden" Kind="Star"/>
+                            <ContentControl>
+                                <StackPanel>
+                                    <iconPacks:PackIconOcticons Name="IconPlus" Kind="Plus" Visibility="Collapsed" Margin="3 7 0 7"
+                                                                Height="10" Width="10"/>
+                                    <iconPacks:PackIconModern Name="IconMinus" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
+                                                              Height="10" Width="10"/>
+                                    <iconPacks:PackIconModern Name="IconTransfer" Kind="ArrowRightLeft" Visibility="Collapsed" Margin="3 7 0 7"
+                                                              Height="10" Width="10"/>
+                                </StackPanel>
                             </ContentControl>
                             <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsMain}" Value="True">
-                                    <Setter TargetName="Picture" Property="Visibility" Value="Visible" />
+                                <DataTrigger Binding="{Binding TransactionType, Converter={StaticResource EBConverter}, 
+                                    ConverterParameter={x:Static enums:TransactionType.Income}}" Value="True">
+                                    <Setter TargetName="IconPlus" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TransactionType, Converter={StaticResource EBConverter}, 
+                                    ConverterParameter={x:Static enums:TransactionType.Expense}}" Value="True">
+                                    <Setter TargetName="IconMinus" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TransactionType, Converter={StaticResource EBConverter}, 
+                                    ConverterParameter={x:Static enums:TransactionType.MoneyTransfer}}" Value="True">
+                                    <Setter TargetName="IconTransfer" Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
-
-                <!-- TODO: remove-->
-                <DataGridTextColumn Binding="{Binding TransactionType, Converter={StaticResource ESConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Header="Transaction type"/>
+                </DataGridTemplateColumn>
 
                 <DataGridTextColumn Binding="{Binding TransactionDate, UpdateSourceTrigger=PropertyChanged, StringFormat=d}" Header="{moneyChestView:MultiLangBinding General_Date}" />
 

@@ -63,6 +63,7 @@ namespace MoneyChest.View.Details
             // load currencies
             ICurrencyService currencyService = ServiceManager.ConfigureService<CurrencyService>();
             _currencies = currencyService.GetActive(GlobalVariables.UserId, entity.CurrencyId, entity.Storage?.CurrencyId, entity.Debt?.CurrencyId);
+            CurrencySelector.Currencies = _currencies;
 
             // load debts
             IDebtService debtService = ServiceManager.ConfigureService<DebtService>();

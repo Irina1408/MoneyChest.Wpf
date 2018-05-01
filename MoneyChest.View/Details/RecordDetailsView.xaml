@@ -61,15 +61,6 @@
                                              CurrencyId="{Binding CurrencyId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                              CurrencyReference="{Binding Currency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                              HorizontalAlignment="Stretch"/>
-                
-                <!--<StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
-                    <iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
-                    <ComboBox x:Name="comboCurrencies" 
-                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
-                          DisplayMemberPath="Name" SelectedValuePath="Id"
-                          SelectedValue="{Binding CurrencyId}"
-                          SelectionChanged="comboCurrencies_SelectionChanged"/>
-                </StackPanel>-->
 
                 <!-- Debt -->
                 <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">

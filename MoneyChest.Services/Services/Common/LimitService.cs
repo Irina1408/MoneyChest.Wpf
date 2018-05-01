@@ -17,6 +17,7 @@ namespace MoneyChest.Services.Services
 {
     public interface ILimitService : IIdManagableUserableListServiceBase<LimitModel>
     {
+        void RemoveClosed(int userId);
     }
 
     public class LimitService : HistoricizedIdManageableUserableListServiceBase<Limit, LimitModel, LimitConverter>, ILimitService
@@ -24,6 +25,19 @@ namespace MoneyChest.Services.Services
         public LimitService(ApplicationDbContext context) : base(context)
         {
         }
+
+        #region ILimitService implementation
+
+        public void RemoveClosed(int userId)
+        {
+            var limitsToRemove = Entities.Where(x => x.UserId == userId && x.DateUntil < DateTime.Today).ToList();
+            limitsToRemove.ForEach(entity => Delete(entity));
+            SaveChanges();
+        }
+
+        #endregion
+
+        #region Overrides 
 
         public override LimitModel Add(LimitModel model)
         {
@@ -63,5 +77,7 @@ namespace MoneyChest.Services.Services
         }
 
         protected override IQueryable<Limit> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category);
+
+        #endregion
     }
 }

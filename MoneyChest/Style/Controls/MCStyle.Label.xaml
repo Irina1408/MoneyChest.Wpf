@@ -19,16 +19,14 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
         <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsPlanned}" Value="True">
-                <Setter Property="Opacity" Value="0.5" />
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
 
     <Style x:Key="MCMarkTypeCalendarTransactionLabelStyle" TargetType="{x:Type Label}" 
            BasedOn="{StaticResource MCCalendarTransactionLabelStyle}">
         <Style.Triggers>
+            <DataTrigger Binding="{Binding IsPlanned}" Value="True">
+                <Setter Property="Opacity" Value="0.5" />
+            </DataTrigger>
             <DataTrigger Binding="{Binding IsIncome}" Value="True">
                 <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
             </DataTrigger>

@@ -153,7 +153,7 @@ namespace MoneyChest.View.Pages
                     CloseCommand = ChangeStateCommand(_repayDebtEventService, EventState.Closed, GridRepayDebtEvents)
                 },
 
-                LimitsViewModel = new EntityListViewModel<LimitModel>()
+                LimitsViewModel = new LimitListViewModel<LimitModel>()
                 {
                     AddCommand = new Command(
                         () => OpenDetails(_limitService.PrepareNew(new LimitModel { UserId = GlobalVariables.UserId }), true)),
@@ -162,11 +162,21 @@ namespace MoneyChest.View.Pages
                     (item) => OpenDetails(item), null, true),
 
                     DeleteCommand = new DataGridSelectedItemsCommand<LimitModel>(GridLimits,
-                    (items) => Delete<LimitModel, LimitModel>(_limitService, items, _viewModel.LimitsViewModel))
+                    (items) => Delete<LimitModel, LimitModel>(_limitService, items, _viewModel.LimitsViewModel)),
+
+                    RemoveClosedCommand = new Command(
+                        () =>
+                        {
+                            _limitService.RemoveClosed(GlobalVariables.UserId);
+                            // remove in grid
+                            foreach (var item in _viewModel.LimitsViewModel.Entities.Where(x => x.State == LimitState.Closed).ToList())
+                                _viewModel.LimitsViewModel.Entities.Remove(item);
+
+                            NotifyDataChanged();
+                        })
                 }
             };
-
-            //LimitStateColumn.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(LimitState));
+            
             SimpleEventsBorder.DataContext = _viewModel.SimpleEventsViewModel;
             MoneyTransferEventsBorder.DataContext = _viewModel.MoneyTransferEventsViewModel;
             RepayDebtEventsBorder.DataContext = _viewModel.RepayDebtEventsViewModel;

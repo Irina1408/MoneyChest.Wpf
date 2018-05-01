@@ -18,12 +18,10 @@ using MoneyChest.Data.Extensions;
 
 namespace MoneyChest.Services.Services
 {
-    // TODO: cleanup
     public interface IRecordService : IIdManagableUserableListServiceBase<RecordModel>
     {
         List<RecordModel> Get(int userId, PeriodFilterType period, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
         List<RecordModel> Get(int userId, DateTime from, DateTime until, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
-        List<RecordModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds);
 
         List<RecordModel> Get(int userId, DateTime from, DateTime until);
 
@@ -76,12 +74,6 @@ namespace MoneyChest.Services.Services
                     && item.Date >= from && item.Date <= until
                     && (includeWithoutCategory && item.CategoryId == null
                     || (item.CategoryId != null && categoryIds.Contains((int)item.CategoryId)))).ToList().ConvertAll(_converter.ToModel);
-        }
-
-        public List<RecordModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds)
-        {
-            return Scope.Where(item => item.UserId == userId && item.Date >= from && item.Date <= until
-                && (storageGroupIds.Contains(item.StorageId))).ToList().ConvertAll(_converter.ToModel);
         }
 
         public List<RecordModel> Get(int userId, DateTime from, DateTime until)

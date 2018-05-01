@@ -67,9 +67,6 @@
         <Style x:Key="EventsBorderStyle" TargetType="{x:Type Border}">
             <Setter Property="BorderThickness" Value="0 1 0 0"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <!--<Setter Property="MaxWidth" Value="{Binding ActualWidth, Converter={StaticResource PctConverter}, 
-                RelativeSource={RelativeSource AncestorType={x:Type Grid}}, ConverterParameter=0.7,
-                UpdateSourceTrigger=PropertyChanged}"/>-->
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -299,6 +296,11 @@
                         <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
                             <iconpacks:PackIconModern Kind="Delete"/>
                         </Button>
+
+                        <Separator/>
+                        <Button Command="{Binding RemoveClosedCommand}" ToolTip="{moneyChestView:MultiLangBinding Limit_RemoveClosed}">
+                            <iconpacks:PackIconModern Kind="Clean" />
+                        </Button>
                     </ToolBar>
                 </ToolBarTray>
 
@@ -306,12 +308,11 @@
                 <DataGrid x:Name="GridLimits" Grid.Row="1">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" 
-                                      Command="{Binding AddCommand}"/>
-                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" 
-                                      Command="{Binding EditCommand}"/>
-                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" 
-                                      Command="{Binding DeleteCommand}"/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
+                            <Separator/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding Limit_RemoveClosed}" Command="{Binding RemoveClosedCommand}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>

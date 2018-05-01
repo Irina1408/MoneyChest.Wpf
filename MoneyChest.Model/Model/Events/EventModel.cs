@@ -64,7 +64,7 @@ namespace MoneyChest.Model.Model
 
         public virtual CommissionType CommissionType { get; set; }
 
-        public EventState EventState { get; set; }
+        public virtual EventState EventState { get; set; }
 
         public EventType EventType { get; set; }    // TODO: remove?
         

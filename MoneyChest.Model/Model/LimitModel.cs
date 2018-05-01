@@ -41,7 +41,7 @@ namespace MoneyChest.Model.Model
 
 
         public LimitState State => 
-            DateUntil > DateTime.Today ? LimitState.Closed : (DateFrom > DateTime.Today ? LimitState.Planned : LimitState.Active);
+            DateUntil < DateTime.Today ? LimitState.Closed : (DateFrom > DateTime.Today ? LimitState.Planned : LimitState.Active);
         public bool IsExceeded => RemainingValue < 0;
         public decimal RemainingValue => Value - SpentValue;
         public decimal RemainingPercent => Value > 0 ? (RemainingValue / Value * 100) : 0;

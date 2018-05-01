@@ -865,4 +865,7 @@
   <data name="Calendar_IsAnyAccountNegative" xml:space="preserve">
     <value>Some accounts have a negative amount!</value>
   </data>
+  <data name="Limit_RemoveClosed" xml:space="preserve">
+    <value>Remove closed</value>
+  </data>
 </root>

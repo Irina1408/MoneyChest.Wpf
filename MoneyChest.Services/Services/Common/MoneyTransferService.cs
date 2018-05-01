@@ -15,12 +15,8 @@ using MoneyChest.Data.Enums;
 
 namespace MoneyChest.Services.Services
 {
-    // TODO: cleanup
     public interface IMoneyTransferService : IIdManagableServiceBase<MoneyTransferModel>, IUserableListService<MoneyTransferModel>
     {
-        List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds);
-        List<MoneyTransferModel> GetAfterDate(int userId, DateTime date, List<int> storageGroupIds);
-
         List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until);
 
         MoneyTransferModel Create(MoneyTransferEventModel model);
@@ -33,22 +29,6 @@ namespace MoneyChest.Services.Services
         }
 
         #region IMoneyTransferService implementation
-
-        public List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, List<int> storageGroupIds)
-        {
-            return Scope.Where(item => item.StorageFrom.UserId == userId && item.Date >= from && item.Date <= until
-                    //&& (item.StorageFrom.StorageGroupId != item.StorageTo.StorageGroupId || item.StorageFrom.CurrencyId != item.StorageTo.CurrencyId)
-                    && (storageGroupIds.Contains(item.StorageFromId) || storageGroupIds.Contains(item.StorageToId)))
-                    .ToList().ConvertAll(_converter.ToModel);
-        }
-
-        public List<MoneyTransferModel> GetAfterDate(int userId, DateTime date, List<int> storageGroupIds)
-        {
-            return Scope.Where(item => item.StorageFrom.UserId == userId && item.Date >= date
-                    //&& (item.StorageFrom.StorageGroupId != item.StorageTo.StorageGroupId || item.StorageFrom.CurrencyId != item.StorageTo.CurrencyId)
-                    && (storageGroupIds.Contains(item.StorageFromId) || storageGroupIds.Contains(item.StorageToId)))
-                    .ToList().ConvertAll(_converter.ToModel);
-        }
 
         public List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until)
         {

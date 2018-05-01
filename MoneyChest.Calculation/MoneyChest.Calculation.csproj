@@ -44,7 +44,7 @@
     <Compile Include="Builders1\Base\IDataBuilder.cs" />
     <Compile Include="Builders1\Reports\ReportBuilder.cs" />
     <Compile Include="Builders1\Reports\ReportUnit.cs" />
-    <Compile Include="Builders\Calendar\CalendarDataBuilder.cs" />
+    <Compile Include="Builders\CalendarDataBuilder.cs" />
     <Compile Include="SummaryCalculators\Summary\SimpleStorageSummary.cs" />
     <Compile Include="Common\CalculationHelper.cs" />
     <Compile Include="Common\Units\GroupedValueUnitCollection.cs" />

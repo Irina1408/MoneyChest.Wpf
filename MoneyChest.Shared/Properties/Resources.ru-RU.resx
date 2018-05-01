@@ -862,4 +862,7 @@
   <data name="Calendar_IsAnyAccountNegative" xml:space="preserve">
     <value>Некоторые счета имеют отрицательную сумму!</value>
   </data>
+  <data name="Limit_RemoveClosed" xml:space="preserve">
+    <value>Удалить закрытые</value>
+  </data>
 </root>

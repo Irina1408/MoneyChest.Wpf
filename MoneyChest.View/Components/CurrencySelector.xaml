@@ -14,8 +14,8 @@
         <iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>
         <ComboBox x:Name="comboCurrencies" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Currency_Singular}"
                   DisplayMemberPath="Name" SelectedValuePath="Id"
-                  SelectedValue="{Binding CurrencyId, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CurrencySelector}}, Mode=TwoWay}"
-                  ItemsSource="{Binding Currencies, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CurrencySelector}}}"/>
+                  SelectedValue="{Binding CurrencyId, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CurrencySelector}}, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=False, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding Currencies, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CurrencySelector}}, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=False, UpdateSourceTrigger=PropertyChanged}"/>
     </StackPanel>
 
 </UserControl>

@@ -25,6 +25,7 @@ namespace MoneyChest.ViewModel.ViewModel
             }
         }
 
+        public override EventState EventState { get; set; }
         public string ScheduleDetailed => Schedule?.DetailedSchedule(DateFrom, DateUntil);
         public string EventStateDetailed => EventState == EventState.Paused && PausedToDate.HasValue
             ? MultiLangResource.PausedToDate(PausedToDate.Value)
@@ -46,6 +47,7 @@ namespace MoneyChest.ViewModel.ViewModel
             }
         }
 
+        public override EventState EventState { get; set; }
         public string ScheduleDetailed => Schedule?.DetailedSchedule(DateFrom, DateUntil);
         public string EventStateDetailed => EventState == EventState.Paused && PausedToDate.HasValue
             ? MultiLangResource.PausedToDate(PausedToDate.Value)
@@ -67,6 +69,7 @@ namespace MoneyChest.ViewModel.ViewModel
             }
         }
 
+        public override EventState EventState { get; set; }
         public string ScheduleDetailed => Schedule?.DetailedSchedule(DateFrom, DateUntil);
         public string EventStateDetailed => EventState == EventState.Paused && PausedToDate.HasValue
             ? MultiLangResource.PausedToDate(PausedToDate.Value)

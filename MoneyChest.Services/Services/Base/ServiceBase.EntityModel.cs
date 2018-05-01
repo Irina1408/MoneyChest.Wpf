@@ -116,6 +116,7 @@ namespace MoneyChest.Services.Services.Base
 
         public virtual void Delete(IEnumerable<TModel> models)
         {
+            // TODO: remove all range by service.Delete(IEnumerable<T> models)
             GetDbEntities(models).ForEach(entity => Delete(entity));
             SaveChanges();
             // call OnDeleted method

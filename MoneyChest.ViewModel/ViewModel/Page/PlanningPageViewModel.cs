@@ -16,13 +16,13 @@ namespace MoneyChest.ViewModel.ViewModel
             SimpleEventsViewModel = new EventListViewModel<SimpleEventViewModel>();
             MoneyTransferEventsViewModel = new EventListViewModel<MoneyTransferEventViewModel>();
             RepayDebtEventsViewModel = new EventListViewModel<RepayDebtEventViewModel>();
-            LimitsViewModel = new EntityListViewModel<LimitModel>();
+            LimitsViewModel = new LimitListViewModel<LimitModel>();
         }
 
         public EventListViewModel<SimpleEventViewModel> SimpleEventsViewModel { get; set; }
         public EventListViewModel<MoneyTransferEventViewModel> MoneyTransferEventsViewModel { get; set; }
         public EventListViewModel<RepayDebtEventViewModel> RepayDebtEventsViewModel { get; set; }
-        public EntityListViewModel<LimitModel> LimitsViewModel { get; set; }
+        public LimitListViewModel<LimitModel> LimitsViewModel { get; set; }
     }
 
     public class EventListViewModel<T> : EntityListViewModel<T>
@@ -33,5 +33,11 @@ namespace MoneyChest.ViewModel.ViewModel
         public IMCCommand RunCommand { get; set; }
         public IMCCommand PauseCommand { get; set; }
         public IMCCommand CloseCommand { get; set; }
+    }
+
+    public class LimitListViewModel<T> : EntityListViewModel<T>
+        where T : class
+    {
+        public IMCCommand RemoveClosedCommand { get; set; }
     }
 }
