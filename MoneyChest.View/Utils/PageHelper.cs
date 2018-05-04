@@ -23,6 +23,7 @@ namespace MoneyChest.View.Utils
             else if (page is StoragesPage) return new PackIconMaterial() { Kind = PackIconMaterialKind.Bank };
             else if (page is CurrenciesPage) return new PackIconModern() { Kind = PackIconModernKind.CurrencyDollar };
             else if (page is CategoriesPage) return new PackIconEntypo() { Kind = PackIconEntypoKind.FlowTree };
+            else if (page is SettingsPage) return new PackIconMaterial() { Kind = PackIconMaterialKind.Settings };
             else return null;
         }
 

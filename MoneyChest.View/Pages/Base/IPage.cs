@@ -15,6 +15,7 @@ namespace MoneyChest.View.Pages
         int Order { get; }
         bool ShowTopBorder { get; }
         FrameworkElement View { get; }
+        bool IsOptionsPage { get; }
     }
 
     public interface IPageDataManagement

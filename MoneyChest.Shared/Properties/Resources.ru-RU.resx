@@ -865,4 +865,19 @@
   <data name="Limit_RemoveClosed" xml:space="preserve">
     <value>Удалить закрытые</value>
   </data>
+  <data name="Settings_General" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="Settings_Theme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="Settings_Theme_AccentColor" xml:space="preserve">
+    <value>Основной цвет</value>
+  </data>
+  <data name="Settings_Theme_ThemeColor" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="Settings_View" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
 </root>

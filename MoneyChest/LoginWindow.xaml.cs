@@ -4,11 +4,13 @@ using MoneyChest.Model.Enums;
 using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
+using MoneyChest.Services.Services.Settings;
 using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
 using MoneyChest.Shared.Settings;
 using MoneyChest.Utils;
 using MoneyChest.View.Main;
+using MoneyChest.View.Utils;
 using MoneyChest.ViewModel.Commands;
 using MoneyChest.ViewModel.ViewModel;
 using System;
@@ -39,6 +41,7 @@ namespace MoneyChest
         
         private IUserService _userService;
         private LoginWindowViewModel _viewModel;
+        private IGeneralSettingService _settingsService;
 
         #endregion
 
@@ -48,7 +51,11 @@ namespace MoneyChest
         {
             InitializeComponent();
 
+            // apply theme
+            MCThemeManager.Instance.SetTheme(AppSettings.Instance.LastAccentColor, AppSettings.Instance.LastThemeColor);
+
             // init service
+            _settingsService = ServiceManager.ConfigureService<GeneralSettingService>();
             _userService = ServiceManager.ConfigureService<UserService>();
             comboLanguages.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(Language));
             InitializeViewModel();
@@ -61,8 +68,10 @@ namespace MoneyChest
             {
                 ChangeViewCommand = new Command(() =>
                 {
+                    // show login/registration form
                     _viewModel.FlipViewIndex = _viewModel.FlipViewIndex == 0 ? 1 : 0;
 
+                    // cleaup passwords
                     txtPassword1.Password = null;
                     txtPassword2.Password = null;
                     txtConfirmPassword.Password = null;
@@ -75,12 +84,18 @@ namespace MoneyChest
                     // save global variables
                     GlobalVariables.UserId = user.Id;
 
+                    // load general settings
+                    var settings = _settingsService.GetForUser(user.Id);
+                    // apply theme from settings
+                    MCThemeManager.Instance.SetTheme(settings.AccentColor, settings.ThemeColor, true);
+
                     // save settings
                     AppSettings.Instance.LastLogin = user.Name;
                     AppSettings.Instance.LastLanguage = user.Language;
                     AppSettings.Instance.Save();
 
                     // update user last usage
+                    // TODO: update last usage date on application closing
                     user.LastUsageDate = DateTime.Today;
                     _userService.Update(user);
 
@@ -119,6 +134,7 @@ namespace MoneyChest
                 _viewModel.Language = MultiLangUtils.GetLanguage(CultureInfo.CurrentUICulture.Name);
                 MultiLangResourceManager.Instance.SetLanguage(_viewModel.Language);
             }
+
             txtPassword1.Focus();
         }
         
@@ -160,8 +176,6 @@ namespace MoneyChest
 
         private UserModel Register()
         {
-            // TODO: check ConfirmPassword
-
             var user = _userService.Get(_viewModel.Name);
             if (user != null)
             {

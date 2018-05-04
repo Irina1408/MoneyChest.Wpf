@@ -58,8 +58,8 @@
                                 IsPaneOpen="{Binding IsMenuHeadersShown}"
                                 ItemTemplate="{StaticResource HamburgerMenuImageItem}"
                                 OptionsItemTemplate="{StaticResource HamburgerOptionsMenuImageItem}"
-                                Content="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay, Path=SelectedItem}"
-                                SelectedIndex="0"
+                                SelectedIndex="0" ItemClick="HamburgerMenuControl_ItemClick"
+                                OptionsItemClick="HamburgerMenuControl_ItemClick"
                                 VerticalScrollBarOnLeftSide="False">
             <!--  Header  -->
             <controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
@@ -72,25 +72,12 @@
                 </DataTemplate>
             </controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
 
-            <!--  Settings  -->
-            <controls:HamburgerMenu.OptionsItemsSource>
-                <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuGlyphItem Label="{moneyChestView:MultiLangBinding MainManu_Settings}">
-                        <controls:HamburgerMenuGlyphItem.Tag>
-                            <iconpacks:PackIconMaterial Kind="Settings" />
-                        </controls:HamburgerMenuGlyphItem.Tag>
-                    </controls:HamburgerMenuGlyphItem>
-                </controls:HamburgerMenuItemCollection>
-            </controls:HamburgerMenu.OptionsItemsSource>
-
             <!--  Content  -->
             <controls:HamburgerMenu.ContentTemplate>
                 <DataTemplate>
-                    <Grid x:Name="ContentGrid">
-                        <controls:TransitioningContentControl
-                                                              Content="{Binding View}"
-                                                              RestartTransitionOnContentChange="True"
-                                                              Transition="Default"/>
+                    <Grid>
+                        <controls:TransitioningContentControl Content="{Binding View}" 
+                                                              RestartTransitionOnContentChange="True" Transition="Default"/>
                     </Grid>
                 </DataTemplate>
             </controls:HamburgerMenu.ContentTemplate>

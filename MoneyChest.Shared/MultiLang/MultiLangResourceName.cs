@@ -44,6 +44,8 @@ namespace MoneyChest.Shared.MultiLang
         public static string New(string entityName) => $"{entityName}_New";
 
         public static string MainMenuPageCaption(string page) => $"MainManu_{page}";
+        
+        public static string ThemeColorName(string color) => $"ThemeColor_{color}";
 
         #endregion
 

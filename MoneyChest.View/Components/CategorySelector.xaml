@@ -16,10 +16,10 @@
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
     </UserControl.Resources>
     
-    <materialDesign:DialogHost HorizontalAlignment="Left" VerticalAlignment="Center"
+    <materialDesign:DialogHost HorizontalAlignment="Left" VerticalAlignment="Center" Background="{DynamicResource WhiteBrush}"
                                DialogClosing="CategoryDialogClosingEventHandler">
         <materialDesign:DialogHost.DialogContent>
-            <Grid Width="300" Margin="5">
+            <Grid MinWidth="300" Margin="5" Background="{DynamicResource WhiteBrush}">
                 <Grid.Resources>
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource CategoryTreeViewSelectableItemContainerStyle}"/>
                 </Grid.Resources>

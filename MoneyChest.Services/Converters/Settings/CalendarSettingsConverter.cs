@@ -17,6 +17,7 @@ namespace MoneyChest.Services.Converters
         {
             entity.ShowLimits = model.ShowLimits;
             entity.ShowSettings = model.ShowSettings;
+            entity.ShowAllStorages = model.ShowAllStorages;
             entity.ShowAllTransactionsPerDay = model.ShowAllTransactionsPerDay;
             entity.MaxTransactionsCountPerDay = model.MaxTransactionsCountPerDay;
             entity.UserId = model.UserId;
@@ -32,6 +33,7 @@ namespace MoneyChest.Services.Converters
         {
             model.ShowLimits = entity.ShowLimits;
             model.ShowSettings = entity.ShowSettings;
+            model.ShowAllStorages = entity.ShowAllStorages;
             model.ShowAllTransactionsPerDay = entity.ShowAllTransactionsPerDay;
             model.MaxTransactionsCountPerDay = entity.MaxTransactionsCountPerDay;
             model.UserId = entity.UserId;

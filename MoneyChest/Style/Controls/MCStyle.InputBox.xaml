@@ -62,15 +62,19 @@
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
-        <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource WhiteBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
     </Style>
 
     <Style x:Key="MCComboBoxStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignComboBox}">
         <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
         <Setter Property="Width" Value="{StaticResource TextInputControlWidth}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
-        <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource WhiteBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
         <Setter Property="Padding" Value="5"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
     </Style>
 
 </ResourceDictionary>

@@ -33,7 +33,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Menu -->
-        <Grid Grid.Column="0" Background="{DynamicResource ToolBarBackground}">
+        <Grid Grid.Column="0" Background="{DynamicResource GrayBrush8}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -90,9 +90,9 @@
                               IsChecked="{Binding Settings.ShowAllTransactionsPerDay}" VerticalAlignment="Bottom"
                                   Margin="1 5 5 5"/>
 
-                        <Slider Maximum="50" Minimum="0" 
+                        <Slider Maximum="50" Minimum="0" HorizontalAlignment="Stretch" Width="200"
                             ToolTip="{moneyChestView:MultiLangBinding Calendar_MaxTransactionsCountPerDay}"
-                            Value="{Binding Settings.MaxTransactionsCountPerDay,UpdateSourceTrigger=Default}" 
+                            Value="{Binding Settings.MaxTransactionsCountPerDay,UpdateSourceTrigger=PropertyChanged}" 
                             IsEnabled="{Binding Settings.TransactionsCountPerDayAvailable}" Focusable="False"/>
                     </StackPanel>
 

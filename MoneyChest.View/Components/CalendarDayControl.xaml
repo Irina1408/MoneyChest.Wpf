@@ -82,7 +82,7 @@
                                       Foreground="{DynamicResource BlackBrush}">
                             <ItemsControl.ToolTip>
                                 <ToolTip Placement="Mouse">
-                                    <ItemsControl ItemsSource="{Binding Data.FilteredTransactions}" Style="{StaticResource TransactionsToolTipItemsControlStyle}" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+                                    <ItemsControl ItemsSource="{Binding Data.FilteredTransactions}" Style="{StaticResource TransactionsToolTipItemsControlStyle}" Foreground="{DynamicResource WhiteBrush}"/>
                                 </ToolTip>
                             </ItemsControl.ToolTip>
                         </ItemsControl>
@@ -99,7 +99,7 @@
                 </Grid>
                 
                 <!-- Bottom row (Storage summary) -->
-                <Grid Grid.Row="3" Background="{DynamicResource GrayBrush6}">
+                <Grid Grid.Row="3" Background="{DynamicResource GrayBrush9}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -122,7 +122,8 @@
                     </Label>
 
                     <!-- Full storages list (if ShowAllStorages) -->
-                    <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Grid.Column="2" HorizontalAlignment="Right">
+                    <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Grid.Column="2" HorizontalAlignment="Right"
+                                  Foreground="{DynamicResource BlackBrush}">
                         <ItemsControl.Style>
                             <Style TargetType="{x:Type ItemsControl}" BasedOn="{StaticResource StoragesItemsControlStyle}">
                                 <Setter Property="Visibility" Value="Collapsed"/>

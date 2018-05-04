@@ -243,7 +243,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Menu -->
-                <Grid Grid.Column="0" Background="{DynamicResource ToolBarBackground}">
+                <Grid Grid.Column="0" Background="{DynamicResource GrayBrush8}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>

@@ -17,7 +17,7 @@ namespace MoneyChest
         public App() : base()
         {
             System.Windows.FrameworkCompatibilityPreferences.KeepTextBoxDisplaySynchronizedWithTextProperty = false;
-            
+
             // dispose global service manager
             Exit += (sender, e) => ServiceManager.Dispose();
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => ServiceManager.Dispose();

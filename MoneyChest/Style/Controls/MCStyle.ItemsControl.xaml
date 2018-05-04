@@ -7,7 +7,7 @@
     <!-- *********** Transactions *********** -->
     <Style x:Key="TransactionsItemsControlStyle" TargetType="{x:Type ItemsControl}">
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="Foreground" Value="{DynamicResource IdealForegroundColorBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="ItemTemplate">
             <Setter.Value>

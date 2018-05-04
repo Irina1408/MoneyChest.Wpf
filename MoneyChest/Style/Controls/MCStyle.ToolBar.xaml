@@ -6,7 +6,7 @@
     <Style x:Key="MCToolBarTrayStyle" TargetType="{x:Type ToolBarTray}">
         <Setter Property="IsLocked" Value="True"/>
         <Setter Property="ClipToBounds" Value="True"/>
-        <Setter Property="Background" Value="{DynamicResource ToolBarBackground}" />
+        <Setter Property="Background" Value="{DynamicResource GrayBrush8}" />
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
@@ -14,12 +14,15 @@
     <Style x:Key="MCToolBarStyle" TargetType="{x:Type ToolBar}" BasedOn="{StaticResource MaterialDesignToolBar}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="ToolBarTray.IsLocked" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource GrayBrush8}" />
     </Style>
 
     <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Height" Value="{DynamicResource ToolBarButtonSize}"/>
         <Setter Property="Width" Value="{DynamicResource ToolBarButtonSize}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
     </Style>
 
     <Style x:Key="{x:Static ToolBar.ToggleButtonStyleKey}" TargetType="{x:Type ToggleButton}" 
@@ -27,6 +30,8 @@
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Height" Value="{DynamicResource ToolBarButtonSize}"/>
         <Setter Property="Width" Value="{DynamicResource ToolBarButtonSize}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
     </Style>
 
 </ResourceDictionary>

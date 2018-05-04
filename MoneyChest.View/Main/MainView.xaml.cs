@@ -1,6 +1,8 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using MoneyChest.View.Pages;
+using MoneyChest.View.Utils;
+using MoneyChest.ViewModel.Commands;
 using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -59,14 +61,17 @@ namespace MoneyChest.View.Main
             // build hamburger menu
             foreach (var page in pages.OrderBy(_ => _.Order))
             {
-                // add menu item into the menu
-                HamburgerMenuControl.Items.Add(new CustomHamburgerMenuItem()
+                var menuItem = new CustomHamburgerMenuItem()
                 {
                     Label = page.Label,
                     Tag = page.Icon,
                     BorderThickness = page.ShowTopBorder ? new Thickness(0, 1, 0, 0) : new Thickness(),
                     View = page.View
-                });
+                };
+
+                // add menu item into the menu
+                if (page.IsOptionsPage) HamburgerMenuControl.OptionsItems.Add(menuItem);
+                else HamburgerMenuControl.Items.Add(menuItem);
 
                 // add events
                 page.DataChanged += (s, arg) => pages.ForEach(p =>
@@ -75,6 +80,11 @@ namespace MoneyChest.View.Main
                         p.RequiresReload = true;
                 });
             }
+        }
+
+        private void HamburgerMenuControl_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            HamburgerMenuControl.Content = e.ClickedItem;
         }
 
         #endregion

@@ -21,6 +21,8 @@ namespace MoneyChest.Data.Entities
         public Language Language { get; set; }
 
         public DayOfWeek FirstDayOfWeek { get; set; }
+        public string AccentColor { get; set; }
+        public string ThemeColor { get; set; }
 
 
         [ForeignKey(nameof(UserId))]

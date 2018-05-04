@@ -12,7 +12,7 @@ namespace MoneyChest.View.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return System.Convert.ToDouble(value) *
-                   System.Convert.ToDouble(parameter);
+                   System.Convert.ToDouble(parameter, new System.Globalization.CultureInfo("en-US").NumberFormat);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

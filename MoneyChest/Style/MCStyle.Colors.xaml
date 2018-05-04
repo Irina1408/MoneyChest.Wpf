@@ -11,6 +11,15 @@
 
     <SolidColorBrush x:Key="RemarkForeground" Color="Gray"/>
     <SolidColorBrush x:Key="CalendarWeekendBackground" Color="LightPink"/>
-    <SolidColorBrush x:Key="ToolBarBackground" Color="#FFF5F5F5" po:Freeze="True"/>
 
+    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="{DynamicResource BlackColor}"/>
+    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="{DynamicResource BlackColor}" />
+    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="{DynamicResource BlackColor}" />
+    
+    <!-- From resources -->
+    <!--BlackColor/BlackBrush-->
+    <!--WhiteColor/WhiteBrush-->
 </ResourceDictionary>

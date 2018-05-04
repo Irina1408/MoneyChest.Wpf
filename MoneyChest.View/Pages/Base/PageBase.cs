@@ -43,6 +43,7 @@ namespace MoneyChest.View.Pages
         public int Order => PageHelper.GetPageOrder(this);
         public FrameworkElement View => this;
         public virtual bool ShowTopBorder => false;
+        public virtual bool IsOptionsPage => false;
 
         // Data management
         public event EventHandler DataChanged;

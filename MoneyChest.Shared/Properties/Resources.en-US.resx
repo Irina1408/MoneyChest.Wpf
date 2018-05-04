@@ -868,4 +868,19 @@
   <data name="Limit_RemoveClosed" xml:space="preserve">
     <value>Remove closed</value>
   </data>
+  <data name="Settings_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Settings_Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Settings_Theme_AccentColor" xml:space="preserve">
+    <value>Main color</value>
+  </data>
+  <data name="Settings_Theme_ThemeColor" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Settings_View" xml:space="preserve">
+    <value>View</value>
+  </data>
 </root>

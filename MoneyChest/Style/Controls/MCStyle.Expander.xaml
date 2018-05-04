@@ -22,7 +22,7 @@
     </Style>
 
     <Style x:Key="MCEntitiesExpanderStyle" TargetType="{x:Type Expander}" BasedOn="{StaticResource MCExpanderStyle}">
-        <Setter Property="Background" Value="{DynamicResource GrayBrush5}"/>
+        <Setter Property="Background" Value="{DynamicResource GrayBrush7}"/>
         <Setter Property="Foreground" Value="{DynamicResource IdealForegroundColorBrush}"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="BorderThickness" Value="0"/>

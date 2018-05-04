@@ -23,6 +23,8 @@ namespace MoneyChest.Shared.Settings
 
         public string LastLogin { get; set; }
         public Language? LastLanguage { get; set; }
+        public string LastAccentColor { get; set; }
+        public string LastThemeColor { get; set; }
         public bool IsMenuHeadersShown { get; set; } = true;
 
         #endregion

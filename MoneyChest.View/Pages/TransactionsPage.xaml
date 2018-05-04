@@ -33,7 +33,7 @@
         </Grid.ColumnDefinitions>
         
         <!-- Menu -->
-        <Grid Grid.Column="0" Background="{DynamicResource ToolBarBackground}">
+        <Grid Grid.Column="0" Background="{DynamicResource GrayBrush8}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -75,7 +75,7 @@
                 <Button Command="{Binding AddMoneyTransferCommand}" ToolTip="{moneyChestView:MultiLangBinding MoneyTransfer_Add}">
                     <Grid>
                         <iconPacks:PackIconMaterial Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <iconPacks:PackIconModern Kind="ArrowRightLeft"  Style="{DynamicResource MiniRightBottomIconStyle}"/>
+                        <iconPacks:PackIconModern Kind="ArrowRightLeft" Style="{DynamicResource MiniRightBottomIconStyle}"/>
                     </Grid>
                 </Button>
                 

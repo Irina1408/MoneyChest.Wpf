@@ -19,8 +19,6 @@ namespace MoneyChest.Services.Services
 {
     public interface IUserService : IIdManagableServiceBase<UserModel>
     {
-        // TODO: obsolete. remove
-        UserModel Add(UserModel model, Language language);
         UserModel Get(string name, string password);
         UserModel Get(string name);
     }
@@ -31,13 +29,6 @@ namespace MoneyChest.Services.Services
         { }
 
         #region IUserService implementation
-
-        public UserModel Add(UserModel model, Language language)
-        {
-            User entity = base.Add(_converter.ToEntity(model));
-            LoadDefaults(entity, language);
-            return _converter.ToModel(entity);
-        }
 
         public UserModel Get(string name, string password)
         {

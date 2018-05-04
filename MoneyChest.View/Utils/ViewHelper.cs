@@ -23,6 +23,15 @@ namespace MoneyChest.View.Utils
             };
         }
 
+        public static void OpenDependWindow(this UserControl control, object content, bool resizable = true)
+        {
+            // init
+            var window = control.InitializeDependWindow(resizable);
+            // prepare and show
+            window.Content = content;
+            window.ShowDialog();
+        }
+
         public static bool ShowDateRangeSelector(this UserControl control, ref DateTime dateFrom, ref DateTime dateUntil)
         {
             var dateRangeSeletor = new MoneyChest.View.Windows.DateRangeSelectorWindow();

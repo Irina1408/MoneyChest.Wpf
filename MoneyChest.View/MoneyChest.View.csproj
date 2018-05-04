@@ -173,8 +173,13 @@
       <DependentUpon>StorageDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Base\PageBase.cs" />
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Utils\EntityViewHelper.cs" />
     <Compile Include="Utils\EnumViewHelper.cs" />
+    <Compile Include="Utils\MCThemeManager.cs" />
     <Compile Include="Utils\MultiLangBinding.cs" />
     <Compile Include="Utils\PageHelper.cs" />
     <Compile Include="Utils\ScheduleHelper.cs" />
@@ -399,6 +404,10 @@
     <Page Include="Pages\ReportsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Pages\StoragesPage.xaml">
       <SubType>Designer</SubType>

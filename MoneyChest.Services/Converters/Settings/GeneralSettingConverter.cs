@@ -15,6 +15,8 @@ namespace MoneyChest.Services.Converters
             entity.UserId = model.UserId;
             entity.Language = model.Language;
             entity.FirstDayOfWeek = model.FirstDayOfWeek;
+            entity.AccentColor = model.AccentColor;
+            entity.ThemeColor = model.ThemeColor;
         }
 
         protected override void FillModel(GeneralSetting entity, GeneralSettingModel model)
@@ -22,6 +24,8 @@ namespace MoneyChest.Services.Converters
             model.UserId = entity.UserId;
             model.Language = entity.Language;
             model.FirstDayOfWeek = entity.FirstDayOfWeek;
+            model.AccentColor = entity.AccentColor;
+            model.ThemeColor = entity.ThemeColor;
         }
     }
 }

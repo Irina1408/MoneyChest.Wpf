@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace MoneyChest.View.Main
 {
-    public class CustomHamburgerMenuItem : HamburgerMenuGlyphItem
+    public class CustomHamburgerMenuItem : HamburgerMenuItem
     {
         public static readonly DependencyProperty BorderThicknessProperty = DependencyProperty.Register(nameof(BorderThickness), typeof(Thickness), typeof(CustomHamburgerMenuItem), new PropertyMetadata(null));
 
