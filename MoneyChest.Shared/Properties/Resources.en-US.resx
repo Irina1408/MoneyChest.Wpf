@@ -883,4 +883,7 @@
   <data name="Settings_View" xml:space="preserve">
     <value>View</value>
   </data>
+  <data name="Report_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
 </root>

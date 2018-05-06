@@ -119,7 +119,7 @@ namespace MoneyChest.Services.Services
 
             var mapping = GetCategoryLevelMapping(categories);
             var result = new Dictionary<int, int>();
-
+            
             foreach (var cat in categories)
             {
                 if (mapping[cat.Id] <= level)

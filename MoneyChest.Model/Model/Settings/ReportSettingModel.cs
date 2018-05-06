@@ -23,7 +23,7 @@ namespace MoneyChest.Model.Model
 
         public int UserId { get; set; }
 
-        public bool ShowSettings { get; set; } = true;
+        public bool ShowSettings { get; set; } = false;
         public ReportType ReportType { get; set; }
 
         public RecordType? DataType { get; set; }

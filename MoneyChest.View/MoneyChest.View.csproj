@@ -42,6 +42,12 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -95,6 +101,12 @@
     </Compile>
     <Compile Include="Components\CategorySelector.xaml.cs">
       <DependentUpon>CategorySelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Chart\ChartLegend.xaml.cs">
+      <DependentUpon>ChartLegend.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Chart\ChartToolTip.xaml.cs">
+      <DependentUpon>ChartToolTip.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\CommissionControl.xaml.cs">
       <DependentUpon>CommissionControl.xaml</DependentUpon>
@@ -282,6 +294,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\CategorySelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Chart\ChartLegend.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Chart\ChartToolTip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

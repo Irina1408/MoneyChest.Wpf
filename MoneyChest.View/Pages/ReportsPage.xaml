@@ -11,13 +11,16 @@
              xmlns:converters="clr-namespace:MoneyChest.View.Converters"
              xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              xmlns:components="clr-namespace:MoneyChest.View.Components"
-             mc:Ignorable="d" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+                xmlns:chart="clr-namespace:MoneyChest.View.Components.Chart"
+                mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <local:PageBase.Resources>
         <converters:EnumToBoolConverter x:Key="EBConverter"/>
         <converters:EnumToStringConverter x:Key="ESConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
+        <converters:PercentageConverter x:Key="PctConverter"/>
     </local:PageBase.Resources>
     
     <Grid>
@@ -91,12 +94,84 @@
             </StackPanel>
         </GroupBox>
 
-        <!-- Reports grid-->
+        <!-- Reports-->
         <Grid Grid.Column="0" Grid.Row="1">
-            <ScrollViewer x:Name="ReportsScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <Grid x:Name="reportsGrid" Width="{Binding ViewportWidth, ElementName=DaysScrollViewer}"/>
+            <ScrollViewer x:Name="DaysScrollViewer"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <UniformGrid Width="{Binding ViewportWidth, ElementName=DaysScrollViewer}" Columns="2" Rows="2">
+                    <!-- Pie chart -->
+                    <Border Grid.Column="0" Grid.Row="0" BorderThickness="0.5" BorderBrush="{DynamicResource GrayBrush7}">
+                        <Grid Margin="10">
+                            <lvc:PieChart LegendLocation="Right" Series="{Binding Special.PieCollection}">
+                                <lvc:PieChart.DataTooltip>
+                                    <chart:ChartToolTip/>
+                                </lvc:PieChart.DataTooltip>
+                                <lvc:PieChart.ChartLegend>
+                                    <chart:ChartLegend Total="{Binding Total}"/>
+                                </lvc:PieChart.ChartLegend>
+                            </lvc:PieChart>
+                        </Grid>                        
+                    </Border>
+
+                    <!-- Doughnut chart --> 
+                    <Border Grid.Column="1" Grid.Row="0" BorderThickness="0.5" BorderBrush="{DynamicResource GrayBrush7}">
+                        <Grid Margin="10">
+                            <lvc:PieChart LegendLocation="Right" Series="{Binding Special.DoughnutCollection}" InnerRadius="100">
+                                <lvc:PieChart.DataTooltip>
+                                    <chart:ChartToolTip/>
+                                </lvc:PieChart.DataTooltip>
+                                <lvc:PieChart.ChartLegend>
+                                    <chart:ChartLegend Total="{Binding Total}"/>
+                                </lvc:PieChart.ChartLegend>
+                            </lvc:PieChart>
+                        </Grid>
+                    </Border>
+
+                    <!-- Bar chart (columns) --> 
+                    <Border Grid.Column="0" Grid.Row="1" BorderThickness="0.5" BorderBrush="{DynamicResource GrayBrush7}">
+                        <Grid Margin="10">
+                            <lvc:CartesianChart LegendLocation="Right" Series="{Binding Special.BarColumnCollection}">
+                                <lvc:CartesianChart.DataTooltip>
+                                    <chart:ChartToolTip/>
+                                </lvc:CartesianChart.DataTooltip>
+                                <lvc:CartesianChart.ChartLegend>
+                                    <chart:ChartLegend Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
+                                </lvc:CartesianChart.ChartLegend >
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Labels="{Binding Special.Titles}">
+                                        <lvc:Axis.Separator>
+                                            <!--step 1 forces the axis to display all labels, disabling it makes it invisible-->
+                                            <lvc:Separator Step="1" IsEnabled="False"/>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+                        </Grid>
+                    </Border>
+
+                    <!-- Bar chart (rows) -->
+                    <Border Grid.Column="1" Grid.Row="1" BorderThickness="0.5" BorderBrush="{DynamicResource GrayBrush7}">
+                        <Grid Margin="10">
+                            <lvc:CartesianChart LegendLocation="Right" Series="{Binding Special.BarRowCollection}" 
+                                            AxisX="{x:Static lvc:DefaultAxes.DefaultAxis}">
+                                <lvc:CartesianChart.DataTooltip>
+                                    <chart:ChartToolTip/>
+                                </lvc:CartesianChart.DataTooltip>
+                                <lvc:CartesianChart.ChartLegend>
+                                    <chart:ChartLegend Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
+                                </lvc:CartesianChart.ChartLegend>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Labels="{Binding Special.Titles}">
+                                        <lvc:Axis.Separator>
+                                            <!--step 1 forces the axis to display all labels, disabling it makes it invisible-->
+                                            <lvc:Separator Step="1" IsEnabled="False"/>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </Grid>
+                    </Border>
+                </UniformGrid>
             </ScrollViewer>
         </Grid>
-
     </Grid>
 </local:PageBase>

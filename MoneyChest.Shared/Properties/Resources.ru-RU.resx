@@ -880,4 +880,7 @@
   <data name="Settings_View" xml:space="preserve">
     <value>Внешний вид</value>
   </data>
+  <data name="Report_Total" xml:space="preserve">
+    <value>Всего</value>
+  </data>
 </root>
