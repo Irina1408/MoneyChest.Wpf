@@ -73,8 +73,11 @@
                    Margin="0" Visibility="{Binding Settings.ShowSettings, Converter={StaticResource BVConverter}}">
             <GroupBox.Header>
                 <Grid Height="45">
-                    <TextBlock Text="{moneyChestView:MultiLangBinding General_Settings}" 
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <iconPacks:PackIconOcticons Kind="Gear" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+                        <TextBlock Text="{moneyChestView:MultiLangBinding General_Settings}" 
                                Style="{DynamicResource MCGroupBoxHeaderTextBlockStyle}"/>
+                    </StackPanel>
                 </Grid>
             </GroupBox.Header>
 

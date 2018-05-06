@@ -13,37 +13,26 @@ namespace MoneyChest.Data.Entities
     [Table(nameof(ReportSetting))]
     public class ReportSetting : IHasUserId
     {
-        public ReportSetting()
-        {
-            Categories = new List<Category>();
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }
 
-        public bool IncludeRecordsWithoutCategory { get; set; }
-
-        public bool AllCategories { get; set; }
-
         public ReportType ReportType { get; set; }
 
         public RecordType? DataType { get; set; }
-
-        public PeriodFilterType PeriodFilterType { get; set; }
-
         public int CategoryLevel { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime? DateFrom { get; set; }
-
-        [Column(TypeName = "date")]
-        public DateTime? DateUntil { get; set; }
+        public int DataFilterId { get; set; }
+        public int PeriodFilterId { get; set; }
 
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
 
-        public virtual ICollection<Category> Categories { get; set; }
+        [ForeignKey(nameof(PeriodFilterId))]
+        public virtual PeriodFilter PeriodFilter { get; set; }
+
+        [ForeignKey(nameof(DataFilterId))]
+        public virtual DataFilter DataFilter { get; set; }
     }
 }

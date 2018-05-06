@@ -77,6 +77,7 @@
     <Compile Include="ViewModel\LoginWindowViewModel.cs" />
     <Compile Include="ViewModel\Entity\DebtViewModel.cs" />
     <Compile Include="ViewModel\Page\PlanningPageViewModel.cs" />
+    <Compile Include="ViewModel\Page\ReportsPageViewModel.cs" />
     <Compile Include="ViewModel\Page\SettingsPageViewModel.cs" />
     <Compile Include="ViewModel\Page\StoragesPageViewModel.cs" />
     <Compile Include="ViewModel\Entity\StorageViewModel.cs" />

@@ -4,9 +4,99 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MoneyChest.View.Pages"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:moneyChestView="clr-namespace:MoneyChest.View"
+             xmlns:converters="clr-namespace:MoneyChest.View.Converters"
+             xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
+             xmlns:components="clr-namespace:MoneyChest.View.Components"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <local:PageBase.Resources>
+        <converters:EnumToBoolConverter x:Key="EBConverter"/>
+        <converters:EnumToStringConverter x:Key="ESConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
+    </local:PageBase.Resources>
+    
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Menu -->
+        <Grid Grid.Column="0" Background="{DynamicResource GrayBrush8}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Menu -->
+            <ToolBar HorizontalAlignment="Left" Grid.Column="0">
+
+                <!-- Show filter -->
+                <ToggleButton IsChecked="{Binding Settings.DataFilter.IsFilterVisible, UpdateSourceTrigger=PropertyChanged}" 
+                              ToolTip="{moneyChestView:MultiLangBinding General_ShowFilter}"
+                              Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconModern Kind="Filter" />
+                </ToggleButton>
+
+                <!-- Show settings -->
+                <ToggleButton IsChecked="{Binding Settings.ShowSettings, UpdateSourceTrigger=PropertyChanged}" 
+                              ToolTip="{moneyChestView:MultiLangBinding General_ShowSettings}"
+                              Height="{DynamicResource ToolBarButtonSize}" Width="{DynamicResource ToolBarButtonSize}">
+                    <iconPacks:PackIconOcticons Kind="Gear" />
+                </ToggleButton>
+            </ToolBar>
+
+            <!-- Period selector -->
+            <ToolBar HorizontalAlignment="Center" Grid.ColumnSpan="2">
+                <components:PeriodSelectorControl HorizontalAlignment="Center"
+                                      PeriodFilter="{Binding Settings.PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>
+            </ToolBar>
+        </Grid>
+
+        <!-- Filter -->
+        <components:DataFilterControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" 
+                                      DataFilter="{Binding Settings.DataFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- Settings -->
+        <GroupBox Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" 
+                   Margin="0" Visibility="{Binding Settings.ShowSettings, Converter={StaticResource BVConverter}}">
+            <GroupBox.Header>
+                <Grid Height="45">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <iconPacks:PackIconOcticons Kind="Gear" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+                        <TextBlock Text="{moneyChestView:MultiLangBinding General_Settings}" 
+                               Style="{DynamicResource MCGroupBoxHeaderTextBlockStyle}"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox.Header>
+
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}" />
+                    <!-- TODO: show in combobox -->
+                    <TextBox materialDesign:HintAssist.Hint="{Binding Caption}"
+                             Text="{Binding Settings.CategoryLevel, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, Mode=TwoWay}"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Reports grid-->
+        <Grid Grid.Column="0" Grid.Row="1">
+            <ScrollViewer x:Name="ReportsScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <Grid x:Name="reportsGrid" Width="{Binding ViewportWidth, ElementName=DaysScrollViewer}"/>
+            </ScrollViewer>
+        </Grid>
+
     </Grid>
 </local:PageBase>

@@ -131,6 +131,10 @@
     <Compile Include="Migrations\201805041805201_update_settings.Designer.cs">
       <DependentUpon>201805041805201_update_settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805061037121_update_report_settings.cs" />
+    <Compile Include="Migrations\201805061037121_update_report_settings.Designer.cs">
+      <DependentUpon>201805061037121_update_report_settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -171,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805041805201_update_settings.resx">
       <DependentUpon>201805041805201_update_settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805061037121_update_report_settings.resx">
+      <DependentUpon>201805061037121_update_report_settings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

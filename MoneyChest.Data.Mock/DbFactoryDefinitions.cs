@@ -162,11 +162,8 @@ namespace MoneyChest.Data.Mock
 
             f.Define<ReportSetting>(e =>
             {
-                e.PeriodFilterType = PeriodFilterType.ThisMonth;
                 e.ReportType = ReportType.PieChart;
                 e.CategoryLevel = -1;
-                e.AllCategories = true;
-                e.IncludeRecordsWithoutCategory = true;
             });
         }
 

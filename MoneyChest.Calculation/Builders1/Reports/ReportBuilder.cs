@@ -40,48 +40,48 @@ namespace MoneyChest.Calculation.Reports
 
         protected override List<ReportUnit> BuildResult(ReportSettingModel settings)
         {
-            // load categories
-            var categories = settings.AllCategories
-                ? _categoryService.GetListForUser(_userId)
-                : _categoryService.Get(settings.CategoryIds);
+            //// load categories
+            //var categories = settings.AllCategories
+            //    ? _categoryService.GetListForUser(_userId)
+            //    : _categoryService.Get(settings.CategoryIds);
 
-            // load records
-            List<RecordModel> records = null;
-            if (settings.PeriodFilterType == PeriodFilterType.CustomPeriod)
-                records = _recordService.Get(_userId, settings.DateFrom.Value, settings.DateUntil.Value,
-                    settings.DataType.Value, settings.IncludeRecordsWithoutCategory, settings.AllCategories ? null : settings.CategoryIds);
-            else
-                records = _recordService.Get(_userId, settings.PeriodFilterType,
-                    settings.DataType.Value, settings.IncludeRecordsWithoutCategory, settings.AllCategories ? null : settings.CategoryIds);
+            //// load records
+            //List<RecordModel> records = null;
+            //if (settings.PeriodFilterType == PeriodFilterType.CustomPeriod)
+            //    records = _recordService.Get(_userId, settings.DateFrom.Value, settings.DateUntil.Value,
+            //        settings.DataType.Value, settings.IncludeRecordsWithoutCategory, settings.AllCategories ? null : settings.CategoryIds);
+            //else
+            //    records = _recordService.Get(_userId, settings.PeriodFilterType,
+            //        settings.DataType.Value, settings.IncludeRecordsWithoutCategory, settings.AllCategories ? null : settings.CategoryIds);
 
-            // get category mapping
-            var categoryMapping = _categoryService.GetCategoryMapping(_userId, settings.CategoryLevel);
+            //// get category mapping
+            //var categoryMapping = _categoryService.GetCategoryMapping(_userId, settings.CategoryLevel);
 
-            // calculate values for every category
-            var catValue = new Dictionary<int, decimal>();
-            foreach (var record in records)
-            {
-                // get correspond category id from category mapping
-                var catId = -1;
-                if (record.CategoryId.HasValue)
-                    catId = categoryMapping[record.CategoryId.Value];
+            //// calculate values for every category
+            //var catValue = new Dictionary<int, decimal>();
+            //foreach (var record in records)
+            //{
+            //    // get correspond category id from category mapping
+            //    var catId = -1;
+            //    if (record.CategoryId.HasValue)
+            //        catId = categoryMapping[record.CategoryId.Value];
 
-                if (catValue.ContainsKey(catId))
-                    catValue[catId] += CalculationHelper.ConvertToCurrency(record.Value, record.CurrencyId, _mainCurrency.Id, _currencyExchangeRates);
-                else
-                    catValue.Add(catId, CalculationHelper.ConvertToCurrency(record.Value, record.CurrencyId, _mainCurrency.Id, _currencyExchangeRates));
-            }
+            //    if (catValue.ContainsKey(catId))
+            //        catValue[catId] += CalculationHelper.ConvertToCurrency(record.Value, record.CurrencyId, _mainCurrency.Id, _currencyExchangeRates);
+            //    else
+            //        catValue.Add(catId, CalculationHelper.ConvertToCurrency(record.Value, record.CurrencyId, _mainCurrency.Id, _currencyExchangeRates));
+            //}
 
-            // build report result
-            var result = catValue
-                .Select(item => new ReportUnit(categories.FirstOrDefault(_ => _.Id == item.Key)?.Name, item.Value))
-                .ToList();
+            //// build report result
+            //var result = catValue
+            //    .Select(item => new ReportUnit(categories.FirstOrDefault(_ => _.Id == item.Key)?.Name, item.Value))
+            //    .ToList();
 
-            // update percentages
-            decimal totalValue = result.Sum(item => item.Value);
-            result.ForEach(item => item.Percentage = item.Value / totalValue);
+            //// update percentages
+            //decimal totalValue = result.Sum(item => item.Value);
+            //result.ForEach(item => item.Percentage = item.Value / totalValue);
 
-            return result;
+            return new List<ReportUnit>();
         }
 
         #endregion
