@@ -115,7 +115,18 @@ namespace MoneyChest.Services.Services.Defaults
                 UserId = _userId
             });
 
-            _context.CalendarSettings.Add(new CalendarSettings() { UserId = _userId });
+            _context.CalendarSettings.Add(new CalendarSettings()
+            {
+                UserId = _userId,
+                DataFilter = _context.DataFilters.Add(new DataFilter()
+                {
+                    IncludeWithoutCategory = true
+                }),
+                PeriodFilter = _context.PeriodFilters.Add(new PeriodFilter()
+                {
+                    PeriodType = PeriodType.Month
+                })
+            });
             _context.ForecastSettings.Add(new ForecastSetting() { UserId = _userId });
             _context.TransactionsSettings.Add(new TransactionsSettings()
             {
@@ -129,7 +140,18 @@ namespace MoneyChest.Services.Services.Defaults
                     PeriodType = PeriodType.Month
                 })
             });
-            _context.ReportSettings.Add(new ReportSetting() { UserId = _userId });
+            _context.ReportSettings.Add(new ReportSetting()
+            {
+                UserId = _userId,
+                DataFilter = _context.DataFilters.Add(new DataFilter()
+                {
+                    IncludeWithoutCategory = true
+                }),
+                PeriodFilter = _context.PeriodFilters.Add(new PeriodFilter()
+                {
+                    PeriodType = PeriodType.Month
+                })
+            });
         }
 
         public void LoadStorages()
