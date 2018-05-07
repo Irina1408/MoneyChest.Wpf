@@ -86,7 +86,7 @@ namespace MoneyChest.Calculation.Builders
                 .GroupBy(x => x.CategoryId)
                 .Select(x => new { CategoryId = x.Key, Amount = x.Sum(_ => ToMainCurrency(_.Transaction.TransactionAmount, _.Transaction.TransactionCurrencyId)) })
                 .Select(x => new ReportUnit(_data.Categories.FirstOrDefault(_ => _.Id == x.CategoryId)?.Name, Math.Abs(x.Amount)))
-                .OrderBy(x => x.Caption)
+                .OrderByDescending(x => x.Amount)
                 .ToList();
 
             return result;

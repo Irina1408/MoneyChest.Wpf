@@ -17,7 +17,7 @@ namespace MoneyChest.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }
 
-        public ReportType ReportType { get; set; }
+        public ChartType ReportType { get; set; }
 
         public RecordType? DataType { get; set; }
         public int CategoryLevel { get; set; }

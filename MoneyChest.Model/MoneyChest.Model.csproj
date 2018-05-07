@@ -52,6 +52,8 @@
     <Compile Include="Constants\MaxSize.cs" />
     <Compile Include="Enums\CurrencySymbolAlignment.cs" />
     <Compile Include="Enums\DebtPaymentType.cs" />
+    <Compile Include="Enums\Settings\BarChartSection.cs" />
+    <Compile Include="Enums\Settings\BarChartView.cs" />
     <Compile Include="Enums\Settings\PeriodType.cs" />
     <Compile Include="Enums\TransactionType.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -67,7 +69,7 @@
     <Compile Include="Enums\Settings\Language.cs" />
     <Compile Include="Enums\Settings\Month.cs" />
     <Compile Include="Enums\Settings\PeriodFilterType.cs" />
-    <Compile Include="Enums\Settings\ReportType.cs" />
+    <Compile Include="Enums\Settings\ChartType.cs" />
     <Compile Include="Enums\RecordType.cs" />
     <Compile Include="Model\Base\IHas.cs" />
     <Compile Include="Model\Base\ITransaction.cs" />

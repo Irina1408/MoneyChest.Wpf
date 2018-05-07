@@ -83,8 +83,6 @@ namespace MoneyChest.View.Pages
             if (_viewModel.Settings == null)
             {
                 _viewModel.Settings = _settingsService.GetForUser(GlobalVariables.UserId);
-                if (_viewModel.Settings.DataType == null)
-                    _viewModel.Settings.DataType = Model.Enums.RecordType.Expense;
 
                 _viewModel.Settings.PropertyChanged += (sender, e) =>
                 {
@@ -117,9 +115,10 @@ namespace MoneyChest.View.Pages
             }
 
             // build report result
-            var result = _builder.Build(_viewModel.Settings.PeriodFilter.DateFrom, _viewModel.Settings.PeriodFilter.DateUntil, _viewModel.Settings.CategoryLevel, _viewModel.Settings.DataType.Value, true);
+            var result = _builder.Build(_viewModel.Settings.PeriodFilter.DateFrom, _viewModel.Settings.PeriodFilter.DateUntil, _viewModel.Settings.CategoryLevel, _viewModel.Settings.DataType, true);
 
             _viewModel.Special.PieCollection.Clear();
+            _viewModel.Special.DoughnutCollection.Clear();
             _viewModel.Special.Titles.Clear();
             _viewModel.Special.BarColumnCollection.Clear();
             _viewModel.Special.BarRowCollection.Clear();
