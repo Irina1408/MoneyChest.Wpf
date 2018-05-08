@@ -16,8 +16,8 @@ namespace MoneyChest.Services.Converters
         protected override void FillEntity(ReportSetting entity, ReportSettingModel model)
         {
             entity.UserId = model.UserId;
-            entity.ReportType = model.ReportType;
-            entity.DataType = model?.DataType;
+            entity.ReportType = model.ChartType;
+            entity.DataType = model.DataType;
             entity.CategoryLevel = model.CategoryLevel;
 
             if (entity.PeriodFilter != null)
@@ -30,8 +30,8 @@ namespace MoneyChest.Services.Converters
         protected override void FillModel(ReportSetting entity, ReportSettingModel model)
         {
             model.UserId = entity.UserId;
-            model.ReportType = entity.ReportType;
-            model.DataType = entity?.DataType;
+            model.ChartType = entity.ReportType;
+            model.DataType = entity.DataType ?? Model.Enums.RecordType.Expense;
             model.CategoryLevel = entity.CategoryLevel;
 
             if (entity.PeriodFilter != null)
