@@ -27,6 +27,7 @@ namespace MoneyChest.Model.Model
         public ChartType ChartType { get; set; }
         public RecordType DataType { get; set; }
         public int CategoryLevel { get; set; }
+        public Sorting Sorting { get; set; }
 
         // Pie chart settings
         public int PieChartInnerRadius { get; set; }

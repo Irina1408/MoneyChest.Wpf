@@ -25,6 +25,7 @@ using LiveCharts.Wpf;
 using MoneyChest.Calculation.Builders;
 using LiveCharts.Defaults;
 using System.ComponentModel;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.View.Pages
 {
@@ -44,6 +45,7 @@ namespace MoneyChest.View.Pages
         private ReportDataBuilder _builder;
 
         private ReportsPageViewModel<ChartSpecial> _viewModel;
+        private int lowestCategoryLevel;
 
         #endregion
 
@@ -52,7 +54,10 @@ namespace MoneyChest.View.Pages
         public ReportsPage() : base()
         {
             InitializeComponent();
+        }
 
+        protected override void InitializationComplete()
+        {
             // init
             _service = ServiceManager.ConfigureService<TransactionService>();
             _currencyService = ServiceManager.ConfigureService<CurrencyService>();
@@ -63,6 +68,20 @@ namespace MoneyChest.View.Pages
             _builder = new ReportDataBuilder(GlobalVariables.UserId, _service, _currencyService, _currencyExchangeRateService, _categoryService);
 
             InitializeViewModel();
+
+            // init comboboxes
+            comboChartType.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(ChartType));
+            comboDataType.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(RecordType));
+            comboBarChartView.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(BarChartView));
+            comboSorting.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(Sorting));
+            // fill category levels source
+            lowestCategoryLevel = _categoryService.GetLowestCategoryLevel(GlobalVariables.UserId);
+            var categoryLevelDictionary = new Dictionary<int, string>();
+            // add variant "All"
+            categoryLevelDictionary.Add(-1, MultiLangResourceManager.Instance[MultiLangResourceName.All]);
+            for (int i = 0; i <= lowestCategoryLevel; i++)
+                categoryLevelDictionary.Add(i, (i + 1).ToString());
+            comboCategoryLevel.ItemsSource = categoryLevelDictionary;
         }
 
         private void InitializeViewModel()
@@ -93,6 +112,16 @@ namespace MoneyChest.View.Pages
                         _settingsService.Update(_viewModel.Settings);
                         // apply settings
                         //ApplySettings();
+                        if (e.PropertyName == nameof(ReportSettingModel.CategoryLevel))
+                        {
+                            var depthDict = new Dictionary<int, int>();
+                            if (_viewModel.Settings.CategoryLevel != -1)
+                            {
+                                for (int i = 0, lvl = _viewModel.Settings.CategoryLevel; lvl <= lowestCategoryLevel; i++, lvl++)
+                                    depthDict.Add(i, i + 1);
+                            }
+                            comboDetailsDepth.ItemsSource = depthDict;
+                        }
                     }
                 };
 
@@ -112,6 +141,14 @@ namespace MoneyChest.View.Pages
                     // apply filter
                     //ApplyDataFilter();
                 };
+
+                var depthDictionary = new Dictionary<int, int>();
+                if(_viewModel.Settings.CategoryLevel != -1)
+                {
+                    for (int i = 0, lvl = _viewModel.Settings.CategoryLevel; lvl <= lowestCategoryLevel; i++, lvl++)
+                        depthDictionary.Add(i, i + 1);
+                }
+                comboDetailsDepth.ItemsSource = depthDictionary;
             }
 
             // build report result

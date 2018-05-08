@@ -16,6 +16,9 @@ namespace MoneyChest.Services.Services
 {
     public interface ICategoryService : IIdManagableUserableListServiceBase<CategoryModel>
     {
+        /// <summary>
+        /// Returns lowest category level (Min = 0)
+        /// </summary>
         int GetLowestCategoryLevel(int userId);
 
         /// <summary>

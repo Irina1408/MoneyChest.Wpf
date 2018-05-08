@@ -883,4 +883,52 @@
   <data name="Report_Total" xml:space="preserve">
     <value>Всего</value>
   </data>
+  <data name="ChartType_BarChart" xml:space="preserve">
+    <value>Столбиковая</value>
+  </data>
+  <data name="ChartType_EnumName" xml:space="preserve">
+    <value>Диаграмма</value>
+  </data>
+  <data name="ChartType_PieChart" xml:space="preserve">
+    <value>Круговая</value>
+  </data>
+  <data name="General_Common" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="ReportSettings_BarChartSettings" xml:space="preserve">
+    <value>Столбиковая диаграмма</value>
+  </data>
+  <data name="ReportSettings_CategoryLevel" xml:space="preserve">
+    <value>Уровень показываемых категорий</value>
+  </data>
+  <data name="ReportSettings_DataType" xml:space="preserve">
+    <value>Тип данных</value>
+  </data>
+  <data name="ReportSettings_PieChartSettings" xml:space="preserve">
+    <value>Круговая диаграмма</value>
+  </data>
+  <data name="ReportSettingsPie_InnerRadius" xml:space="preserve">
+    <value>Радиус внутреннего круга</value>
+  </data>
+  <data name="ReportSettings_BarChartSection" xml:space="preserve">
+    <value>Секция для...</value>
+  </data>
+  <data name="ReportSettings_BarChartView" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="ReportSettings_DetailsDepth" xml:space="preserve">
+    <value>Глубина детализации</value>
+  </data>
+  <data name="Sortings_AlphabeticalAscending" xml:space="preserve">
+    <value>По алфавиту по возрастанию (А-Я)</value>
+  </data>
+  <data name="Sortings_AlphabeticalDescending" xml:space="preserve">
+    <value>По алфавиту по убыванию (Я-А)</value>
+  </data>
+  <data name="Sortings_AmountAscending" xml:space="preserve">
+    <value>По сумме по возрастанию (1-9)</value>
+  </data>
+  <data name="Sortings_AmountDescending" xml:space="preserve">
+    <value>По сумме по убыванию (9-1)</value>
+  </data>
 </root>

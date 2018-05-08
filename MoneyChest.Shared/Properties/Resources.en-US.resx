@@ -886,4 +886,55 @@
   <data name="Report_Total" xml:space="preserve">
     <value>Total</value>
   </data>
+  <data name="ChartType_BarChart" xml:space="preserve">
+    <value>Bar</value>
+  </data>
+  <data name="ChartType_EnumName" xml:space="preserve">
+    <value>Chart</value>
+  </data>
+  <data name="ChartType_PieChart" xml:space="preserve">
+    <value>Pie</value>
+  </data>
+  <data name="General_Common" xml:space="preserve">
+    <value>Common</value>
+  </data>
+  <data name="ReportSettings_BarChartSettings" xml:space="preserve">
+    <value>Bar chart</value>
+  </data>
+  <data name="ReportSettings_CategoryLevel" xml:space="preserve">
+    <value>Shown category level</value>
+  </data>
+  <data name="ReportSettings_DataType" xml:space="preserve">
+    <value>Data type</value>
+  </data>
+  <data name="ReportSettings_PieChartSettings" xml:space="preserve">
+    <value>Pie chart</value>
+  </data>
+  <data name="ReportSettingsPie_InnerRadius" xml:space="preserve">
+    <value>Inner circle radius</value>
+  </data>
+  <data name="ReportSettings_BarChartSection" xml:space="preserve">
+    <value>Section per...</value>
+  </data>
+  <data name="ReportSettings_BarChartView" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="ReportSettings_DetailsDepth" xml:space="preserve">
+    <value>Details depth</value>
+  </data>
+  <data name="Sortings_AlphabeticalAscending" xml:space="preserve">
+    <value>Alphabetical ascending (A-Z)</value>
+  </data>
+  <data name="Sortings_AlphabeticalDescending" xml:space="preserve">
+    <value>Alphabetical descending (Z-A)</value>
+  </data>
+  <data name="Sortings_AmountAscending" xml:space="preserve">
+    <value>Amount ascending (1-N)</value>
+  </data>
+  <data name="Sortings_AmountDescending" xml:space="preserve">
+    <value>Amount descending (N-1)</value>
+  </data>
+  <data name="Sortings_EnumName" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
 </root>

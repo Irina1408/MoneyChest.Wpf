@@ -12,6 +12,12 @@ namespace MoneyChest.View.Pages
 {
     public abstract class PageBase : UserControl, IPage
     {
+        #region Private fields
+
+        private bool _initializationComplete = false;
+
+        #endregion
+
         #region Initialization
 
         public PageBase() : base()
@@ -22,6 +28,13 @@ namespace MoneyChest.View.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            // complete initialization once
+            if(!_initializationComplete)
+            {
+                InitializationComplete();
+                _initializationComplete = true;
+            }
+
             // TODO: remove and uncomment on data management is done
             Reload();
 
@@ -53,6 +66,8 @@ namespace MoneyChest.View.Pages
         #endregion
 
         #region Protected methods
+
+        protected virtual void InitializationComplete() { }
 
         protected void NotifyDataChanged()
         {

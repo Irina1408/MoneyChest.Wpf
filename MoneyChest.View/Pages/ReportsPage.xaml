@@ -72,8 +72,8 @@
                                       DataFilter="{Binding Settings.DataFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
         <!-- Settings -->
-        <GroupBox Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" 
-                   Margin="0" Visibility="{Binding Settings.ShowSettings, Converter={StaticResource BVConverter}}">
+        <GroupBox Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding Settings}"
+                   Margin="0" Visibility="{Binding ShowSettings, Converter={StaticResource BVConverter}}">
             <GroupBox.Header>
                 <Grid Height="45">
                     <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
@@ -85,12 +85,95 @@
             </GroupBox.Header>
 
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}" />
-                    <!-- TODO: show in combobox -->
-                    <TextBox materialDesign:HintAssist.Hint="{Binding Caption}"
-                             Text="{Binding Settings.CategoryLevel, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, Mode=TwoWay}"/>
-                </StackPanel>
+                <!-- General settings -->
+                <GroupBox Header="{moneyChestView:MultiLangBinding General_Common}">
+                    <StackPanel>
+                        
+                        <!-- Chart type -->
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconEntypo Kind="PieChart" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <ComboBox x:Name="comboChartType" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ChartType_EnumName}"
+                                      DisplayMemberPath="Description" SelectedValuePath="Value"
+                                      SelectedValue="{Binding ChartType}"/>
+                        </StackPanel>
+                        
+                        <!-- Category level -->
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}" />
+                            <ComboBox x:Name="comboCategoryLevel" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_CategoryLevel}"
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding CategoryLevel}"/>
+                        </StackPanel>
+                        
+                        <!-- Data type -->
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Kind="MathPlusMinus" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <ComboBox x:Name="comboDataType" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_DataType}"
+                                      DisplayMemberPath="Description" SelectedValuePath="Value"
+                                      SelectedValue="{Binding DataType}"/>
+                        </StackPanel>
+
+                        <!-- Sorting -->
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconFontAwesome Kind="SortAmountDesc" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <ComboBox x:Name="comboSorting" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Sortings_EnumName}"
+                                      DisplayMemberPath="Description" SelectedValuePath="Value"
+                                      SelectedValue="{Binding Sorting}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                
+                <!-- Pie chart settings -->
+                <GroupBox Header="{moneyChestView:MultiLangBinding ReportSettings_PieChartSettings}"
+                          IsEnabled="{Binding ChartType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:ChartType.PieChart}}">
+                    <StackPanel>
+                        <!-- Inner gap radius -->
+                        <Border BorderBrush="{DynamicResource GrayBrush8}">
+                            <StackPanel>
+                                <Label Content="{moneyChestView:MultiLangBinding ReportSettingsPie_InnerRadius}" Width="200" HorizontalContentAlignment="Center"/>
+                                <Slider Maximum="100" Minimum="0" HorizontalAlignment="Stretch" Width="200"
+                                        ToolTip="{moneyChestView:MultiLangBinding ReportSettingsPie_InnerRadius}"
+                                        Value="{Binding PieChartInnerRadius,UpdateSourceTrigger=PropertyChanged}" Focusable="False"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Details depth -->
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Kind="Diagram" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <ComboBox x:Name="comboDetailsDepth" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_DetailsDepth}"
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding PieChartDetailsDepth}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Bar chart settings -->
+                <GroupBox Header="{moneyChestView:MultiLangBinding ReportSettings_BarChartSettings}">
+                    <StackPanel>
+                        <!-- Bar chart view-->
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial Kind="ChartBar" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <ComboBox x:Name="comboBarChartView" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_BarChartView}"
+                                      DisplayMemberPath="Description" SelectedValuePath="Value"
+                                      SelectedValue="{Binding BarChartView}"/>
+                        </StackPanel>
+
+                        <!-- Data section-->
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial Kind="ChartBar" Style="{DynamicResource TextBoxIconStyle}"/>
+                            <ComboBox x:Name="comboBarChartSection" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_BarChartView}"
+                                      DisplayMemberPath="Description" SelectedValuePath="Value"
+                                      SelectedValue="{Binding BarChartSection}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
             </StackPanel>
         </GroupBox>
 
