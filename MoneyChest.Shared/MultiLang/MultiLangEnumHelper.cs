@@ -12,9 +12,18 @@ namespace MoneyChest.Shared.MultiLang
     {
         public static ObservableCollection<MultiLangEnumDescription> ToCollection(Type enumType)
         {
+            var values = new List<object>();
+            foreach (var enumItem in Enum.GetValues(enumType))
+                values.Add(enumItem);
+
+            return ToCollection(enumType, values);
+        }            
+
+        public static ObservableCollection<MultiLangEnumDescription> ToCollection(Type enumType, IEnumerable<object> values)
+        {
             var result = new ObservableCollection<MultiLangEnumDescription>();
 
-            foreach (var enumItem in Enum.GetValues(enumType))
+            foreach (var enumItem in values)
                 result.Add(new MultiLangEnumDescription(enumType.Name, enumItem, Enum.GetName(enumType, enumItem)));
 
             MultiLangResourceManager.Instance.CultureChanged += (sender, e) =>

@@ -8,13 +8,20 @@ namespace MoneyChest.Model.Report
 {
     public class ReportUnit
     {
-        public ReportUnit(string caption, decimal amount)
+        public ReportUnit()
+        { }
+
+        public ReportUnit(int? categoryId, string caption, decimal amount)
         {
+            CategoryId = categoryId;
             Caption = caption;
             Amount = amount;
         }
         
+        public int? CategoryId { get; set; }
+        public string Caption { get; set; }
         public decimal Amount { get; set; }
-        public string Caption { get; }
+
+        public List<ReportUnit> Detailing { get; set; }
     }
 }

@@ -10,37 +10,24 @@ namespace MoneyChest.Model.Report
 {
     public class ReportResult
     {
-        #region Transactions
-
-        public List<ITransaction> Transactions { get; set; } = new List<ITransaction>();
-        public List<ITransaction> FilteredTransactions { get; set; }
-
-        #endregion
-
-        #region Helper references
-
-        public ReportData ReportData { get; set; }
-
-        #endregion
-
-        #region Result
-
         public List<ReportUnit> ReportUnits { get; set; }
+        public Dictionary<int, List<ReportUnit>> Detailing { get; set; } = new Dictionary<int, List<ReportUnit>>();
+        public string TotAmountDetailed { get; set; }
 
-        #endregion
+        //public decimal TotAmount => ReportUnits.Sum(x => x.Amount);
+        //public string TotAmountDetailed => FormatMainCurrency(TotAmount, true);
 
-        #region Totals
+        //#region Helper references
 
-        public decimal TotAmount => ReportUnits.Sum(x => x.Amount);
-        public string TotAmountDetailed => FormatMainCurrency(TotAmount, true);
+        //public ReportData ReportData { get; set; }
 
-        #endregion
+        //#endregion
 
-        #region Private methods
+        //#region Private methods
 
-        private string FormatMainCurrency(decimal val, bool hideZero = false, bool showSign = false) =>
-            hideZero && val == 0 ? null : ReportData.MainCurrency.FormatValue(val, showSign);
+        //private string FormatMainCurrency(decimal val, bool hideZero = false, bool showSign = false) =>
+        //    hideZero && val == 0 ? null : ReportData.MainCurrency.FormatValue(val, showSign);
 
-        #endregion
+        //#endregion
     }
 }

@@ -913,9 +913,6 @@
   <data name="ReportSettingsPie_InnerRadius" xml:space="preserve">
     <value>Inner circle radius</value>
   </data>
-  <data name="ReportSettings_BarChartSection" xml:space="preserve">
-    <value>Section per...</value>
-  </data>
   <data name="ReportSettings_BarChartView" xml:space="preserve">
     <value>View</value>
   </data>
@@ -936,5 +933,23 @@
   </data>
   <data name="Sortings_EnumName" xml:space="preserve">
     <value>Sorting</value>
+  </data>
+  <data name="BarChartSection_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="BarChartSection_EnumName" xml:space="preserve">
+    <value>Section per...</value>
+  </data>
+  <data name="BarChartSection_Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="ReportSettings_BarChartCompareDepth" xml:space="preserve">
+    <value>Compare with previous period depth</value>
+  </data>
+  <data name="ReportSettings_BarChartCompareIncomeExpense" xml:space="preserve">
+    <value>Compare incomes and expenses</value>
+  </data>
+  <data name="ReportSettings_BarChartDetail" xml:space="preserve">
+    <value>Detail</value>
   </data>
 </root>

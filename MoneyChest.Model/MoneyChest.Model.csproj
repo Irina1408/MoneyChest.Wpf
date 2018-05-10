@@ -107,6 +107,7 @@
     <Compile Include="Model\StorageModel.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\ReportBuildSettings.cs" />
     <Compile Include="Report\ReportData.cs" />
     <Compile Include="Report\ReportResult.cs" />
     <Compile Include="Report\ReportUnit.cs" />

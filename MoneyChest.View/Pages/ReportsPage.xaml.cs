@@ -26,6 +26,8 @@ using MoneyChest.Calculation.Builders;
 using LiveCharts.Defaults;
 using System.ComponentModel;
 using MoneyChest.Model.Enums;
+using LiveCharts.Definitions.Series;
+using MoneyChest.Model.Report;
 
 namespace MoneyChest.View.Pages
 {
@@ -67,13 +69,19 @@ namespace MoneyChest.View.Pages
             _settingsService = ServiceManager.ConfigureService<ReportSettingService>();
             _builder = new ReportDataBuilder(GlobalVariables.UserId, _service, _currencyService, _currencyExchangeRateService, _categoryService);
 
-            InitializeViewModel();
-
             // init comboboxes
             comboChartType.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(ChartType));
             comboDataType.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(RecordType));
             comboBarChartView.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(BarChartView));
             comboSorting.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(Sorting));
+            comboBarChartSection.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(BarChartSection));
+
+            // fill PeriodTypes. exclude custom period
+            var values = new List<object>();
+            foreach (PeriodType enumItem in Enum.GetValues(typeof(PeriodType)))
+                if(enumItem != PeriodType.Custom) values.Add(enumItem);
+            comboBarChartPeriod.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(PeriodType), values);
+
             // fill category levels source
             lowestCategoryLevel = _categoryService.GetLowestCategoryLevel(GlobalVariables.UserId);
             var categoryLevelDictionary = new Dictionary<int, string>();
@@ -82,6 +90,8 @@ namespace MoneyChest.View.Pages
             for (int i = 0; i <= lowestCategoryLevel; i++)
                 categoryLevelDictionary.Add(i, (i + 1).ToString());
             comboCategoryLevel.ItemsSource = categoryLevelDictionary;
+
+            InitializeViewModel();
         }
 
         private void InitializeViewModel()
@@ -103,114 +113,144 @@ namespace MoneyChest.View.Pages
             {
                 _viewModel.Settings = _settingsService.GetForUser(GlobalVariables.UserId);
 
+                EventHandler buildSettingsChangedHandler = (sender, e) =>
+                {
+                    // save changes
+                    _settingsService.Update(_viewModel.Settings);
+                    // reload report data
+                    RebuildReport();
+                };
+
                 _viewModel.Settings.PropertyChanged += (sender, e) =>
                 {
                     if (e.PropertyName != nameof(ReportSettingModel.DataFilter) ||
-                        e.PropertyName == nameof(ReportSettingModel.PeriodFilter))
+                        e.PropertyName != nameof(ReportSettingModel.PeriodFilter))
                     {
-                        // save changes
-                        _settingsService.Update(_viewModel.Settings);
-                        // apply settings
-                        //ApplySettings();
+                        // TODO: do not rebuild report data when view settings are changed (cart/inner radius etc..)
+                        buildSettingsChangedHandler.Invoke(sender, e);
+
                         if (e.PropertyName == nameof(ReportSettingModel.CategoryLevel))
                         {
-                            var depthDict = new Dictionary<int, int>();
-                            if (_viewModel.Settings.CategoryLevel != -1)
-                            {
-                                for (int i = 0, lvl = _viewModel.Settings.CategoryLevel; lvl <= lowestCategoryLevel; i++, lvl++)
-                                    depthDict.Add(i, i + 1);
-                            }
-                            comboDetailsDepth.ItemsSource = depthDict;
+                            // refresh items source of comboDetailsDepth
+                            RefreshAvailableDetailsDepth();
                         }
                     }
                 };
 
                 // add notifications for reload and apply filter
-                _viewModel.Settings.PeriodFilter.OnPeriodChanged += (sender, e) =>
-                {
-                    // save changes
-                    _settingsService.Update(_viewModel.Settings);
-                    // reload page
-                    Reload();
-                };
+                _viewModel.Settings.PeriodFilter.OnPeriodChanged += buildSettingsChangedHandler;
+                _viewModel.Settings.DataFilter.OnFilterChanged += buildSettingsChangedHandler;
 
-                _viewModel.Settings.DataFilter.OnFilterChanged += (sender, e) =>
-                {
-                    // save changes
-                    _settingsService.Update(_viewModel.Settings);
-                    // apply filter
-                    //ApplyDataFilter();
-                };
-
-                var depthDictionary = new Dictionary<int, int>();
-                if(_viewModel.Settings.CategoryLevel != -1)
-                {
-                    for (int i = 0, lvl = _viewModel.Settings.CategoryLevel; lvl <= lowestCategoryLevel; i++, lvl++)
-                        depthDictionary.Add(i, i + 1);
-                }
-                comboDetailsDepth.ItemsSource = depthDictionary;
+                // refresh items source of comboDetailsDepth
+                RefreshAvailableDetailsDepth();
             }
 
-            // build report result
-            var result = _builder.Build(_viewModel.Settings.PeriodFilter.DateFrom, _viewModel.Settings.PeriodFilter.DateUntil, _viewModel.Settings.CategoryLevel, _viewModel.Settings.DataType, true);
+            RebuildReport(true);
+        }
 
-            _viewModel.Special.PieCollection.Clear();
-            _viewModel.Special.DoughnutCollection.Clear();
+        #endregion
+
+        #region Private methods
+
+        private void RefreshAvailableDetailsDepth()
+        {
+            var depthDictionary = new Dictionary<int, int>();
+            if (_viewModel.Settings.CategoryLevel != -1)
+            {
+                for (int i = 0, lvl = _viewModel.Settings.CategoryLevel; lvl <= lowestCategoryLevel; i++, lvl++)
+                    depthDictionary.Add(i, i + 1);
+            }
+            else
+                depthDictionary.Add(0, 1);
+
+            comboDetailsDepth.ItemsSource = depthDictionary;
+        }
+
+        private void RebuildReport(bool force = false)
+        {
+            // hide all charts
+            _viewModel.IsAnyData = false;
+
+            // build report result
+            var result = _builder.Build(_viewModel.GetBuildSettings(), force);
+
+            // cleanup
+            if(_viewModel.Special.SeriesCollection.Count > 0)
+                _viewModel.Special.SeriesCollection.Clear();
             _viewModel.Special.Titles.Clear();
-            _viewModel.Special.BarColumnCollection.Clear();
-            _viewModel.Special.BarRowCollection.Clear();
+            // cleanup chart data source
+            pieChart.Series = null;
+            barChartColumns.Series = null;
+            barChartRows.Series = null;
 
             var nonCategoryName = MultiLangResourceManager.Instance[MultiLangResourceName.None];
 
-            for(int i = 0; i < result.ReportUnits.Count; i++)
+            for (int i = 0; i < result.ReportUnits.Count; i++)
             {
                 var value = Convert.ToDouble(result.ReportUnits[i].Amount);
                 var caption = result.ReportUnits[i].Caption ?? nonCategoryName;
 
-                // pie chart collection
-                _viewModel.Special.PieCollection.Add(new PieSeries()
-                {
-                    Title = caption,
-                    Values = new ChartValues<ObservableValue>() { new ObservableValue(value) }
-                });
-
-                _viewModel.Special.DoughnutCollection.Add(new PieSeries()
-                {
-                    Title = caption,
-                    Values = new ChartValues<ObservableValue>() { new ObservableValue(value) }
-                });
-
-                // bar chart (columns) collection
-                //_viewModel.Special.Titles.Add(caption);
-                // build column series for current bar
-                var columnSeries = new StackedColumnSeries
-                {
-                    Title = caption,
-                    Values = new ChartValues<ObservableValue>()
-                };
-                // all previous and next values should be equal to 0 but not current 
-                for (int iVal = 0; iVal < result.ReportUnits.Count; iVal++)
-                    columnSeries.Values.Add(new ObservableValue(iVal != i ? 0 : value));
-                // update bar chart collection
-                _viewModel.Special.BarColumnCollection.Add(columnSeries);
-
-                // bar chart (row) collection
-                //_viewModel.Special.Titles.Add(caption);
-                // build column series for current bar
-                var rowSeries = new StackedRowSeries
-                {
-                    Title = caption,
-                    Values = new ChartValues<ObservableValue>()
-                };
-                // all previous and next values should be equal to 0 but not current 
-                for (int iVal = 0; iVal < result.ReportUnits.Count; iVal++)
-                    rowSeries.Values.Add(new ObservableValue(iVal != i ? 0 : value));
-                // update bar chart collection
-                _viewModel.Special.BarRowCollection.Add(rowSeries);
+                // build collection
+                _viewModel.Special.SeriesCollection.Add(BuildSeries(caption, value, i, result.ReportUnits.Count));
+                // populate caption list
+                _viewModel.Special.Titles.Add(caption);
+                // mark any data exits
+                _viewModel.IsAnyData = true;
             }
 
             // update total
             _viewModel.Total = result.TotAmountDetailed;
+
+            // populate chart datasource
+            if (_viewModel.Settings.IsPieChartSelected) pieChart.Series = _viewModel.Special.SeriesCollection;
+            if (_viewModel.Settings.IsBarChartColumnsSelected) barChartColumns.Series = _viewModel.Special.SeriesCollection;
+            if (_viewModel.Settings.IsBarChartRowsSelected) barChartRows.Series = _viewModel.Special.SeriesCollection;
+        }
+
+        private ISeriesView BuildSeries(string caption, double value, int itemIndex, int itemCount)
+        {
+            if (_viewModel.Settings.IsPieChartSelected)
+            {
+                // series for pie chart
+                return new PieSeries()
+                {
+                    Title = caption,
+                    Values = new ChartValues<ObservableValue>() { new ObservableValue(value) },
+                    DataLabels = true
+                };
+            }
+            if (_viewModel.Settings.IsBarChartColumnsSelected)
+            {
+                // series for bar chart with columns
+                var columnSeries = new StackedColumnSeries
+                {
+                    Title = caption,
+                    Values = new ChartValues<ObservableValue>(),
+                    DataLabels = true
+                };
+                // all previous and next values should be equal to 0 but not current 
+                for (int i = 0; i < itemCount; i++)
+                    columnSeries.Values.Add(new ObservableValue(i != itemIndex ? 0 : value));
+
+                return columnSeries;
+            }
+            if (_viewModel.Settings.IsBarChartRowsSelected)
+            {
+                // series for bar chart with rows
+                var rowSeries = new StackedRowSeries
+                {
+                    Title = caption,
+                    Values = new ChartValues<ObservableValue>(),
+                    DataLabels = true
+                };
+                // all previous and next values should be equal to 0 but not current 
+                for (int i = 0; i < itemCount; i++)
+                    rowSeries.Values.Add(new ObservableValue(i != itemIndex ? 0 : value));
+
+                return rowSeries;
+            }
+
+            return null;
         }
 
         #endregion
@@ -218,10 +258,7 @@ namespace MoneyChest.View.Pages
 
     public class ChartSpecial
     {
-        public SeriesCollection PieCollection { get; set; } = new SeriesCollection();
-        public SeriesCollection DoughnutCollection { get; set; } = new SeriesCollection();
-        public SeriesCollection BarColumnCollection { get; set; } = new SeriesCollection();
-        public SeriesCollection BarRowCollection { get; set; } = new SeriesCollection();
+        public SeriesCollection SeriesCollection { get; set; } = new SeriesCollection();
         public List<string> Titles { get; set; } = new List<string>();
     }
 }

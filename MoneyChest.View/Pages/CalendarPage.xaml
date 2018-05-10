@@ -96,7 +96,8 @@
                         <Slider Maximum="50" Minimum="0" HorizontalAlignment="Stretch" Width="200"
                             ToolTip="{moneyChestView:MultiLangBinding Calendar_MaxTransactionsCountPerDay}"
                             Value="{Binding Settings.MaxTransactionsCountPerDay,UpdateSourceTrigger=PropertyChanged}" 
-                            IsEnabled="{Binding Settings.TransactionsCountPerDayAvailable}" Focusable="False"/>
+                            IsEnabled="{Binding Settings.TransactionsCountPerDayAvailable}" Focusable="False"
+                                Style="{DynamicResource MCDiscreteSliderStyle}"/>
                     </StackPanel>
 
                 </GroupBox>

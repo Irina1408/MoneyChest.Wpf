@@ -21,6 +21,13 @@
         <converters:EnumToStringConverter x:Key="ESConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
         <converters:PercentageConverter x:Key="PctConverter"/>
+        
+        <Style TargetType="lvc:PieSeries">
+            <Setter Property="StrokeThickness" Value="0"/>
+            <Setter Property="DataLabels" Value="True"/>
+            <Setter Property="LabelPosition" Value="OutsideSlice"/>
+            <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
+        </Style>
     </local:PageBase.Resources>
     
     <Grid>
@@ -84,177 +91,188 @@
                 </Grid>
             </GroupBox.Header>
 
-            <StackPanel>
-                <!-- General settings -->
-                <GroupBox Header="{moneyChestView:MultiLangBinding General_Common}">
-                    <StackPanel>
-                        
-                        <!-- Chart type -->
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconEntypo Kind="PieChart" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <ComboBox x:Name="comboChartType" 
+            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- General settings -->
+                    <GroupBox Header="{moneyChestView:MultiLangBinding General_Common}" Grid.Row="0" Margin="0">
+                        <StackPanel>
+
+                            <!-- Chart type -->
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconEntypo Kind="PieChart" Style="{DynamicResource TextBoxIconStyle}"/>
+                                <ComboBox x:Name="comboChartType" 
                                       materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ChartType_EnumName}"
                                       DisplayMemberPath="Description" SelectedValuePath="Value"
-                                      SelectedValue="{Binding ChartType}"/>
-                        </StackPanel>
-                        
-                        <!-- Category level -->
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}" />
-                            <ComboBox x:Name="comboCategoryLevel" 
+                                      SelectedValue="{Binding ChartType, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <!-- Category level -->
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}" />
+                                <ComboBox x:Name="comboCategoryLevel" 
                                       materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_CategoryLevel}"
                                       DisplayMemberPath="Value" SelectedValuePath="Key"
                                       SelectedValue="{Binding CategoryLevel}"/>
-                        </StackPanel>
-                        
-                        <!-- Data type -->
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconModern Kind="MathPlusMinus" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <ComboBox x:Name="comboDataType" 
+                            </StackPanel>
+
+                            <!-- Data type -->
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconModern Kind="MathPlusMinus" Style="{DynamicResource TextBoxIconStyle}"/>
+                                <ComboBox x:Name="comboDataType" 
                                       materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_DataType}"
                                       DisplayMemberPath="Description" SelectedValuePath="Value"
                                       SelectedValue="{Binding DataType}"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <!-- Sorting -->
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconFontAwesome Kind="SortAmountDesc" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <ComboBox x:Name="comboSorting" 
+                            <!-- Sorting -->
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconFontAwesome Kind="SortAmountDesc" Style="{DynamicResource TextBoxIconStyle}"/>
+                                <ComboBox x:Name="comboSorting" 
                                       materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Sortings_EnumName}"
                                       DisplayMemberPath="Description" SelectedValuePath="Value"
                                       SelectedValue="{Binding Sorting}"/>
-                        </StackPanel>
-                    </StackPanel>
-                </GroupBox>
-                
-                <!-- Pie chart settings -->
-                <GroupBox Header="{moneyChestView:MultiLangBinding ReportSettings_PieChartSettings}"
-                          IsEnabled="{Binding ChartType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:ChartType.PieChart}}">
-                    <StackPanel>
-                        <!-- Inner gap radius -->
-                        <Border BorderBrush="{DynamicResource GrayBrush8}">
-                            <StackPanel>
-                                <Label Content="{moneyChestView:MultiLangBinding ReportSettingsPie_InnerRadius}" Width="200" HorizontalContentAlignment="Center"/>
-                                <Slider Maximum="100" Minimum="0" HorizontalAlignment="Stretch" Width="200"
-                                        ToolTip="{moneyChestView:MultiLangBinding ReportSettingsPie_InnerRadius}"
-                                        Value="{Binding PieChartInnerRadius,UpdateSourceTrigger=PropertyChanged}" Focusable="False"/>
                             </StackPanel>
-                        </Border>
-                        
-                        <!-- Details depth -->
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconModern Kind="Diagram" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <ComboBox x:Name="comboDetailsDepth" 
+                        </StackPanel>
+                    </GroupBox>
+
+                    <!-- Pie chart settings -->
+                    <GroupBox Header="{moneyChestView:MultiLangBinding ReportSettings_PieChartSettings}"
+                          IsEnabled="{Binding IsPieChartSelected}" Grid.Row="1" Margin="0 5 0 0">
+                        <StackPanel>
+                            <!-- Inner gap radius -->
+                            <Border BorderBrush="{DynamicResource GrayBrush8}">
+                                <StackPanel>
+                                    <Label Content="{moneyChestView:MultiLangBinding ReportSettingsPie_InnerRadius}" Width="200" HorizontalContentAlignment="Center"/>
+                                    <Slider Maximum="200" Minimum="0" TickFrequency="10" HorizontalAlignment="Stretch"
+                                        ToolTip="{moneyChestView:MultiLangBinding ReportSettingsPie_InnerRadius}"
+                                        Value="{Binding PieChartInnerRadius,UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Details depth -->
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconModern Kind="Diagram" Style="{DynamicResource TextBoxIconStyle}"/>
+                                <ComboBox x:Name="comboDetailsDepth" 
                                       materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_DetailsDepth}"
                                       DisplayMemberPath="Value" SelectedValuePath="Key"
                                       SelectedValue="{Binding PieChartDetailsDepth}"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </GroupBox>
+                    </GroupBox>
 
-                <!-- Bar chart settings -->
-                <GroupBox Header="{moneyChestView:MultiLangBinding ReportSettings_BarChartSettings}">
-                    <StackPanel>
-                        <!-- Bar chart view-->
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconMaterial Kind="ChartBar" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <ComboBox x:Name="comboBarChartView" 
+                    <!-- Bar chart settings -->
+                    <GroupBox Header="{moneyChestView:MultiLangBinding ReportSettings_BarChartSettings}" Grid.Row="2"
+                              IsEnabled="{Binding IsBarChartSelected}" Margin="0 5 0 0">
+                        <StackPanel>
+                            <!-- Bar chart view-->
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconMaterial Kind="ChartGantt" Style="{DynamicResource TextBoxIconStyle}"/>
+                                <ComboBox x:Name="comboBarChartView" 
                                       materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_BarChartView}"
                                       DisplayMemberPath="Description" SelectedValuePath="Value"
                                       SelectedValue="{Binding BarChartView}"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <!-- Data section-->
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconMaterial Kind="ChartBar" Style="{DynamicResource TextBoxIconStyle}"/>
-                            <ComboBox x:Name="comboBarChartSection" 
-                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_BarChartView}"
+                            <!-- Data section-->
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconMaterial Kind="ChartBar" Style="{DynamicResource TextBoxIconStyle}"/>
+                                <ComboBox x:Name="comboBarChartSection" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding BarChartSection_EnumName}"
                                       DisplayMemberPath="Description" SelectedValuePath="Value"
                                       SelectedValue="{Binding BarChartSection}"/>
+                            </StackPanel>
+
+                            <!-- Compare Depth-->
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconMaterial Kind="Compare" Style="{DynamicResource TextBoxIconStyle}"/>
+                                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_BarChartCompareDepth}"
+                                      Text="{Binding BarChartCompareDepth}"/>
+                            </StackPanel>
+
+                            <!-- Period -->
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconEntypo Kind="TimeSlot" Style="{DynamicResource TextBoxIconStyle}"/>
+                                <ComboBox x:Name="comboBarChartPeriod" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding PeriodType_EnumName}"
+                                      DisplayMemberPath="Description" SelectedValuePath="Value"
+                                      SelectedValue="{Binding BarChartSectionPeriod}"/>
+                            </StackPanel>
+
+                            <!-- Compare Income and Expense -->
+                            <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_BarChartCompareIncomeExpense}" 
+                                  IsChecked="{Binding BarChartCompareIncomeExpense}"/>
+
+                            <!-- Detail -->
+                            <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_BarChartDetail}" 
+                                  IsChecked="{Binding BarChartDetail}"/>
                         </StackPanel>
-                    </StackPanel>
-                </GroupBox>
-            </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </ScrollViewer>
         </GroupBox>
 
         <!-- Reports-->
         <Grid Grid.Column="0" Grid.Row="1">
-            <ScrollViewer x:Name="DaysScrollViewer"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <UniformGrid Width="{Binding ViewportWidth, ElementName=DaysScrollViewer}" Columns="2" Rows="2">
-                    <!-- Pie chart -->
-                    <Border Grid.Column="0" Grid.Row="0" BorderThickness="0.5" BorderBrush="{DynamicResource GrayBrush7}">
-                        <Grid Margin="10">
-                            <lvc:PieChart LegendLocation="Right" Series="{Binding Special.PieCollection}">
-                                <lvc:PieChart.DataTooltip>
-                                    <chart:ChartToolTip/>
-                                </lvc:PieChart.DataTooltip>
-                                <lvc:PieChart.ChartLegend>
-                                    <chart:ChartLegend Total="{Binding Total}"/>
-                                </lvc:PieChart.ChartLegend>
-                            </lvc:PieChart>
-                        </Grid>                        
-                    </Border>
+            <Grid Margin="10" Visibility="{Binding IsAnyData, Converter={StaticResource BVConverter}}">
+                <!-- Pie chart -->
+                <lvc:PieChart x:Name="pieChart" LegendLocation="Right" InnerRadius="{Binding Settings.PieChartInnerRadius}"
+                              Visibility="{Binding Settings.IsPieChartSelected, Converter={StaticResource BVConverter}}"
+                              AnimationsSpeed="0:0:0.25" Margin="10">
+                    <lvc:PieChart.DataTooltip>
+                        <chart:ChartToolTip/>
+                    </lvc:PieChart.DataTooltip>
+                    <lvc:PieChart.ChartLegend>
+                        <chart:ChartLegend Total="{Binding Total}"/>
+                    </lvc:PieChart.ChartLegend>
+                </lvc:PieChart>
 
-                    <!-- Doughnut chart --> 
-                    <Border Grid.Column="1" Grid.Row="0" BorderThickness="0.5" BorderBrush="{DynamicResource GrayBrush7}">
-                        <Grid Margin="10">
-                            <lvc:PieChart LegendLocation="Right" Series="{Binding Special.DoughnutCollection}" InnerRadius="100">
-                                <lvc:PieChart.DataTooltip>
-                                    <chart:ChartToolTip/>
-                                </lvc:PieChart.DataTooltip>
-                                <lvc:PieChart.ChartLegend>
-                                    <chart:ChartLegend Total="{Binding Total}"/>
-                                </lvc:PieChart.ChartLegend>
-                            </lvc:PieChart>
-                        </Grid>
-                    </Border>
 
-                    <!-- Bar chart (columns) --> 
-                    <Border Grid.Column="0" Grid.Row="1" BorderThickness="0.5" BorderBrush="{DynamicResource GrayBrush7}">
-                        <Grid Margin="10">
-                            <lvc:CartesianChart LegendLocation="Right" Series="{Binding Special.BarColumnCollection}">
-                                <lvc:CartesianChart.DataTooltip>
-                                    <chart:ChartToolTip/>
-                                </lvc:CartesianChart.DataTooltip>
-                                <lvc:CartesianChart.ChartLegend>
-                                    <chart:ChartLegend Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
-                                </lvc:CartesianChart.ChartLegend >
-                                <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis Labels="{Binding Special.Titles}">
-                                        <!--<lvc:Axis.Separator>-->
-                                            <!--step 1 forces the axis to display all labels, disabling it makes it invisible-->
-                                            <!--<lvc:Separator Step="1" IsEnabled="False"/>-->
-                                        <!--</lvc:Axis.Separator>-->
-                                    </lvc:Axis>
-                                </lvc:CartesianChart.AxisX>
-                            </lvc:CartesianChart>
-                        </Grid>
-                    </Border>
+                <!-- Bar chart (columns) -->
+                <lvc:CartesianChart x:Name="barChartColumns" LegendLocation="Right"
+                                    Visibility="{Binding Settings.IsBarChartColumnsSelected, Converter={StaticResource BVConverter}}"
+                                    AnimationsSpeed="0:0:0.25">
+                    <lvc:CartesianChart.DataTooltip>
+                        <chart:ChartToolTip/>
+                    </lvc:CartesianChart.DataTooltip>
+                    <lvc:CartesianChart.ChartLegend>
+                        <chart:ChartLegend Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
+                    </lvc:CartesianChart.ChartLegend >
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Labels="{Binding Special.Titles}" ShowLabels="True" LabelsRotation="-60">
+                            <lvc:Axis.Separator>
+                                <!-- step 1 forces the axis to display all labels, disabling it makes it invisible-->
+                                <lvc:Separator Step="1" IsEnabled="False"/>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
 
-                    <!-- Bar chart (rows) -->
-                    <Border Grid.Column="1" Grid.Row="1" BorderThickness="0.5" BorderBrush="{DynamicResource GrayBrush7}">
-                        <Grid Margin="10">
-                            <lvc:CartesianChart LegendLocation="Right" Series="{Binding Special.BarRowCollection}" 
-                                            AxisX="{x:Static lvc:DefaultAxes.DefaultAxis}">
-                                <lvc:CartesianChart.DataTooltip>
-                                    <chart:ChartToolTip/>
-                                </lvc:CartesianChart.DataTooltip>
-                                <lvc:CartesianChart.ChartLegend>
-                                    <chart:ChartLegend Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
-                                </lvc:CartesianChart.ChartLegend>
-                                <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis Labels="{Binding Special.Titles}">
-                                        <!--<lvc:Axis.Separator>-->
-                                            <!--step 1 forces the axis to display all labels, disabling it makes it invisible-->
-                                            <!--<lvc:Separator Step="1" IsEnabled="False"/>-->
-                                        <!--</lvc:Axis.Separator>-->
-                                    </lvc:Axis>
-                                </lvc:CartesianChart.AxisY>
-                            </lvc:CartesianChart>
-                        </Grid>
-                    </Border>
-                </UniformGrid>
-            </ScrollViewer>
+                <!-- Bar chart (rows) -->
+                <lvc:CartesianChart x:Name="barChartRows" LegendLocation="Right" AxisX="{x:Static lvc:DefaultAxes.DefaultAxis}"
+                                    Visibility="{Binding Settings.IsBarChartRowsSelected, Converter={StaticResource BVConverter}}"
+                                    AnimationsSpeed="0:0:0.25">
+                    <lvc:CartesianChart.DataTooltip>
+                        <chart:ChartToolTip/>
+                    </lvc:CartesianChart.DataTooltip>
+                    <lvc:CartesianChart.ChartLegend>
+                        <chart:ChartLegend Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
+                    </lvc:CartesianChart.ChartLegend>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Labels="{Binding Special.Titles}" ShowLabels="True">
+                            <lvc:Axis.Separator>
+                                <!-- step 1 forces the axis to display all labels, disabling it makes it invisible-->
+                                <lvc:Separator Step="1" IsEnabled="False"/>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+            </Grid>
         </Grid>
     </Grid>
 </local:PageBase>

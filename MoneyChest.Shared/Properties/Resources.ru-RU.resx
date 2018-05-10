@@ -910,9 +910,6 @@
   <data name="ReportSettingsPie_InnerRadius" xml:space="preserve">
     <value>Радиус внутреннего круга</value>
   </data>
-  <data name="ReportSettings_BarChartSection" xml:space="preserve">
-    <value>Секция для...</value>
-  </data>
   <data name="ReportSettings_BarChartView" xml:space="preserve">
     <value>Вид</value>
   </data>
@@ -930,5 +927,23 @@
   </data>
   <data name="Sortings_AmountDescending" xml:space="preserve">
     <value>По сумме по убыванию (9-1)</value>
+  </data>
+  <data name="BarChartSection_Category" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="BarChartSection_EnumName" xml:space="preserve">
+    <value>Группировка</value>
+  </data>
+  <data name="BarChartSection_Period" xml:space="preserve">
+    <value>Период</value>
+  </data>
+  <data name="ReportSettings_BarChartCompareDepth" xml:space="preserve">
+    <value>Глубина сравнения с предыдущим периодом</value>
+  </data>
+  <data name="ReportSettings_BarChartCompareIncomeExpense" xml:space="preserve">
+    <value>Сравнить доходы и расходы</value>
+  </data>
+  <data name="ReportSettings_BarChartDetail" xml:space="preserve">
+    <value>Детализировать</value>
   </data>
 </root>
