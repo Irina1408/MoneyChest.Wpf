@@ -43,11 +43,14 @@ namespace MoneyChest.Calculation.Builders
             _currencyExchangeRateService = currencyExchangeRateService;
             _categoryService = categoryService;
             _data = new ReportData();
+            _categoryLevelMapping = new List<CategoryLevelMapping>();
         }
 
         #endregion
 
-        #region Public methods
+        #region Public methods & properties
+
+        public string NoneCategoryName { get; set; }
 
         public ReportResult Build(ReportBuildSettings settings, bool force = false)
         {
@@ -64,14 +67,7 @@ namespace MoneyChest.Calculation.Builders
             
             // build result
             var result = new ReportResult();
-            result.ReportUnits = ApplySorting(BuildReportUnits(filteredTransactions, settings.CategoryLevel), settings.Sorting).ToList();
-            // build detailing
-            for(int i = 1; i <= settings.DetailsDepth; i++)
-            {
-                var reportUnits = ApplySorting(BuildReportUnits(filteredTransactions, settings.CategoryLevel + i), settings.Sorting).ToList();
-                result.Detailing.Add(i, reportUnits);
-            }
-                
+            result.ReportUnits = BuildReportUnits(filteredTransactions, settings.CategoryLevel, settings.DetailsDepth, settings.Sorting);
             // calculate total
             result.TotAmountDetailed = FormatMainCurrency(result.ReportUnits.Sum(x => x.Amount), true);
 
@@ -131,11 +127,40 @@ namespace MoneyChest.Calculation.Builders
         #endregion
 
         #region Build
+        
+        private List<ReportUnit> BuildReportUnits(IEnumerable<ITransaction> transactions, int categoryLevel, int detailsDepth, 
+            Sorting sorting)
+        {
+            var result = new List<ReportUnit>();
 
-        private IEnumerable<ReportUnit> BuildReportUnits(IEnumerable<ITransaction> transactions, int categoryLevel)
+            foreach (var t in GetCategorizedTransactions(transactions, categoryLevel))
+            {
+                // create report unit
+                var reportUnit = new ReportUnit
+                {
+                    CategoryId = t.CategoryId,
+                    Caption = _data.Categories.FirstOrDefault(_ => _.Id == t.CategoryId)?.Name,
+                    Amount = Math.Abs(t.Transactions.Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId)))
+                };
+
+                // build details
+                if(detailsDepth > 0)
+                    reportUnit.Detailing = BuildReportUnits(t.Transactions, categoryLevel + 1, detailsDepth - 1, sorting);
+
+                // add report unit to result list
+                result.Add(reportUnit);
+            }
+
+            var sortedResult = ApplySorting(result, sorting).ToList();
+            // fix caption for empty category after sorting (empty category should be first/last if alphabetical sorting)
+            sortedResult.Where(x => x.CategoryId == null).ToList().ForEach(x => x.Caption = NoneCategoryName);
+
+            return sortedResult;
+        }
+
+        private IEnumerable<CategoryTransactions> GetCategorizedTransactions(IEnumerable<ITransaction> transactions, int categoryLevel)
         {
             var categoryMapping = _categoryLevelMapping.FirstOrDefault(x => x.CategoryLevel == categoryLevel)?.CategoryMapping;
-
             return transactions
                 // apply transaction-category mapping
                 .Select(x => new
@@ -145,18 +170,12 @@ namespace MoneyChest.Calculation.Builders
                 })
                 // group by category
                 .GroupBy(x => x.CategoryId)
-                .Select(x => new
+                .Select(x => new CategoryTransactions
                 {
                     CategoryId = x.Key,
-                    Amount = x.Sum(_ => ToMainCurrency(_.Transaction.TransactionAmount, _.Transaction.TransactionCurrencyId))
+                    Transactions = x.Select(_ => _.Transaction).ToList()
                 })
-                // build result report unit list
-                .Select(x => new ReportUnit
-                {
-                    CategoryId = x.CategoryId,
-                    Caption = _data.Categories.FirstOrDefault(_ => _.Id == x.CategoryId)?.Name,
-                    Amount = Math.Abs(x.Amount)
-                });
+                .ToList();
         }
 
         private IEnumerable<ReportUnit> ApplySorting(IEnumerable<ReportUnit> items, Sorting sorting)
@@ -194,6 +213,12 @@ namespace MoneyChest.Calculation.Builders
         {
             public int CategoryLevel { get; set; }
             public Dictionary<int, int> CategoryMapping { get; set; }
+        }
+
+        private class CategoryTransactions
+        {
+            public int? CategoryId { get; set; }
+            public IEnumerable<ITransaction> Transactions { get; set; }
         }
 
         #endregion

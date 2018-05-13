@@ -21,11 +21,10 @@
         <converters:EnumToStringConverter x:Key="ESConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
         <converters:PercentageConverter x:Key="PctConverter"/>
-        
-        <Style TargetType="lvc:PieSeries">
-            <Setter Property="StrokeThickness" Value="0"/>
-            <Setter Property="DataLabels" Value="True"/>
-            <Setter Property="LabelPosition" Value="OutsideSlice"/>
+
+        <Style TargetType="local:MCPieSeries">
+            <Setter Property="StrokeThickness" Value="0.5"/>
+            <!--<Setter Property="DataLabels" Value="True"/>-->
             <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
         </Style>
     </local:PageBase.Resources>
@@ -219,7 +218,8 @@
 
         <!-- Reports-->
         <Grid Grid.Column="0" Grid.Row="1">
-            <Grid Margin="10" Visibility="{Binding IsAnyData, Converter={StaticResource BVConverter}}">
+            <Grid x:Name="ReportGrid" Margin="10" Visibility="{Binding IsAnyData, Converter={StaticResource BVConverter}}"
+                  SizeChanged="ReportGrid_SizeChanged">
                 <!-- Pie chart -->
                 <lvc:PieChart x:Name="pieChart" LegendLocation="Right" InnerRadius="{Binding Settings.PieChartInnerRadius}"
                               Visibility="{Binding Settings.IsPieChartSelected, Converter={StaticResource BVConverter}}"
@@ -228,10 +228,9 @@
                         <chart:ChartToolTip/>
                     </lvc:PieChart.DataTooltip>
                     <lvc:PieChart.ChartLegend>
-                        <chart:ChartLegend Total="{Binding Total}"/>
+                        <chart:ChartLegend x:Name="ChartLegend1" Total="{Binding Total}"/>
                     </lvc:PieChart.ChartLegend>
                 </lvc:PieChart>
-
 
                 <!-- Bar chart (columns) -->
                 <lvc:CartesianChart x:Name="barChartColumns" LegendLocation="Right"
@@ -241,7 +240,7 @@
                         <chart:ChartToolTip/>
                     </lvc:CartesianChart.DataTooltip>
                     <lvc:CartesianChart.ChartLegend>
-                        <chart:ChartLegend Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
+                        <chart:ChartLegend x:Name="ChartLegend2" Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
                     </lvc:CartesianChart.ChartLegend >
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis Labels="{Binding Special.Titles}" ShowLabels="True" LabelsRotation="-60">
@@ -261,7 +260,7 @@
                         <chart:ChartToolTip/>
                     </lvc:CartesianChart.DataTooltip>
                     <lvc:CartesianChart.ChartLegend>
-                        <chart:ChartLegend Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
+                        <chart:ChartLegend x:Name="ChartLegend3" Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
                     </lvc:CartesianChart.ChartLegend>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Labels="{Binding Special.Titles}" ShowLabels="True">

@@ -27,7 +27,8 @@ namespace MoneyChest.ViewModel.ViewModel
                 CategoryLevel = Settings.CategoryLevel,
                 DataType = Settings.DataType,
                 Sorting = Settings.Sorting,
-                ApplyFilter = Settings.DataFilter.ApplyFilter
+                ApplyFilter = Settings.DataFilter.ApplyFilter,
+                DetailsDepth = Settings.PieChartDetailsDepth
             };
         }
     }

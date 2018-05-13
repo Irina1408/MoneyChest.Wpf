@@ -21,7 +21,8 @@ namespace MoneyChest.Model.Report
         public int? CategoryId { get; set; }
         public string Caption { get; set; }
         public decimal Amount { get; set; }
+        public double DoubleAmount => Convert.ToDouble(Amount);
 
-        public List<ReportUnit> Detailing { get; set; }
+        public List<ReportUnit> Detailing { get; set; } = new List<ReportUnit>();
     }
 }

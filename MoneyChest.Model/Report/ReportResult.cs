@@ -11,7 +11,6 @@ namespace MoneyChest.Model.Report
     public class ReportResult
     {
         public List<ReportUnit> ReportUnits { get; set; }
-        public Dictionary<int, List<ReportUnit>> Detailing { get; set; } = new Dictionary<int, List<ReportUnit>>();
         public string TotAmountDetailed { get; set; }
 
         //public decimal TotAmount => ReportUnits.Sum(x => x.Amount);

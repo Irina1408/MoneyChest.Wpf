@@ -28,6 +28,7 @@ using System.ComponentModel;
 using MoneyChest.Model.Enums;
 using LiveCharts.Definitions.Series;
 using MoneyChest.Model.Report;
+using LiveCharts.Definitions.Points;
 
 namespace MoneyChest.View.Pages
 {
@@ -150,6 +151,17 @@ namespace MoneyChest.View.Pages
 
         #endregion
 
+        #region Event handlers
+        
+        private void ReportGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ChartLegend1.Height = ReportGrid.ActualHeight;
+            ChartLegend2.Height = ReportGrid.ActualHeight;
+            ChartLegend3.Height = ReportGrid.ActualHeight;
+        }
+
+        #endregion
+
         #region Private methods
 
         private void RefreshAvailableDetailsDepth()
@@ -163,6 +175,10 @@ namespace MoneyChest.View.Pages
             else
                 depthDictionary.Add(0, 1);
 
+            // make sure curreny depth is correct
+            if (!depthDictionary.ContainsKey(_viewModel.Settings.PieChartDetailsDepth))
+                _viewModel.Settings.PieChartDetailsDepth = depthDictionary.Last().Key;
+
             comboDetailsDepth.ItemsSource = depthDictionary;
         }
 
@@ -171,6 +187,8 @@ namespace MoneyChest.View.Pages
             // hide all charts
             _viewModel.IsAnyData = false;
 
+            // fill empty category name
+            _builder.NoneCategoryName = MultiLangResourceManager.Instance[MultiLangResourceName.None];
             // build report result
             var result = _builder.Build(_viewModel.GetBuildSettings(), force);
 
@@ -187,13 +205,10 @@ namespace MoneyChest.View.Pages
 
             for (int i = 0; i < result.ReportUnits.Count; i++)
             {
-                var value = Convert.ToDouble(result.ReportUnits[i].Amount);
-                var caption = result.ReportUnits[i].Caption ?? nonCategoryName;
-
                 // build collection
-                _viewModel.Special.SeriesCollection.Add(BuildSeries(caption, value, i, result.ReportUnits.Count));
+                _viewModel.Special.SeriesCollection.AddRange(BuildSeries(result.ReportUnits[i], i, result.ReportUnits.Count));
                 // populate caption list
-                _viewModel.Special.Titles.Add(caption);
+                _viewModel.Special.Titles.Add(result.ReportUnits[i].Caption);
                 // mark any data exits
                 _viewModel.IsAnyData = true;
             }
@@ -206,51 +221,103 @@ namespace MoneyChest.View.Pages
             if (_viewModel.Settings.IsBarChartColumnsSelected) barChartColumns.Series = _viewModel.Special.SeriesCollection;
             if (_viewModel.Settings.IsBarChartRowsSelected) barChartRows.Series = _viewModel.Special.SeriesCollection;
         }
-
-        private ISeriesView BuildSeries(string caption, double value, int itemIndex, int itemCount)
+        
+        private IEnumerable<ISeriesView> BuildSeries(ReportUnit reportUnit, int itemIndex, int totalCount)
         {
+            var result = new List<ISeriesView>();
+
+            // series for pie chart
             if (_viewModel.Settings.IsPieChartSelected)
             {
-                // series for pie chart
-                return new PieSeries()
-                {
-                    Title = caption,
-                    Values = new ChartValues<ObservableValue>() { new ObservableValue(value) },
-                    DataLabels = true
-                };
+                // values count should be equivalent to details depth (levels count)
+                var valuesCount = _viewModel.Settings.PieChartDetailsDepth + 1;
+                // add series for current report unit
+                var series = BuildSeries<MCPieSeries>(reportUnit, 0, valuesCount);
+                result.Add(series);
+                // add all detailing report units as new series with next details depth (level)
+                result.AddRange(BuildDetailsPieSeries(reportUnit, series, 1, valuesCount));
             }
+
+            // series for bar chart with columns
             if (_viewModel.Settings.IsBarChartColumnsSelected)
             {
                 // series for bar chart with columns
                 var columnSeries = new StackedColumnSeries
                 {
-                    Title = caption,
+                    Title = reportUnit.Caption,
                     Values = new ChartValues<ObservableValue>(),
                     DataLabels = true
                 };
                 // all previous and next values should be equal to 0 but not current 
-                for (int i = 0; i < itemCount; i++)
-                    columnSeries.Values.Add(new ObservableValue(i != itemIndex ? 0 : value));
+                for (int i = 0; i < totalCount; i++)
+                    columnSeries.Values.Add(new ObservableValue(i != itemIndex ? 0 : reportUnit.DoubleAmount));
 
-                return columnSeries;
+                result.Add(columnSeries);
             }
+
+            // series for bar chart with rows
             if (_viewModel.Settings.IsBarChartRowsSelected)
             {
                 // series for bar chart with rows
                 var rowSeries = new StackedRowSeries
                 {
-                    Title = caption,
+                    Title = reportUnit.Caption,
                     Values = new ChartValues<ObservableValue>(),
                     DataLabels = true
                 };
                 // all previous and next values should be equal to 0 but not current 
-                for (int i = 0; i < itemCount; i++)
-                    rowSeries.Values.Add(new ObservableValue(i != itemIndex ? 0 : value));
+                for (int i = 0; i < totalCount; i++)
+                    rowSeries.Values.Add(new ObservableValue(i != itemIndex ? 0 : reportUnit.DoubleAmount));
 
-                return rowSeries;
+                result.Add(rowSeries);
             }
 
-            return null;
+            return result;
+        }
+
+        private IEnumerable<ISeriesView> BuildDetailsPieSeries(ReportUnit parentReportUnit, ISeriesView parentSeries, 
+            int valueIndex, int valuesCount)
+        {
+            var result = new List<ISeriesView>();
+
+            foreach(var reportUnit in parentReportUnit.Detailing)
+            {
+                ISeriesView series = null;
+                // if detailing report unit category is different create new series else continue parent series
+                if(reportUnit.CategoryId != parentReportUnit.CategoryId)
+                {
+                    series = BuildSeries<MCPieSeries>(reportUnit, valueIndex, valuesCount);
+                    result.Add(series);
+                }
+                else
+                {
+                    series = parentSeries;
+                    series.Values[valueIndex] = new ObservableValue(reportUnit.DoubleAmount);
+                }
+
+                // build series for every detailed report unit as new level (next value index)
+                if (reportUnit.Detailing.Count > 0)
+                    result.AddRange(BuildDetailsPieSeries(reportUnit, series, valueIndex + 1, valuesCount));
+            }
+
+            return result;
+        }
+
+        private ISeriesView BuildSeries<TSeries>(ReportUnit reportUnit, int itemIndex, int itemsCount)
+            where TSeries : Series, new()
+        {
+            var series = new TSeries()
+            {
+                Title = reportUnit.Caption,
+                Values = new ChartValues<ObservableValue>(),
+                DataLabels = true
+            };
+
+            // all previous and next values should be equal to 0 but not current 
+            for (int i = 0; i < itemsCount; i++)
+                series.Values.Add(new ObservableValue(i != itemIndex ? 0 : reportUnit.DoubleAmount));
+
+            return series;
         }
 
         #endregion
@@ -260,5 +327,15 @@ namespace MoneyChest.View.Pages
     {
         public SeriesCollection SeriesCollection { get; set; } = new SeriesCollection();
         public List<string> Titles { get; set; } = new List<string>();
+    }
+
+    public class MCPieSeries : PieSeries
+    {
+        public override IChartPointView GetPointView(ChartPoint point, string label)
+        {
+            if (label == "0") label = null;
+
+            return base.GetPointView(point, label);
+        }
     }
 }
