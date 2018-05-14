@@ -30,7 +30,7 @@ namespace MoneyChest.Model.Model
         public Sorting Sorting { get; set; }
 
         // Pie chart settings
-        public int PieChartInnerRadius { get; set; }
+        public int PieChartInnerRadius { get; set; } = 150;
         public int PieChartDetailsDepth { get; set; }
 
         // Bar chart settings

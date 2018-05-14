@@ -10,12 +10,11 @@ using MoneyChest.ViewModel.Extensions;
 namespace MoneyChest.ViewModel.ViewModel
 {
     [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public class ReportsPageViewModel<TSpecial>
-        where TSpecial: class, new()
+    public class ReportsPageViewModel<TChartData>
+        where TChartData: class, new()
     {
         public ReportSettingModel Settings { get; set; }
-        public TSpecial Special { get; set; } = new TSpecial();
-        public string Total { get; set; }
+        public TChartData ChartData { get; set; } = new TChartData();
         public bool IsAnyData { get; set; }
         
         public ReportBuildSettings GetBuildSettings()
@@ -28,7 +27,7 @@ namespace MoneyChest.ViewModel.ViewModel
                 DataType = Settings.DataType,
                 Sorting = Settings.Sorting,
                 ApplyFilter = Settings.DataFilter.ApplyFilter,
-                DetailsDepth = Settings.PieChartDetailsDepth
+                DetailsDepth = Settings.ChartType == Model.Enums.ChartType.PieChart ? Settings.PieChartDetailsDepth : (Settings.BarChartDetail ? 1 : 0)
             };
         }
     }

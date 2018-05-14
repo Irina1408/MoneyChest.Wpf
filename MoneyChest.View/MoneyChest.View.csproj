@@ -185,6 +185,8 @@
       <DependentUpon>StorageDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Base\PageBase.cs" />
+    <Compile Include="Pages\Chart\ChartSeries.cs" />
+    <Compile Include="Pages\Chart\ChartViewModel.cs" />
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>

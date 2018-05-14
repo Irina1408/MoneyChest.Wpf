@@ -24,8 +24,20 @@
 
         <Style TargetType="local:MCPieSeries">
             <Setter Property="StrokeThickness" Value="0.5"/>
-            <!--<Setter Property="DataLabels" Value="True"/>-->
-            <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
+            <Setter Property="FontSize" Value="{DynamicResource SmallFontSize}"/>
+            <!--<Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>-->
+        </Style>
+
+        <Style TargetType="local:MCStackedColumnSeries">
+            <Setter Property="StrokeThickness" Value="0.5"/>
+            <Setter Property="FontSize" Value="{DynamicResource SmallFontSize}"/>
+            <!--<Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>-->
+        </Style>
+
+        <Style TargetType="local:MCStackedRowSeries">
+            <Setter Property="StrokeThickness" Value="0.5"/>
+            <Setter Property="FontSize" Value="{DynamicResource SmallFontSize}"/>
+            <!--<Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>-->
         </Style>
     </local:PageBase.Resources>
     
@@ -148,7 +160,7 @@
                             <Border BorderBrush="{DynamicResource GrayBrush8}">
                                 <StackPanel>
                                     <Label Content="{moneyChestView:MultiLangBinding ReportSettingsPie_InnerRadius}" Width="200" HorizontalContentAlignment="Center"/>
-                                    <Slider Maximum="200" Minimum="0" TickFrequency="10" HorizontalAlignment="Stretch"
+                                    <Slider Maximum="300" Minimum="0" TickFrequency="50" HorizontalAlignment="Stretch"
                                         ToolTip="{moneyChestView:MultiLangBinding ReportSettingsPie_InnerRadius}"
                                         Value="{Binding PieChartInnerRadius,UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
@@ -228,7 +240,7 @@
                         <chart:ChartToolTip/>
                     </lvc:PieChart.DataTooltip>
                     <lvc:PieChart.ChartLegend>
-                        <chart:ChartLegend x:Name="ChartLegend1" Total="{Binding Total}"/>
+                        <chart:ChartLegend x:Name="ChartLegend1" Total="{Binding ChartData.Total}"/>
                     </lvc:PieChart.ChartLegend>
                 </lvc:PieChart>
 
@@ -240,10 +252,10 @@
                         <chart:ChartToolTip/>
                     </lvc:CartesianChart.DataTooltip>
                     <lvc:CartesianChart.ChartLegend>
-                        <chart:ChartLegend x:Name="ChartLegend2" Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
+                        <chart:ChartLegend x:Name="ChartLegend2" Total="{Binding ChartData.Total, UpdateSourceTrigger=PropertyChanged}"/>
                     </lvc:CartesianChart.ChartLegend >
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Labels="{Binding Special.Titles}" ShowLabels="True" LabelsRotation="-60">
+                        <lvc:Axis Labels="{Binding ChartData.Titles}" ShowLabels="True" LabelsRotation="-60">
                             <lvc:Axis.Separator>
                                 <!-- step 1 forces the axis to display all labels, disabling it makes it invisible-->
                                 <lvc:Separator Step="1" IsEnabled="False"/>
@@ -260,10 +272,10 @@
                         <chart:ChartToolTip/>
                     </lvc:CartesianChart.DataTooltip>
                     <lvc:CartesianChart.ChartLegend>
-                        <chart:ChartLegend x:Name="ChartLegend3" Total="{Binding Total, UpdateSourceTrigger=PropertyChanged}"/>
+                        <chart:ChartLegend x:Name="ChartLegend3" Total="{Binding ChartData.Total, UpdateSourceTrigger=PropertyChanged}"/>
                     </lvc:CartesianChart.ChartLegend>
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Labels="{Binding Special.Titles}" ShowLabels="True">
+                        <lvc:Axis Labels="{Binding ChartData.Titles}" ShowLabels="True">
                             <lvc:Axis.Separator>
                                 <!-- step 1 forces the axis to display all labels, disabling it makes it invisible-->
                                 <lvc:Separator Step="1" IsEnabled="False"/>

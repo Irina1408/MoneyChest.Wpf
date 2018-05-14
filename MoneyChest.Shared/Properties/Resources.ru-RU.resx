@@ -916,16 +916,16 @@
   <data name="ReportSettings_DetailsDepth" xml:space="preserve">
     <value>Глубина детализации</value>
   </data>
-  <data name="Sortings_AlphabeticalAscending" xml:space="preserve">
+  <data name="Sorting_AlphabeticalAscending" xml:space="preserve">
     <value>По алфавиту по возрастанию (А-Я)</value>
   </data>
-  <data name="Sortings_AlphabeticalDescending" xml:space="preserve">
+  <data name="Sorting_AlphabeticalDescending" xml:space="preserve">
     <value>По алфавиту по убыванию (Я-А)</value>
   </data>
-  <data name="Sortings_AmountAscending" xml:space="preserve">
+  <data name="Sorting_AmountAscending" xml:space="preserve">
     <value>По сумме по возрастанию (1-9)</value>
   </data>
-  <data name="Sortings_AmountDescending" xml:space="preserve">
+  <data name="Sorting_AmountDescending" xml:space="preserve">
     <value>По сумме по убыванию (9-1)</value>
   </data>
   <data name="BarChartSection_Category" xml:space="preserve">
@@ -945,5 +945,8 @@
   </data>
   <data name="ReportSettings_BarChartDetail" xml:space="preserve">
     <value>Детализировать</value>
+  </data>
+  <data name="Sorting_EnumName" xml:space="preserve">
+    <value>Сортировка</value>
   </data>
 </root>

@@ -47,7 +47,7 @@ namespace MoneyChest.View.Pages
         private IReportSettingService _settingsService;
         private ReportDataBuilder _builder;
 
-        private ReportsPageViewModel<ChartSpecial> _viewModel;
+        private ReportsPageViewModel<ChartViewModel> _viewModel;
         private int lowestCategoryLevel;
 
         #endregion
@@ -97,7 +97,7 @@ namespace MoneyChest.View.Pages
 
         private void InitializeViewModel()
         {
-            _viewModel = new ReportsPageViewModel<ChartSpecial>();
+            _viewModel = new ReportsPageViewModel<ChartViewModel>();
 
             this.DataContext = _viewModel;
         }
@@ -193,9 +193,9 @@ namespace MoneyChest.View.Pages
             var result = _builder.Build(_viewModel.GetBuildSettings(), force);
 
             // cleanup
-            if(_viewModel.Special.SeriesCollection.Count > 0)
-                _viewModel.Special.SeriesCollection.Clear();
-            _viewModel.Special.Titles.Clear();
+            if(_viewModel.ChartData.SeriesCollection.Count > 0)
+                _viewModel.ChartData.SeriesCollection.Clear();
+            _viewModel.ChartData.Titles.Clear();
             // cleanup chart data source
             pieChart.Series = null;
             barChartColumns.Series = null;
@@ -206,20 +206,20 @@ namespace MoneyChest.View.Pages
             for (int i = 0; i < result.ReportUnits.Count; i++)
             {
                 // build collection
-                _viewModel.Special.SeriesCollection.AddRange(BuildSeries(result.ReportUnits[i], i, result.ReportUnits.Count));
+                _viewModel.ChartData.SeriesCollection.AddRange(BuildSeries(result.ReportUnits[i], i, result.ReportUnits.Count));
                 // populate caption list
-                _viewModel.Special.Titles.Add(result.ReportUnits[i].Caption);
+                _viewModel.ChartData.Titles.Add(result.ReportUnits[i].Caption);
                 // mark any data exits
                 _viewModel.IsAnyData = true;
             }
 
             // update total
-            _viewModel.Total = result.TotAmountDetailed;
+            _viewModel.ChartData.Total = result.TotAmountDetailed;
 
             // populate chart datasource
-            if (_viewModel.Settings.IsPieChartSelected) pieChart.Series = _viewModel.Special.SeriesCollection;
-            if (_viewModel.Settings.IsBarChartColumnsSelected) barChartColumns.Series = _viewModel.Special.SeriesCollection;
-            if (_viewModel.Settings.IsBarChartRowsSelected) barChartRows.Series = _viewModel.Special.SeriesCollection;
+            if (_viewModel.Settings.IsPieChartSelected) pieChart.Series = _viewModel.ChartData.SeriesCollection;
+            if (_viewModel.Settings.IsBarChartColumnsSelected) barChartColumns.Series = _viewModel.ChartData.SeriesCollection;
+            if (_viewModel.Settings.IsBarChartRowsSelected) barChartRows.Series = _viewModel.ChartData.SeriesCollection;
         }
         
         private IEnumerable<ISeriesView> BuildSeries(ReportUnit reportUnit, int itemIndex, int totalCount)
@@ -241,35 +241,13 @@ namespace MoneyChest.View.Pages
             // series for bar chart with columns
             if (_viewModel.Settings.IsBarChartColumnsSelected)
             {
-                // series for bar chart with columns
-                var columnSeries = new StackedColumnSeries
-                {
-                    Title = reportUnit.Caption,
-                    Values = new ChartValues<ObservableValue>(),
-                    DataLabels = true
-                };
-                // all previous and next values should be equal to 0 but not current 
-                for (int i = 0; i < totalCount; i++)
-                    columnSeries.Values.Add(new ObservableValue(i != itemIndex ? 0 : reportUnit.DoubleAmount));
-
-                result.Add(columnSeries);
+                result.Add(BuildSeries<MCStackedColumnSeries>(reportUnit, itemIndex, totalCount));
             }
 
             // series for bar chart with rows
             if (_viewModel.Settings.IsBarChartRowsSelected)
             {
-                // series for bar chart with rows
-                var rowSeries = new StackedRowSeries
-                {
-                    Title = reportUnit.Caption,
-                    Values = new ChartValues<ObservableValue>(),
-                    DataLabels = true
-                };
-                // all previous and next values should be equal to 0 but not current 
-                for (int i = 0; i < totalCount; i++)
-                    rowSeries.Values.Add(new ObservableValue(i != itemIndex ? 0 : reportUnit.DoubleAmount));
-
-                result.Add(rowSeries);
+                result.Add(BuildSeries<MCStackedRowSeries>(reportUnit, itemIndex, totalCount));
             }
 
             return result;
@@ -321,21 +299,5 @@ namespace MoneyChest.View.Pages
         }
 
         #endregion
-    }
-
-    public class ChartSpecial
-    {
-        public SeriesCollection SeriesCollection { get; set; } = new SeriesCollection();
-        public List<string> Titles { get; set; } = new List<string>();
-    }
-
-    public class MCPieSeries : PieSeries
-    {
-        public override IChartPointView GetPointView(ChartPoint point, string label)
-        {
-            if (label == "0") label = null;
-
-            return base.GetPointView(point, label);
-        }
     }
 }

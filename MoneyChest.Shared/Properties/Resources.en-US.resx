@@ -919,19 +919,19 @@
   <data name="ReportSettings_DetailsDepth" xml:space="preserve">
     <value>Details depth</value>
   </data>
-  <data name="Sortings_AlphabeticalAscending" xml:space="preserve">
+  <data name="Sorting_AlphabeticalAscending" xml:space="preserve">
     <value>Alphabetical ascending (A-Z)</value>
   </data>
-  <data name="Sortings_AlphabeticalDescending" xml:space="preserve">
+  <data name="Sorting_AlphabeticalDescending" xml:space="preserve">
     <value>Alphabetical descending (Z-A)</value>
   </data>
-  <data name="Sortings_AmountAscending" xml:space="preserve">
-    <value>Amount ascending (1-N)</value>
+  <data name="Sorting_AmountAscending" xml:space="preserve">
+    <value>Amount ascending (1-9)</value>
   </data>
-  <data name="Sortings_AmountDescending" xml:space="preserve">
-    <value>Amount descending (N-1)</value>
+  <data name="Sorting_AmountDescending" xml:space="preserve">
+    <value>Amount descending (9-1)</value>
   </data>
-  <data name="Sortings_EnumName" xml:space="preserve">
+  <data name="Sorting_EnumName" xml:space="preserve">
     <value>Sorting</value>
   </data>
   <data name="BarChartSection_Category" xml:space="preserve">
