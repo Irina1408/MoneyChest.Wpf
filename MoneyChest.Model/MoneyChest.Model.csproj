@@ -78,6 +78,7 @@
     <Compile Include="Model\CategoryModel.cs" />
     <Compile Include="Model\CurrencyExchangeRateModel.cs" />
     <Compile Include="Model\CurrencyModel.cs" />
+    <Compile Include="Model\DateRange.cs" />
     <Compile Include="Model\DebtModel.cs" />
     <Compile Include="Model\DebtPenaltyModel.cs" />
     <Compile Include="Model\Events\EventModel.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Report\ReportData.cs" />
     <Compile Include="Report\ReportResult.cs" />
     <Compile Include="Report\ReportUnit.cs" />
+    <Compile Include="Utils\PeriodUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />

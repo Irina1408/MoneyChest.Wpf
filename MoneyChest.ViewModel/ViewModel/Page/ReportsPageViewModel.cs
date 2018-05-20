@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.ViewModel.Extensions;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.ViewModel.ViewModel
 {
@@ -27,7 +28,9 @@ namespace MoneyChest.ViewModel.ViewModel
                 DataType = Settings.DataType,
                 Sorting = Settings.Sorting,
                 ApplyFilter = Settings.DataFilter.ApplyFilter,
-                DetailsDepth = Settings.ChartType == Model.Enums.ChartType.PieChart ? Settings.PieChartDetailsDepth : (Settings.BarChartDetail ? 1 : 0)
+                DetailsDepth = Settings.ChartType == ChartType.PieChart ? Settings.PieChartDetailsDepth : (Settings.BarChartDetail ? 1 : 0),
+                Section = Settings.ChartType == ChartType.PieChart ? BarChartSection.Category : Settings.BarChartSection,
+                PeriodType = Settings.BarChartSectionPeriod
             };
         }
     }

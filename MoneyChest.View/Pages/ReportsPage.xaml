@@ -199,13 +199,6 @@
                                       SelectedValue="{Binding BarChartSection}"/>
                             </StackPanel>
 
-                            <!-- Compare Depth-->
-                            <StackPanel Orientation="Horizontal">
-                                <iconPacks:PackIconMaterial Kind="Compare" Style="{DynamicResource TextBoxIconStyle}"/>
-                                <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_BarChartCompareDepth}"
-                                      Text="{Binding BarChartCompareDepth}"/>
-                            </StackPanel>
-
                             <!-- Period -->
                             <StackPanel Orientation="Horizontal">
                                 <iconPacks:PackIconEntypo Kind="TimeSlot" Style="{DynamicResource TextBoxIconStyle}"/>
@@ -214,10 +207,6 @@
                                       DisplayMemberPath="Description" SelectedValuePath="Value"
                                       SelectedValue="{Binding BarChartSectionPeriod}"/>
                             </StackPanel>
-
-                            <!-- Compare Income and Expense -->
-                            <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_BarChartCompareIncomeExpense}" 
-                                  IsChecked="{Binding BarChartCompareIncomeExpense}"/>
 
                             <!-- Detail -->
                             <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_BarChartDetail}" 

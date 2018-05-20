@@ -16,8 +16,8 @@ namespace MoneyChest.Model.Report
         public RecordType DataType { get; set; }
         public Sorting Sorting { get; set; }
         public int DetailsDepth { get; set; }
-        public BarChartSection BarChartSection { get; set; }
-        public int CompareDepth { get; set; }
+        public BarChartSection Section { get; set; }
+        public PeriodType PeriodType { get; set; }
 
         public Func<IEnumerable<ITransaction>, List<ITransaction>> ApplyFilter { get; set; }
     }

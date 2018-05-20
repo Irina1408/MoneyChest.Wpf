@@ -3,6 +3,7 @@ using MoneyChest.Model.Enums;
 using MoneyChest.Model.Extensions;
 using MoneyChest.Model.Model;
 using MoneyChest.Model.Report;
+using MoneyChest.Model.Utils;
 using MoneyChest.Services.Services;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,10 @@ namespace MoneyChest.Calculation.Builders
             
             // build result
             var result = new ReportResult();
-            result.ReportUnits = BuildReportUnits(filteredTransactions, settings.CategoryLevel, settings.DetailsDepth, settings.Sorting);
+            // populate report units correspont to selected section
+            result.ReportUnits = settings.Section == BarChartSection.Category
+                ? BuildReportUnits(filteredTransactions, settings.CategoryLevel, settings.DetailsDepth, settings.Sorting)
+                : BuildReportUnits(filteredTransactions, settings.PeriodType, settings.DateFrom, settings.DateUntil);
             // calculate total
             result.TotAmountDetailed = FormatMainCurrency(result.ReportUnits.Sum(x => x.Amount), true);
 
@@ -90,12 +94,15 @@ namespace MoneyChest.Calculation.Builders
 
         private void LoadData(ReportBuildSettings settings, bool force)
         {
-            // set category level mapping
-            MakeSureCategoryMapping(settings.CategoryLevel, force);
+            if(settings.Section == BarChartSection.Category)
+            {
+                // set category level mapping
+                MakeSureCategoryMapping(settings.CategoryLevel, force);
 
-            // set category mapping for detailing
-            for(int i = 1; i <= settings.DetailsDepth; i++)
-                MakeSureCategoryMapping(settings.CategoryLevel + i, force);
+                // set category mapping for detailing
+                for (int i = 1; i <= settings.DetailsDepth; i++)
+                    MakeSureCategoryMapping(settings.CategoryLevel + i, force);
+            }
 
             // load transactions
             if (_prevReportSettings == null || force ||
@@ -127,7 +134,31 @@ namespace MoneyChest.Calculation.Builders
         #endregion
 
         #region Build
-        
+
+        private List<ReportUnit> BuildReportUnits(IEnumerable<ITransaction> transactions, PeriodType periodType, DateTime dateFrom, DateTime dateUntil)
+        {
+            var result = new List<ReportUnit>();
+            var periods = PeriodUtils.SplitDateRange(periodType, dateFrom, dateUntil);
+
+            foreach (var period in periods)
+            {
+                // get transactions for the correspond date range
+                var periodTransactions = transactions
+                    .Where(x => x.TransactionDate >= period.DateFrom && x.TransactionDate <= period.DateUntil);
+
+                // create report unit
+                var reportUnit = new ReportUnit
+                {
+                    Caption = PeriodUtils.GetPeriodRangeDetails(periodType, period.DateFrom, period.DateUntil),
+                    Amount = Math.Abs(periodTransactions.Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId)))
+                };
+                // add report unit to result list
+                result.Add(reportUnit);
+            }
+
+            return result;
+        }
+
         private List<ReportUnit> BuildReportUnits(IEnumerable<ITransaction> transactions, int categoryLevel, int detailsDepth, 
             Sorting sorting)
         {

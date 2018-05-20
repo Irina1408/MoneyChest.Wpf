@@ -1,5 +1,6 @@
 ﻿using MoneyChest.Model.Enums;
 using MoneyChest.Model.Model;
+using MoneyChest.Model.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,29 +15,9 @@ namespace MoneyChest.ViewModel.Extensions
         {
             periodFilter.IsDateRangeFilling = true;
 
-            switch (periodFilter.PeriodType)
-            {
-                case PeriodType.Month:
-                    periodFilter.DateFrom = periodFilter.DateFrom.AddMonths(1);
-                    periodFilter.DateUntil = periodFilter.DateFrom.AddMonths(1).AddMilliseconds(-1);
-                    break;
-
-                case PeriodType.Quarter:
-                    periodFilter.DateFrom = periodFilter.DateFrom.AddMonths(3);
-                    periodFilter.DateUntil = periodFilter.DateFrom.AddMonths(3).AddMilliseconds(-1);
-                    break;
-
-                case PeriodType.Year:
-                    periodFilter.DateFrom = periodFilter.DateFrom.AddYears(1);
-                    periodFilter.DateUntil = periodFilter.DateFrom.AddYears(1).AddMilliseconds(-1);
-                    break;
-
-                default:
-                    var diff = (periodFilter.DateUntil - periodFilter.DateFrom).Days + 1;
-                    periodFilter.DateFrom = periodFilter.DateFrom.AddDays(diff);
-                    periodFilter.DateUntil = periodFilter.DateUntil.AddDays(diff);
-                    break;
-            }
+            var dateRange = PeriodUtils.GetNextDateRange(periodFilter.PeriodType, periodFilter.DateFrom, periodFilter.DateUntil);
+            periodFilter.DateFrom = dateRange.DateFrom;
+            periodFilter.DateUntil = dateRange.DateUntil;
 
             periodFilter.IsDateRangeFilling = false;
         }
@@ -45,29 +26,10 @@ namespace MoneyChest.ViewModel.Extensions
         {
             periodFilter.IsDateRangeFilling = true;
 
-            switch (periodFilter.PeriodType)
-            {
-                case PeriodType.Month:
-                    periodFilter.DateFrom = periodFilter.DateFrom.AddMonths(-1);
-                    periodFilter.DateUntil = periodFilter.DateFrom.AddMonths(1).AddMilliseconds(-1);
-                    break;
+            var dateRange = PeriodUtils.GetPrevDateRange(periodFilter.PeriodType, periodFilter.DateFrom, periodFilter.DateUntil);
+            periodFilter.DateFrom = dateRange.DateFrom;
+            periodFilter.DateUntil = dateRange.DateUntil;
 
-                case PeriodType.Quarter:
-                    periodFilter.DateFrom = periodFilter.DateFrom.AddMonths(-3);
-                    periodFilter.DateUntil = periodFilter.DateFrom.AddMonths(3).AddMilliseconds(-1);
-                    break;
-
-                case PeriodType.Year:
-                    periodFilter.DateFrom = periodFilter.DateFrom.AddYears(-1);
-                    periodFilter.DateUntil = periodFilter.DateFrom.AddYears(1).AddMilliseconds(-1);
-                    break;
-
-                default:
-                    var diff = (periodFilter.DateUntil - periodFilter.DateFrom).Days + 1;
-                    periodFilter.DateFrom = periodFilter.DateFrom.AddDays(-diff);
-                    periodFilter.DateUntil = periodFilter.DateUntil.AddDays(-diff);
-                    break;
-            }
             periodFilter.IsDateRangeFilling = false;
         }
     }

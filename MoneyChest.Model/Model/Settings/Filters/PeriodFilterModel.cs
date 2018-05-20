@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Model.Enums;
+using MoneyChest.Model.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -89,7 +90,7 @@ namespace MoneyChest.Model.Model
         }
 
         [PropertyChanged.DependsOn(nameof(PeriodType), nameof(DateFrom), nameof(DateUntil))]
-        public string PeriodDetails => GetPeriodRangeDetails(PeriodType, DateFrom, DateUntil);
+        public string PeriodDetails => PeriodUtils.GetPeriodRangeDetails(PeriodType, DateFrom, DateUntil);
 
         #endregion
 
@@ -118,7 +119,7 @@ namespace MoneyChest.Model.Model
                     break;
 
                 case PeriodType.Quarter:
-                    DateFrom = new DateTime(DateTime.Today.Year, ((DateTime.Today.Month - 1) / 3 + 1) * 3 - 2, 1);
+                    DateFrom = DateTime.Today.FirstDayOfQuater();
                     DateUntil = DateFrom.AddMonths(3).AddDays(-1);
                     break;
 
@@ -132,27 +133,6 @@ namespace MoneyChest.Model.Model
             if (periodType != PeriodType.Custom) DateUntil = DateUntil.AddDays(1).AddMilliseconds(-1);
             // announce date range population is finished
             IsDateRangeFilling = false;
-        }
-        
-        private string GetPeriodRangeDetails(PeriodType periodType, DateTime dateFrom, DateTime dateUntil)
-        {
-            switch (periodType)
-            {
-                case PeriodType.Day:
-                    return dateFrom.ToShortDateString();
-
-                case PeriodType.Month:
-                    return $"{dateFrom.ToString("MMMM")} {dateFrom.Year}";
-
-                case PeriodType.Quarter:
-                    return $"Q{(dateFrom.Month - 1) / 3 + 1} {dateFrom.Year}";
-
-                case PeriodType.Year:
-                    return dateFrom.Year.ToString();
-
-                default:
-                    return $"{DateFrom.ToShortDateString()} - {DateUntil.ToShortDateString()}";
-            }
         }
 
         private void NotifyPeriodChanged()

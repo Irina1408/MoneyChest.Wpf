@@ -201,12 +201,20 @@ namespace MoneyChest.View.Pages
             barChartColumns.Series = null;
             barChartRows.Series = null;
 
-            var nonCategoryName = MultiLangResourceManager.Instance[MultiLangResourceName.None];
-
             for (int i = 0; i < result.ReportUnits.Count; i++)
             {
                 // build collection
-                _viewModel.ChartData.SeriesCollection.AddRange(BuildSeries(result.ReportUnits[i], i, result.ReportUnits.Count));
+                if(_viewModel.Settings.BarChartSection == BarChartSection.Category)
+                {
+                    _viewModel.ChartData.SeriesCollection.AddRange(BuildSeries(result.ReportUnits[i], i, result.ReportUnits.Count));
+                }
+                else
+                {
+                    if(_viewModel.ChartData.SeriesCollection.Count == 0)
+                        _viewModel.ChartData.SeriesCollection.AddRange(BuildSeries(result.ReportUnits[i], i, result.ReportUnits.Count));
+
+                    _viewModel.ChartData.SeriesCollection[0].Values[i] = new ObservableValue(result.ReportUnits[i].DoubleAmount);
+                }
                 // populate caption list
                 _viewModel.ChartData.Titles.Add(result.ReportUnits[i].Caption);
                 // mark any data exits
@@ -221,7 +229,7 @@ namespace MoneyChest.View.Pages
             if (_viewModel.Settings.IsBarChartColumnsSelected) barChartColumns.Series = _viewModel.ChartData.SeriesCollection;
             if (_viewModel.Settings.IsBarChartRowsSelected) barChartRows.Series = _viewModel.ChartData.SeriesCollection;
         }
-        
+
         private IEnumerable<ISeriesView> BuildSeries(ReportUnit reportUnit, int itemIndex, int totalCount)
         {
             var result = new List<ISeriesView>();
@@ -241,13 +249,25 @@ namespace MoneyChest.View.Pages
             // series for bar chart with columns
             if (_viewModel.Settings.IsBarChartColumnsSelected)
             {
-                result.Add(BuildSeries<MCStackedColumnSeries>(reportUnit, itemIndex, totalCount));
+                if (reportUnit.Detailing.Count > 0)
+                {
+                    foreach(var reportUnitDetail in reportUnit.Detailing)
+                        result.Add(BuildSeries<MCStackedColumnSeries>(reportUnitDetail, itemIndex, totalCount));
+                }
+                else
+                    result.Add(BuildSeries<MCStackedColumnSeries>(reportUnit, itemIndex, totalCount));
             }
 
             // series for bar chart with rows
             if (_viewModel.Settings.IsBarChartRowsSelected)
             {
-                result.Add(BuildSeries<MCStackedRowSeries>(reportUnit, itemIndex, totalCount));
+                if (reportUnit.Detailing.Count > 0)
+                {
+                    foreach (var reportUnitDetail in reportUnit.Detailing)
+                        result.Add(BuildSeries<MCStackedRowSeries>(reportUnitDetail, itemIndex, totalCount));
+                }
+                else
+                    result.Add(BuildSeries<MCStackedRowSeries>(reportUnit, itemIndex, totalCount));
             }
 
             return result;

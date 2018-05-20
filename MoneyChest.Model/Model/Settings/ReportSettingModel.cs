@@ -36,9 +36,9 @@ namespace MoneyChest.Model.Model
         // Bar chart settings
         public BarChartView BarChartView { get; set; } = BarChartView.Vertical;
         public BarChartSection BarChartSection { get; set; }
-        public int BarChartCompareDepth { get; set; }
+        //public int BarChartCompareDepth { get; set; } // TODO: remove from language files
         public PeriodType BarChartSectionPeriod { get; set; }
-        public bool BarChartCompareIncomeExpense { get; set; }
+        //public bool BarChartCompareIncomeExpense { get; set; }
         public bool BarChartDetail { get; set; }
 
         public PeriodFilterModel PeriodFilter { get; set; }

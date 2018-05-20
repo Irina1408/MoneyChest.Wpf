@@ -20,5 +20,7 @@ namespace MoneyChest.Model
 
             return date.AddDays(-1 * diff).Date;
         }
+
+        public static DateTime FirstDayOfQuater(this DateTime date) => new DateTime(date.Year, ((date.Month - 1) / 3 + 1) * 3 - 2, 1);
     }
 }
