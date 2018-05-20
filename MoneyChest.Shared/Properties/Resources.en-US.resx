@@ -943,13 +943,13 @@
   <data name="BarChartSection_Period" xml:space="preserve">
     <value>Period</value>
   </data>
-  <data name="ReportSettings_BarChartCompareDepth" xml:space="preserve">
-    <value>Compare with previous period depth</value>
-  </data>
-  <data name="ReportSettings_BarChartCompareIncomeExpense" xml:space="preserve">
-    <value>Compare incomes and expenses</value>
-  </data>
   <data name="ReportSettings_BarChartDetail" xml:space="preserve">
     <value>Detail</value>
+  </data>
+  <data name="ReportSettings_ShowLegend" xml:space="preserve">
+    <value>Show legend</value>
+  </data>
+  <data name="ReportSettings_ShowValue" xml:space="preserve">
+    <value>Show value</value>
   </data>
 </root>

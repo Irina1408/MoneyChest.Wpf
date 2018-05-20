@@ -17,7 +17,7 @@ namespace MoneyChest.ViewModel.ViewModel
         public ReportSettingModel Settings { get; set; }
         public TChartData ChartData { get; set; } = new TChartData();
         public bool IsAnyData { get; set; }
-        
+
         public ReportBuildSettings GetBuildSettings()
         {
             return new ReportBuildSettings()

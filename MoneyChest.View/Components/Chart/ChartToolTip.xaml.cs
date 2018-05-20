@@ -1,6 +1,7 @@
 ﻿using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
+using MoneyChest.Model.Report;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,12 +30,24 @@ namespace MoneyChest.View.Components.Chart
         public ChartToolTip()
         {
             InitializeComponent();
+            SelectionMode = TooltipSelectionMode.OnlySender;
             MainGrid.DataContext = this;
         }
 
         public TooltipData Data { get; set; }
         public TooltipSelectionMode? SelectionMode { get; set; }
-        public Series Sender => Data?.SenderSeries;
-        public double? Value => (Sender?.Values as ChartValues<ObservableValue>)?.Where(x => x.Value != 0)?.FirstOrDefault()?.Value;
+
+        #region ShowPercentage Property
+
+        public bool ShowPercentage
+        {
+            get => (bool)this.GetValue(ShowPercentageProperty);
+            set => this.SetValue(ShowPercentageProperty, value);
+        }
+
+        public static readonly DependencyProperty ShowPercentageProperty = DependencyProperty.Register(
+            nameof(ShowPercentage), typeof(bool), typeof(ChartToolTip));
+
+        #endregion
     }
 }

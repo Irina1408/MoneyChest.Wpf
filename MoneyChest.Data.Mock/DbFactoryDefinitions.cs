@@ -162,7 +162,7 @@ namespace MoneyChest.Data.Mock
 
             f.Define<ReportSetting>(e =>
             {
-                e.ReportType = ChartType.PieChart;
+                e.ChartType = ChartType.PieChart;
                 e.CategoryLevel = -1;
             });
         }

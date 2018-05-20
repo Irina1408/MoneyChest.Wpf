@@ -110,7 +110,7 @@ namespace MoneyChest.Model.Utils
                         break;
 
                     default:
-                        throw new InvalidOperationException();
+                        throw new NotSupportedException();
                 }
 
                 // make sure end date doen't exceed end day of date range

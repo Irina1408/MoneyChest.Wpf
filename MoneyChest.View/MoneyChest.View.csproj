@@ -185,12 +185,14 @@
       <DependentUpon>StorageDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Base\PageBase.cs" />
+    <Compile Include="Pages\Chart\ChartData.cs" />
     <Compile Include="Pages\Chart\ChartSeries.cs" />
-    <Compile Include="Pages\Chart\ChartViewModel.cs" />
+    <Compile Include="Pages\Chart\ChartDataBuilder.cs" />
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\ColorGenerator.cs" />
     <Compile Include="Utils\EntityViewHelper.cs" />
     <Compile Include="Utils\EnumViewHelper.cs" />
     <Compile Include="Utils\MCThemeManager.cs" />

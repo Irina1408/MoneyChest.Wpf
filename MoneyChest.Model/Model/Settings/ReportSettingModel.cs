@@ -28,6 +28,8 @@ namespace MoneyChest.Model.Model
         public RecordType DataType { get; set; }
         public int CategoryLevel { get; set; }
         public Sorting Sorting { get; set; }
+        public bool ShowLegend { get; set; } = true;
+        public bool ShowValue { get; set; } = true;
 
         // Pie chart settings
         public int PieChartInnerRadius { get; set; } = 150;
@@ -36,9 +38,7 @@ namespace MoneyChest.Model.Model
         // Bar chart settings
         public BarChartView BarChartView { get; set; } = BarChartView.Vertical;
         public BarChartSection BarChartSection { get; set; }
-        //public int BarChartCompareDepth { get; set; } // TODO: remove from language files
         public PeriodType BarChartSectionPeriod { get; set; }
-        //public bool BarChartCompareIncomeExpense { get; set; }
         public bool BarChartDetail { get; set; }
 
         public PeriodFilterModel PeriodFilter { get; set; }
@@ -49,5 +49,13 @@ namespace MoneyChest.Model.Model
         public bool IsBarChartSelected => ChartType == ChartType.BarChart;
         public bool IsBarChartColumnsSelected => IsBarChartSelected && BarChartView == BarChartView.Vertical;
         public bool IsBarChartRowsSelected => IsBarChartSelected && BarChartView == BarChartView.Horizontal;
+        public bool ShowPercentage => IsPieChartSelected || (BarChartSection == BarChartSection.Category && BarChartDetail);
+        public bool ShowLegendView => ShowLegend && (IsPieChartSelected || (BarChartSection == BarChartSection.Category));
+
+        // enable/disable properties
+        public bool IsCategoryLevelEnabled => IsPieChartSelected || BarChartSection == BarChartSection.Category;
+        public bool IsSortingEnabled => IsPieChartSelected || BarChartSection == BarChartSection.Category;
+        public bool IsBarChartPeriodTypeEnabled => IsBarChartSelected && BarChartSection == BarChartSection.Period;
+        public bool IsBarChartDetailEnabled => IsBarChartSelected && BarChartSection == BarChartSection.Category;
     }
 }

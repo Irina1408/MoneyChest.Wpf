@@ -16,11 +16,24 @@ namespace MoneyChest.Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }
-
-        public ChartType ReportType { get; set; }
-
-        public RecordType? DataType { get; set; }
+        
+        public bool ShowSettings { get; set; }
+        public ChartType ChartType { get; set; }
+        public RecordType DataType { get; set; }
         public int CategoryLevel { get; set; }
+        public Sorting Sorting { get; set; }
+        public bool ShowLegend { get; set; }
+        public bool ShowValue { get; set; }
+
+        // Pie chart settings
+        public int PieChartInnerRadius { get; set; }
+        public int PieChartDetailsDepth { get; set; }
+
+        // Bar chart settings
+        public BarChartView BarChartView { get; set; }
+        public BarChartSection BarChartSection { get; set; }
+        public PeriodType BarChartSectionPeriod { get; set; }
+        public bool BarChartDetail { get; set; }
 
         public int DataFilterId { get; set; }
         public int PeriodFilterId { get; set; }

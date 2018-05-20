@@ -29,6 +29,7 @@ using MoneyChest.Model.Enums;
 using LiveCharts.Definitions.Series;
 using MoneyChest.Model.Report;
 using LiveCharts.Definitions.Points;
+using LiveCharts.Configurations;
 
 namespace MoneyChest.View.Pages
 {
@@ -46,8 +47,9 @@ namespace MoneyChest.View.Pages
         private ICategoryService _categoryService;
         private IReportSettingService _settingsService;
         private ReportDataBuilder _builder;
+        private ChartDataBuilder _chartDataBuilder;
 
-        private ReportsPageViewModel<ChartViewModel> _viewModel;
+        private ReportsPageViewModel<ChartData> _viewModel;
         private int lowestCategoryLevel;
 
         #endregion
@@ -69,6 +71,7 @@ namespace MoneyChest.View.Pages
             _categoryService = ServiceManager.ConfigureService<CategoryService>();
             _settingsService = ServiceManager.ConfigureService<ReportSettingService>();
             _builder = new ReportDataBuilder(GlobalVariables.UserId, _service, _currencyService, _currencyExchangeRateService, _categoryService);
+            _chartDataBuilder = new ChartDataBuilder();
 
             // init comboboxes
             comboChartType.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(ChartType));
@@ -91,13 +94,13 @@ namespace MoneyChest.View.Pages
             for (int i = 0; i <= lowestCategoryLevel; i++)
                 categoryLevelDictionary.Add(i, (i + 1).ToString());
             comboCategoryLevel.ItemsSource = categoryLevelDictionary;
-
+            
             InitializeViewModel();
         }
 
         private void InitializeViewModel()
         {
-            _viewModel = new ReportsPageViewModel<ChartViewModel>();
+            _viewModel = new ReportsPageViewModel<ChartData>();
 
             this.DataContext = _viewModel;
         }
@@ -114,6 +117,10 @@ namespace MoneyChest.View.Pages
             {
                 _viewModel.Settings = _settingsService.GetForUser(GlobalVariables.UserId);
 
+                // settings that should be saved but rebuild isn't required
+                var saveSettings = new List<string>() { nameof(ReportSettingModel.PieChartInnerRadius), nameof(ReportSettingModel.ShowSettings)};
+
+                // save and rebuild report handler
                 EventHandler buildSettingsChangedHandler = (sender, e) =>
                 {
                     // save changes
@@ -124,16 +131,39 @@ namespace MoneyChest.View.Pages
 
                 _viewModel.Settings.PropertyChanged += (sender, e) =>
                 {
-                    if (e.PropertyName != nameof(ReportSettingModel.DataFilter) ||
-                        e.PropertyName != nameof(ReportSettingModel.PeriodFilter))
+                    if (e.PropertyName != nameof(ReportSettingModel.DataFilter) &&
+                        e.PropertyName != nameof(ReportSettingModel.PeriodFilter) &&
+                        typeof(ReportSettingModel).GetProperty(e.PropertyName).CanWrite)
                     {
-                        // TODO: do not rebuild report data when view settings are changed (cart/inner radius etc..)
-                        buildSettingsChangedHandler.Invoke(sender, e);
-
-                        if (e.PropertyName == nameof(ReportSettingModel.CategoryLevel))
+                        if(saveSettings.Contains(e.PropertyName))
                         {
-                            // refresh items source of comboDetailsDepth
-                            RefreshAvailableDetailsDepth();
+                            // save changes
+                            _settingsService.Update(_viewModel.Settings);
+                        }
+                        else if(e.PropertyName == nameof(ReportSettingModel.ShowLegend))
+                        {
+                            // update legend visibility
+                            UpdateLegendVisibility(_viewModel.Settings.ShowLegendView);
+                            // save changes
+                            _settingsService.Update(_viewModel.Settings);
+                        }
+                        else if (e.PropertyName == nameof(ReportSettingModel.ShowValue))
+                        {
+                            // update labels visibility
+                            _chartDataBuilder.UpdateShowLables(_viewModel.ChartData.SeriesCollection, _viewModel.Settings.ShowValue);
+                            // save changes
+                            _settingsService.Update(_viewModel.Settings);
+                        }
+                        else
+                        {
+                            if (e.PropertyName == nameof(ReportSettingModel.CategoryLevel))
+                            {
+                                // refresh items source of comboDetailsDepth
+                                RefreshAvailableDetailsDepth();
+                            }
+
+                            // rebuild report and save settings
+                            buildSettingsChangedHandler.Invoke(sender, e);
                         }
                     }
                 };
@@ -191,36 +221,14 @@ namespace MoneyChest.View.Pages
             _builder.NoneCategoryName = MultiLangResourceManager.Instance[MultiLangResourceName.None];
             // build report result
             var result = _builder.Build(_viewModel.GetBuildSettings(), force);
-
-            // cleanup
-            if(_viewModel.ChartData.SeriesCollection.Count > 0)
-                _viewModel.ChartData.SeriesCollection.Clear();
-            _viewModel.ChartData.Titles.Clear();
+            
             // cleanup chart data source
             pieChart.Series = null;
             barChartColumns.Series = null;
             barChartRows.Series = null;
 
-            for (int i = 0; i < result.ReportUnits.Count; i++)
-            {
-                // build collection
-                if(_viewModel.Settings.BarChartSection == BarChartSection.Category)
-                {
-                    _viewModel.ChartData.SeriesCollection.AddRange(BuildSeries(result.ReportUnits[i], i, result.ReportUnits.Count));
-                }
-                else
-                {
-                    if(_viewModel.ChartData.SeriesCollection.Count == 0)
-                        _viewModel.ChartData.SeriesCollection.AddRange(BuildSeries(result.ReportUnits[i], i, result.ReportUnits.Count));
-
-                    _viewModel.ChartData.SeriesCollection[0].Values[i] = new ObservableValue(result.ReportUnits[i].DoubleAmount);
-                }
-                // populate caption list
-                _viewModel.ChartData.Titles.Add(result.ReportUnits[i].Caption);
-                // mark any data exits
-                _viewModel.IsAnyData = true;
-            }
-
+            _viewModel.ChartData = _chartDataBuilder.Build(result.ReportUnits, _viewModel.Settings);
+            _viewModel.IsAnyData = _viewModel.ChartData.SeriesCollection.Any();
             // update total
             _viewModel.ChartData.Total = result.TotAmountDetailed;
 
@@ -228,94 +236,15 @@ namespace MoneyChest.View.Pages
             if (_viewModel.Settings.IsPieChartSelected) pieChart.Series = _viewModel.ChartData.SeriesCollection;
             if (_viewModel.Settings.IsBarChartColumnsSelected) barChartColumns.Series = _viewModel.ChartData.SeriesCollection;
             if (_viewModel.Settings.IsBarChartRowsSelected) barChartRows.Series = _viewModel.ChartData.SeriesCollection;
+            // update legend visibility
+            UpdateLegendVisibility(_viewModel.Settings.ShowLegendView);
         }
 
-        private IEnumerable<ISeriesView> BuildSeries(ReportUnit reportUnit, int itemIndex, int totalCount)
+        private void UpdateLegendVisibility(bool showLegend)
         {
-            var result = new List<ISeriesView>();
-
-            // series for pie chart
-            if (_viewModel.Settings.IsPieChartSelected)
-            {
-                // values count should be equivalent to details depth (levels count)
-                var valuesCount = _viewModel.Settings.PieChartDetailsDepth + 1;
-                // add series for current report unit
-                var series = BuildSeries<MCPieSeries>(reportUnit, 0, valuesCount);
-                result.Add(series);
-                // add all detailing report units as new series with next details depth (level)
-                result.AddRange(BuildDetailsPieSeries(reportUnit, series, 1, valuesCount));
-            }
-
-            // series for bar chart with columns
-            if (_viewModel.Settings.IsBarChartColumnsSelected)
-            {
-                if (reportUnit.Detailing.Count > 0)
-                {
-                    foreach(var reportUnitDetail in reportUnit.Detailing)
-                        result.Add(BuildSeries<MCStackedColumnSeries>(reportUnitDetail, itemIndex, totalCount));
-                }
-                else
-                    result.Add(BuildSeries<MCStackedColumnSeries>(reportUnit, itemIndex, totalCount));
-            }
-
-            // series for bar chart with rows
-            if (_viewModel.Settings.IsBarChartRowsSelected)
-            {
-                if (reportUnit.Detailing.Count > 0)
-                {
-                    foreach (var reportUnitDetail in reportUnit.Detailing)
-                        result.Add(BuildSeries<MCStackedRowSeries>(reportUnitDetail, itemIndex, totalCount));
-                }
-                else
-                    result.Add(BuildSeries<MCStackedRowSeries>(reportUnit, itemIndex, totalCount));
-            }
-
-            return result;
-        }
-
-        private IEnumerable<ISeriesView> BuildDetailsPieSeries(ReportUnit parentReportUnit, ISeriesView parentSeries, 
-            int valueIndex, int valuesCount)
-        {
-            var result = new List<ISeriesView>();
-
-            foreach(var reportUnit in parentReportUnit.Detailing)
-            {
-                ISeriesView series = null;
-                // if detailing report unit category is different create new series else continue parent series
-                if(reportUnit.CategoryId != parentReportUnit.CategoryId)
-                {
-                    series = BuildSeries<MCPieSeries>(reportUnit, valueIndex, valuesCount);
-                    result.Add(series);
-                }
-                else
-                {
-                    series = parentSeries;
-                    series.Values[valueIndex] = new ObservableValue(reportUnit.DoubleAmount);
-                }
-
-                // build series for every detailed report unit as new level (next value index)
-                if (reportUnit.Detailing.Count > 0)
-                    result.AddRange(BuildDetailsPieSeries(reportUnit, series, valueIndex + 1, valuesCount));
-            }
-
-            return result;
-        }
-
-        private ISeriesView BuildSeries<TSeries>(ReportUnit reportUnit, int itemIndex, int itemsCount)
-            where TSeries : Series, new()
-        {
-            var series = new TSeries()
-            {
-                Title = reportUnit.Caption,
-                Values = new ChartValues<ObservableValue>(),
-                DataLabels = true
-            };
-
-            // all previous and next values should be equal to 0 but not current 
-            for (int i = 0; i < itemsCount; i++)
-                series.Values.Add(new ObservableValue(i != itemIndex ? 0 : reportUnit.DoubleAmount));
-
-            return series;
+            pieChart.LegendLocation = showLegend ? LegendLocation.Right : LegendLocation.None;
+            barChartColumns.LegendLocation = showLegend ? LegendLocation.Right : LegendLocation.None;
+            barChartRows.LegendLocation = showLegend ? LegendLocation.Right : LegendLocation.None;
         }
 
         #endregion

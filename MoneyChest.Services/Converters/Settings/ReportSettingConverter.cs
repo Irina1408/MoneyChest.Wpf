@@ -16,9 +16,22 @@ namespace MoneyChest.Services.Converters
         protected override void FillEntity(ReportSetting entity, ReportSettingModel model)
         {
             entity.UserId = model.UserId;
-            entity.ReportType = model.ChartType;
+            entity.ShowSettings = model.ShowSettings;
+            entity.ChartType = model.ChartType;
             entity.DataType = model.DataType;
             entity.CategoryLevel = model.CategoryLevel;
+
+            entity.Sorting = model.Sorting;
+            entity.ShowLegend = model.ShowLegend;
+            entity.ShowValue = model.ShowValue;
+
+            entity.PieChartInnerRadius = model.PieChartInnerRadius;
+            entity.PieChartDetailsDepth = model.PieChartDetailsDepth;
+
+            entity.BarChartView = model.BarChartView;
+            entity.BarChartSection = model.BarChartSection;
+            entity.BarChartSectionPeriod = model.BarChartSectionPeriod;
+            entity.BarChartDetail = model.BarChartDetail;
 
             if (entity.PeriodFilter != null)
                 periodFilterConverter.UpdateEntity(entity.PeriodFilter, model.PeriodFilter);
@@ -30,9 +43,22 @@ namespace MoneyChest.Services.Converters
         protected override void FillModel(ReportSetting entity, ReportSettingModel model)
         {
             model.UserId = entity.UserId;
-            model.ChartType = entity.ReportType;
-            model.DataType = entity.DataType ?? Model.Enums.RecordType.Expense;
+            model.ShowSettings = entity.ShowSettings;
+            model.ChartType = entity.ChartType;
+            model.DataType = entity.DataType;
             model.CategoryLevel = entity.CategoryLevel;
+            
+            model.Sorting = entity.Sorting;
+            model.ShowLegend = entity.ShowLegend;
+            model.ShowValue = entity.ShowValue;
+            
+            model.PieChartInnerRadius = entity.PieChartInnerRadius;
+            model.PieChartDetailsDepth = entity.PieChartDetailsDepth;
+            
+            model.BarChartView = entity.BarChartView;
+            model.BarChartSection = entity.BarChartSection;
+            model.BarChartSectionPeriod = entity.BarChartSectionPeriod;
+            model.BarChartDetail = entity.BarChartDetail;
 
             if (entity.PeriodFilter != null)
                 periodFilterConverter.UpdateModel(entity.PeriodFilter, model.PeriodFilter);

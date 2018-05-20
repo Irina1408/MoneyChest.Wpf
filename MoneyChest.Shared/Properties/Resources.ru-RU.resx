@@ -937,16 +937,16 @@
   <data name="BarChartSection_Period" xml:space="preserve">
     <value>Период</value>
   </data>
-  <data name="ReportSettings_BarChartCompareDepth" xml:space="preserve">
-    <value>Глубина сравнения с предыдущим периодом</value>
-  </data>
-  <data name="ReportSettings_BarChartCompareIncomeExpense" xml:space="preserve">
-    <value>Сравнить доходы и расходы</value>
-  </data>
   <data name="ReportSettings_BarChartDetail" xml:space="preserve">
     <value>Детализировать</value>
   </data>
   <data name="Sorting_EnumName" xml:space="preserve">
     <value>Сортировка</value>
+  </data>
+  <data name="ReportSettings_ShowLegend" xml:space="preserve">
+    <value>Показать легенду</value>
+  </data>
+  <data name="ReportSettings_ShowValue" xml:space="preserve">
+    <value>Показать значение</value>
   </data>
 </root>

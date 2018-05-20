@@ -123,15 +123,6 @@
                                       SelectedValue="{Binding ChartType, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
 
-                            <!-- Category level -->
-                            <StackPanel Orientation="Horizontal">
-                                <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}" />
-                                <ComboBox x:Name="comboCategoryLevel" 
-                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_CategoryLevel}"
-                                      DisplayMemberPath="Value" SelectedValuePath="Key"
-                                      SelectedValue="{Binding CategoryLevel}"/>
-                            </StackPanel>
-
                             <!-- Data type -->
                             <StackPanel Orientation="Horizontal">
                                 <iconPacks:PackIconModern Kind="MathPlusMinus" Style="{DynamicResource TextBoxIconStyle}"/>
@@ -141,14 +132,31 @@
                                       SelectedValue="{Binding DataType}"/>
                             </StackPanel>
 
+                            <!-- Category level -->
+                            <StackPanel Orientation="Horizontal" IsEnabled="{Binding IsCategoryLevelEnabled}">
+                                <iconPacks:PackIconEntypo Kind="FlowTree" Style="{DynamicResource TextBoxIconStyle}" />
+                                <ComboBox x:Name="comboCategoryLevel" 
+                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding ReportSettings_CategoryLevel}"
+                                      DisplayMemberPath="Value" SelectedValuePath="Key"
+                                      SelectedValue="{Binding CategoryLevel}"/>
+                            </StackPanel>
+
                             <!-- Sorting -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" IsEnabled="{Binding IsSortingEnabled}">
                                 <iconPacks:PackIconFontAwesome Kind="SortAmountDesc" Style="{DynamicResource TextBoxIconStyle}"/>
                                 <ComboBox x:Name="comboSorting" 
                                       materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Sortings_EnumName}"
                                       DisplayMemberPath="Description" SelectedValuePath="Value"
                                       SelectedValue="{Binding Sorting}"/>
                             </StackPanel>
+                            
+                            <!-- Show legend -->
+                            <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_ShowLegend}" 
+                                  IsChecked="{Binding ShowLegend}"/>
+
+                            <!-- Show value -->
+                            <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_ShowValue}" 
+                                  IsChecked="{Binding ShowValue}"/>
                         </StackPanel>
                     </GroupBox>
 
@@ -200,7 +208,7 @@
                             </StackPanel>
 
                             <!-- Period -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" IsEnabled="{Binding IsBarChartPeriodTypeEnabled}">
                                 <iconPacks:PackIconEntypo Kind="TimeSlot" Style="{DynamicResource TextBoxIconStyle}"/>
                                 <ComboBox x:Name="comboBarChartPeriod" 
                                       materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding PeriodType_EnumName}"
@@ -210,7 +218,7 @@
 
                             <!-- Detail -->
                             <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_BarChartDetail}" 
-                                  IsChecked="{Binding BarChartDetail}"/>
+                                  IsChecked="{Binding BarChartDetail}" IsEnabled="{Binding IsBarChartDetailEnabled}"/>
                         </StackPanel>
                     </GroupBox>
                 </Grid>
@@ -224,9 +232,9 @@
                 <!-- Pie chart -->
                 <lvc:PieChart x:Name="pieChart" LegendLocation="Right" InnerRadius="{Binding Settings.PieChartInnerRadius}"
                               Visibility="{Binding Settings.IsPieChartSelected, Converter={StaticResource BVConverter}}"
-                              AnimationsSpeed="0:0:0.25" Margin="10">
+                              AnimationsSpeed="0:0:0.25" Margin="10" SeriesColors="{Binding ChartData.ColorsCollection}">
                     <lvc:PieChart.DataTooltip>
-                        <chart:ChartToolTip/>
+                        <chart:ChartToolTip ShowPercentage="{Binding Settings.ShowPercentage, UpdateSourceTrigger=PropertyChanged}"/>
                     </lvc:PieChart.DataTooltip>
                     <lvc:PieChart.ChartLegend>
                         <chart:ChartLegend x:Name="ChartLegend1" Total="{Binding ChartData.Total}"/>
@@ -236,9 +244,9 @@
                 <!-- Bar chart (columns) -->
                 <lvc:CartesianChart x:Name="barChartColumns" LegendLocation="Right"
                                     Visibility="{Binding Settings.IsBarChartColumnsSelected, Converter={StaticResource BVConverter}}"
-                                    AnimationsSpeed="0:0:0.25">
+                                    AnimationsSpeed="0:0:0.25" SeriesColors="{Binding ChartData.ColorsCollection}">
                     <lvc:CartesianChart.DataTooltip>
-                        <chart:ChartToolTip/>
+                        <chart:ChartToolTip ShowPercentage="{Binding Settings.ShowPercentage, UpdateSourceTrigger=PropertyChanged}"/>
                     </lvc:CartesianChart.DataTooltip>
                     <lvc:CartesianChart.ChartLegend>
                         <chart:ChartLegend x:Name="ChartLegend2" Total="{Binding ChartData.Total, UpdateSourceTrigger=PropertyChanged}"/>
@@ -256,9 +264,9 @@
                 <!-- Bar chart (rows) -->
                 <lvc:CartesianChart x:Name="barChartRows" LegendLocation="Right" AxisX="{x:Static lvc:DefaultAxes.DefaultAxis}"
                                     Visibility="{Binding Settings.IsBarChartRowsSelected, Converter={StaticResource BVConverter}}"
-                                    AnimationsSpeed="0:0:0.25">
+                                    AnimationsSpeed="0:0:0.25" SeriesColors="{Binding ChartData.ColorsCollection}">
                     <lvc:CartesianChart.DataTooltip>
-                        <chart:ChartToolTip/>
+                        <chart:ChartToolTip ShowPercentage="{Binding Settings.ShowPercentage, UpdateSourceTrigger=PropertyChanged}"/>
                     </lvc:CartesianChart.DataTooltip>
                     <lvc:CartesianChart.ChartLegend>
                         <chart:ChartLegend x:Name="ChartLegend3" Total="{Binding ChartData.Total, UpdateSourceTrigger=PropertyChanged}"/>
