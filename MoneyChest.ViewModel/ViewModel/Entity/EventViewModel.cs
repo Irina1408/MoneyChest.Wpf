@@ -25,11 +25,19 @@ namespace MoneyChest.ViewModel.ViewModel
             }
         }
 
-        public override EventState EventState { get; set; }
+        [PropertyChanged.DependsOn(nameof(EventState))]
+        public override ActualEventState ActualEventState => base.ActualEventState;
+        public override EventState EventState
+        {
+            get => base.EventState;
+            set => base.EventState = value;
+        }
         public string ScheduleDetailed => Schedule?.DetailedSchedule(DateFrom, DateUntil);
-        public string EventStateDetailed => EventState == EventState.Paused && PausedToDate.HasValue
+
+        [PropertyChanged.DependsOn(nameof(EventState), nameof(ActualEventState))]
+        public string ActualEventStateDetailed => ActualEventState == ActualEventState.Paused && PausedToDate.HasValue
             ? MultiLangResource.PausedToDate(PausedToDate.Value)
-            : MultiLangResource.EnumItemDescription(nameof(Model.Enums.EventState), EventState.ToString());
+            : MultiLangResource.EnumItemDescription(nameof(Model.Enums.ActualEventState), ActualEventState.ToString());
     }
 
     public class MoneyTransferEventViewModel : MoneyTransferEventModel
@@ -47,11 +55,19 @@ namespace MoneyChest.ViewModel.ViewModel
             }
         }
 
-        public override EventState EventState { get; set; }
+        [PropertyChanged.DependsOn(nameof(EventState))]
+        public override ActualEventState ActualEventState => base.ActualEventState;
+        public override EventState EventState
+        {
+            get => base.EventState;
+            set => base.EventState = value;
+        }
         public string ScheduleDetailed => Schedule?.DetailedSchedule(DateFrom, DateUntil);
-        public string EventStateDetailed => EventState == EventState.Paused && PausedToDate.HasValue
+
+        [PropertyChanged.DependsOn(nameof(EventState), nameof(ActualEventState))]
+        public string ActualEventStateDetailed => ActualEventState == ActualEventState.Paused && PausedToDate.HasValue
             ? MultiLangResource.PausedToDate(PausedToDate.Value)
-            : MultiLangResource.EnumItemDescription(nameof(Model.Enums.EventState), EventState.ToString());
+            : MultiLangResource.EnumItemDescription(nameof(Model.Enums.ActualEventState), ActualEventState.ToString());
     }
 
     public class RepayDebtEventViewModel : RepayDebtEventModel
@@ -69,10 +85,18 @@ namespace MoneyChest.ViewModel.ViewModel
             }
         }
 
-        public override EventState EventState { get; set; }
+        [PropertyChanged.DependsOn(nameof(EventState))]
+        public override ActualEventState ActualEventState => base.ActualEventState;
+        public override EventState EventState
+        {
+            get => base.EventState;
+            set => base.EventState = value;
+        }
         public string ScheduleDetailed => Schedule?.DetailedSchedule(DateFrom, DateUntil);
-        public string EventStateDetailed => EventState == EventState.Paused && PausedToDate.HasValue
+
+        [PropertyChanged.DependsOn(nameof(EventState), nameof(ActualEventState))]
+        public string ActualEventStateDetailed => ActualEventState == ActualEventState.Paused && PausedToDate.HasValue
             ? MultiLangResource.PausedToDate(PausedToDate.Value)
-            : MultiLangResource.EnumItemDescription(nameof(Model.Enums.EventState), EventState.ToString());
+            : MultiLangResource.EnumItemDescription(nameof(Model.Enums.ActualEventState), ActualEventState.ToString());
     }
 }

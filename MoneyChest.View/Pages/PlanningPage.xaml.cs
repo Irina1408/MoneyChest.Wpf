@@ -195,19 +195,19 @@ namespace MoneyChest.View.Pages
             _viewModel.SimpleEventsViewModel.Entities = new ObservableCollection<SimpleEventViewModel>(
                 _simpleEventService.GetListForUser(GlobalVariables.UserId)
                 .Select(e => new SimpleEventViewModel(e))
-                .OrderBy(_ => _.EventState));
+                .OrderBy(_ => _.ActualEventState));
 
             // reload Money Transfer Events
             _viewModel.MoneyTransferEventsViewModel.Entities = new ObservableCollection<MoneyTransferEventViewModel>(
                 _moneyTransferEventService.GetListForUser(GlobalVariables.UserId)
                 .Select(e => new MoneyTransferEventViewModel(e))
-                .OrderBy(_ => _.EventState));
+                .OrderBy(_ => _.ActualEventState));
 
             // reload Repay Debt Events 
             _viewModel.RepayDebtEventsViewModel.Entities = new ObservableCollection<RepayDebtEventViewModel>(
                 _repayDebtEventService.GetListForUser(GlobalVariables.UserId)
                 .Select(e => new RepayDebtEventViewModel(e))
-                .OrderBy(_ => _.EventState));
+                .OrderBy(_ => _.ActualEventState));
 
             GridSimpleEvents.ItemsSource = _viewModel.SimpleEventsViewModel.Entities;
             GridMoneyTransferEvents.ItemsSource = _viewModel.MoneyTransferEventsViewModel.Entities;
@@ -228,6 +228,19 @@ namespace MoneyChest.View.Pages
         {
             if (!_areLimitsLoaded)
                 LoadLimits();
+        }
+
+        private void HandlePreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = true;
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+                eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+                eventArg.Source = sender;
+                var parent = ((Control)sender).Parent as UIElement;
+                parent.RaiseEvent(eventArg);
+            }
         }
 
         #endregion
@@ -313,9 +326,9 @@ namespace MoneyChest.View.Pages
             where T : EventModel
         {
             // insert new event
-            if (events.Any(x => x.EventState != EventState.Active))
+            if (events.Any(x => x.ActualEventState != ActualEventState.Active))
             {
-                var firstNonActive = events.First(x => x.EventState != EventState.Active);
+                var firstNonActive = events.First(x => x.ActualEventState != ActualEventState.Active);
                 if (events.IndexOf(firstNonActive) > 0)
                     events.Insert(events.IndexOf(firstNonActive), model);
                 else

@@ -67,6 +67,7 @@ namespace MoneyChest.Services.Converters
             model.StorageTo = entity.StorageTo.ToReferenceView();
             model.StorageFromCurrency = entity.StorageFrom.Currency.ToReferenceView();
             model.StorageToCurrency = entity.StorageTo.Currency.ToReferenceView();
+            model.CategoryId = entity?.CategoryId;
             model.Category = entity?.Category?.ToReferenceView();
         }
     }

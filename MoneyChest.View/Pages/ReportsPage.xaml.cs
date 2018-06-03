@@ -118,7 +118,7 @@ namespace MoneyChest.View.Pages
                 _viewModel.Settings = _settingsService.GetForUser(GlobalVariables.UserId);
 
                 // settings that should be saved but rebuild isn't required
-                var saveSettings = new List<string>() { nameof(ReportSettingModel.PieChartInnerRadius), nameof(ReportSettingModel.ShowSettings)};
+                var saveSettings = new List<string>() { nameof(ReportSettingModel.PieChartInnerRadius), nameof(ReportSettingModel.ShowSettings) };
 
                 // save and rebuild report handler
                 EventHandler buildSettingsChangedHandler = (sender, e) =>
@@ -170,7 +170,14 @@ namespace MoneyChest.View.Pages
 
                 // add notifications for reload and apply filter
                 _viewModel.Settings.PeriodFilter.OnPeriodChanged += buildSettingsChangedHandler;
-                _viewModel.Settings.DataFilter.OnFilterChanged += buildSettingsChangedHandler;
+                _viewModel.Settings.DataFilter.OnFilterChanged += (sender, e) =>
+                {
+                    if (e.PropertyName == nameof(DataFilterModel.IsFilterApplied) && !_viewModel.Settings.DataFilter.IsDataFiltered
+                        || e.PropertyName == nameof(DataFilterModel.IsFilterVisible))
+                        _settingsService.Update(_viewModel.Settings);
+                    else
+                        buildSettingsChangedHandler.Invoke(sender, e);
+                };
 
                 // refresh items source of comboDetailsDepth
                 RefreshAvailableDetailsDepth();

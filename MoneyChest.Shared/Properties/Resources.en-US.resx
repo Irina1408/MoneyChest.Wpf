@@ -952,4 +952,22 @@
   <data name="ReportSettings_ShowValue" xml:space="preserve">
     <value>Show value</value>
   </data>
+  <data name="ActualEventState_Actual" xml:space="preserve">
+    <value>Actual</value>
+  </data>
+  <data name="ActualEventState_Closed" xml:space="preserve">
+    <value>Stopped</value>
+  </data>
+  <data name="ActualEventState_Finished" xml:space="preserve">
+    <value>Finished</value>
+  </data>
+  <data name="ActualEventState_Paused" xml:space="preserve">
+    <value>Suspended</value>
+  </data>
+  <data name="ActualEventState_Planned" xml:space="preserve">
+    <value>Planned</value>
+  </data>
+  <data name="ActiveEventState_EnumName" xml:space="preserve">
+    <value>State</value>
+  </data>
 </root>

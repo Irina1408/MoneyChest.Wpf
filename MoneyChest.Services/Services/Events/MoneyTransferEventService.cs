@@ -19,8 +19,11 @@ namespace MoneyChest.Services.Services
 
     public class MoneyTransferEventService : HistoricizedIdManageableUserableListServiceBase<MoneyTransferEvent, MoneyTransferEventModel, MoneyTransferEventConverter>, IMoneyTransferEventService
     {
+        private ICurrencyExchangeRateService _currencyExchangeRateService;
+
         public MoneyTransferEventService(ApplicationDbContext context) : base(context)
         {
+            _currencyExchangeRateService = new CurrencyExchangeRateService(context);
         }
 
         #region IMoneyTransferEventService implementation
@@ -28,15 +31,22 @@ namespace MoneyChest.Services.Services
         public List<MoneyTransferEventModel> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil)
         {
             var filter = EventService.GetActiveEventsFilter<MoneyTransferEvent>(userId, dateFrom, dateUntil);
-            return Scope.Where(filter).ToList().ConvertAll(_converter.ToModel);
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, Scope.Where(filter).ToList().ConvertAll(_converter.ToModel));
         }
 
         public List<MoneyTransferEventModel> GetNotClosed(int userId)
         {
-            return Scope.Where(x => x.EventState != Model.Enums.EventState.Closed && x.UserId == userId).ToList().ConvertAll(_converter.ToModel);
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, Scope.Where(x => x.EventState != Model.Enums.EventState.Closed && x.UserId == userId).ToList().ConvertAll(_converter.ToModel));
         }
 
         #endregion
+
+        #region Overrides
+
+        public override List<MoneyTransferEventModel> GetListForUser(int userId)
+        {
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, base.GetListForUser(userId));
+        }
 
         public override MoneyTransferEventModel Add(MoneyTransferEventModel model)
         {
@@ -64,5 +74,7 @@ namespace MoneyChest.Services.Services
         }
 
         protected override IQueryable<MoneyTransferEvent> Scope => Entities.Include(_ => _.StorageFrom.Currency).Include(_ => _.StorageTo.Currency).Include(_ => _.Category);
+
+        #endregion
     }
 }

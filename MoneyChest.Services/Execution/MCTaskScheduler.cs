@@ -29,11 +29,8 @@ namespace MoneyChest.Services.Execution
         {
             // init user
             _userId = userId;
-
-            // update events state
-            UpdateEventsState();
-
-            //TODO: schedule update events state every day
+            
+            //TODO: schedule execute events every day
         }
 
         public void End()
@@ -48,10 +45,10 @@ namespace MoneyChest.Services.Execution
 
         #region Private methods
 
-        private void UpdateEventsState()
+        private void ExecuteEvents()
         {
             IEventService eventService = ServiceManager.ConfigureService<EventService>();
-            eventService.UpdateEventsState(_userId);
+            eventService.ExecuteEvents(_userId);
         }
 
         #endregion

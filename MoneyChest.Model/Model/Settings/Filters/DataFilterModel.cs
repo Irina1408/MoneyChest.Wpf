@@ -11,7 +11,7 @@ namespace MoneyChest.Model.Model
     public class DataFilterModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler OnFilterChanged;
+        public event PropertyChangedEventHandler OnFilterChanged;
 
         #region Private fields
         
@@ -32,7 +32,7 @@ namespace MoneyChest.Model.Model
             PropertyChanged += (sender, e) =>
             {
                 if (!_isPopulation)
-                    NotifyFilterChanged();
+                    NotifyFilterChanged(e.PropertyName);
                 else
                     _isFilterChanged = true;
             };
@@ -69,14 +69,17 @@ namespace MoneyChest.Model.Model
             set => TransactionType = value ? (TransactionType?)Enums.TransactionType.Expense : null;
         }
 
+        public bool IsDataFiltered => StorageIds.Count > 0 || CategoryIds.Count > 0 || TransactionType != null 
+            || !string.IsNullOrEmpty(Description) || !string.IsNullOrEmpty(Remark);
+
         #endregion
 
         #region Private methods
 
-        private void NotifyFilterChanged()
+        private void NotifyFilterChanged(string propertyName = null)
         {
             // notify filter was changed
-            OnFilterChanged?.Invoke(this, EventArgs.Empty);
+            OnFilterChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             // set filter changing is notified
             _isFilterChanged = false;
         }

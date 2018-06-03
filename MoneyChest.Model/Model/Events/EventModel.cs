@@ -20,6 +20,9 @@ namespace MoneyChest.Model.Model
         private bool _commissionEnabled;
         private decimal _commission;
         private ScheduleModel _schedule;
+        private ActualEventState _actualEventState;
+        private bool _refreshActualEventState;
+        private EventState _eventState;
 
         #endregion
 
@@ -34,6 +37,8 @@ namespace MoneyChest.Model.Model
             _commissionEnabled = false;
             Schedule = new ScheduleModel(true);
             TakeExistingCurrencyExchangeRate = true;
+            _refreshActualEventState = true;
+            CurrencyExchangeRate = 1;
         }
 
         #endregion
@@ -64,7 +69,41 @@ namespace MoneyChest.Model.Model
 
         public virtual CommissionType CommissionType { get; set; }
 
-        public virtual EventState EventState { get; set; }
+        public virtual EventState EventState
+        {
+            get => _eventState;
+            set
+            {
+                _eventState = value;
+                _refreshActualEventState = true;
+            }
+        }
+
+        public virtual ActualEventState ActualEventState
+        {
+            get
+            {
+                if (!_refreshActualEventState) return _actualEventState;
+
+                _actualEventState = EventState == EventState.Closed 
+                    ? ActualEventState.Closed 
+                    : (EventState == EventState.Paused ? ActualEventState.Paused : ActualEventState.Active);
+
+                // check current result is planned state
+                if (_actualEventState == ActualEventState.Paused && PausedToDate != null && PausedToDate <= DateTime.Today)
+                    _actualEventState = ActualEventState.Active;
+
+                // check active event on planned/finished state
+                if (_actualEventState == ActualEventState.Active && DateFrom > DateTime.Today)
+                    _actualEventState = ActualEventState.Planned;
+                else if (_actualEventState == ActualEventState.Active && (DateUntil.HasValue && DateUntil.Value < DateTime.Today
+                    || Schedule.ScheduleType == ScheduleType.Once && DateFrom < DateTime.Today))
+                    _actualEventState = ActualEventState.Finished;
+
+                _refreshActualEventState = false;
+                return _actualEventState;
+            }
+        }
 
         public EventType EventType { get; set; }    // TODO: remove?
         

@@ -949,4 +949,22 @@
   <data name="ReportSettings_ShowValue" xml:space="preserve">
     <value>Показать значение</value>
   </data>
+  <data name="ActualEventState_Actual" xml:space="preserve">
+    <value>Активно</value>
+  </data>
+  <data name="ActualEventState_Closed" xml:space="preserve">
+    <value>Остановлено</value>
+  </data>
+  <data name="ActualEventState_Finished" xml:space="preserve">
+    <value>Окончено</value>
+  </data>
+  <data name="ActualEventState_Paused" xml:space="preserve">
+    <value>Приостановлено</value>
+  </data>
+  <data name="ActualEventState_Planned" xml:space="preserve">
+    <value>Запланированно</value>
+  </data>
+  <data name="ActiveEventState_EnumName" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
 </root>

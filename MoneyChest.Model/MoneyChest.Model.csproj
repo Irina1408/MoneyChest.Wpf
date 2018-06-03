@@ -52,6 +52,7 @@
     <Compile Include="Constants\MaxSize.cs" />
     <Compile Include="Enums\CurrencySymbolAlignment.cs" />
     <Compile Include="Enums\DebtPaymentType.cs" />
+    <Compile Include="Enums\Settings\ActualEventState.cs" />
     <Compile Include="Enums\Settings\BarChartSection.cs" />
     <Compile Include="Enums\Settings\BarChartView.cs" />
     <Compile Include="Enums\Settings\PeriodType.cs" />

@@ -19,8 +19,11 @@ namespace MoneyChest.Services.Services
 
     public class RepayDebtEventService : HistoricizedIdManageableUserableListServiceBase<RepayDebtEvent, RepayDebtEventModel, RepayDebtEventConverter>, IRepayDebtEventService
     {
+        private ICurrencyExchangeRateService _currencyExchangeRateService;
+
         public RepayDebtEventService(ApplicationDbContext context) : base(context)
         {
+            _currencyExchangeRateService = new CurrencyExchangeRateService(context);
         }
 
         #region IRepayDebtEventService implementation
@@ -28,15 +31,22 @@ namespace MoneyChest.Services.Services
         public List<RepayDebtEventModel> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil)
         {
             var filter = EventService.GetActiveEventsFilter<RepayDebtEvent>(userId, dateFrom, dateUntil);
-            return Scope.Where(filter).ToList().ConvertAll(_converter.ToModel);
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, Scope.Where(filter).ToList().ConvertAll(_converter.ToModel));
         }
 
         public List<RepayDebtEventModel> GetNotClosed(int userId)
         {
-            return Scope.Where(x => x.EventState != Model.Enums.EventState.Closed && x.UserId == userId).ToList().ConvertAll(_converter.ToModel);
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, Scope.Where(x => x.EventState != Model.Enums.EventState.Closed && x.UserId == userId).ToList().ConvertAll(_converter.ToModel));
         }
 
         #endregion
+
+        #region Overrides
+
+        public override List<RepayDebtEventModel> GetListForUser(int userId)
+        {
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, base.GetListForUser(userId));
+        }
 
         public override RepayDebtEventModel Add(RepayDebtEventModel model)
         {
@@ -64,5 +74,7 @@ namespace MoneyChest.Services.Services
         }
 
         protected override IQueryable<RepayDebtEvent> Scope => Entities.Include(_ => _.Storage.Currency).Include(_ => _.Debt.Currency).Include(_ => _.Debt.Category);
+
+        #endregion
     }
 }

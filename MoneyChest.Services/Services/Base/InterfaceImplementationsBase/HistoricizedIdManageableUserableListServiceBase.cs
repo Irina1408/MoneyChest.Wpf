@@ -18,7 +18,7 @@ namespace MoneyChest.Services.Services.Base
         {
         }
 
-        public List<TModel> GetListForUser(int userId) => Scope.Where(e => e.UserId == userId).ToList().ConvertAll(_converter.ToModel);
+        public virtual List<TModel> GetListForUser(int userId) => Scope.Where(e => e.UserId == userId).ToList().ConvertAll(_converter.ToModel);
 
         protected override int UserId(T entity) => entity.UserId;
     }

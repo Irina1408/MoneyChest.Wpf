@@ -22,8 +22,11 @@ namespace MoneyChest.Services.Services
 
     public class SimpleEventService : HistoricizedIdManageableUserableListServiceBase<SimpleEvent, SimpleEventModel, SimpleEventConverter>, ISimpleEventService
     {
+        private ICurrencyExchangeRateService _currencyExchangeRateService;
+
         public SimpleEventService(ApplicationDbContext context) : base(context)
         {
+            _currencyExchangeRateService = new CurrencyExchangeRateService(context);
         }
 
         #region ISimpleEventService implementation
@@ -31,17 +34,22 @@ namespace MoneyChest.Services.Services
         public List<SimpleEventModel> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil)
         {
             var filter = EventService.GetActiveEventsFilter<SimpleEvent>(userId, dateFrom, dateUntil);
-            return Scope.Where(filter).ToList().ConvertAll(_converter.ToModel);
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, Scope.Where(filter).ToList().ConvertAll(_converter.ToModel));
         }
 
         public List<SimpleEventModel> GetNotClosed(int userId)
         {
-            return Scope.Where(x => x.EventState != EventState.Closed && x.UserId == userId).ToList().ConvertAll(_converter.ToModel);
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, Scope.Where(x => x.EventState != EventState.Closed && x.UserId == userId).ToList().ConvertAll(_converter.ToModel));
         }
 
         #endregion
 
         #region Overrides
+
+        public override List<SimpleEventModel> GetListForUser(int userId)
+        {
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, base.GetListForUser(userId));
+        }
 
         public override SimpleEventModel Add(SimpleEventModel model)
         {

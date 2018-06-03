@@ -51,7 +51,7 @@ namespace MoneyChest.View.Details
 
         public MoneyTransferDetailsView(MoneyTransferModel entity, bool isNew, bool showHiddenStorages)
             : this(ServiceManager.ConfigureService<MoneyTransferService>(), entity, isNew, showHiddenStorages,
-                  ServiceManager.ConfigureService<StorageService>().GetVisible(GlobalVariables.UserId))
+                  (ServiceManager.ConfigureService<StorageService>() as IStorageService).GetListForUser(GlobalVariables.UserId))
         { }
 
         public MoneyTransferDetailsView(MoneyTransferModel entity, bool isNew,

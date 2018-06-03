@@ -24,7 +24,7 @@ namespace MoneyChest.Services.Services
 
     public interface IEventService : IEventService<EventModel>
     {
-        void UpdateEventsState(int userId);
+        void ExecuteEvents(int userId);
         bool UpdateEventState(EventModel model);
     }
 
@@ -73,32 +73,27 @@ namespace MoneyChest.Services.Services
             return result;
         }
 
-        public void UpdateEventsState(int userId)
+        public void ExecuteEvents(int userId)
         {
-            var events = GetNotClosed(userId);
+            //var events = GetNotClosed(userId);
             
-            foreach(var evnt in events)
-            {
-                if (UpdateEventState(evnt))
-                {
-                    if (evnt is SimpleEventModel)
-                        _simpleEventService.Update(evnt as SimpleEventModel);
-                    else if (evnt is MoneyTransferEventModel)
-                        _moneyTransferEventService.Update(evnt as MoneyTransferEventModel);
-                    else if (evnt is RepayDebtEventModel)
-                        _repayDebtEventService.Update(evnt as RepayDebtEventModel);
-                }
-            }
+            //foreach(var evnt in events)
+            //{
+            //    if (UpdateEventState(evnt))
+            //    {
+            //        if (evnt is SimpleEventModel)
+            //            _simpleEventService.Update(evnt as SimpleEventModel);
+            //        else if (evnt is MoneyTransferEventModel)
+            //            _moneyTransferEventService.Update(evnt as MoneyTransferEventModel);
+            //        else if (evnt is RepayDebtEventModel)
+            //            _repayDebtEventService.Update(evnt as RepayDebtEventModel);
+            //    }
+            //}
         }
 
         public bool UpdateEventState(EventModel model)
         {
-            if (model.EventState == EventState.Active && model.DateUntil != null && model.DateUntil <= DateTime.Today)
-                model.EventState = EventState.Closed;
-            else if (model.EventState == EventState.Active && model.Schedule.ScheduleType == ScheduleType.Once 
-                    && model.DateFrom <= DateTime.Today)
-                model.EventState = EventState.Closed;
-            else if (model.EventState == EventState.Paused && model.PausedToDate != null && model.PausedToDate <= DateTime.Today)
+            if (model.EventState == EventState.Paused && model.PausedToDate != null && model.PausedToDate <= DateTime.Today)
                 model.EventState = EventState.Active;
             else
                 return false;
@@ -116,6 +111,25 @@ namespace MoneyChest.Services.Services
             return e => e.UserId == userId && e.EventState != EventState.Closed
                 && (!e.PausedToDate.HasValue || e.PausedToDate.Value < dateUntil)
                 && e.DateFrom <= dateUntil && (!e.DateUntil.HasValue || e.DateUntil >= dateFrom);
+        }
+
+        internal static List<T> UpdateEventsExchangeRate<T>(ICurrencyExchangeRateService currencyExchangeRateService, List<T> events)
+            where T : EventModel
+        {
+            var currencyExchangeRates = currencyExchangeRateService.GetList(events
+                .Where(x => x.TakeExistingCurrencyExchangeRate && x.IsCurrencyExchangeRateRequired)
+                .Select(x => new[] { x.CurrencyFromId, x.CurrencyToId })
+                .SelectMany(x => x)
+                .ToList());
+
+            // update currency exchange rates for all events
+            foreach (var evnt in events.Where(x => x.TakeExistingCurrencyExchangeRate && x.IsCurrencyExchangeRateRequired).ToList())
+            {
+                evnt.CurrencyExchangeRate = currencyExchangeRates.FirstOrDefault(x =>
+                    x.CurrencyFromId == evnt.CurrencyFromId && x.CurrencyToId == evnt.CurrencyToId)?.Rate ?? 1;
+            }
+
+            return events;
         }
 
         #endregion
