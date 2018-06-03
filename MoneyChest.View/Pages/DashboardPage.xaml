@@ -7,6 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Label>Dashboard</Label>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <WrapPanel x:Name="DashboardItemsPanel">
+                    
+                </WrapPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </local:PageBase>

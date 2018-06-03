@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.IconPacks;
 using MoneyChest.Shared.MultiLang;
+using MoneyChest.View.Pages.DashboardItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,12 @@ namespace MoneyChest.View.Pages
     /// </summary>
     public partial class DashboardPage : PageBase
     {
+        #region Private fields
+        
+        private List<IDashboardItem> dashboardItems;
+
+        #endregion
+
         #region Initialization
 
         public DashboardPage() : base()
@@ -33,9 +40,29 @@ namespace MoneyChest.View.Pages
 
         #region Overrides
 
+        protected override void InitializationComplete()
+        {
+            base.InitializationComplete();
+
+            // get all dashboard items
+            dashboardItems = new List<IDashboardItem>();
+            System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+                .Where(mytype => mytype.GetInterfaces().Contains(typeof(IDashboardItem)) && !mytype.IsAbstract)
+                .ToList()
+                .ForEach(t => dashboardItems.Add(Activator.CreateInstance(t) as IDashboardItem));
+
+            // build view
+            foreach (var dashboardItem in dashboardItems)
+            {
+                DashboardItemsPanel.Children.Add(dashboardItem.View);
+            }
+        }
+
         public override void Reload()
         {
             base.Reload();
+
+            dashboardItems.ForEach(x => x.Reload());
         }
 
         #endregion

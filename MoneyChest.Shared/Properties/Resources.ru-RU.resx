@@ -967,4 +967,7 @@
   <data name="ActiveEventState_EnumName" xml:space="preserve">
     <value>Состояние</value>
   </data>
+  <data name="Dashboard_TodayTransactions" xml:space="preserve">
+    <value>Сегодняшние транзакции</value>
+  </data>
 </root>

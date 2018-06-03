@@ -60,6 +60,12 @@ namespace MoneyChest.View.Details
         { }
 
         public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew,
+            bool showHiddenStorages)
+            : this(service, entity, isNew, showHiddenStorages, 
+                  (ServiceManager.ConfigureService<StorageService>() as IStorageService).GetListForUser(GlobalVariables.UserId))
+        { }
+
+        public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew,
             bool showHiddenStorages, IEnumerable<StorageModel> storages)
             : base(service, entity, isNew)
         {
@@ -72,9 +78,10 @@ namespace MoneyChest.View.Details
             // initialize datacontexts
             IEnumerable<StorageModel> showStorages;
             if (_showHiddenStorages)
-                showStorages = storages;
+                showStorages = storages.OrderByDescending(_ => _.IsVisible).ThenBy(_ => _.Name);
             else
-                showStorages = storages.Where(_ => _.IsVisible || entity.StorageFromId == _.Id || entity.StorageToId == _.Id);
+                showStorages = storages.Where(_ => _.IsVisible || entity.StorageFromId == _.Id || entity.StorageToId == _.Id)
+                    .OrderBy(_ => _.Name);
 
             comboFromStorage.ItemsSource = showStorages;
             comboToStorage.ItemsSource = showStorages;

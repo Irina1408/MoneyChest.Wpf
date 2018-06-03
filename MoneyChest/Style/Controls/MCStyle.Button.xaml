@@ -28,6 +28,19 @@
         <Setter Property="VerticalAlignment" Value="Bottom"/>
     </Style>
 
+    <Style x:Key="MCSquareButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource SquareButtonStyle}">
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
     <Style x:Key="LinkButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Template">
             <Setter.Value>
