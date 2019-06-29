@@ -103,6 +103,8 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         public FrameworkElement View => this;
 
+        public int Order => 0;
+
         #endregion
 
         #region Private methods

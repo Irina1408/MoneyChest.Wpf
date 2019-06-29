@@ -27,16 +27,13 @@
 
     <Style x:Key="EventsRowStyle" TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MCDataGridRowStyle}">
         <Style.Triggers>
-            <DataTrigger Binding="{Binding ActualEventState}" Value="{x:Static enums:ActualEventState.Planned}">
-                <Setter Property="Opacity" Value="0.5" />
-            </DataTrigger>
             <DataTrigger Binding="{Binding ActualEventState}" Value="{x:Static enums:ActualEventState.Paused}">
                 <Setter Property="Opacity" Value="0.5" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding ActualEventState}" Value="{x:Static enums:ActualEventState.Closed}">
+            <DataTrigger Binding="{Binding ActualEventState}" Value="{x:Static enums:ActualEventState.Finished}">
                 <Setter Property="Opacity" Value="0.5" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding ActualEventState}" Value="{x:Static enums:ActualEventState.Finished}">
+            <DataTrigger Binding="{Binding ActualEventState}" Value="{x:Static enums:ActualEventState.Closed}">
                 <Setter Property="Opacity" Value="0.5" />
             </DataTrigger>
         </Style.Triggers>

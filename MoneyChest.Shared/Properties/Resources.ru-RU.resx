@@ -970,4 +970,10 @@
   <data name="Dashboard_TodayTransactions" xml:space="preserve">
     <value>Сегодняшние транзакции</value>
   </data>
+  <data name="General_Select" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+  <data name="Dashboard_PlannedForTodayTransactions" xml:space="preserve">
+    <value>Запланированные на сегодня транзакции</value>
+  </data>
 </root>

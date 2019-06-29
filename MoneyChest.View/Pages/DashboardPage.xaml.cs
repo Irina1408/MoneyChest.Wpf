@@ -52,7 +52,7 @@ namespace MoneyChest.View.Pages
                 .ForEach(t => dashboardItems.Add(Activator.CreateInstance(t) as IDashboardItem));
 
             // build view
-            foreach (var dashboardItem in dashboardItems)
+            foreach (var dashboardItem in dashboardItems.OrderBy(x => x.Order))
             {
                 DashboardItemsPanel.Children.Add(dashboardItem.View);
             }

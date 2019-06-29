@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                    xmlns:local="clr-namespace:MoneyChest.Style.Controls">
+                    xmlns:local="clr-namespace:MoneyChest.Style.Controls"
+                    xmlns:moneyChestView="clr-namespace:MoneyChest.View;assembly=MoneyChest.View">
 
     <!-- *********************************** Tree view (BASE) *********************************** -->
     <Style x:Key="MCTreeViewStyle"  TargetType="{x:Type TreeView}" BasedOn="{StaticResource VirtualisedMetroTreeView}">
@@ -28,9 +29,9 @@
     <HierarchicalDataTemplate x:Key="CategoryTreeViewItemTemplate" ItemsSource="{Binding Path=Children}">
         <StackPanel Name="panel" Orientation="Horizontal" Margin="0">
             <iconPacks:PackIconOcticons Name="IconPlus" Kind="Plus" Visibility="Collapsed" Margin="3 7 0 7"
-                                  Height="10" Width="10" Foreground="Green"/>
+                                  Height="10" Width="10" Foreground="{StaticResource GreenBrush}"/>
             <iconPacks:PackIconModern Name="IconMinus" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
-                                  Height="10" Width="10" Foreground="Red"/>
+                                  Height="10" Width="10" Foreground="{StaticResource RedBrush}"/>
             <iconPacks:PackIconModern Name="IconPlusMinus" Kind="MathPlusMinus" Visibility="Collapsed" Margin="3 7 0 7"
                                   Height="10" Width="10"/>
             <TextBlock x:Name="txtName" Text="{Binding Name}" Margin="3 7 3 7"/>

@@ -53,6 +53,13 @@
                 <!-- Date -->
                 <DatePicker SelectedDate="{Binding Date}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_Date}"/>
 
+                <!-- Description -->
+                <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+                <!-- Category -->
+                <components:CategorySelector VerticalAlignment="Center" ShowEmptyCategory="True"
+                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
                 <!-- Value -->
                 <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
 
@@ -61,16 +68,6 @@
                                              CurrencyId="{Binding CurrencyId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                              CurrencyReference="{Binding Currency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                              HorizontalAlignment="Stretch"/>
-
-                <!-- Debt -->
-                <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
-                    <iconPacks:PackIconModern Kind="CalendarDollar" Style="{DynamicResource TextBoxIconStyle}"/>
-                    <ComboBox x:Name="comboDebts" 
-                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Debt_Singular}"
-                          DisplayMemberPath="DescriptionRemainsToPayCurrency" SelectedValuePath="Id"
-                          SelectedValue="{Binding DebtId}"
-                          SelectionChanged="comboDebt_SelectionChanged"/>
-                </StackPanel>
 
                 <!-- Storage -->
                 <StackPanel Orientation="Horizontal">
@@ -93,12 +90,15 @@
                     </ComboBox>
                 </StackPanel>
 
-                <!-- Description -->
-                <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-
-                <!-- Category -->
-                <components:CategorySelector VerticalAlignment="Center" ShowEmptyCategory="True"
-                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <!-- Debt -->
+                <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
+                    <iconPacks:PackIconModern Kind="CalendarDollar" Style="{DynamicResource TextBoxIconStyle}"/>
+                    <ComboBox x:Name="comboDebts" 
+                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Debt_Singular}"
+                          DisplayMemberPath="DescriptionRemainsToPayCurrency" SelectedValuePath="Id"
+                          SelectedValue="{Binding DebtId}"
+                          SelectionChanged="comboDebt_SelectionChanged"/>
+                </StackPanel>
 
                 <!-- Remark -->
                 <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

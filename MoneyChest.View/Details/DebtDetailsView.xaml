@@ -80,6 +80,13 @@
             <!-- Due date -->
             <DatePicker SelectedDate="{Binding DueDate}" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Debt_DueDate}"/>
 
+            <!-- Description -->
+            <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+            <!-- Category -->
+            <components:CategorySelector HorizontalAlignment="Right" VerticalAlignment="Center"
+                                         SelectedCategoryId="{Binding CategoryId}" ShowEmptyCategory="True"/>
+
             <!-- Value -->
             <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
 
@@ -92,13 +99,6 @@
             <input:AmountInput Amount="{Binding InitialFee, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                Caption="{moneyChestView:MultiLangBinding Debt_InitialFee}"
                                HorizontalAlignment="Stretch"/>
-
-            <!-- Description -->
-            <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-
-            <!-- Category -->
-            <components:CategorySelector HorizontalAlignment="Right" VerticalAlignment="Center"
-                                         SelectedCategoryId="{Binding CategoryId}" ShowEmptyCategory="True"/>
 
             <!-- Remark -->
             <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

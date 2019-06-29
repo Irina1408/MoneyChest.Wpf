@@ -11,5 +11,6 @@ namespace MoneyChest.View.Pages.DashboardItems
     {
         void Reload();
         FrameworkElement View { get; }
+        int Order { get; }
     }
 }

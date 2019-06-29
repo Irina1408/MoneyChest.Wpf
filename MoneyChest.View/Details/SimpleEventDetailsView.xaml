@@ -48,8 +48,15 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
+
             <StackPanel Grid.Row="0">
+                <!-- Description -->
+                <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+                <!-- Category -->
+                <components:CategorySelector HorizontalAlignment="Left" VerticalAlignment="Center" ShowEmptyCategory="True"
+                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                
                 <!-- Value -->
                 <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
 
@@ -57,13 +64,6 @@
                 <components:CurrencySelector CurrencyId="{Binding CurrencyId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                          CurrencyReference="{Binding Currency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                          HorizontalAlignment="Stretch"/>
-
-                <!-- Description -->
-                <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-
-                <!-- Category -->
-                <components:CategorySelector HorizontalAlignment="Left" VerticalAlignment="Center" ShowEmptyCategory="True"
-                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <!-- Remark -->
                 <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

@@ -80,6 +80,12 @@ namespace MoneyChest.View.Components
             SelectedCategoryId = selectedCategory.Id != EmptyCategoryId ? (int?)selectedCategory.Id : null;
         }
 
+        private void TreeViewCategories_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //DialogHost.CloseDialogCommand.Execute("1", dialog);
+            //e.Handled = true;
+        }
+
         #endregion
 
         #region Hint Property
@@ -271,15 +277,15 @@ namespace MoneyChest.View.Components
         {
             this.OpenDetailsWindow(new CategoryDetailsView(categoryService, model, isNew, Categories), () =>
             {
-                // set expanded branch where category was changed
-                Categories.ExpandToDescendant(model, true);
-                model.IsSelected = true;
-
                 // reload data
                 Categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId, SelectedCategoryId)
                         .OrderByDescending(_ => _.RecordType)
                         .ThenBy(_ => _.Name)
                         .ToList(), SelectedCategoryId, ShowEmptyCategory);
+
+                // set expanded branch where category was changed
+                Categories.ExpandToDescendant(model, true);
+                model.IsSelected = true;
             });
         }
 

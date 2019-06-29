@@ -44,6 +44,9 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0">
+                <!-- Description -->
+                <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                
                 <!-- Value -->
                 <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
 
@@ -86,9 +89,6 @@
                         </ComboBox.Style>
                     </ComboBox>
                 </StackPanel>
-
-                <!-- Description -->
-                <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                 <!-- Remark -->
                 <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

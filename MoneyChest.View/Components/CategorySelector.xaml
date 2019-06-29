@@ -16,7 +16,7 @@
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
     </UserControl.Resources>
     
-    <materialDesign:DialogHost HorizontalAlignment="Left" VerticalAlignment="Center" Background="{DynamicResource WhiteBrush}"
+    <materialDesign:DialogHost Name="dialog" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{DynamicResource WhiteBrush}"
                                DialogClosing="CategoryDialogClosingEventHandler">
         <materialDesign:DialogHost.DialogContent>
             <Grid MinWidth="300" Margin="5" Background="{DynamicResource WhiteBrush}">
@@ -52,7 +52,8 @@
                 </ToolBarTray>
                 
                 <TreeView x:Name="TreeViewCategories" Grid.Row="1" ItemsSource="{Binding Categories}"
-                                  ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}" Focusable="False">
+                                  ItemTemplate="{DynamicResource CategoryTreeViewItemTemplate}" Focusable="False"
+                                  MouseDoubleClick="TreeViewCategories_MouseDoubleClick">
                     <TreeView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="{moneyChestView:MultiLangBinding General_Add}" Command="{Binding AddCommand}"/>

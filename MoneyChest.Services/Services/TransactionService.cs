@@ -14,7 +14,7 @@ namespace MoneyChest.Services.Services
     {
         List<ITransaction> Get(int userId, DateTime dateFrom, DateTime dateUntil);
         List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil);
-        List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil);
+        List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil, bool includeToday = false);
         void Delete(IEnumerable<ITransaction> entities);
     }
 
@@ -66,10 +66,13 @@ namespace MoneyChest.Services.Services
             return result.OrderByDescending(x => x.TransactionDate).ToList();
         }
 
-        public List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil)
+        public List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil, bool includeToday = false)
         {
+            // prepare
+            var futureDate = includeToday ? DateTime.Today : DateTime.Today.AddDays(1);
+
             // do not load events if there are not future days in selection
-            if (dateUntil <= DateTime.Today.AddDays(1).AddMilliseconds(-1)) return new List<PlannedTransactionModel<EventModel>>();
+            if (dateUntil <= futureDate.AddMilliseconds(-1)) return new List<PlannedTransactionModel<EventModel>>();
 
             // local variables
             var result = new List<PlannedTransactionModel<EventModel>>();
@@ -77,7 +80,7 @@ namespace MoneyChest.Services.Services
             var events = _eventService.GetActiveForPeriod(userId, dateFrom, dateUntil);
 
             // loop for every future day in selection
-            var date = dateFrom <= DateTime.Today ? DateTime.Today.AddDays(1) : dateFrom.Date;
+            var date = dateFrom <= DateTime.Today ? futureDate : dateFrom.Date;
             while (date <= dateUntil)
             {
                 // write events for this day
