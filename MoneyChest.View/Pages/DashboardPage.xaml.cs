@@ -54,6 +54,12 @@ namespace MoneyChest.View.Pages
             // build view
             foreach (var dashboardItem in dashboardItems.OrderBy(x => x.Order))
             {
+                dashboardItem.ReloadActual = () =>
+                {
+                    foreach(var item in dashboardItems.Where(x => x.ContainsActual))
+                        item.Reload();
+                };
+
                 DashboardItemsPanel.Children.Add(dashboardItem.View);
             }
         }

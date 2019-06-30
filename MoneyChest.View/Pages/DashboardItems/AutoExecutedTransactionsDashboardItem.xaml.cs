@@ -72,6 +72,8 @@ namespace MoneyChest.View.Pages.DashboardItems
                     // remove in grid
                     foreach (var item in items.ToList())
                         _viewModel.Entities.Remove(item);
+
+                    ReloadActual?.Invoke();
                 }),
                 (items) => !items.Any(_ => _.IsPlanned))
             };
@@ -89,6 +91,10 @@ namespace MoneyChest.View.Pages.DashboardItems
             _viewModel.Entities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(
                 _service.GetActual(GlobalVariables.UserId, _viewModel.DateFrom, DateTime.Today.AddDays(1).AddMilliseconds(-1), true));
         }
+
+        public bool ContainsActual => false;
+
+        public Action ReloadActual { get; set; }
 
         public FrameworkElement View => this;
 
@@ -109,12 +115,12 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         private void OpenDetails(RecordModel model)
         {
-            this.OpenDetailsWindow(new RecordDetailsView(_recordService, model, false));
+            this.OpenDetailsWindow(new RecordDetailsView(_recordService, model, false), ReloadActual);
         }
 
         private void OpenDetails(MoneyTransferModel model)
         {
-            this.OpenDetailsWindow(new MoneyTransferDetailsView(_moneyTransferService, model, false, false));
+            this.OpenDetailsWindow(new MoneyTransferDetailsView(_moneyTransferService, model, false, false), ReloadActual);
         }
 
         #endregion

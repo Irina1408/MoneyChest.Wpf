@@ -101,6 +101,10 @@ namespace MoneyChest.View.Pages.DashboardItems
                 _service.Get(GlobalVariables.UserId, DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1)));
         }
 
+        public bool ContainsActual => true;
+
+        public Action ReloadActual { get; set; }
+
         public FrameworkElement View => this;
 
         public int Order => 0;

@@ -93,6 +93,10 @@ namespace MoneyChest.View.Pages.DashboardItems
                 _service.GetPlanned(GlobalVariables.UserId, DateTime.Today, DateTime.Today, false));
         }
 
+        public bool ContainsActual => false;
+
+        public Action ReloadActual { get; set; }
+
         public FrameworkElement View => this;
 
         public int Order => 1;
@@ -141,7 +145,7 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         private void RefreshTodayTransactions()
         {
-            // TODO: refresh today transactions list
+            ReloadActual?.Invoke();
         }
 
         #endregion

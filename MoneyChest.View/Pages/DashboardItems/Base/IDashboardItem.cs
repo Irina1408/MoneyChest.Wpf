@@ -10,6 +10,8 @@ namespace MoneyChest.View.Pages.DashboardItems
     public interface IDashboardItem
     {
         void Reload();
+        Action ReloadActual { get; set; }
+        bool ContainsActual { get; }
         FrameworkElement View { get; }
         int Order { get; }
     }
