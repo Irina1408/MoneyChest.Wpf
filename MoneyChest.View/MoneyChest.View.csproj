@@ -188,6 +188,9 @@
     <Compile Include="Pages\Chart\ChartData.cs" />
     <Compile Include="Pages\Chart\ChartSeries.cs" />
     <Compile Include="Pages\Chart\ChartDataBuilder.cs" />
+    <Compile Include="Pages\DashboardItems\AutoExecutedTransactionsDashboardItem.xaml.cs">
+      <DependentUpon>AutoExecutedTransactionsDashboardItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\DashboardItems\Base\IDashboardItem.cs" />
     <Compile Include="Pages\DashboardItems\PlannedForTodayTransactionsDashboardItem.xaml.cs">
       <DependentUpon>PlannedForTodayTransactionsDashboardItem.xaml</DependentUpon>
@@ -420,6 +423,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\CurrenciesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DashboardItems\AutoExecutedTransactionsDashboardItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

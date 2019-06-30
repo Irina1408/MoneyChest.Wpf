@@ -22,10 +22,12 @@ namespace MoneyChest.Services.Converters
             entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
             entity.Commission = model.Commission;
             entity.CommissionType = model.CommissionType;
+            entity.IsAutoExecuted = model.IsAutoExecuted;
             entity.CategoryId = model?.CategoryId;
             entity.CurrencyId = model.CurrencyId;
             entity.StorageId = model.StorageId;
-            entity.DebtId = model?.DebtId;
+            entity.DebtId = model.DebtId;
+            entity.EventId = model.EventId;
             entity.UserId = model.UserId;
         }
 
@@ -40,10 +42,12 @@ namespace MoneyChest.Services.Converters
             model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
             model.Commission = entity.Commission;
             model.CommissionType = entity.CommissionType;
-            model.CategoryId = entity?.CategoryId;
+            model.IsAutoExecuted = entity.IsAutoExecuted;
+            model.CategoryId = entity.CategoryId;
             model.CurrencyId = entity.CurrencyId;
             model.StorageId = entity.StorageId;
-            model.DebtId = entity?.DebtId;
+            model.DebtId = entity.DebtId;
+            model.EventId = entity.EventId;
             model.UserId = entity.UserId;
             model.Category = entity?.Category?.ToReferenceView();
             model.Currency = entity.Currency.ToReferenceView();

@@ -18,13 +18,11 @@ namespace MoneyChest.Services.Services
     public interface IEventService<T>
             where T : EventModel
     {
-        List<T> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil);
-        List<T> GetNotClosed(int userId);
+        List<T> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil, bool? autoExecution = null);
     }
 
     public interface IEventService : IEventService<EventModel>
     {
-        void ExecuteEvents(int userId);
         bool UpdateEventState(EventModel model);
     }
 
@@ -51,46 +49,17 @@ namespace MoneyChest.Services.Services
 
         #region IEventService implementation
 
-        public List<EventModel> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil)
+        public List<EventModel> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil, bool? autoExecution = null)
         {
             var result = new List<EventModel>();
 
-            result.AddRange(_simpleEventService.GetActiveForPeriod(userId, dateFrom, dateUntil));
-            result.AddRange(_repayDebtEventService.GetActiveForPeriod(userId, dateFrom, dateUntil));
-            result.AddRange(_moneyTransferEventService.GetActiveForPeriod(userId, dateFrom, dateUntil));
+            result.AddRange(_simpleEventService.GetActiveForPeriod(userId, dateFrom, dateUntil, autoExecution));
+            result.AddRange(_repayDebtEventService.GetActiveForPeriod(userId, dateFrom, dateUntil, autoExecution));
+            result.AddRange(_moneyTransferEventService.GetActiveForPeriod(userId, dateFrom, dateUntil, autoExecution));
 
             return result;
         }
-
-        public List<EventModel> GetNotClosed(int userId)
-        {
-            var result = new List<EventModel>();
-
-            result.AddRange(_simpleEventService.GetNotClosed(userId));
-            result.AddRange(_repayDebtEventService.GetNotClosed(userId));
-            result.AddRange(_moneyTransferEventService.GetNotClosed(userId));
-
-            return result;
-        }
-
-        public void ExecuteEvents(int userId)
-        {
-            //var events = GetNotClosed(userId);
-            
-            //foreach(var evnt in events)
-            //{
-            //    if (UpdateEventState(evnt))
-            //    {
-            //        if (evnt is SimpleEventModel)
-            //            _simpleEventService.Update(evnt as SimpleEventModel);
-            //        else if (evnt is MoneyTransferEventModel)
-            //            _moneyTransferEventService.Update(evnt as MoneyTransferEventModel);
-            //        else if (evnt is RepayDebtEventModel)
-            //            _repayDebtEventService.Update(evnt as RepayDebtEventModel);
-            //    }
-            //}
-        }
-
+        
         public bool UpdateEventState(EventModel model)
         {
             if (model.EventState == EventState.Paused && model.PausedToDate != null && model.PausedToDate <= DateTime.Today)
@@ -111,6 +80,13 @@ namespace MoneyChest.Services.Services
             return e => e.UserId == userId && e.EventState != EventState.Closed
                 && (!e.PausedToDate.HasValue || e.PausedToDate.Value < dateUntil)
                 && e.DateFrom <= dateUntil && (!e.DateUntil.HasValue || e.DateUntil >= dateFrom);
+        }
+
+        internal static Expression<Func<T, bool>> GetAutoExecutionFilter<T>(bool? autoExecution)
+            where T : Evnt
+        {
+            if (autoExecution.HasValue) return x => x.AutoExecution == autoExecution;
+            else return x => true;
         }
 
         internal static List<T> UpdateEventsExchangeRate<T>(ICurrencyExchangeRateService currencyExchangeRateService, List<T> events)

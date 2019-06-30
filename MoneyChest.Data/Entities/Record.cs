@@ -38,6 +38,8 @@ namespace MoneyChest.Data.Entities
         [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
+        public bool IsAutoExecuted { get; set; }
+
         public int? CategoryId { get; set; }
 
         public int CurrencyId { get; set; }
@@ -45,6 +47,8 @@ namespace MoneyChest.Data.Entities
         public int StorageId { get; set; }
 
         public int? DebtId { get; set; }
+
+        public int? EventId { get; set; }
 
         [Required]
         public int UserId { get; set; }
@@ -61,6 +65,9 @@ namespace MoneyChest.Data.Entities
 
         [ForeignKey(nameof(DebtId))]
         public virtual Debt Debt { get; set; }
+
+        [ForeignKey(nameof(EventId))]
+        public virtual Evnt Event { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }

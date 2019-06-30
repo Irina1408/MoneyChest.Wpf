@@ -35,11 +35,13 @@ namespace MoneyChest.Model.Model
         public decimal Commission { get; set; } // always in StorageFrom currency if CommissionType == Currency
         public CommissionType CommissionType { get; set; }
         public bool TakeCommissionFromReceiver { get; set; }
+        public bool IsAutoExecuted { get; set; }
 
 
         public int StorageFromId { get; set; }
         public int StorageToId { get; set; }
         public int? CategoryId { get; set; }
+        public int? EventId { get; set; }
 
         #endregion
 

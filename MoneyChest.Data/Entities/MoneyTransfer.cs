@@ -38,13 +38,17 @@ namespace MoneyChest.Data.Entities
         [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
-        public int StorageFromId { get; set; }
+        public bool IsAutoExecuted { get; set; }
 
+
+        public int StorageFromId { get; set; }
 
         public int StorageToId { get; set; }
 
         public int? CategoryId { get; set; }
-        
+
+        public int? EventId { get; set; }
+
 
         [ForeignKey(nameof(StorageFromId))]
         public virtual Storage StorageFrom { get; set; }
@@ -54,5 +58,8 @@ namespace MoneyChest.Data.Entities
 
         [ForeignKey(nameof(CategoryId))]
         public virtual Category Category { get; set; }
+
+        [ForeignKey(nameof(EventId))]
+        public virtual Evnt Event { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace MoneyChest
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            MCTaskScheduler.Instance.Start(GlobalVariables.UserId);
+            MCTaskScheduler.Instance.Start(GlobalVariables.UserId, GlobalVariables.LastUsageDate);
         }
     }
 }

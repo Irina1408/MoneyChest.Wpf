@@ -988,6 +988,9 @@
   <data name="Event_ApplyInPlannedDate" xml:space="preserve">
     <value>Apply in planned date</value>
   </data>
+  <data name="Dashboard_AutoExecutedTransactions" xml:space="preserve">
+    <value>Auto executed transactions from</value>
+  </data>
   <data name="Dashboard_PlannedTransactions" xml:space="preserve">
     <value>Planned transactions from</value>
   </data>

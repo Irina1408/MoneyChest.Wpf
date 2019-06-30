@@ -139,6 +139,18 @@
     <Compile Include="Migrations\201805201836467_update_report_settings1.Designer.cs">
       <DependentUpon>201805201836467_update_report_settings1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906300926125_autoexecution_flag.cs" />
+    <Compile Include="Migrations\201906300926125_autoexecution_flag.Designer.cs">
+      <DependentUpon>201906300926125_autoexecution_flag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906300934233_update_history_entities.cs" />
+    <Compile Include="Migrations\201906300934233_update_history_entities.Designer.cs">
+      <DependentUpon>201906300934233_update_history_entities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906301205584_renaming.cs" />
+    <Compile Include="Migrations\201906301205584_renaming.Designer.cs">
+      <DependentUpon>201906301205584_renaming.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -185,6 +197,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805201836467_update_report_settings1.resx">
       <DependentUpon>201805201836467_update_report_settings1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906300926125_autoexecution_flag.resx">
+      <DependentUpon>201906300926125_autoexecution_flag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906300934233_update_history_entities.resx">
+      <DependentUpon>201906300934233_update_history_entities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906301205584_renaming.resx">
+      <DependentUpon>201906301205584_renaming.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

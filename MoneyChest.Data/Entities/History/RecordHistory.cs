@@ -51,6 +51,8 @@ namespace MoneyChest.Data.Entities.History
         [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
+        public bool IsAutoExecuted { get; set; }
+
         public int CategoryId { get; set; }
 
         public int CurrencyId { get; set; }
@@ -58,5 +60,7 @@ namespace MoneyChest.Data.Entities.History
         public int? StorageId { get; set; }
 
         public int? DebtId { get; set; }
+
+        public int? EventId { get; set; }
     }
 }

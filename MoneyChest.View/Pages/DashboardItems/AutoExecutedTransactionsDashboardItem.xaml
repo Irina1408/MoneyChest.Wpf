@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MoneyChest.View.Pages.DashboardItems.PlannedTransactionsDashboardItem"
+﻿<UserControl x:Class="MoneyChest.View.Pages.DashboardItems.AutoExecutedTransactionsDashboardItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -32,11 +32,10 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Margin="10 0 0 0" 
-                                   Text="{moneyChestView:MultiLangBinding Dashboard_PlannedTransactions}" 
+                                   Text="{moneyChestView:MultiLangBinding Dashboard_AutoExecutedTransactions}" 
                                    FontSize="{DynamicResource DefaultFontSize}" VerticalAlignment="Center"/>
 
                         <DatePicker SelectedDate="{Binding DateFrom}" Grid.Column="1" Width="Auto"
@@ -45,23 +44,16 @@
                                     SelectedDateChanged="DatePicker_SelectedDateChanged"
                                     Foreground="{DynamicResource BlackBrush}"
                                     DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
-
-                        <Button Command="{Binding ApplyAllCommand}" ToolTip="{moneyChestView:MultiLangBinding Event_ApplyAllInPlannedDate}"
-                                Style="{DynamicResource MCSquareButtonStyle}" HorizontalAlignment="Right"
-                                Foreground="{DynamicResource IdealForegroundColorBrush}" Grid.Column="2" Margin="0 5 5 5"
-                                Background="Transparent">
-                            <iconPacks:PackIconMaterial Kind="CheckAll" />
-                        </Button>
                     </Grid>
                 </materialDesign:ColorZone>
 
                 <!-- Transactions grid -->
-                <DataGrid x:Name="GridTransactions"  HeadersVisibility="None" Grid.Row="1" 
+                <DataGrid x:Name="GridTransactions" RowStyle="{DynamicResource TransactionRowStyle}" HeadersVisibility="None" Grid.Row="1"
                           ItemsSource="{Binding Entities}" Margin="1">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyInPlannedDate}" Command="{Binding ApplyCommand}"/>
-                            <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
+                            <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
@@ -103,18 +95,6 @@
 
                         <DataGridTextColumn Binding="{Binding TransactionValueDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Amount}" />
                     </DataGrid.Columns>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MCDataGridRowStyle}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsIncome}" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsExpense}" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.RowStyle>
                 </DataGrid>
             </Grid>
         </Border>

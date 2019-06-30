@@ -34,11 +34,13 @@ namespace MoneyChest.Model.Model
         public decimal CurrencyExchangeRate { get; set; }
         public decimal Commission { get; set; }
         public CommissionType CommissionType { get; set; }
+        public bool IsAutoExecuted { get; set; }
 
         public int? CategoryId { get; set; }
         public int CurrencyId { get; set; }
         public int StorageId { get; set; }
         public int? DebtId { get; set; }
+        public int? EventId { get; set; }
         public int UserId { get; set; }
 
         #endregion

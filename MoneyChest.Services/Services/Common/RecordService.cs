@@ -23,7 +23,7 @@ namespace MoneyChest.Services.Services
         List<RecordModel> Get(int userId, PeriodFilterType period, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
         List<RecordModel> Get(int userId, DateTime from, DateTime until, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
 
-        List<RecordModel> Get(int userId, DateTime from, DateTime until);
+        List<RecordModel> Get(int userId, DateTime from, DateTime until, bool? AutoExecuted = null);
 
         RecordModel Create(SimpleEventModel model, Action<RecordModel> overrides = null);
         RecordModel Create(RepayDebtEventModel model, Action<RecordModel> overrides = null);
@@ -76,9 +76,13 @@ namespace MoneyChest.Services.Services
                     || (item.CategoryId != null && categoryIds.Contains((int)item.CategoryId)))).ToList().ConvertAll(_converter.ToModel);
         }
 
-        public List<RecordModel> Get(int userId, DateTime from, DateTime until)
+        public List<RecordModel> Get(int userId, DateTime from, DateTime until, bool? AutoExecuted = null)
         {
+            Expression<Func<Record, bool>> autoExecutionFilter = x => true;
+            if (AutoExecuted.HasValue) autoExecutionFilter = x => x.IsAutoExecuted == AutoExecuted;
+
             return Scope.Where(item => item.UserId == userId && item.Date >= from && item.Date <= until)
+                .Where(autoExecutionFilter)
                 .ToList().ConvertAll(_converter.ToModel);
         }
 
@@ -100,7 +104,8 @@ namespace MoneyChest.Services.Services
                 Remark = model.Remark,
                 Currency = model.Currency,
                 Storage = model.Storage,
-                Category = model.Category
+                Category = model.Category,
+                EventId = model.Id
             };
 
             overrides?.Invoke(record);
@@ -128,7 +133,8 @@ namespace MoneyChest.Services.Services
                 DebtId = model.DebtId,
                 Debt = debt.ToReferenceView(),
                 Storage = model.Storage,
-                Category = model.DebtCategory
+                Category = model.DebtCategory,
+                EventId = model.Id
             };
 
             overrides?.Invoke(record);

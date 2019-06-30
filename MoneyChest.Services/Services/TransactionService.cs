@@ -13,8 +13,9 @@ namespace MoneyChest.Services.Services
     public interface ITransactionService
     {
         List<ITransaction> Get(int userId, DateTime dateFrom, DateTime dateUntil);
-        List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil);
-        List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil, bool onlyFuture = true);
+        List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil, bool? AutoExecuted = null);
+        List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil, bool onlyFuture = true, bool? autoExecution = null);
+        List<ITransaction> ExecutePlanned(IEnumerable<ITransaction> transactions, DateTime? date = null, bool isAutoExecution = false);
         void Delete(IEnumerable<ITransaction> entities);
     }
 
@@ -54,20 +55,20 @@ namespace MoneyChest.Services.Services
             return result.OrderByDescending(x => x.TransactionDate).ToList();
         }
 
-        public List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil)
+        public List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil, bool? AutoExecuted = null)
         {
             var result = new List<ITransaction>();
 
             // load records
-            result.AddRange(_recordService.Get(userId, dateFrom, dateUntil));
+            result.AddRange(_recordService.Get(userId, dateFrom, dateUntil, AutoExecuted));
             // load money transfers
-            result.AddRange(_moneyTransferService.Get(userId, dateFrom, dateUntil));
+            result.AddRange(_moneyTransferService.Get(userId, dateFrom, dateUntil, AutoExecuted));
 
             return result.OrderByDescending(x => x.TransactionDate).ToList();
         }
 
         public List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil,
-            bool onlyFuture = true)
+            bool onlyFuture = true, bool? autoExecution = null)
         {
             // prepare
             var date = onlyFuture ? DateTime.Today.AddDays(1) : dateFrom.Date;
@@ -78,7 +79,7 @@ namespace MoneyChest.Services.Services
             // local variables
             var result = new List<PlannedTransactionModel<EventModel>>();
             // load events
-            var events = _eventService.GetActiveForPeriod(userId, dateFrom, dateUntil);
+            var events = _eventService.GetActiveForPeriod(userId, dateFrom, dateUntil, autoExecution);
 
             // loop for every day in selection
             while (date <= dateUntil)
@@ -91,6 +92,43 @@ namespace MoneyChest.Services.Services
             }
 
             return result.OrderByDescending(x => x.TransactionDate).ToList();
+        }
+
+        public List<ITransaction> ExecutePlanned(IEnumerable<ITransaction> transactions, DateTime? date = null, bool isAutoExecution = false)
+        {
+            var result = new List<ITransaction>();
+
+            foreach (var transaction in transactions)
+            {
+                var plannedTransaction = transaction as PlannedTransactionModel<EventModel>;
+                if (plannedTransaction == null) continue;
+
+                // simple event
+                if (plannedTransaction.Event is SimpleEventModel)
+                    result.Add(_recordService.Add(_recordService.Create(plannedTransaction.Event as SimpleEventModel, x =>
+                    {
+                        x.Date = date ?? plannedTransaction.TransactionDate;
+                        x.IsAutoExecuted = isAutoExecution;
+                    })));
+
+                // repay debt
+                if (plannedTransaction.Event is RepayDebtEventModel)
+                    result.Add(_recordService.Add(_recordService.Create(plannedTransaction.Event as RepayDebtEventModel, x =>
+                    {
+                        x.Date = date ?? plannedTransaction.TransactionDate;
+                        x.IsAutoExecuted = isAutoExecution;
+                    })));
+
+                // money transfer
+                if (plannedTransaction.Event is MoneyTransferEventModel)
+                    result.Add(_moneyTransferService.Add(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel, x =>
+                    {
+                        x.Date = date ?? plannedTransaction.TransactionDate;
+                        x.IsAutoExecuted = isAutoExecution;
+                    })));
+            }
+
+            return result;
         }
 
         public void Delete(IEnumerable<ITransaction> entities)

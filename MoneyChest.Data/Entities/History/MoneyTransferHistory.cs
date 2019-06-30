@@ -57,9 +57,15 @@ namespace MoneyChest.Data.Entities.History
         [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
+        public bool IsAutoExecuted { get; set; }
+
 
         public int StorageFromId { get; set; }
 
         public int StorageToId { get; set; }
+
+        public int? CategoryId { get; set; }
+
+        public int? EventId { get; set; }
     }
 }

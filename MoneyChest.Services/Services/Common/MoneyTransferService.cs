@@ -17,7 +17,7 @@ namespace MoneyChest.Services.Services
 {
     public interface IMoneyTransferService : IIdManagableServiceBase<MoneyTransferModel>, IUserableListService<MoneyTransferModel>
     {
-        List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until);
+        List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, bool? AutoExecuted = null);
 
         MoneyTransferModel Create(MoneyTransferEventModel model, Action<MoneyTransferModel> overrides = null);
     }
@@ -30,9 +30,13 @@ namespace MoneyChest.Services.Services
 
         #region IMoneyTransferService implementation
 
-        public List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until)
+        public List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, bool? AutoExecuted = null)
         {
+            Expression<Func<MoneyTransfer, bool>> autoExecutionFilter = x => true;
+            if (AutoExecuted.HasValue) autoExecutionFilter = x => x.IsAutoExecuted == AutoExecuted;
+
             return Scope.Where(item => item.StorageFrom.UserId == userId && item.Date >= from && item.Date <= until)
+                .Where(autoExecutionFilter)
                 .ToList().ConvertAll(_converter.ToModel);
         }
 
@@ -57,7 +61,8 @@ namespace MoneyChest.Services.Services
                 StorageToCurrency = model.StorageToCurrency,
                 StorageFromValue = model.StorageFromValue,
                 StorageToValue = model.StorageToValue,
-                Category = model.Category
+                Category = model.Category,
+                EventId = model.Id
             };
 
             overrides?.Invoke(moneyTransfer);

@@ -78,7 +78,7 @@ namespace MoneyChest.Services.Services.Base
             // call OnUpdated method
             OnUpdated(oldModel, model);
 
-            // TODO: check if related entity foreign key was changed related entity will be updated automatically or not. For now implementation like "not"
+            // TODO: check if related entity foreign key was changed related entity will be updated Auto or not. For now implementation like "not"
             return _converter.UpdateModel(GetDbDetailedEntity(dbEntity), model);
         }
 

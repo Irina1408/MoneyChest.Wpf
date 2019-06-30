@@ -22,9 +22,11 @@ namespace MoneyChest.Services.Converters
             entity.CommissionType = model.CommissionType;
             entity.TakeCommissionFromReceiver = model.TakeCommissionFromReceiver;
             entity.Remark = model.Remark;
+            entity.IsAutoExecuted = model.IsAutoExecuted;
             entity.StorageFromId = model.StorageFromId;
             entity.StorageToId = model.StorageToId;
             entity.CategoryId = model.CategoryId;
+            entity.EventId = model.EventId;
         }
 
         protected override void FillModel(MoneyTransfer entity, MoneyTransferModel model)
@@ -38,9 +40,11 @@ namespace MoneyChest.Services.Converters
             model.CommissionType = entity.CommissionType;
             model.TakeCommissionFromReceiver = entity.TakeCommissionFromReceiver;
             model.Remark = entity.Remark;
+            model.IsAutoExecuted = entity.IsAutoExecuted;
             model.StorageFromId = entity.StorageFromId;
             model.StorageToId = entity.StorageToId;
             model.CategoryId = entity.CategoryId;
+            model.EventId = entity.EventId;
             model.StorageFrom = entity.StorageFrom.ToReferenceView();
             model.StorageTo = entity.StorageTo.ToReferenceView();
             model.StorageFromCurrency = entity.StorageFrom.Currency.ToReferenceView();

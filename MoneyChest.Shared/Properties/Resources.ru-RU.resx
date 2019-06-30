@@ -985,6 +985,9 @@
   <data name="Event_ApplyInPlannedDate" xml:space="preserve">
     <value>Применить в запланированную дату</value>
   </data>
+  <data name="Dashboard_AutoExecutedTransactions" xml:space="preserve">
+    <value>Автоматически выполненные транзакции с</value>
+  </data>
   <data name="Dashboard_PlannedTransactions" xml:space="preserve">
     <value>Запланированные транзакции с </value>
   </data>

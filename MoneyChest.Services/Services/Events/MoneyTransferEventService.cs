@@ -28,15 +28,13 @@ namespace MoneyChest.Services.Services
 
         #region IMoneyTransferEventService implementation
 
-        public List<MoneyTransferEventModel> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil)
+        public List<MoneyTransferEventModel> GetActiveForPeriod(int userId, DateTime dateFrom, DateTime dateUntil, bool? autoExecution = null)
         {
             var filter = EventService.GetActiveEventsFilter<MoneyTransferEvent>(userId, dateFrom, dateUntil);
-            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, Scope.Where(filter).ToList().ConvertAll(_converter.ToModel));
-        }
+            var autoExecutionFilter = EventService.GetAutoExecutionFilter<MoneyTransferEvent>(autoExecution);
 
-        public List<MoneyTransferEventModel> GetNotClosed(int userId)
-        {
-            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, Scope.Where(x => x.EventState != Model.Enums.EventState.Closed && x.UserId == userId).ToList().ConvertAll(_converter.ToModel));
+            return EventService.UpdateEventsExchangeRate(_currencyExchangeRateService, 
+                Scope.Where(filter).Where(autoExecutionFilter).ToList().ConvertAll(_converter.ToModel));
         }
 
         #endregion
