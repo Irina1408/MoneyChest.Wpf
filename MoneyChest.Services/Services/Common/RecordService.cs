@@ -25,8 +25,8 @@ namespace MoneyChest.Services.Services
 
         List<RecordModel> Get(int userId, DateTime from, DateTime until);
 
-        RecordModel Create(SimpleEventModel model);
-        RecordModel Create(RepayDebtEventModel model);
+        RecordModel Create(SimpleEventModel model, Action<RecordModel> overrides = null);
+        RecordModel Create(RepayDebtEventModel model, Action<RecordModel> overrides = null);
     }
 
     public class RecordService : HistoricizedIdManageableUserableListServiceBase<Record, RecordModel, RecordConverter>, IRecordService
@@ -82,9 +82,9 @@ namespace MoneyChest.Services.Services
                 .ToList().ConvertAll(_converter.ToModel);
         }
 
-        public RecordModel Create(SimpleEventModel model)
+        public RecordModel Create(SimpleEventModel model, Action<RecordModel> overrides = null)
         {
-            return new RecordModel()
+            var record = new RecordModel()
             {
                 Date = DateTime.Now,
                 CategoryId = model.CategoryId,
@@ -102,13 +102,16 @@ namespace MoneyChest.Services.Services
                 Storage = model.Storage,
                 Category = model.Category
             };
+
+            overrides?.Invoke(record);
+            return record;
         }
 
-        public RecordModel Create(RepayDebtEventModel model)
+        public RecordModel Create(RepayDebtEventModel model, Action<RecordModel> overrides = null)
         {
             var debt = _context.Debts.FirstOrDefault(x => x.Id == model.DebtId);
 
-            return new RecordModel()
+            var record = new RecordModel()
             {
                 Date = DateTime.Now,
                 CategoryId = debt.CategoryId,
@@ -127,6 +130,9 @@ namespace MoneyChest.Services.Services
                 Storage = model.Storage,
                 Category = model.DebtCategory
             };
+
+            overrides?.Invoke(record);
+            return record;
         }
 
         #endregion

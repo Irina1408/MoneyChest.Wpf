@@ -14,7 +14,7 @@ namespace MoneyChest.Services.Services
     {
         List<ITransaction> Get(int userId, DateTime dateFrom, DateTime dateUntil);
         List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil);
-        List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil, bool includeToday = false);
+        List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil, bool onlyFuture = true);
         void Delete(IEnumerable<ITransaction> entities);
     }
 
@@ -66,21 +66,21 @@ namespace MoneyChest.Services.Services
             return result.OrderByDescending(x => x.TransactionDate).ToList();
         }
 
-        public List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil, bool includeToday = false)
+        public List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil,
+            bool onlyFuture = true)
         {
             // prepare
-            var futureDate = includeToday ? DateTime.Today : DateTime.Today.AddDays(1);
+            var date = onlyFuture ? DateTime.Today.AddDays(1) : dateFrom.Date;
 
-            // do not load events if there are not future days in selection
-            if (dateUntil <= futureDate.AddMilliseconds(-1)) return new List<PlannedTransactionModel<EventModel>>();
+            // do not load events if there are not future days in selection if onlyFuture
+            if (dateUntil <= date.AddMilliseconds(-1)) return new List<PlannedTransactionModel<EventModel>>();
 
             // local variables
             var result = new List<PlannedTransactionModel<EventModel>>();
             // load events
             var events = _eventService.GetActiveForPeriod(userId, dateFrom, dateUntil);
 
-            // loop for every future day in selection
-            var date = dateFrom <= DateTime.Today ? futureDate : dateFrom.Date;
+            // loop for every day in selection
             while (date <= dateUntil)
             {
                 // write events for this day

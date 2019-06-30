@@ -979,4 +979,16 @@
   <data name="Dashboard_PlannedForTodayTransactions" xml:space="preserve">
     <value>Planned for today transactions</value>
   </data>
+  <data name="Event_ApplyNowAll" xml:space="preserve">
+    <value>Apply now all</value>
+  </data>
+  <data name="Event_ApplyAllInPlannedDate" xml:space="preserve">
+    <value>Apply all in planned dates</value>
+  </data>
+  <data name="Event_ApplyInPlannedDate" xml:space="preserve">
+    <value>Apply in planned date</value>
+  </data>
+  <data name="Dashboard_PlannedTransactions" xml:space="preserve">
+    <value>Planned transactions from</value>
+  </data>
 </root>

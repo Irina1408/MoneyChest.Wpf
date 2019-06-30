@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 namespace MoneyChest.ViewModel.ViewModel
 {
     [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public class PlannedForTodayTransactionsDashboardItemModel
+    public class PlannedTransactionsDashboardItemModel
     {
         public ObservableCollection<ITransaction> Entities { get; set; }
 
-        public IMCCommand ApplyNowCommand { get; set; }
-        public IMCCommand ApplyNowAllCommand { get; set; }
+        public DateTime DateFrom { get; set; }
+
+        public IMCCommand ApplyCommand { get; set; }
+        public IMCCommand ApplyAllCommand { get; set; }
         public IMCCommand CreateTransactionCommand { get; set; }
     }
 }

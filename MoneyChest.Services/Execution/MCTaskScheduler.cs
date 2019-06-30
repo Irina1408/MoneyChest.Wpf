@@ -17,9 +17,10 @@ namespace MoneyChest.Services.Execution
 
         #endregion
 
-        #region Private methods
+        #region Private fields
 
         private int _userId;
+        private ITransactionService _service;
 
         #endregion
 
@@ -29,16 +30,18 @@ namespace MoneyChest.Services.Execution
         {
             // init user
             _userId = userId;
-            
+            _service = ServiceManager.ConfigureService<TransactionService>();
+
+            // execute all planned transactions with autoexecution
+
+
             //TODO: schedule execute events every day
         }
 
         public void End()
         {
             // TODO: close all tasks
-
-            // cleanup ServiceManager
-            ServiceManager.Dispose();
+            
         }
 
         #endregion

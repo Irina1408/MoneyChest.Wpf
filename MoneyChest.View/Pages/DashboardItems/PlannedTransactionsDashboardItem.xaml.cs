@@ -24,13 +24,13 @@ using System.Windows.Shapes;
 namespace MoneyChest.View.Pages.DashboardItems
 {
     /// <summary>
-    /// Interaction logic for PlannedForTodayTransactionsDashboardItem.xaml
+    /// Interaction logic for PlannedTransactionsDashboardItem.xaml
     /// </summary>
-    public partial class PlannedForTodayTransactionsDashboardItem : UserControl, IDashboardItem
+    public partial class PlannedTransactionsDashboardItem : UserControl, IDashboardItem
     {
         #region Private fields
 
-        private PlannedForTodayTransactionsDashboardItemModel _viewModel;
+        private PlannedTransactionsDashboardItemModel _viewModel;
         private ITransactionService _service;
         private IRecordService _recordService;
         private IMoneyTransferService _moneyTransferService;
@@ -39,7 +39,7 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         #region Initialization
 
-        public PlannedForTodayTransactionsDashboardItem()
+        public PlannedTransactionsDashboardItem()
         {
             InitializeComponent();
 
@@ -53,11 +53,13 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         private void InitializeViewModel()
         {
-            _viewModel = new PlannedForTodayTransactionsDashboardItemModel()
+            _viewModel = new PlannedTransactionsDashboardItemModel()
             {
-                ApplyNowCommand = new DataGridSelectedItemsCommand<ITransaction>(GridTransactions, ApplyNowTransactions),
+                DateFrom = GlobalVariables.LastUsageDate < DateTime.Today ? GlobalVariables.LastUsageDate.AddDays(1) : DateTime.Today,
 
-                ApplyNowAllCommand = new Command(() => ApplyNowTransactions(_viewModel.Entities)),
+                ApplyCommand = new DataGridSelectedItemsCommand<ITransaction>(GridTransactions, ApplyTransactions),
+
+                ApplyAllCommand = new Command(() => ApplyTransactions(_viewModel.Entities)),
 
                 CreateTransactionCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
                 (item) =>
@@ -90,12 +92,21 @@ namespace MoneyChest.View.Pages.DashboardItems
         {
             // load today transactions
             _viewModel.Entities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(
-                _service.GetPlanned(GlobalVariables.UserId, DateTime.Today, DateTime.Today, false));
+                _service.GetPlanned(GlobalVariables.UserId, _viewModel.DateFrom, DateTime.Today, false));
         }
 
         public FrameworkElement View => this;
 
-        public int Order => 1;
+        public int Order => 2;
+
+        #endregion
+
+        #region Event handlers
+               
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Reload();
+        }
 
         #endregion
 
@@ -117,7 +128,7 @@ namespace MoneyChest.View.Pages.DashboardItems
             });
         }
 
-        private void ApplyNowTransactions(IEnumerable<ITransaction> transactions)
+        private void ApplyTransactions(IEnumerable<ITransaction> transactions)
         {
             foreach (var transaction in transactions)
             {
@@ -125,15 +136,18 @@ namespace MoneyChest.View.Pages.DashboardItems
 
                 // simple event
                 if (plannedTransaction?.Event is SimpleEventModel)
-                    _recordService.Add(_recordService.Create(plannedTransaction.Event as SimpleEventModel));
+                    _recordService.Add(_recordService.Create(plannedTransaction.Event as SimpleEventModel, 
+                        x => x.Date = plannedTransaction.TransactionDate));
 
                 // repay debt
                 if (plannedTransaction?.Event is RepayDebtEventModel)
-                    _recordService.Add(_recordService.Create(plannedTransaction.Event as RepayDebtEventModel));
+                    _recordService.Add(_recordService.Create(plannedTransaction.Event as RepayDebtEventModel, 
+                        x => x.Date = plannedTransaction.TransactionDate));
 
                 // money transfer
                 if (plannedTransaction?.Event is MoneyTransferEventModel)
-                    _moneyTransferService.Add(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel));
+                    _moneyTransferService.Add(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel,
+                        x => x.Date = plannedTransaction.TransactionDate));
 
                 RefreshTodayTransactions();
             }

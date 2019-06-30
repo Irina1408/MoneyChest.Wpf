@@ -1,4 +1,5 @@
 ﻿using MoneyChest.Services;
+using MoneyChest.Services.Execution;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -19,8 +20,14 @@ namespace MoneyChest
             System.Windows.FrameworkCompatibilityPreferences.KeepTextBoxDisplaySynchronizedWithTextProperty = false;
 
             // dispose global service manager
-            Exit += (sender, e) => ServiceManager.Dispose();
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) => ServiceManager.Dispose();
+            Exit += (sender, e) => Dispose();
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => Dispose();
+        }
+
+        private void Dispose()
+        {
+            MCTaskScheduler.Instance.End();
+            ServiceManager.Dispose();
         }
     }
 }

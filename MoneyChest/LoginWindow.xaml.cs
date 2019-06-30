@@ -83,6 +83,7 @@ namespace MoneyChest
 
                     // save global variables
                     GlobalVariables.UserId = user.Id;
+                    GlobalVariables.LastUsageDate = user.LastUsageDate.Date;
 
                     // load general settings
                     var settings = _settingsService.GetForUser(user.Id);

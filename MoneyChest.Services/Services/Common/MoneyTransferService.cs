@@ -19,7 +19,7 @@ namespace MoneyChest.Services.Services
     {
         List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until);
 
-        MoneyTransferModel Create(MoneyTransferEventModel model);
+        MoneyTransferModel Create(MoneyTransferEventModel model, Action<MoneyTransferModel> overrides = null);
     }
 
     public class MoneyTransferService : HistoricizedIdManageableServiceBase<MoneyTransfer, MoneyTransferModel, MoneyTransferConverter>, IMoneyTransferService
@@ -36,9 +36,9 @@ namespace MoneyChest.Services.Services
                 .ToList().ConvertAll(_converter.ToModel);
         }
 
-        public MoneyTransferModel Create(MoneyTransferEventModel model)
+        public MoneyTransferModel Create(MoneyTransferEventModel model, Action<MoneyTransferModel> overrides = null)
         {
-            return new MoneyTransferModel()
+            var moneyTransfer = new MoneyTransferModel()
             {
                 Date = DateTime.Now,
                 StorageFromId = model.StorageFromId,
@@ -59,6 +59,9 @@ namespace MoneyChest.Services.Services
                 StorageToValue = model.StorageToValue,
                 Category = model.Category
             };
+
+            overrides?.Invoke(moneyTransfer);
+            return moneyTransfer;
         }
 
         #endregion
