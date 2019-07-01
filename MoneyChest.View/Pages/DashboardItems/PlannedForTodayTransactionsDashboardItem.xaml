@@ -17,7 +17,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <Border Width="250" Height="300" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" 
+        <Border Width="260" Height="300" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" 
                 ClipToBounds="True" Margin="5">
             <Grid Background="Transparent">
                 <Grid.RowDefinitions>

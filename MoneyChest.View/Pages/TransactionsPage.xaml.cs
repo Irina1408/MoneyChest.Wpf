@@ -210,6 +210,7 @@ namespace MoneyChest.View.Pages
                             CommissionType = record.CommissionType,
                             CategoryId = record?.CategoryId,
                             CurrencyId = record.CurrencyId,
+                            Currency = record.Currency,
                             StorageId = record.StorageId,
                             DebtId = record?.DebtId,
                             UserId = record.UserId

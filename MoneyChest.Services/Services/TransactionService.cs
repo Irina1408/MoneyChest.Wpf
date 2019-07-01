@@ -144,8 +144,12 @@ namespace MoneyChest.Services.Services
 
         private void WriteEvents(List<PlannedTransactionModel<EventModel>> plannedEvents, List<EventModel> events, DateTime date)
         {
+            var lastDayOfMonth = DateTime.DaysInMonth(date.Year, date.Month);
+
             // write monthly events
-            foreach (var evnt in events.Where(x => x.Schedule.ScheduleType == ScheduleType.Monthly && x.Schedule.DayOfMonth == date.Day
+            foreach (var evnt in events.Where(x => x.Schedule.ScheduleType == ScheduleType.Monthly
+                                            && (x.Schedule.DayOfMonth == -1 && date.Day == lastDayOfMonth
+                                                || x.Schedule.DayOfMonth == date.Day)
                                             && x.Schedule.Months.Contains((Month)date.Month)))
             {
                 // write event
@@ -153,8 +157,10 @@ namespace MoneyChest.Services.Services
             }
 
             // write weekly events
-            foreach (var evnt in events.Where(x => x.Schedule.ScheduleType == ScheduleType.Weekly && x.Schedule.DaysOfWeek.Contains(date.DayOfWeek)))
+            foreach (var evnt in events.Where(x => x.Schedule.ScheduleType == ScheduleType.Weekly 
+                                            && x.Schedule.DaysOfWeek.Contains(date.DayOfWeek)))
             {
+                // TODO: check period
                 // write event
                 plannedEvents.Add(new PlannedTransactionModel<EventModel>(evnt, date));
             }
@@ -174,7 +180,8 @@ namespace MoneyChest.Services.Services
 
             // write once events
             foreach (var evnt in events.Where(x => x.Schedule.ScheduleType == ScheduleType.Once
-                                            && x.DateFrom.Year == date.Year && x.DateFrom.Month == date.Month && x.DateFrom.Day == date.Day))
+                                            && x.DateFrom.Year == date.Year && x.DateFrom.Month == date.Month 
+                                            && x.DateFrom.Day == date.Day))
             {
                 // write event
                 plannedEvents.Add(new PlannedTransactionModel<EventModel>(evnt, date));
