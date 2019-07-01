@@ -285,7 +285,7 @@ namespace MoneyChest.View.Components
 
                 // set expanded branch where category was changed
                 Categories.ExpandToDescendant(model, true);
-                model.IsSelected = true;
+                SelectedCategoryId = model.Id;
             });
         }
 

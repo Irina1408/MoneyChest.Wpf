@@ -338,7 +338,14 @@ namespace MoneyChest.View.Pages
         {
             var lastBefore = _viewModel.Entities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
             if (lastBefore != null)
-                _viewModel.Entities.Move(_viewModel.Entities.IndexOf(transaction), _viewModel.Entities.IndexOf(lastBefore) + 1);
+            {
+                // adapt new index (in case when transaction should be above in list index should be increased by 1)
+                var oldIndex = _viewModel.Entities.IndexOf(transaction);
+                var newIndex = _viewModel.Entities.IndexOf(lastBefore);
+                if (newIndex < oldIndex) newIndex++;
+
+                _viewModel.Entities.Move(oldIndex, newIndex);
+            }
             else
                 _viewModel.Entities.Move(_viewModel.Entities.IndexOf(transaction), 0);
         }
