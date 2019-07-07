@@ -13,5 +13,6 @@ namespace MoneyChest.Model.Model
         public int StorageGroupId { get; set; }
         public int CurrencyId { get; set; }
         public bool IsVisible { get; set; }
+        public CurrencyReference Currency { get; set; }
     }
 }

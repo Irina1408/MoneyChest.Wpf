@@ -27,7 +27,8 @@ namespace MoneyChest.Model.Extensions
                 Id = entity.Id,
                 Description = entity.Description,
                 DebtType = entity.DebtType,
-                CurrencyId = entity.CurrencyId
+                CurrencyId = entity.CurrencyId,
+                Currency = entity.Currency
             };
         }
 
@@ -39,7 +40,8 @@ namespace MoneyChest.Model.Extensions
                 Name = entity.Name,
                 StorageGroupId = entity.StorageGroupId,
                 CurrencyId = entity.CurrencyId,
-                IsVisible = entity.IsVisible
+                IsVisible = entity.IsVisible,
+                Currency = entity.Currency
             };
         }
     }

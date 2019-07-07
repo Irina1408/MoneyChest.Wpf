@@ -64,11 +64,11 @@ namespace MoneyChest.Model.Model
 
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
         public decimal ResultValueSign => RecordType == RecordType.Expense ? -ResultValue : ResultValue;
-        // TODO: CurrencyExchangeRate
         public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign) ?? ResultValueSign.ToString("0.##");
 
         public decimal ResultValueExchangeRate => Storage?.CurrencyId != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
         public decimal ResultValueSignExchangeRate => Storage?.CurrencyId != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
+        public string ResultValueSignExchangeRateCurrency => Storage?.CurrencyId != CurrencyId ? Storage?.Currency?.FormatValue(ResultValueSignExchangeRate) ?? ResultValueSignExchangeRate.ToString("0.##") : null;
 
         #endregion
     }

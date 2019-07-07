@@ -13,5 +13,6 @@ namespace MoneyChest.Model.Model
         public string Description { get; set; }
         public DebtType DebtType { get; set; }
         public int CurrencyId { get; set; }
+        public CurrencyReference Currency { get; set; }
     }
 }

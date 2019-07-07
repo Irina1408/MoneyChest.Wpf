@@ -35,7 +35,8 @@ namespace MoneyChest.Data.Extensions
                 Name = entity.Name,
                 StorageGroupId = entity.StorageGroupId,
                 CurrencyId = entity.CurrencyId,
-                IsVisible = entity.IsVisible
+                IsVisible = entity.IsVisible,
+                Currency = entity.Currency.ToReferenceView()
             };
         }
 
@@ -51,7 +52,8 @@ namespace MoneyChest.Data.Extensions
                 Id = entity.Id,
                 Description = entity.Description,
                 DebtType = entity.DebtType,
-                CurrencyId = entity.CurrencyId
+                CurrencyId = entity.CurrencyId,
+                Currency = entity.Currency.ToReferenceView()
             };
         }
 

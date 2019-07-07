@@ -117,7 +117,7 @@
             <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="{moneyChestView:MultiLangBinding General_ResultAmount}" Margin="0 0 10 0" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding ResultValueSignCurrency}" FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
-                <!-- TODO: add value correspond to currency exchange rate -->
+                <TextBlock Text="{Binding ResultValueSignExchangeRateCurrency}" FontSize="{DynamicResource LargeFontSize}" HorizontalAlignment="Center"/>
             </StackPanel>
 
             <!-- Comission -->

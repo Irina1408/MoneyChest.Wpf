@@ -82,10 +82,12 @@ namespace MoneyChest.Model.Model
         public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign, true) ?? ResultValueSign.ToString("0.##");
         public bool IsTypeSelectionAllowed => !DebtId.HasValue;
         public int? CurrencyIdForRate => Debt != null && Debt.CurrencyId != CurrencyId ? Debt.CurrencyId : Storage?.CurrencyId;
+        public CurrencyReference CurrencyForRate => Debt != null && Debt.CurrencyId != CurrencyId ? Debt.Currency : Storage?.Currency;
 
         // TODO: check service. Removed value from storage and from debt. Case when currency exchange rate is for debt currency
-        public decimal ResultValueExchangeRate => CurrencyIdForRate.HasValue && CurrencyIdForRate.Value != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
-        public decimal ResultValueSignExchangeRate => CurrencyIdForRate.HasValue && CurrencyIdForRate.Value != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
+        public decimal ResultValueExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
+        public decimal ResultValueSignExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
+        public string ResultValueSignExchangeRateCurrency => CurrencyIdForRate != CurrencyId ? CurrencyForRate?.FormatValue(ResultValueSignExchangeRate, true) ?? ResultValueSignExchangeRate.ToString("0.##") : null;
         public bool IsIncomeRecordType
         {
             get => RecordType == RecordType.Income;
