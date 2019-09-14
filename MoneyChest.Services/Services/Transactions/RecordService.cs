@@ -157,6 +157,7 @@ namespace MoneyChest.Services.Services
                 CommissionType = model.CommissionType,
                 CategoryId = model?.CategoryId,
                 CurrencyId = model.CurrencyId,
+                Currency = model.Currency,
                 StorageId = model.StorageId,
                 DebtId = model?.DebtId,
                 UserId = model.UserId
