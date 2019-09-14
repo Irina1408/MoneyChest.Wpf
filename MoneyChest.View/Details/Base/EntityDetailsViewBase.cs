@@ -24,17 +24,24 @@ namespace MoneyChest.View.Details
         where TViewModel : class, TEntity, INotifyPropertyChanged
         where TService : IServiceBase<TEntity>
     {
+        #region Private fields
+
+        private bool _allowSaveIfNoChanges;
+
+        #endregion
+
         #region Initialization
-        
+
         public EntityDetailsViewBase() : base()
         { }
-
-        public EntityDetailsViewBase(TService service, TViewModel entity, bool isNew) : this()
+        
+        public EntityDetailsViewBase(TService service, TViewModel entity, bool isNew, bool? allowSaveIfNoChanges = null) : this()
         {
             // init
             Service = service;
             IsNew = isNew;
             WrappedEntity = new EntityWrapper<TViewModel>(entity);
+            _allowSaveIfNoChanges = allowSaveIfNoChanges ?? false;
 
             // init commands
             InitializeCommands();
@@ -51,7 +58,7 @@ namespace MoneyChest.View.Details
                     // close control
                     Close(false);
                 },
-                () => WrappedEntity.IsChanged && !WrappedEntity.HasErrors),
+                () => (WrappedEntity.IsChanged || _allowSaveIfNoChanges) && !WrappedEntity.HasErrors),
 
                 CancelCommand = new Command(() => Close(true))
             };

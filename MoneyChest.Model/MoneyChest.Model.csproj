@@ -74,8 +74,10 @@
     <Compile Include="Enums\Settings\ChartType.cs" />
     <Compile Include="Enums\RecordType.cs" />
     <Compile Include="Model\Base\IHas.cs" />
-    <Compile Include="Model\Base\ITransaction.cs" />
-    <Compile Include="Model\Base\TransactionBase.cs" />
+    <Compile Include="Model\Templates\ITransactionTemplate.cs" />
+    <Compile Include="Model\Transactions\ITransaction.cs" />
+    <Compile Include="Model\Templates\TransactionTemplateBase.cs" />
+    <Compile Include="Model\Transactions\TransactionBase.cs" />
     <Compile Include="Model\CategoryModel.cs" />
     <Compile Include="Model\CurrencyExchangeRateModel.cs" />
     <Compile Include="Model\CurrencyModel.cs" />
@@ -90,8 +92,10 @@
     <Compile Include="Model\Events\RepayDebtEventModel.cs" />
     <Compile Include="Model\Events\MoneyTransferEventModel.cs" />
     <Compile Include="Model\LimitModel.cs" />
-    <Compile Include="Model\MoneyTransferModel.cs" />
-    <Compile Include="Model\RecordModel.cs" />
+    <Compile Include="Model\Templates\MoneyTransferTemplateModel.cs" />
+    <Compile Include="Model\Transactions\MoneyTransferModel.cs" />
+    <Compile Include="Model\Templates\RecordTemplateModel.cs" />
+    <Compile Include="Model\Transactions\RecordModel.cs" />
     <Compile Include="Model\Reference\CategoryReference.cs" />
     <Compile Include="Model\Reference\CurrencyReference.cs" />
     <Compile Include="Model\Reference\DebtReference.cs" />

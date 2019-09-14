@@ -169,6 +169,8 @@ namespace MoneyChest.View.Components
             ? $"{CurrencyFrom.FormatValue(1)} = {CurrencyTo.FormatValue(CurrencyExchangeRate)}"
             : null;
 
+        private bool IsSwappedCurrencies { get; set; } = false;
+
         #endregion
 
         #region Private methods & properies
@@ -196,6 +198,24 @@ namespace MoneyChest.View.Components
             CurrencyExchangeRate = CurrencyFromId != CurrencyToId && CurrencyFromId > 0 && CurrencyToId > 0
                 ? CurrencyEchangeRates.FirstOrDefault(x => x.CurrencyFromId == CurrencyFromId && x.CurrencyToId == CurrencyToId)?.Rate ?? 1
                 : 1;
+            //IsSwappedCurrencies = false;
+
+            //// update CurrencyExchangeRate
+            //if (CurrencyFromId != CurrencyToId && CurrencyFromId > 0 && CurrencyToId > 0)
+            //{
+            //    // try to find currency exchange rate correspond to From and To currencies in every in direct and opposite compositions
+            //    var model = CurrencyEchangeRates.FirstOrDefault(x => x.CurrencyFromId == CurrencyFromId && x.CurrencyToId == CurrencyToId);
+
+            //    if (model == null)
+            //    {
+            //        model = CurrencyEchangeRates.FirstOrDefault(x => x.CurrencyFromId == CurrencyFromId && x.CurrencyToId == CurrencyToId);
+            //        IsSwappedCurrencies = model != null;
+            //    }
+
+            //    CurrencyExchangeRate = model?.Rate ?? 1;
+            //}
+            //else
+            //    CurrencyExchangeRate = 1;
 
             // update example
             txtExchangeRateExample.Text = ExchangeRateExample;

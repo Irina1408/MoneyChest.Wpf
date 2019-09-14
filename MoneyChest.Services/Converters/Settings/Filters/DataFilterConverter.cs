@@ -16,6 +16,7 @@ namespace MoneyChest.Services.Converters
             entity.Remark = model.Remark;
             entity.IncludeWithoutCategory = model.CategoryIds.Count == 0
                 || model.CategoryIds.Contains(-1);
+            entity.ShowTemplates = model.ShowTemplates;
             entity.IsFilterApplied = model.IsFilterApplied;
             entity.IsFilterVisible = model.IsFilterVisible;
             entity.IsCategoryBranchSelection = model.IsCategoryBranchSelection;
@@ -26,6 +27,7 @@ namespace MoneyChest.Services.Converters
         {
             model.Description = entity.Description;
             model.Remark = entity.Remark;
+            model.ShowTemplates = entity.ShowTemplates;
             model.IsFilterApplied = entity.IsFilterApplied;
             model.IsFilterVisible = entity.IsFilterVisible;
             model.IsCategoryBranchSelection = entity.IsCategoryBranchSelection;

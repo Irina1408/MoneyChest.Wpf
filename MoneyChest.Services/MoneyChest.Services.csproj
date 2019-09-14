@@ -58,7 +58,9 @@
     <Compile Include="Converters\Events\SimpleEventConverter.cs" />
     <Compile Include="Converters\Extensions\ToReferenceView.cs" />
     <Compile Include="Converters\LimitConverter.cs" />
+    <Compile Include="Converters\MoneyTransferTemplateConverter.cs" />
     <Compile Include="Converters\MoneyTransferConverter.cs" />
+    <Compile Include="Converters\RecordTemplateConverter.cs" />
     <Compile Include="Converters\RecordConverter.cs" />
     <Compile Include="Converters\Settings\CalendarSettingsConverter.cs" />
     <Compile Include="Converters\Settings\Filters\DataFilterConverter.cs" />
@@ -84,6 +86,8 @@
     <Compile Include="Services\Base\Interfaces\IServiceBase.cs" />
     <Compile Include="Services\Base\Interfaces\IUserableService.cs" />
     <Compile Include="Services\Base\SpecificBaseServices\UserSettingServiceBase.cs" />
+    <Compile Include="Services\Templates\MoneyTransferTemplateService.cs" />
+    <Compile Include="Services\Templates\RecordTemplateService.cs" />
     <Compile Include="Services\Defaults\DefaultsLoadingService.cs" />
     <Compile Include="Services\Defaults\DefaultsLoaderEng.cs" />
     <Compile Include="Services\Defaults\DefaultsLoaderRus.cs" />
@@ -102,8 +106,9 @@
     <Compile Include="Services\Events\SimpleEventService.cs" />
     <Compile Include="Services\History\HistoryService.cs" />
     <Compile Include="Services\Common\LimitService.cs" />
-    <Compile Include="Services\Common\MoneyTransferService.cs" />
-    <Compile Include="Services\Common\RecordService.cs" />
+    <Compile Include="Services\Templates\TransactionTemplateService.cs" />
+    <Compile Include="Services\Transactions\MoneyTransferService.cs" />
+    <Compile Include="Services\Transactions\RecordService.cs" />
     <Compile Include="Services\Settings\CalendarSettingsService.cs" />
     <Compile Include="Services\Settings\ForecastSettingService.cs" />
     <Compile Include="Services\Settings\GeneralSettingService.cs" />
@@ -112,7 +117,7 @@
     <Compile Include="Services\Common\StorageGroupService.cs" />
     <Compile Include="Services\Common\StorageService.cs" />
     <Compile Include="Services\Common\UserService.cs" />
-    <Compile Include="Services\TransactionService.cs" />
+    <Compile Include="Services\Transactions\TransactionService.cs" />
     <Compile Include="Utils\ServiceHelper.cs" />
   </ItemGroup>
   <ItemGroup>

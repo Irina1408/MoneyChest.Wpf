@@ -75,11 +75,15 @@
     <Compile Include="Entities\History\Events\SimpleEventHistory.cs" />
     <Compile Include="Entities\History\LimitHistory.cs" />
     <Compile Include="Entities\History\MoneyTransferHistory.cs" />
+    <Compile Include="Entities\History\MoneyTransferTemplateHistory.cs" />
     <Compile Include="Entities\History\RecordHistory.cs" />
+    <Compile Include="Entities\History\RecordTemplateHistory.cs" />
     <Compile Include="Entities\History\StorageGroupHistory.cs" />
     <Compile Include="Entities\History\StorageHistory.cs" />
     <Compile Include="Entities\History\Base\IUserActionHistory.cs" />
     <Compile Include="Entities\History\UserHistory.cs" />
+    <Compile Include="Entities\MoneyTransferTemplate.cs" />
+    <Compile Include="Entities\RecordTemplate.cs" />
     <Compile Include="Entities\Settings\CalendarSettings.cs" />
     <Compile Include="Entities\Settings\Filters\DataFilter.cs" />
     <Compile Include="Entities\Settings\ForecastSetting.cs" />
@@ -151,6 +155,26 @@
     <Compile Include="Migrations\201906301205584_renaming.Designer.cs">
       <DependentUpon>201906301205584_renaming.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908231648329_add_templates.cs" />
+    <Compile Include="Migrations\201908231648329_add_templates.Designer.cs">
+      <DependentUpon>201908231648329_add_templates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908231701445_add_history_for_templates.cs" />
+    <Compile Include="Migrations\201908231701445_add_history_for_templates.Designer.cs">
+      <DependentUpon>201908231701445_add_history_for_templates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908251753147_add_template_name.cs" />
+    <Compile Include="Migrations\201908251753147_add_template_name.Designer.cs">
+      <DependentUpon>201908251753147_add_template_name.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908251755015_update_history.cs" />
+    <Compile Include="Migrations\201908251755015_update_history.Designer.cs">
+      <DependentUpon>201908251755015_update_history.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909141909566_save_ShowTemplates.cs" />
+    <Compile Include="Migrations\201909141909566_save_ShowTemplates.Designer.cs">
+      <DependentUpon>201909141909566_save_ShowTemplates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -206,6 +230,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906301205584_renaming.resx">
       <DependentUpon>201906301205584_renaming.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908231648329_add_templates.resx">
+      <DependentUpon>201908231648329_add_templates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908231701445_add_history_for_templates.resx">
+      <DependentUpon>201908231701445_add_history_for_templates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908251753147_add_template_name.resx">
+      <DependentUpon>201908251753147_add_template_name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908251755015_update_history.resx">
+      <DependentUpon>201908251755015_update_history.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909141909566_save_ShowTemplates.resx">
+      <DependentUpon>201909141909566_save_ShowTemplates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

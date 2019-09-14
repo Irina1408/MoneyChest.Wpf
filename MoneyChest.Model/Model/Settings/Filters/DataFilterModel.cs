@@ -52,7 +52,8 @@ namespace MoneyChest.Model.Model
                     NotifyFilterChanged();
             }
         }
-
+        
+        public bool ShowTemplates { get; set; } = true;
         public bool IsFilterVisible { get; set; }
         public bool IsFilterApplied { get; set; }
         public bool IsCategoryBranchSelection { get; set; }

@@ -87,7 +87,7 @@ namespace MoneyChest.Model.Model
         // TODO: check service. Removed value from storage and from debt. Case when currency exchange rate is for debt currency
         public decimal ResultValueExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
         public decimal ResultValueSignExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
-        public string ResultValueSignExchangeRateCurrency => CurrencyIdForRate != CurrencyId ? CurrencyForRate?.FormatValue(ResultValueSignExchangeRate, true) ?? ResultValueSignExchangeRate.ToString("0.##") : null;
+        public string ResultValueSignExchangeRateCurrency => CurrencyIdForRate != CurrencyId ? CurrencyForRate?.FormatValue(ResultValueSignExchangeRate, true) : null;
         public bool IsIncomeRecordType
         {
             get => RecordType == RecordType.Income;

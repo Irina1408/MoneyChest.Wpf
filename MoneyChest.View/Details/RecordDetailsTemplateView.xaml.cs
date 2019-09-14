@@ -21,20 +21,20 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
-    public abstract class RecordDetailsViewBase : EntityDetailsViewBase<RecordModel, RecordModel, IRecordService>
+    public abstract class RecordTemplateDetailsViewBase : EntityDetailsViewBase<RecordTemplateModel, RecordTemplateModel, IRecordTemplateService>
     {
-        public RecordDetailsViewBase() : base()
+        public RecordTemplateDetailsViewBase() : base()
         { }
 
-        public RecordDetailsViewBase(IRecordService service, RecordModel entity, bool isNew, bool? allowSaveIfNoChanges = null)
+        public RecordTemplateDetailsViewBase(IRecordTemplateService service, RecordTemplateModel entity, bool isNew, bool? allowSaveIfNoChanges = null)
             : base(service, entity, isNew, allowSaveIfNoChanges)
         { }
     }
 
     /// <summary>
-    /// Interaction logic for RecordDetailsView.xaml
+    /// Interaction logic for RecordTemplateDetailsView.xaml
     /// </summary>
-    public partial class RecordDetailsView : RecordDetailsViewBase
+    public partial class RecordTemplateDetailsView : RecordTemplateDetailsViewBase
     {
         #region Private fields
 
@@ -46,11 +46,11 @@ namespace MoneyChest.View.Details
 
         #region Initialization
 
-        public RecordDetailsView(RecordModel entity, bool isNew)
-            : this(ServiceManager.ConfigureService<RecordService>(), entity, isNew)
+        public RecordTemplateDetailsView(RecordTemplateModel entity, bool isNew)
+            : this(ServiceManager.ConfigureService<RecordTemplateService>(), entity, isNew)
         { }
 
-        public RecordDetailsView(IRecordService service, RecordModel entity, bool isNew, bool? allowSaveIfNoChanges = null)
+        public RecordTemplateDetailsView(IRecordTemplateService service, RecordTemplateModel entity, bool isNew, bool? allowSaveIfNoChanges = null)
             : base(service, entity, isNew, allowSaveIfNoChanges)
         {
             InitializeComponent();
@@ -84,7 +84,7 @@ namespace MoneyChest.View.Details
             base.PrepareParentWindow(window);
 
             window.Height = 575;
-            window.Width = 530;
+            window.Width = 580;
         }
 
         #endregion

@@ -30,40 +30,18 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         
         <!-- Menu -->
         <Grid Grid.Column="0" Background="{DynamicResource GrayBrush8}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <ToolBar HorizontalAlignment="Left" Grid.Column="0">
-                <!--<Button ToolTip="{moneyChestView:MultiLangBinding General_Add}" Style="{DynamicResource ToolBarButtonBaseStyle}">
-                    <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False"
-                                             HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                             Foreground="{DynamicResource IdealForegroundColorBrush}"
-                                             Style="{DynamicResource MaterialDesignPopupBox}" Margin="0">
-                        <materialDesign:PopupBox.ToggleContent>
-                            <Grid Background="Transparent" Height="28" Width="28">
-                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <iconPacks:PackIconMaterial Kind="Plus"/>
-                                </Grid>
-                            </Grid>
-                        </materialDesign:PopupBox.ToggleContent>
-
-                        <StackPanel>
-                            <Button Command="{Binding AddRecordCommand}" ToolTip="{moneyChestView:MultiLangBinding Record_Add}"
-                                Height="{DynamicResource ToolBarButtonSize}"
-                                Content="{moneyChestView:MultiLangBinding Record_Singular}"/>
-
-                            <Button Command="{Binding AddMoneyTransferCommand}" ToolTip="{moneyChestView:MultiLangBinding MoneyTransfer_Add}"
-                                Height="{DynamicResource ToolBarButtonSize}"
-                                Content="{moneyChestView:MultiLangBinding MoneyTransfer_Singular}"/>
-                        </StackPanel>
-                    </materialDesign:PopupBox>
-                </Button>-->
 
                 <Button Command="{Binding AddRecordCommand}" ToolTip="{moneyChestView:MultiLangBinding Record_Add}">
                     <Grid>
@@ -78,20 +56,26 @@
                         <iconPacks:PackIconModern Kind="ArrowRightLeft" Style="{DynamicResource MiniRightBottomIconStyle}"/>
                     </Grid>
                 </Button>
-                
+
                 <Button Command="{Binding AddChequeCommand}" ToolTip="{moneyChestView:MultiLangBinding Transactions_AddCheque}">
                     <iconPacks:PackIconModern Kind="AddMultiple" />
                 </Button>
 
-                <Button Command="{Binding EditCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}">
+                <Button Command="{Binding EditTransactionCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}">
                     <iconPacks:PackIconModern Kind="Edit"/>
                 </Button>
 
-                <Button Command="{Binding DeleteCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
+                <Button Command="{Binding DeleteTransactionCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}">
                     <iconPacks:PackIconModern Kind="Delete"/>
                 </Button>
 
                 <Separator/>
+
+                <ToggleButton IsChecked="{Binding DataFilter.ShowTemplates, UpdateSourceTrigger=PropertyChanged}" 
+                              ToolTip="{moneyChestView:MultiLangBinding Transaction_ShowTemplates}" HorizontalAlignment="Right">
+                    <iconPacks:PackIconEntypo Kind="TextDocument" />
+                </ToggleButton>
+                
                 <ToggleButton IsChecked="{Binding DataFilter.IsFilterVisible, UpdateSourceTrigger=PropertyChanged}" 
                               ToolTip="{moneyChestView:MultiLangBinding General_ShowFilter}" HorizontalAlignment="Right">
                     <iconPacks:PackIconModern Kind="Filter" />
@@ -99,28 +83,31 @@
             </ToolBar>
 
             <!-- Period selector -->
-            <ToolBar HorizontalAlignment="Center" Grid.ColumnSpan="2" ToolBarTray.IsLocked="True">
+            <ToolBar HorizontalAlignment="Center" Grid.ColumnSpan="3" ToolBarTray.IsLocked="True">
                 <components:PeriodSelectorControl HorizontalAlignment="Center"
                                       PeriodFilter="{Binding PeriodFilter, UpdateSourceTrigger=PropertyChanged}"/>
             </ToolBar>
         </Grid>
 
         <!-- Transactions grid -->
-        <DataGrid x:Name="GridTransactions" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding FilteredEntities}"
+        <DataGrid x:Name="GridTransactions" Grid.Row="2" Grid.Column="0" 
+                  ItemsSource="{Binding TransactionFilteredEntities, UpdateSourceTrigger=PropertyChanged}"
                   RowStyle="{DynamicResource TransactionRowStyle}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{moneyChestView:MultiLangBinding Record_Add}" Command="{Binding AddRecordCommand}"/>
                     <MenuItem Header="{moneyChestView:MultiLangBinding MoneyTransfer_Add}" Command="{Binding AddMoneyTransferCommand}"/>
                     <MenuItem Header="{moneyChestView:MultiLangBinding Transactions_AddCheque}" Command="{Binding AddChequeCommand}"/>
-                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditCommand}"/>
-                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditTransactionCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteTransactionCommand}"/>
                     <Separator/>
-                    <MenuItem Header="{moneyChestView:MultiLangBinding Transaction_DuplicateAndApplyNow}" Command="{Binding DuplicateAndApplyNowCommand}"/>
-                    <MenuItem Header="{moneyChestView:MultiLangBinding Transaction_Duplicate}" Command="{Binding DuplicateCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Transaction_DuplicateAndApplyNow}" Command="{Binding DuplicateAndApplyNowTransactionCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Transaction_Duplicate}" Command="{Binding DuplicateTransactionCommand}"/>
                     <Separator/>
-                    <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowCommand}"/>
-                    <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowTransactionCommand}"/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionFromPlannedCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="{moneyChestView:MultiLangBinding Transaction_CreateTemplate}" Command="{Binding CreateTemplateFromTransactionCommand}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
@@ -170,9 +157,117 @@
 
             </DataGrid.Columns>
         </DataGrid>
-        
+
+        <!-- Transaction templates list -->
+        <GroupBox x:Name="TemplatesGroupBox" Grid.Column="1"  Grid.Row="0" Grid.RowSpan="3"
+                  Visibility="{Binding DataFilter.ShowTemplates, Converter={StaticResource BVConverter}}"
+                  Width="255" Margin="0">
+            <GroupBox.Header>
+                <Grid Margin="5 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Command="{Binding AddRecordTemplateCommand}" 
+                                ToolTip="{moneyChestView:MultiLangBinding RecordTemplate_Add}"
+                                Style="{DynamicResource CircleButtonStyle}"
+                                Foreground="{DynamicResource IdealForegroundColorBrush}"
+                                Height="35" Width="35">
+                            <Grid>
+                                <iconPacks:PackIconMaterial Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <iconPacks:PackIconModern Kind="MathPlusMinus" Style="{DynamicResource MiniRightBottomIconStyle}"
+                                                          Margin="0 0 -4 -4" Height="9" Width="9"/>
+                            </Grid>
+                        </Button>
+
+                        <Button Command="{Binding AddMoneyTransferTemplateCommand}" 
+                                ToolTip="{moneyChestView:MultiLangBinding MoneyTransferTemplate_Add}"
+                                Style="{DynamicResource CircleButtonStyle}"
+                                Foreground="{DynamicResource IdealForegroundColorBrush}"
+                                Height="35" Width="35">
+                            <Grid>
+                                <iconPacks:PackIconMaterial Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <iconPacks:PackIconModern Kind="ArrowRightLeft" Style="{DynamicResource MiniRightBottomIconStyle}"
+                                                           Margin="0 0 -4 -4" Height="9" Width="9"/>
+                            </Grid>
+                        </Button>
+
+                        <!--<Button Command="{Binding EditTemplateCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}"
+                                Style="{DynamicResource CircleButtonStyle}"
+                                Foreground="{DynamicResource IdealForegroundColorBrush}">
+                            <iconPacks:PackIconModern Kind="Edit"/>
+                        </Button>
+
+                        <Button Command="{Binding DeleteTemplateCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Delete}"
+                                Style="{DynamicResource CircleButtonStyle}"
+                                Foreground="{DynamicResource IdealForegroundColorBrush}">
+
+                            <iconPacks:PackIconModern Kind="Delete"/>
+                        </Button>-->
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="1" Text="{moneyChestView:MultiLangBinding Template_Plural}" VerticalAlignment="Center"
+                               Style="{DynamicResource MCGroupBoxHeaderTextBlockStyle}" HorizontalAlignment="Left"
+                               Margin="5"/>
+                </Grid>
+            </GroupBox.Header>
+            <DataGrid x:Name="GridTemplates" 
+                      ItemsSource="{Binding TemplateEntities, UpdateSourceTrigger=PropertyChanged}" 
+                      RowStyle="{DynamicResource TransactionRowStyle}"
+                      HeadersVisibility="None">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{moneyChestView:MultiLangBinding RecordTemplate_Add}" Command="{Binding AddRecordTemplateCommand}"/>
+                        <MenuItem Header="{moneyChestView:MultiLangBinding MoneyTransferTemplate_Add}" Command="{Binding AddMoneyTransferTemplateCommand}"/>
+                        <MenuItem Header="{moneyChestView:MultiLangBinding General_Edit}" Command="{Binding EditTemplateCommand}"/>
+                        <MenuItem Header="{moneyChestView:MultiLangBinding General_Delete}" Command="{Binding DeleteTemplateCommand}"/>
+                        <Separator/>
+                        <MenuItem Header="{moneyChestView:MultiLangBinding Event_ApplyNow}" Command="{Binding ApplyNowTemplateCommand}"/>
+                        <MenuItem Header="{moneyChestView:MultiLangBinding Event_CreateTransaction}" Command="{Binding CreateTransactionFromTemplateCommand}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <!-- Add type icon -->
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ContentControl>
+                                    <StackPanel>
+                                        <iconPacks:PackIconOcticons Name="IconPlus" Kind="Plus" Visibility="Collapsed" Margin="3 7 0 7"
+                                                                Height="10" Width="10"/>
+                                        <iconPacks:PackIconModern Name="IconMinus" Kind="Minus" Visibility="Collapsed" Margin="3 7 0 7"
+                                                              Height="10" Width="10"/>
+                                        <iconPacks:PackIconModern Name="IconTransfer" Kind="ArrowRightLeft" Visibility="Collapsed" Margin="3 7 0 7"
+                                                              Height="10" Width="10"/>
+                                    </StackPanel>
+                                </ContentControl>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding TransactionType, Converter={StaticResource EBConverter}, 
+                                    ConverterParameter={x:Static enums:TransactionType.Income}}" Value="True">
+                                        <Setter TargetName="IconPlus" Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TransactionType, Converter={StaticResource EBConverter}, 
+                                    ConverterParameter={x:Static enums:TransactionType.Expense}}" Value="True">
+                                        <Setter TargetName="IconMinus" Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TransactionType, Converter={StaticResource EBConverter}, 
+                                    ConverterParameter={x:Static enums:TransactionType.MoneyTransfer}}" Value="True">
+                                        <Setter TargetName="IconTransfer" Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Name}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
         <!-- Filter -->
-        <components:DataFilterControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" 
+        <components:DataFilterControl Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" 
                                       DataFilter="{Binding DataFilter, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </local:PageBase>

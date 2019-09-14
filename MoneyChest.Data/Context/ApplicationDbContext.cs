@@ -59,6 +59,8 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<Limit> Limits { get; set; }
         public virtual DbSet<MoneyTransfer> MoneyTransfers { get; set; }
         public virtual DbSet<Record> Records { get; set; }
+        public virtual DbSet<MoneyTransferTemplate> MoneyTransferTemplates { get; set; }
+        public virtual DbSet<RecordTemplate> RecordTemplates { get; set; }
         public virtual DbSet<Storage> Storages { get; set; }
         public virtual DbSet<StorageGroup> StorageGroups { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -74,6 +76,8 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<LimitHistory> LimitsHistory { get; set; }
         public virtual DbSet<MoneyTransferHistory> MoneyTransfersHistory { get; set; }
         public virtual DbSet<RecordHistory> RecordsHistory { get; set; }
+        public virtual DbSet<MoneyTransferTemplateHistory> MoneyTransferTemplatesHistory { get; set; }
+        public virtual DbSet<RecordTemplateHistory> RecordTemplatesHistory { get; set; }
         public virtual DbSet<StorageHistory> StoragesHistory { get; set; }
         public virtual DbSet<StorageGroupHistory> StorageGroupsHistory { get; set; }
         public virtual DbSet<UserHistory> UsersHistory { get; set; }
@@ -185,6 +189,22 @@ namespace MoneyChest.Data.Context
                 .WithMany()
                 .WillCascadeOnDelete(false);
 
+            // MoneyTransferTemplate
+            modelBuilder.Entity<MoneyTransferTemplate>()
+                .HasRequired(e => e.StorageFrom)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<MoneyTransferTemplate>()
+                .HasRequired(e => e.StorageTo)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<MoneyTransferTemplate>()
+                .HasOptional(e => e.Category)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
             // MoneyTransferEvent
             modelBuilder.Entity<MoneyTransferEvent>()
                 .HasRequired(e => e.StorageFrom)
@@ -240,6 +260,27 @@ namespace MoneyChest.Data.Context
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Record>()
+                .HasOptional(e => e.Category)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            // RecordTemplate
+            modelBuilder.Entity<RecordTemplate>()
+                .HasRequired(e => e.Currency)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<RecordTemplate>()
+                .HasOptional(e => e.Debt)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<RecordTemplate>()
+                .HasRequired(e => e.Storage)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<RecordTemplate>()
                 .HasOptional(e => e.Category)
                 .WithMany()
                 .WillCascadeOnDelete(false);

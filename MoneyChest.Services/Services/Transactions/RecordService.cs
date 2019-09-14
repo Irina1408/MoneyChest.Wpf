@@ -27,6 +27,8 @@ namespace MoneyChest.Services.Services
 
         RecordModel Create(SimpleEventModel model, Action<RecordModel> overrides = null);
         RecordModel Create(RepayDebtEventModel model, Action<RecordModel> overrides = null);
+
+        RecordModel Duplicate(RecordModel model, Action<RecordModel> overrides = null);
     }
 
     public class RecordService : HistoricizedIdManageableUserableListServiceBase<Record, RecordModel, RecordConverter>, IRecordService
@@ -135,6 +137,29 @@ namespace MoneyChest.Services.Services
                 Storage = model.Storage,
                 Category = model.DebtCategory,
                 EventId = model.Id
+            };
+
+            overrides?.Invoke(record);
+            return record;
+        }
+
+        public RecordModel Duplicate(RecordModel model, Action<RecordModel> overrides = null)
+        {
+            var record = new RecordModel()
+            {
+                Date = DateTime.Now,
+                Description = model.Description,
+                RecordType = model.RecordType,
+                Value = model.Value,
+                Remark = model.Remark,
+                CurrencyExchangeRate = model.CurrencyExchangeRate,
+                Commission = model.Commission,
+                CommissionType = model.CommissionType,
+                CategoryId = model?.CategoryId,
+                CurrencyId = model.CurrencyId,
+                StorageId = model.StorageId,
+                DebtId = model?.DebtId,
+                UserId = model.UserId
             };
 
             overrides?.Invoke(record);

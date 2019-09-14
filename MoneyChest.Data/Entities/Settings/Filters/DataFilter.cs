@@ -21,6 +21,7 @@ namespace MoneyChest.Data.Entities
 
         [Key]
         public int Id { get; set; }
+        public bool ShowTemplates { get; set; }
         public bool IsFilterApplied { get; set; }
         public bool IsFilterVisible { get; set; } = false;
         public bool IsCategoryBranchSelection { get; set; } = false;

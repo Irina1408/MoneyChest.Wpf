@@ -7,6 +7,7 @@
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
 	         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:converters="clr-namespace:MoneyChest.View.Converters"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" IsEnabled="False"
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -35,20 +36,27 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Example -->
-                <TextBlock x:Name="txtExchangeRateExample" Grid.Row="0" FontSize="{DynamicResource LargeFontSize}"
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <!-- Example -->
+                    <TextBlock x:Name="txtExchangeRateExample" FontSize="{DynamicResource LargeFontSize}"
                                Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock.Style>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged, 
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged, 
                                     RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="false">
-                                    <Setter Property="Opacity" Value="0.5"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <!-- Swap currencies button -->
+                    <!--<Button>
+                        <iconPacks:PackIconFontAwesome Kind="SyncSolid" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>-->
+                </StackPanel>
 
                 <!-- Rate -->
                 <TextBox Grid.Row="1" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Rate}"

@@ -994,4 +994,40 @@
   <data name="Dashboard_PlannedTransactions" xml:space="preserve">
     <value>Planned transactions from</value>
   </data>
+  <data name="MoneyTransferTemplate_Add" xml:space="preserve">
+    <value>Add new money transfer template</value>
+  </data>
+  <data name="MoneyTransferTemplate_New" xml:space="preserve">
+    <value>New money transfer template</value>
+  </data>
+  <data name="MoneyTransferTemplate_Plural" xml:space="preserve">
+    <value>Money transfer templates</value>
+  </data>
+  <data name="MoneyTransferTemplate_Singular" xml:space="preserve">
+    <value>Money transfer template</value>
+  </data>
+  <data name="RecordTemplate_Add" xml:space="preserve">
+    <value>Add new income / expence template</value>
+  </data>
+  <data name="RecordTemplate_New" xml:space="preserve">
+    <value>New income / expence template</value>
+  </data>
+  <data name="RecordTemplate_Plural" xml:space="preserve">
+    <value>Income / Expence templates</value>
+  </data>
+  <data name="RecordTemplate_Singular" xml:space="preserve">
+    <value>Income / Expence template</value>
+  </data>
+  <data name="Template_Plural" xml:space="preserve">
+    <value>Templates</value>
+  </data>
+  <data name="Template_Singular" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="Transaction_CreateTemplate" xml:space="preserve">
+    <value>Create template</value>
+  </data>
+  <data name="Transaction_ShowTemplates" xml:space="preserve">
+    <value>Show templates</value>
+  </data>
 </root>

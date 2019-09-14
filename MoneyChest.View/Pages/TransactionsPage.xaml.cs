@@ -37,13 +37,17 @@ namespace MoneyChest.View.Pages
         #region Private fields
 
         private TransactionsPageViewModel _viewModel;
-        private ITransactionService _service;
+        private List<StorageModel> _storages;
+
+        private ITransactionService _transactionService;
         private ITransactionsSettingsService _settingsService;
         private IStorageService _storageService;
         private IRecordService _recordService;
         private IMoneyTransferService _moneyTransferService;
-        private ICategoryService _categoryService;
-        private List<StorageModel> _storages;
+
+        private ITransactionTemplateService _templatesService;
+        private IRecordTemplateService _recordTemplateService;
+        private IMoneyTransferTemplateService _moneyTransferTemplateService;
 
         #endregion
 
@@ -54,12 +58,15 @@ namespace MoneyChest.View.Pages
             InitializeComponent();
 
             // init
-            _service = ServiceManager.ConfigureService<TransactionService>();
+            _transactionService = ServiceManager.ConfigureService<TransactionService>();
             _settingsService = ServiceManager.ConfigureService<TransactionsSettingsService>();
             _storageService = ServiceManager.ConfigureService<StorageService>();
             _recordService = ServiceManager.ConfigureService<RecordService>();
             _moneyTransferService = ServiceManager.ConfigureService<MoneyTransferService>();
-            _categoryService = ServiceManager.ConfigureService<CategoryService>();
+
+            _templatesService = ServiceManager.ConfigureService<TransactionTemplateService>();
+            _recordTemplateService = ServiceManager.ConfigureService<RecordTemplateService>();
+            _moneyTransferTemplateService = ServiceManager.ConfigureService<MoneyTransferTemplateService>();
 
             InitializeViewModel();
         }
@@ -68,7 +75,8 @@ namespace MoneyChest.View.Pages
         {
             _viewModel = new TransactionsPageViewModel()
             {
-                AddRecordCommand = new Command(() => 
+                // transactions
+                AddRecordCommand = new Command(() =>
                     OpenDetails(_recordService.PrepareNew(new RecordModel() { UserId = GlobalVariables.UserId }), true)),
 
                 AddMoneyTransferCommand = new Command(() => OpenDetails(new MoneyTransferModel(), true)),
@@ -76,33 +84,77 @@ namespace MoneyChest.View.Pages
                 {
                     var chequeWindow = new ChequeWindow();
                     chequeWindow.Owner = Window.GetWindow(this);
-                    if(chequeWindow.ShowDialog() == true)
+                    if (chequeWindow.ShowDialog() == true)
                         Reload();
                 }),
 
-                EditCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
+                EditTransactionCommand = InitTransactionEditCommand(),
+                DeleteTransactionCommand = InitTransactionDeleteCommand(),
+
+                ApplyNowPlannedTransactionCommand = InitTransactionApplyNowCommand(),
+                CreateTransactionFromPlannedCommand = InitTransactionCreateTransactionCommand(),
+
+                DuplicateAndApplyNowTransactionCommand = InitDuplicateAndApplyNowCommand(),
+                DuplicateTransactionCommand = InitDuplicateTransactionCommand(),
+
+                CreateTemplateFromTransactionCommand = InitCreateTemplateFromTransactionCommand(),
+
+                // templates
+                AddRecordTemplateCommand = new Command(() =>
+                    OpenDetails(_recordTemplateService.PrepareNew(new RecordTemplateModel() { UserId = GlobalVariables.UserId }), true)),
+
+                AddMoneyTransferTemplateCommand = new Command(() => OpenDetails(new MoneyTransferTemplateModel(), true)),
+
+                EditTemplateCommand = InitTemplateEditCommand(),
+                DeleteTemplateCommand = InitTemplateDeleteCommand(),
+
+                ApplyNowTemplateCommand = InitTemplateApplyNowCommand(),
+                CreateTransactionFromTemplateCommand = InitTemplateCreateTransactionCommand()
+            };
+            
+            this.DataContext = _viewModel;
+        }
+
+        #endregion
+
+        #region Transaction Commands initialization
+
+        private IMCCommand InitTransactionEditCommand()
+        {
+            return new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
                 (item) =>
                 {
-                    if(item is RecordModel)
+                    // when transaction is record
+                    if (item is RecordModel)
                         OpenDetails(item as RecordModel);
-                    if(item is MoneyTransferModel)
-                        OpenDetails(item as MoneyTransferModel);
-                }, item => !item.IsPlanned, true),
 
-                DeleteCommand = new DataGridSelectedItemsCommand<ITransaction>(GridTransactions,
-                (items) => EntityViewHelper.ConfirmAndRemove(items, _service.Delete, "Transaction", items.Select(_ => _.Description), () =>
+                    // when transaction is money transfer
+                    if (item is MoneyTransferModel)
+                        OpenDetails(item as MoneyTransferModel);
+
+                }, item => !item.IsPlanned, true);
+        }
+
+        private IMCCommand InitTransactionDeleteCommand()
+        {
+            return new DataGridSelectedItemsCommand<ITransaction>(GridTransactions,
+                (items) => EntityViewHelper.ConfirmAndRemove(items, _transactionService.Delete, "Transaction", items.Select(_ => _.Description), 
+                () =>
                 {
                     // remove in grid
                     foreach (var item in items.ToList())
-                        _viewModel.Entities.Remove(item);
+                        _viewModel.TransactionEntities.Remove(item);
                     NotifyDataChanged();
-                }), 
-                (items) => !items.Any(_ => _.IsPlanned)),
+                }),
+                (items) => !items.Any(_ => _.IsPlanned));
+        }
 
-                ApplyNowCommand = new DataGridSelectedItemsCommand<ITransaction>(GridTransactions,
+        private IMCCommand InitTransactionApplyNowCommand()
+        {
+            return new DataGridSelectedItemsCommand<ITransaction>(GridTransactions,
                 (items) =>
                 {
-                    foreach(var item in items)
+                    foreach (var item in items)
                     {
                         ITransaction newTransaction = null;
                         var plannedTransaction = item as PlannedTransactionModel<EventModel>;
@@ -127,118 +179,155 @@ namespace MoneyChest.View.Pages
 
                     NotifyDataChanged();
                 },
-                (items) => items.All(_ => _.IsPlanned)),
+                (items) => items.All(_ => _.IsPlanned));
+        }
 
-                CreateTransactionCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
+        private IMCCommand InitTransactionCreateTransactionCommand()
+        {
+            return new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
                 (item) =>
                 {
                     var plannedTransaction = item as PlannedTransactionModel<EventModel>;
 
                     // simple event
                     if (plannedTransaction?.Event is SimpleEventModel)
-                        OpenDetails(_recordService.Create(plannedTransaction.Event as SimpleEventModel), true);
+                        OpenDetails(_recordService.Create(plannedTransaction.Event as SimpleEventModel), true, true);
 
                     // repay debt
                     if (plannedTransaction?.Event is RepayDebtEventModel)
-                        OpenDetails(_recordService.Create(plannedTransaction.Event as RepayDebtEventModel), true);
+                        OpenDetails(_recordService.Create(plannedTransaction.Event as RepayDebtEventModel), true, true);
 
                     // money transfer
                     if (plannedTransaction?.Event is MoneyTransferEventModel)
-                        OpenDetails(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel), true);
+                        OpenDetails(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel), true, true);
 
-                }, item => item.IsPlanned, true),
+                }, item => item.IsPlanned, true);
+        }
 
-                DuplicateAndApplyNowCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
+        private IMCCommand InitDuplicateAndApplyNowCommand()
+        {
+            return new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
                 (item) =>
                 {
+                    // when transaction is record
                     if (item is RecordModel)
-                    {
-                        var record = item as RecordModel;
-                        AddNew(_recordService.Add(new RecordModel()
-                        {
-                            Date = DateTime.Now,
-                            Description = record.Description,
-                            RecordType = record.RecordType,
-                            Value = record.Value,
-                            Remark = record.Remark,
-                            CurrencyExchangeRate = record.CurrencyExchangeRate,
-                            Commission = record.Commission,
-                            CommissionType = record.CommissionType,
-                            CategoryId = record?.CategoryId,
-                            CurrencyId = record.CurrencyId,
-                            StorageId = record.StorageId,
-                            DebtId = record?.DebtId,
-                            UserId = record.UserId
-                        }));
-                    }
+                        AddNew(_recordService.Duplicate(item as RecordModel));
+
+                    // when transaction is money transfer
                     if (item is MoneyTransferModel)
-                    {
-                        var moneyTransfer = item as MoneyTransferModel;
-                        AddNew(_moneyTransferService.Add(new MoneyTransferModel()
-                        {
-                            Date = DateTime.Now,
-                            CurrencyExchangeRate = moneyTransfer.CurrencyExchangeRate,
-                            Value = moneyTransfer.Value,
-                            Description = moneyTransfer.Description,
-                            Commission = moneyTransfer.Commission,
-                            CommissionType = moneyTransfer.CommissionType,
-                            TakeCommissionFromReceiver = moneyTransfer.TakeCommissionFromReceiver,
-                            Remark = moneyTransfer.Remark,
-                            StorageFromId = moneyTransfer.StorageFromId,
-                            StorageToId = moneyTransfer.StorageToId,
-                            CategoryId = moneyTransfer.CategoryId
-                        }));
-                    }
+                        AddNew(_moneyTransferService.Duplicate(item as MoneyTransferModel));
 
-                }, item => !item.IsPlanned),
+                }, item => !item.IsPlanned);
+        }
 
-                DuplicateCommand = new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
+        private IMCCommand InitDuplicateTransactionCommand()
+        {
+            return new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
                 (item) =>
                 {
+                    // when transaction is record
                     if (item is RecordModel)
-                    {
-                        var record = item as RecordModel;
-                        OpenDetails(new RecordModel()
-                        {
-                            Date = DateTime.Now,
-                            Description = record.Description,
-                            RecordType = record.RecordType,
-                            Value = record.Value,
-                            Remark = record.Remark,
-                            CurrencyExchangeRate = record.CurrencyExchangeRate,
-                            Commission = record.Commission,
-                            CommissionType = record.CommissionType,
-                            CategoryId = record?.CategoryId,
-                            CurrencyId = record.CurrencyId,
-                            Currency = record.Currency,
-                            StorageId = record.StorageId,
-                            DebtId = record?.DebtId,
-                            UserId = record.UserId
-                        }, true);
-                    }
+                        OpenDetails(_recordService.Duplicate(item as RecordModel), true, true);
+
+                    // when transaction is money transfer
                     if (item is MoneyTransferModel)
+                        OpenDetails(_moneyTransferService.Duplicate(item as MoneyTransferModel), true, true);
+
+                }, item => !item.IsPlanned);
+        }
+
+        private IMCCommand InitCreateTemplateFromTransactionCommand()
+        {
+            return new DataGridSelectedItemCommand<ITransaction>(GridTransactions,
+                (item) =>
+                {
+                    // when transaction is record
+                    if (item is RecordModel)
+                        OpenDetails(_recordTemplateService.Create(item as RecordModel), true, true);
+
+                    // when transaction is money transfer
+                    if (item is MoneyTransferModel)
+                        OpenDetails(_moneyTransferTemplateService.Create(item as MoneyTransferModel), true, true);
+
+                }, item => !item.IsPlanned);
+        }
+
+        #endregion
+
+        #region Templates commands initialization
+
+        private IMCCommand InitTemplateEditCommand()
+        {
+            return new DataGridSelectedItemCommand<ITransactionTemplate>(GridTemplates,
+                (item) =>
+                {
+                    // when transaction is record template
+                    if (item is RecordTemplateModel)
+                        OpenDetails(item as RecordTemplateModel);
+
+                    // when transaction is money transfer
+                    if (item is MoneyTransferTemplateModel)
+                        OpenDetails(item as MoneyTransferTemplateModel);
+
+                });
+        }
+
+        private IMCCommand InitTemplateDeleteCommand()
+        {
+            return new DataGridSelectedItemsCommand<ITransactionTemplate>(GridTemplates,
+                (items) => EntityViewHelper.ConfirmAndRemove(items, _templatesService.Delete, "Template", items.Select(_ => _.Name),
+                () =>
+                {
+                    // remove in grid
+                    foreach (var item in items.ToList())
+                        _viewModel.TemplateEntities.Remove(item);
+                    NotifyDataChanged();
+                }));
+        }
+
+        private IMCCommand InitTemplateApplyNowCommand()
+        {
+            return new DataGridSelectedItemsCommand<ITransactionTemplate>(GridTemplates,
+                (items) =>
+                {
+                    foreach (var item in items)
                     {
-                        var moneyTransfer = item as MoneyTransferModel;
-                        OpenDetails(new MoneyTransferModel()
-                        {
-                            Date = DateTime.Now,
-                            CurrencyExchangeRate = moneyTransfer.CurrencyExchangeRate,
-                            Value = moneyTransfer.Value,
-                            Description = moneyTransfer.Description,
-                            Commission = moneyTransfer.Commission,
-                            CommissionType = moneyTransfer.CommissionType,
-                            TakeCommissionFromReceiver = moneyTransfer.TakeCommissionFromReceiver,
-                            Remark = moneyTransfer.Remark,
-                            StorageFromId = moneyTransfer.StorageFromId,
-                            StorageToId = moneyTransfer.StorageToId,
-                            CategoryId = moneyTransfer.CategoryId
-                        }, true);
+                        ITransaction newTransaction = null;
+                        var transactionTemplate = item as ITransactionTemplate;
+
+                        // record
+                        if (transactionTemplate is RecordTemplateModel)
+                            newTransaction = _recordService.Add(
+                                _recordTemplateService.Create(transactionTemplate as RecordTemplateModel));
+                        
+                        // money transfer
+                        if (transactionTemplate is MoneyTransferTemplateModel)
+                            newTransaction = _moneyTransferService.Add(
+                                _moneyTransferTemplateService.Create(transactionTemplate as MoneyTransferTemplateModel));
+
+                        AddNew(newTransaction);
                     }
 
-                }, item => !item.IsPlanned)
-            };
+                    NotifyDataChanged();
+                });
+        }
 
-            this.DataContext = _viewModel;
+        private IMCCommand InitTemplateCreateTransactionCommand()
+        {
+            return new DataGridSelectedItemCommand<ITransactionTemplate>(GridTemplates,
+                (item) =>
+                {
+                    var transactionTemplate = item as ITransactionTemplate;
+
+                    // record
+                    if (transactionTemplate is RecordTemplateModel)
+                        OpenDetails(_recordTemplateService.Create(transactionTemplate as RecordTemplateModel), true, true);
+
+                    // money transfer
+                    if (transactionTemplate is MoneyTransferTemplateModel)
+                        OpenDetails(_moneyTransferTemplateService.Create(transactionTemplate as MoneyTransferTemplateModel), true, true);
+
+                }, null, true);
         }
 
         #endregion
@@ -251,12 +340,6 @@ namespace MoneyChest.View.Pages
 
             // load storages
             _storages = _storageService.GetListForUser(GlobalVariables.UserId);
-
-            // load categories
-            _viewModel.Categories = TreeHelper.BuildTree(_categoryService.GetActive(GlobalVariables.UserId)
-                .OrderByDescending(_ => _.RecordType)
-                .ThenBy(_ => _.Name)
-                .ToList(), true);
 
             // load settings from DB 
             if (_viewModel.PeriodFilter == null || _viewModel.DataFilter == null)
@@ -282,15 +365,21 @@ namespace MoneyChest.View.Pages
                 };
             }
 
+            // load transactions list
             ReloadTransactions();
+
+            // load templates list
+            _viewModel.TemplateEntities = new System.Collections.ObjectModel.ObservableCollection<ITransactionTemplate>(
+                _templatesService.Get(GlobalVariables.UserId));
         }
 
         private void ReloadTransactions()
         {
             // load transactions
-            _viewModel.Entities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(_service.Get(GlobalVariables.UserId, _viewModel.PeriodFilter.DateFrom, _viewModel.PeriodFilter.DateUntil));
+            _viewModel.TransactionEntities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(
+                _transactionService.Get(GlobalVariables.UserId, _viewModel.PeriodFilter.DateFrom, _viewModel.PeriodFilter.DateUntil));
 
-            _viewModel.Entities.CollectionChanged += (sender, e) => ApplyDataFilter();
+            _viewModel.TransactionEntities.CollectionChanged += (sender, e) => ApplyDataFilter();
 
             // apply filter now
             ApplyDataFilter();
@@ -298,24 +387,24 @@ namespace MoneyChest.View.Pages
 
         #endregion
 
-        #region Private methods
+        #region Details opening
 
-        private void OpenDetails(RecordModel model, bool isNew = false)
+        private void OpenDetails(RecordModel model, bool isNew = false, bool? allowSaveIfNoChanges = null)
         {
-            this.OpenDetailsWindow(new RecordDetailsView(_recordService, model, isNew), () =>
-                {
-                    // update grid
-                    if (isNew) AddNew(model);
-                    else UpdatePlacement(model);
+            this.OpenDetailsWindow(new RecordDetailsView(_recordService, model, isNew, allowSaveIfNoChanges), () =>
+            {
+                // update grid
+                if (isNew) AddNew(model);
+                else UpdatePlacement(model);
 
-                    NotifyDataChanged();
-                });
+                NotifyDataChanged();
+            });
         }
 
-        private void OpenDetails(MoneyTransferModel model, bool isNew = false)
+        private void OpenDetails(MoneyTransferModel model, bool isNew = false, bool? allowSaveIfNoChanges = null)
         {
             this.OpenDetailsWindow(new MoneyTransferDetailsView(_moneyTransferService, model, isNew, false,
-                _storages.OrderByDescending(_ => _.IsVisible).ThenBy(_ => _.Name)), () =>
+                _storages.OrderByDescending(_ => _.IsVisible).ThenBy(_ => _.Name), allowSaveIfNoChanges), () =>
                 {
                     // update grid
                     if (isNew) AddNew(model);
@@ -324,33 +413,61 @@ namespace MoneyChest.View.Pages
                     NotifyDataChanged();
                 });
         }
+
+        private void OpenDetails(RecordTemplateModel model, bool isNew = false, bool? allowSaveIfNoChanges = null)
+        {
+            this.OpenDetailsWindow(new RecordTemplateDetailsView(_recordTemplateService, model, isNew, allowSaveIfNoChanges), () =>
+            {
+                // update grid
+                if (isNew) _viewModel.TemplateEntities.Add(model);
+
+                NotifyDataChanged();
+            });
+        }
+
+        private void OpenDetails(MoneyTransferTemplateModel model, bool isNew = false, bool? allowSaveIfNoChanges = null)
+        {
+            this.OpenDetailsWindow(new MoneyTransferTemplateDetailsView(_moneyTransferTemplateService, model, isNew, false,
+                _storages.OrderByDescending(_ => _.IsVisible).ThenBy(_ => _.Name), allowSaveIfNoChanges), () =>
+                {
+                    // update grid
+                    if (isNew) _viewModel.TemplateEntities.Add(model);
+
+                    NotifyDataChanged();
+                });
+        }
+
+        #endregion
+
+        #region Private methods
 
         private void AddNew(ITransaction transaction)
         {
-            var lastBefore = _viewModel.Entities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
+            // show transaction in the view
+            var lastBefore = _viewModel.TransactionEntities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
             if (lastBefore != null)
-                _viewModel.Entities.Insert(_viewModel.Entities.IndexOf(lastBefore) + 1, transaction);
+                _viewModel.TransactionEntities.Insert(_viewModel.TransactionEntities.IndexOf(lastBefore) + 1, transaction);
             else
-                _viewModel.Entities.Insert(0, transaction);
+                _viewModel.TransactionEntities.Insert(0, transaction);
         }
 
         private void UpdatePlacement(ITransaction transaction)
         {
-            var lastBefore = _viewModel.Entities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
+            var lastBefore = _viewModel.TransactionEntities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
             if (lastBefore != null)
             {
                 // adapt new index (in case when transaction should be above in list index should be increased by 1)
-                var oldIndex = _viewModel.Entities.IndexOf(transaction);
-                var newIndex = _viewModel.Entities.IndexOf(lastBefore);
+                var oldIndex = _viewModel.TransactionEntities.IndexOf(transaction);
+                var newIndex = _viewModel.TransactionEntities.IndexOf(lastBefore);
                 if (newIndex < oldIndex) newIndex++;
 
-                _viewModel.Entities.Move(oldIndex, newIndex);
+                _viewModel.TransactionEntities.Move(oldIndex, newIndex);
             }
             else
-                _viewModel.Entities.Move(_viewModel.Entities.IndexOf(transaction), 0);
+                _viewModel.TransactionEntities.Move(_viewModel.TransactionEntities.IndexOf(transaction), 0);
         }
 
-        private void ApplyDataFilter() => _viewModel.FilteredEntities = _viewModel.DataFilter.ApplyFilter(_viewModel.Entities);
+        private void ApplyDataFilter() => _viewModel.TransactionFilteredEntities = _viewModel.DataFilter.ApplyFilter(_viewModel.TransactionEntities);
 
         #endregion
     }

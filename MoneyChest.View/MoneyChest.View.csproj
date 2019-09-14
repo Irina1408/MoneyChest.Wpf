@@ -165,11 +165,17 @@
     <Compile Include="Details\LimitDetailsView.xaml.cs">
       <DependentUpon>LimitDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Details\MoneyTransferTemplateDetailsView.xaml.cs">
+      <DependentUpon>MoneyTransferTemplateDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Details\MoneyTransferDetailsView.xaml.cs">
       <DependentUpon>MoneyTransferDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Details\MoneyTransferEventDetailsView.xaml.cs">
       <DependentUpon>MoneyTransferEventDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Details\RecordDetailsTemplateView.xaml.cs">
+      <DependentUpon>RecordDetailsTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Details\RecordDetailsView.xaml.cs">
       <DependentUpon>RecordDetailsView.xaml</DependentUpon>
@@ -386,6 +392,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Details\MoneyTransferTemplateDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Details\MoneyTransferDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -393,6 +403,10 @@
     <Page Include="Details\MoneyTransferEventDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Details\RecordDetailsTemplateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Details\RecordDetailsView.xaml">
       <SubType>Designer</SubType>

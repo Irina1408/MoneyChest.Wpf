@@ -20,7 +20,7 @@
     </UserControl.Resources>
 
     <GroupBox DataContext="{Binding DataFilter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DataFilterControl}}}" Margin="0" Visibility="{Binding IsFilterVisible, Converter={StaticResource BVConverter}}"
-              MaxWidth="255">
+              Width="255">
         <GroupBox.Header>
             <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
                 <ToggleButton IsChecked="{Binding IsFilterApplied, UpdateSourceTrigger=PropertyChanged}" 

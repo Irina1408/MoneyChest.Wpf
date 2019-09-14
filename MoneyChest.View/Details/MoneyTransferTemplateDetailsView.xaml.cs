@@ -25,20 +25,20 @@ using System.Windows.Shapes;
 
 namespace MoneyChest.View.Details
 {
-    public abstract class MoneyTransferDetailsViewBase : EntityDetailsViewBase<MoneyTransferModel, MoneyTransferModel, IMoneyTransferService>
+    public abstract class MoneyTransferTemplateDetailsViewBase : EntityDetailsViewBase<MoneyTransferTemplateModel, MoneyTransferTemplateModel, IMoneyTransferTemplateService>
     {
-        public MoneyTransferDetailsViewBase() : base()
+        public MoneyTransferTemplateDetailsViewBase() : base()
         { }
 
-        public MoneyTransferDetailsViewBase(IMoneyTransferService service, MoneyTransferModel entity, bool isNew, bool? allowSaveIfNoChanges = null)
+        public MoneyTransferTemplateDetailsViewBase(IMoneyTransferTemplateService service, MoneyTransferTemplateModel entity, bool isNew, bool? allowSaveIfNoChanges = null)
             : base(service, entity, isNew, allowSaveIfNoChanges)
         { }
     }
 
     /// <summary>
-    /// Interaction logic for MoneyTransferDetailsView.xaml
+    /// Interaction logic for MoneyTransferTemplateDetailsView.xaml
     /// </summary>
-    public partial class MoneyTransferDetailsView : MoneyTransferDetailsViewBase
+    public partial class MoneyTransferTemplateDetailsView : MoneyTransferTemplateDetailsViewBase
     {
         #region Private fields
         
@@ -49,23 +49,23 @@ namespace MoneyChest.View.Details
 
         #region Initialization
 
-        public MoneyTransferDetailsView(MoneyTransferModel entity, bool isNew, bool showHiddenStorages)
-            : this(ServiceManager.ConfigureService<MoneyTransferService>(), entity, isNew, showHiddenStorages,
+        public MoneyTransferTemplateDetailsView(MoneyTransferTemplateModel entity, bool isNew, bool showHiddenStorages)
+            : this(ServiceManager.ConfigureService<MoneyTransferTemplateService>(), entity, isNew, showHiddenStorages,
                   (ServiceManager.ConfigureService<StorageService>() as IStorageService).GetListForUser(GlobalVariables.UserId))
         { }
 
-        public MoneyTransferDetailsView(MoneyTransferModel entity, bool isNew,
+        public MoneyTransferTemplateDetailsView(MoneyTransferTemplateModel entity, bool isNew,
             bool showHiddenStorages, IEnumerable<StorageModel> storages)
-            : this(ServiceManager.ConfigureService<MoneyTransferService>(), entity, isNew, showHiddenStorages, storages)
+            : this(ServiceManager.ConfigureService<MoneyTransferTemplateService>(), entity, isNew, showHiddenStorages, storages)
         { }
 
-        public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew,
+        public MoneyTransferTemplateDetailsView(IMoneyTransferTemplateService service, MoneyTransferTemplateModel entity, bool isNew,
             bool showHiddenStorages)
             : this(service, entity, isNew, showHiddenStorages, 
                   (ServiceManager.ConfigureService<StorageService>() as IStorageService).GetListForUser(GlobalVariables.UserId))
         { }
 
-        public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew,
+        public MoneyTransferTemplateDetailsView(IMoneyTransferTemplateService service, MoneyTransferTemplateModel entity, bool isNew,
             bool showHiddenStorages, IEnumerable<StorageModel> storages, bool? allowSaveIfNoChanges = null)
             : base(service, entity, isNew, allowSaveIfNoChanges)
         {

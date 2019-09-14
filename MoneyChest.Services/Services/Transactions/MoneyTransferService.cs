@@ -20,6 +20,8 @@ namespace MoneyChest.Services.Services
         List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, bool? AutoExecuted = null);
 
         MoneyTransferModel Create(MoneyTransferEventModel model, Action<MoneyTransferModel> overrides = null);
+
+        MoneyTransferModel Duplicate(MoneyTransferModel model, Action<MoneyTransferModel> overrides = null);
     }
 
     public class MoneyTransferService : HistoricizedIdManageableServiceBase<MoneyTransfer, MoneyTransferModel, MoneyTransferConverter>, IMoneyTransferService
@@ -63,6 +65,27 @@ namespace MoneyChest.Services.Services
                 StorageToValue = model.StorageToValue,
                 Category = model.Category,
                 EventId = model.Id
+            };
+
+            overrides?.Invoke(moneyTransfer);
+            return moneyTransfer;
+        }
+        
+        public MoneyTransferModel Duplicate(MoneyTransferModel model, Action<MoneyTransferModel> overrides = null)
+        {
+            var moneyTransfer = new MoneyTransferModel()
+            {
+                Date = DateTime.Now,
+                CurrencyExchangeRate = model.CurrencyExchangeRate,
+                Value = model.Value,
+                Description = model.Description,
+                Commission = model.Commission,
+                CommissionType = model.CommissionType,
+                TakeCommissionFromReceiver = model.TakeCommissionFromReceiver,
+                Remark = model.Remark,
+                StorageFromId = model.StorageFromId,
+                StorageToId = model.StorageToId,
+                CategoryId = model.CategoryId
             };
 
             overrides?.Invoke(moneyTransfer);

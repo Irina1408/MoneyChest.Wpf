@@ -991,4 +991,40 @@
   <data name="Dashboard_PlannedTransactions" xml:space="preserve">
     <value>Запланированные транзакции с </value>
   </data>
+  <data name="MoneyTransferTemplate_Add" xml:space="preserve">
+    <value>Добавить новый шаблон денежного перевода</value>
+  </data>
+  <data name="MoneyTransferTemplate_New" xml:space="preserve">
+    <value>Новый шаблон денежного перевода</value>
+  </data>
+  <data name="MoneyTransferTemplate_Plural" xml:space="preserve">
+    <value>Шаблоны денежных переводов</value>
+  </data>
+  <data name="MoneyTransferTemplate_Singular" xml:space="preserve">
+    <value>Шаблон денежного перевода</value>
+  </data>
+  <data name="RecordTemplate_Add" xml:space="preserve">
+    <value>Добавить новый шаблон дохода / расхода</value>
+  </data>
+  <data name="RecordTemplate_New" xml:space="preserve">
+    <value>Новый шаблон дохода / расхода</value>
+  </data>
+  <data name="RecordTemplate_Plural" xml:space="preserve">
+    <value>Шаблоны доходов / расходов</value>
+  </data>
+  <data name="RecordTemplate_Singular" xml:space="preserve">
+    <value>Шаблон дохода / расхода</value>
+  </data>
+  <data name="Template_Plural" xml:space="preserve">
+    <value>Шаблоны</value>
+  </data>
+  <data name="Template_Singular" xml:space="preserve">
+    <value>Шаблон</value>
+  </data>
+  <data name="Transaction_CreateTemplate" xml:space="preserve">
+    <value>Создать шаблон</value>
+  </data>
+  <data name="Transaction_ShowTemplates" xml:space="preserve">
+    <value>Показать шаблоны</value>
+  </data>
 </root>
