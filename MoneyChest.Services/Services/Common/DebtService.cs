@@ -13,6 +13,7 @@ using System.Data.Entity;
 using MoneyChest.Services.Converters;
 using MoneyChest.Data.Enums;
 using MoneyChest.Data.Extensions;
+using MoneyChest.Model.Enums;
 
 namespace MoneyChest.Services.Services
 {
@@ -101,10 +102,28 @@ namespace MoneyChest.Services.Services
                 _historyService.WriteHistory(debtPenalty, Data.Enums.ActionType.Add, entity.UserId);
             }
             
-            // update related storage
-            if(model.StorageId.HasValue && model.StorageId > 0)
+            if (model.StorageId.HasValue && model.StorageId > 0)
+            {
+                // update related storage value
                 AddValueToStorage(model.StorageId.Value, (model.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * (model.Value - model.InitialFee));
                 
+                // create a new record for the debt to keep the history
+                _context.Records.Add(new Record()
+                {
+                    Date = entity.TakingDate,
+                    Description = entity.Description,
+                    CategoryId = entity.CategoryId,
+                    CurrencyExchangeRate = entity.CurrencyExchangeRate,
+                    CurrencyId = entity.CurrencyId,
+                    DebtId = entity.Id,
+                    RecordType = entity.DebtType == DebtType.GiveBorrow ? RecordType.Expense : RecordType.Income,
+                    StorageId = entity.StorageId.Value,
+                    UserId = entity.UserId,
+                    Value = entity.Value,
+                    Remark = entity.Remark
+                });
+            }
+
             // save changes
             SaveChanges();
         }

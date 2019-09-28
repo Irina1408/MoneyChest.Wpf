@@ -84,8 +84,8 @@
             <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
             <!-- Category -->
-            <components:CategorySelector HorizontalAlignment="Right" VerticalAlignment="Center"
-                                         SelectedCategoryId="{Binding CategoryId}" ShowEmptyCategory="True"/>
+            <components:CategorySelector HorizontalAlignment="Right" VerticalAlignment="Center" ShowEmptyCategory="True"
+                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Value -->
             <input:AmountInput Amount="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Stretch"/>

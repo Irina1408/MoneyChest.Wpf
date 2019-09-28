@@ -66,7 +66,8 @@ namespace MoneyChest.View.Pages
                     foreach (var item in items.ToList())
                         _viewModel.Entities.Remove(item);
                     NotifyDataChanged();
-                }))
+                }), 
+                debts => debts.All(x => x.IsRepaid || x.ValueToBePaid <= 0))
             };
 
             this.DataContext = _viewModel;
