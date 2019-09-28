@@ -18,6 +18,8 @@ namespace MoneyChest.Model.Report
         public int DetailsDepth { get; set; }
         public BarChartSection Section { get; set; }
         public PeriodType PeriodType { get; set; }
+        public bool IncludeActualTransactions { get; set; }
+        public bool IncludeFuturePlannedTransactions { get; set; }
 
         public Func<IEnumerable<ITransaction>, List<ITransaction>> ApplyFilter { get; set; }
     }

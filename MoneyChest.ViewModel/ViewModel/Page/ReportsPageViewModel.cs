@@ -30,7 +30,9 @@ namespace MoneyChest.ViewModel.ViewModel
                 ApplyFilter = Settings.DataFilter.ApplyFilter,
                 DetailsDepth = Settings.ChartType == ChartType.PieChart ? Settings.PieChartDetailsDepth : (Settings.BarChartDetail ? 1 : 0),
                 Section = Settings.ChartType == ChartType.PieChart ? BarChartSection.Category : Settings.BarChartSection,
-                PeriodType = Settings.BarChartSectionPeriod
+                PeriodType = Settings.BarChartSectionPeriod,
+                IncludeActualTransactions = Settings.IncludeActualTransactions,
+                IncludeFuturePlannedTransactions = Settings.IncludeFuturePlannedTransactions
             };
         }
     }

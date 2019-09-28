@@ -24,6 +24,8 @@ namespace MoneyChest.Services.Converters
             entity.Sorting = model.Sorting;
             entity.ShowLegend = model.ShowLegend;
             entity.ShowValue = model.ShowValue;
+            entity.IncludeActualTransactions = model.IncludeActualTransactions;
+            entity.IncludeFuturePlannedTransactions = model.IncludeFuturePlannedTransactions;
 
             entity.PieChartInnerRadius = model.PieChartInnerRadius;
             entity.PieChartDetailsDepth = model.PieChartDetailsDepth;
@@ -51,7 +53,9 @@ namespace MoneyChest.Services.Converters
             model.Sorting = entity.Sorting;
             model.ShowLegend = entity.ShowLegend;
             model.ShowValue = entity.ShowValue;
-            
+            model.IncludeActualTransactions = entity.IncludeActualTransactions;
+            model.IncludeFuturePlannedTransactions = entity.IncludeFuturePlannedTransactions;
+
             model.PieChartInnerRadius = entity.PieChartInnerRadius;
             model.PieChartDetailsDepth = entity.PieChartDetailsDepth;
             

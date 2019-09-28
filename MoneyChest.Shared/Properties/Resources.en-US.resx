@@ -1030,4 +1030,10 @@
   <data name="Transaction_ShowTemplates" xml:space="preserve">
     <value>Show templates</value>
   </data>
+  <data name="ReportSettings_IncludeActualTransactions" xml:space="preserve">
+    <value>Include actual transactions</value>
+  </data>
+  <data name="ReportSettings_IncludeFuturePlannedTransactions" xml:space="preserve">
+    <value>Include future planned transactions</value>
+  </data>
 </root>

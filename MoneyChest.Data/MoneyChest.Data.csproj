@@ -175,6 +175,10 @@
     <Compile Include="Migrations\201909141909566_save_ShowTemplates.Designer.cs">
       <DependentUpon>201909141909566_save_ShowTemplates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909281642268_update_report_settings2.cs" />
+    <Compile Include="Migrations\201909281642268_update_report_settings2.Designer.cs">
+      <DependentUpon>201909281642268_update_report_settings2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -245,6 +249,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909141909566_save_ShowTemplates.resx">
       <DependentUpon>201909141909566_save_ShowTemplates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909281642268_update_report_settings2.resx">
+      <DependentUpon>201909281642268_update_report_settings2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

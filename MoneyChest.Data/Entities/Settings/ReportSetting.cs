@@ -24,6 +24,8 @@ namespace MoneyChest.Data.Entities
         public Sorting Sorting { get; set; }
         public bool ShowLegend { get; set; }
         public bool ShowValue { get; set; }
+        public bool IncludeActualTransactions { get; set; }
+        public bool IncludeFuturePlannedTransactions { get; set; }
 
         // Pie chart settings
         public int PieChartInnerRadius { get; set; }

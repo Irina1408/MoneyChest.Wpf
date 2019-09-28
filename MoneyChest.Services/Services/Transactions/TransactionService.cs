@@ -71,7 +71,7 @@ namespace MoneyChest.Services.Services
             bool onlyFuture = true, bool? autoExecution = null)
         {
             // prepare
-            var date = onlyFuture ? DateTime.Today.AddDays(1) : dateFrom.Date;
+            var date = onlyFuture && dateFrom.Date <= DateTime.Today ? DateTime.Today.AddDays(1) : dateFrom.Date;
 
             // do not load events if there are not future days in selection if onlyFuture
             if (dateUntil <= date.AddMilliseconds(-1)) return new List<PlannedTransactionModel<EventModel>>();

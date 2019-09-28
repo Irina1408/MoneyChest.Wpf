@@ -1027,4 +1027,10 @@
   <data name="Transaction_ShowTemplates" xml:space="preserve">
     <value>Показать шаблоны</value>
   </data>
+  <data name="ReportSettings_IncludeActualTransactions" xml:space="preserve">
+    <value>Включить реальные транзакции</value>
+  </data>
+  <data name="ReportSettings_IncludeFuturePlannedTransactions" xml:space="preserve">
+    <value>Включить запланированные будущие транзакции</value>
+  </data>
 </root>

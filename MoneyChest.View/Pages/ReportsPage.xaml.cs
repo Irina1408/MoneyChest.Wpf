@@ -118,15 +118,22 @@ namespace MoneyChest.View.Pages
                 _viewModel.Settings = _settingsService.GetForUser(GlobalVariables.UserId);
 
                 // settings that should be saved but rebuild isn't required
-                var saveSettings = new List<string>() { nameof(ReportSettingModel.PieChartInnerRadius), nameof(ReportSettingModel.ShowSettings) };
+                var saveSettings = new List<string>() {
+                    nameof(ReportSettingModel.PieChartInnerRadius),
+                    nameof(ReportSettingModel.ShowSettings) };
+
+                // settings that requires data reload for report
+                var requiresReloadSettings = new List<string>() {
+                    nameof(ReportSettingModel.IncludeActualTransactions),
+                    nameof(ReportSettingModel.IncludeFuturePlannedTransactions) };
 
                 // save and rebuild report handler
-                EventHandler buildSettingsChangedHandler = (sender, e) =>
+                void buildSettingsChanged (bool requiresDataReload = false)
                 {
                     // save changes
                     _settingsService.Update(_viewModel.Settings);
                     // reload report data
-                    RebuildReport();
+                    RebuildReport(requiresDataReload);
                 };
 
                 _viewModel.Settings.PropertyChanged += (sender, e) =>
@@ -163,20 +170,20 @@ namespace MoneyChest.View.Pages
                             }
 
                             // rebuild report and save settings
-                            buildSettingsChangedHandler.Invoke(sender, e);
+                            buildSettingsChanged(requiresReloadSettings.Contains(e.PropertyName));
                         }
                     }
                 };
 
                 // add notifications for reload and apply filter
-                _viewModel.Settings.PeriodFilter.OnPeriodChanged += buildSettingsChangedHandler;
+                _viewModel.Settings.PeriodFilter.OnPeriodChanged += (sender, e) => buildSettingsChanged();
                 _viewModel.Settings.DataFilter.OnFilterChanged += (sender, e) =>
                 {
                     if (e.PropertyName == nameof(DataFilterModel.IsFilterApplied) && !_viewModel.Settings.DataFilter.IsDataFiltered
                         || e.PropertyName == nameof(DataFilterModel.IsFilterVisible))
                         _settingsService.Update(_viewModel.Settings);
                     else
-                        buildSettingsChangedHandler.Invoke(sender, e);
+                        buildSettingsChanged();
                 };
 
                 // refresh items source of comboDetailsDepth

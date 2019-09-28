@@ -30,6 +30,8 @@ namespace MoneyChest.Model.Model
         public Sorting Sorting { get; set; }
         public bool ShowLegend { get; set; } = true;
         public bool ShowValue { get; set; } = true;
+        public bool IncludeActualTransactions { get; set; } = true;
+        public bool IncludeFuturePlannedTransactions { get; set; } = false;
 
         // Pie chart settings
         public int PieChartInnerRadius { get; set; } = 150;

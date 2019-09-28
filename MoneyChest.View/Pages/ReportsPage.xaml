@@ -157,6 +157,14 @@
                             <!-- Show value -->
                             <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_ShowValue}" 
                                   IsChecked="{Binding ShowValue}"/>
+
+                            <!-- Include actual transactions -->
+                            <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_IncludeActualTransactions}" 
+                                  IsChecked="{Binding IncludeActualTransactions}"/>
+
+                            <!-- Include future planned transactions -->
+                            <CheckBox Content="{moneyChestView:MultiLangBinding ReportSettings_IncludeFuturePlannedTransactions}" 
+                                  IsChecked="{Binding IncludeFuturePlannedTransactions}"/>
                         </StackPanel>
                     </GroupBox>
 

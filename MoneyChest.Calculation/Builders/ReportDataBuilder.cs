@@ -108,8 +108,16 @@ namespace MoneyChest.Calculation.Builders
             if (_prevReportSettings == null || force ||
                 _prevReportSettings.DateFrom != settings.DateFrom || _prevReportSettings.DateUntil != settings.DateUntil)
             {
-                _transactions = _transactionService.GetActual(_userId, settings.DateFrom, settings.DateUntil)
-                    .Where(x => x.TransactionAmount != 0).ToList();
+                // cleanup existing transactions list
+                _transactions = new List<ITransaction>();
+
+                // load actual transactions
+                if (settings.IncludeActualTransactions) _transactions.AddRange(
+                    _transactionService.GetActual(_userId, settings.DateFrom, settings.DateUntil).Where(x => x.TransactionAmount != 0));
+
+                // load planned future transactions
+                if (settings.IncludeFuturePlannedTransactions) _transactions.AddRange(
+                    _transactionService.GetPlanned(_userId, settings.DateFrom, settings.DateUntil).Where(x => x.TransactionAmount != 0));
             }
 
             // save settings
@@ -192,6 +200,7 @@ namespace MoneyChest.Calculation.Builders
         private IEnumerable<CategoryTransactions> GetCategorizedTransactions(IEnumerable<ITransaction> transactions, int categoryLevel)
         {
             var categoryMapping = _categoryLevelMapping.FirstOrDefault(x => x.CategoryLevel == categoryLevel)?.CategoryMapping;
+
             return transactions
                 // apply transaction-category mapping
                 .Select(x => new
