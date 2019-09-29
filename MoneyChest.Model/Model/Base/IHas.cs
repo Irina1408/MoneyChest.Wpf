@@ -30,4 +30,9 @@ namespace MoneyChest.Model.Base
     {
         int UserId { get; set; }
     }
+
+    public interface IHasCategory
+    {
+        int? CategoryId { get; set; }
+    }
 }

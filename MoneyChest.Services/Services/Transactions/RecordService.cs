@@ -173,25 +173,16 @@ namespace MoneyChest.Services.Services
 
         public override RecordModel Add(RecordModel model)
         {
-            if (string.IsNullOrEmpty(model.Description))
-            {
-                var category = _context.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
-                model.Description = category?.Name;
-            }
+            // update description from category if it wasn't populated
+            ServiceHelper.UpdateDescription(_context, model);
 
             return base.Add(model);
         }
 
         public override IEnumerable<RecordModel> Add(IEnumerable<RecordModel> models)
         {
-            var categoryIds = models.Where(x => x.CategoryId != null).Select(x => x.CategoryId).Distinct().ToList();
-            var categories = _context.Categories.Where(x => categoryIds.Contains(x.Id));
-
-            foreach (var model in models.Where(x => string.IsNullOrEmpty(x.Description)).ToList())
-            {
-                var category = categories.FirstOrDefault(x => x.Id == model.CategoryId);
-                model.Description = category?.Name;
-            }
+            // update descriptions from category if it wasn't populated
+            ServiceHelper.UpdateDescription(_context, models);
 
             return base.Add(models);
         }

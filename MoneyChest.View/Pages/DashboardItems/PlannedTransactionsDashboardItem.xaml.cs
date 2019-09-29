@@ -68,15 +68,18 @@ namespace MoneyChest.View.Pages.DashboardItems
 
                     // simple event
                     if (plannedTransaction?.Event is SimpleEventModel)
-                        OpenDetails(_recordService.Create(plannedTransaction.Event as SimpleEventModel), true);
+                        OpenDetails(_recordService.Create(plannedTransaction.Event as SimpleEventModel, 
+                            x => x.Date = plannedTransaction.TransactionDate), true);
 
                     // repay debt
                     if (plannedTransaction?.Event is RepayDebtEventModel)
-                        OpenDetails(_recordService.Create(plannedTransaction.Event as RepayDebtEventModel), true);
+                        OpenDetails(_recordService.Create(plannedTransaction.Event as RepayDebtEventModel, 
+                            x => x.Date = plannedTransaction.TransactionDate), true);
 
                     // money transfer
                     if (plannedTransaction?.Event is MoneyTransferEventModel)
-                        OpenDetails(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel), true);
+                        OpenDetails(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel, 
+                            x => x.Date = plannedTransaction.TransactionDate), true);
 
                 }, item => item.IsPlanned, true)
             };

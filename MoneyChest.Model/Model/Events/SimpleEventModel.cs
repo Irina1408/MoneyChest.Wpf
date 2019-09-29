@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoneyChest.Model.Base;
 using MoneyChest.Model.Enums;
 using PropertyChanged;
 
 namespace MoneyChest.Model.Model
 {
-    public class SimpleEventModel : EventModel
+    public class SimpleEventModel : EventModel, IHasCategory
     {
         #region Initialization
 

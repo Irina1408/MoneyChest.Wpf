@@ -74,9 +74,9 @@
                               VerticalAlignment="Center"/>
 
                     <!-- Confirm Before Execute -->
-                    <CheckBox Content="{moneyChestView:MultiLangBinding Event_ConfirmBeforeExecute}" 
+                    <!--<CheckBox Content="{moneyChestView:MultiLangBinding Event_ConfirmBeforeExecute}" 
                       ToolTip="{moneyChestView:MultiLangBinding Event_ConfirmBeforeExecuteDetailed}" 
-                      IsChecked="{Binding ConfirmBeforeExecute}" IsEnabled="{Binding AutoExecution}" VerticalAlignment="Center"/>
+                      IsChecked="{Binding ConfirmBeforeExecute}" IsEnabled="{Binding AutoExecution}" VerticalAlignment="Center"/>-->
                 </StackPanel>
             </StackPanel>
 

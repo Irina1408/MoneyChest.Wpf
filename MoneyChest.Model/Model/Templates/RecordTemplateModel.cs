@@ -11,7 +11,7 @@ using MoneyChest.Model.Constants;
 
 namespace MoneyChest.Model.Model
 {
-    public class RecordTemplateModel : TransactionTemplateBase, IHasId, IHasUserId, IHasDescription, IHasRemark
+    public class RecordTemplateModel : TransactionTemplateBase, IHasId, IHasUserId, IHasDescription, IHasCategory, IHasRemark
     {
         #region Initialization
 

@@ -1,4 +1,5 @@
-﻿using MoneyChest.Model.Enums;
+﻿using MoneyChest.Model.Base;
+using MoneyChest.Model.Enums;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class MoneyTransferEventModel : EventModel
+    public class MoneyTransferEventModel : EventModel, IHasCategory
     {
         #region Initialization
 

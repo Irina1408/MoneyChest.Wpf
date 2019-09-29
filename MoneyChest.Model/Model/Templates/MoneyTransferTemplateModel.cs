@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class MoneyTransferTemplateModel : TransactionTemplateBase, IHasId, IHasDescription, IHasRemark
+    public class MoneyTransferTemplateModel : TransactionTemplateBase, IHasId, IHasDescription, IHasCategory, IHasRemark
     {        
         #region Initialization
 
