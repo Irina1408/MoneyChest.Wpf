@@ -60,13 +60,13 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="ItemsSource" Value="{Binding Data.FilteredStorages}"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="ItemsPanel">
+        <!--<Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <StackPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+                    <StackPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Grid}}, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type modelCal:StorageState}">

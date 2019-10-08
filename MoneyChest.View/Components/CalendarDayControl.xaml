@@ -97,15 +97,15 @@
                     <!--<Label Grid.Column="0" HorizontalAlignment="Left" Content="{Binding LimitSummary}" Margin="0" Padding="0"/>-->
                     <Label HorizontalAlignment="Right" Content="{Binding Data.TotDayAmountDetailed}" Padding="0"/>
                 </Grid>
-                
+
                 <!-- Bottom row (Storage summary) -->
                 <Grid Grid.Row="3" Background="{DynamicResource GrayBrush9}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <!--<ColumnDefinition Width="Auto"/>-->
                     </Grid.ColumnDefinitions>
-                    
+
                     <!-- Alert icon -->
                     <Label Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"
                            Visibility="{Binding ShowAnyAccountNegative, Converter={StaticResource BVConverter}}">
@@ -122,7 +122,7 @@
                     </Label>
 
                     <!-- Full storages list (if ShowAllStorages) -->
-                    <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Grid.Column="2" HorizontalAlignment="Right"
+                    <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Grid.Column="2" HorizontalAlignment="Stretch"
                                   Foreground="{DynamicResource BlackBrush}">
                         <ItemsControl.Style>
                             <Style TargetType="{x:Type ItemsControl}" BasedOn="{StaticResource StoragesItemsControlStyle}">

@@ -259,9 +259,12 @@ namespace MoneyChest.View.Pages
             _viewModel.Data.ForEach(x => 
             {
                 x.FilteredTransactions = _viewModel.Settings.DataFilter.ApplyFilter(x.Transactions);
-                if (_viewModel.Settings.DataFilter.StorageIds.Count > 0)
-                    x.FilteredStorages = x.Storages.Where(e => _viewModel.Settings.DataFilter.StorageIds.Contains(e.Storage.Id)).ToList();
                 x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay;
+
+                if (_viewModel.Settings.DataFilter.IsFilterApplied && _viewModel.Settings.DataFilter.StorageIds.Count > 0)
+                    x.FilteredStorages = x.Storages.Where(e => _viewModel.Settings.DataFilter.StorageIds.Contains(e.Storage.Id)).ToList();
+                else
+                    x.FilteredStorages = x.Storages;
             });
         }
 

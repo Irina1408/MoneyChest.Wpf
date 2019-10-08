@@ -110,7 +110,8 @@ namespace MoneyChest.Calculation.Builders
                         .ToList();
                     
                     storageState.Amount -= transactions
-                        .Where(x => x.TransactionStorage.Id == storageState.Storage.Id).Sum(x => x.TransactionAmount);
+                        .Where(x => (x.TransactionType == TransactionType.Expense || x.TransactionType == TransactionType.Income)
+                            && x.TransactionStorage.Id == storageState.Storage.Id).Sum(x => x.TransactionAmount);
 
                     // get related money transfers
                     var moneyTransfers = transactions
