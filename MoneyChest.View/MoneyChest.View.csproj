@@ -99,6 +99,9 @@
     <Compile Include="Components\CalendarDayControl.xaml.cs">
       <DependentUpon>CalendarDayControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\CategoryListSelector.xaml.cs">
+      <DependentUpon>CategoryListSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\CategorySelector.xaml.cs">
       <DependentUpon>CategorySelector.xaml</DependentUpon>
     </Compile>
@@ -313,6 +316,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Components\CalendarDayControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\CategoryListSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

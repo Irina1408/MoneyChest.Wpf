@@ -60,9 +60,10 @@ namespace MoneyChest.View.Details
         { }
 
         public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew,
-            bool showHiddenStorages)
+            bool showHiddenStorages, bool? allowSaveIfNoChanges = null)
             : this(service, entity, isNew, showHiddenStorages, 
-                  (ServiceManager.ConfigureService<StorageService>() as IStorageService).GetListForUser(GlobalVariables.UserId))
+                  (ServiceManager.ConfigureService<StorageService>() as IStorageService).GetListForUser(GlobalVariables.UserId),
+                  allowSaveIfNoChanges)
         { }
 
         public MoneyTransferDetailsView(IMoneyTransferService service, MoneyTransferModel entity, bool isNew,

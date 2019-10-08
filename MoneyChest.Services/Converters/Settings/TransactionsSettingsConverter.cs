@@ -16,6 +16,7 @@ namespace MoneyChest.Services.Converters
         protected override void FillEntity(TransactionsSettings entity, TransactionsSettingsModel model)
         {
             entity.UserId = model.UserId;
+            entity.ShowTemplates = model.ShowTemplates;
 
             if (entity.PeriodFilter != null)
                 periodFilterConverter.UpdateEntity(entity.PeriodFilter, model.PeriodFilter);
@@ -27,6 +28,7 @@ namespace MoneyChest.Services.Converters
         protected override void FillModel(TransactionsSettings entity, TransactionsSettingsModel model)
         {
             model.UserId = entity.UserId;
+            model.ShowTemplates = entity.ShowTemplates;
 
             if (entity.PeriodFilter != null)
                 periodFilterConverter.UpdateModel(entity.PeriodFilter, model.PeriodFilter);

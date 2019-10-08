@@ -57,6 +57,7 @@ namespace MoneyChest.Data.Context
         public virtual DbSet<Debt> Debts { get; set; } 
         public virtual DbSet<DebtPenalty> DebtPenalties { get; set; }  
         public virtual DbSet<Limit> Limits { get; set; }
+        public virtual DbSet<LimitCategory> LimitCategories { get; set; }
         public virtual DbSet<MoneyTransfer> MoneyTransfers { get; set; }
         public virtual DbSet<Record> Records { get; set; }
         public virtual DbSet<MoneyTransferTemplate> MoneyTransferTemplates { get; set; }
@@ -97,11 +98,6 @@ namespace MoneyChest.Data.Context
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Category>()
-                .HasMany(e => e.Limits)
-                .WithOptional(e => e.Category)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Category>()
                 .HasMany(e => e.Records)
                 .WithOptional(e => e.Category)
                 .WillCascadeOnDelete(false);
@@ -109,6 +105,11 @@ namespace MoneyChest.Data.Context
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.SimpleEvents)
                 .WithOptional(e => e.Category)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Category>()
+                .HasMany(e => e.Limits)
+                .WithRequired(e => e.Category)
                 .WillCascadeOnDelete(false);
 
             // User

@@ -14,9 +14,8 @@ namespace MoneyChest.Services.Converters
         {
             entity.Description = model.Description;
             entity.Remark = model.Remark;
-            entity.IncludeWithoutCategory = model.CategoryIds.Count == 0
-                || model.CategoryIds.Contains(-1);
-            entity.ShowTemplates = model.ShowTemplates;
+            entity.IncludeWithoutCategory = model.IncludeWithoutCategory;
+            entity.AllCategories = model.AllCategories;
             entity.IsFilterApplied = model.IsFilterApplied;
             entity.IsFilterVisible = model.IsFilterVisible;
             entity.IsCategoryBranchSelection = model.IsCategoryBranchSelection;
@@ -27,14 +26,13 @@ namespace MoneyChest.Services.Converters
         {
             model.Description = entity.Description;
             model.Remark = entity.Remark;
-            model.ShowTemplates = entity.ShowTemplates;
             model.IsFilterApplied = entity.IsFilterApplied;
             model.IsFilterVisible = entity.IsFilterVisible;
             model.IsCategoryBranchSelection = entity.IsCategoryBranchSelection;
             model.TransactionType = entity.TransactionType;
             model.CategoryIds = entity.Categories.Select(e => e.Id).ToList();
             model.StorageIds = entity.Storages.Select(e => e.Id).ToList();
-            if (entity.IncludeWithoutCategory && model.CategoryIds.Count > 0)
+            if (entity.IncludeWithoutCategory && !entity.AllCategories)
                 model.CategoryIds.Add(-1);
         }
     }

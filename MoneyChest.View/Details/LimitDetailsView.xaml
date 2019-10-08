@@ -51,9 +51,9 @@
             <!-- Description -->
             <input:DescriptionInput Description="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
-            <!-- Category -->
-            <components:CategorySelector VerticalAlignment="Center" ShowEmptyCategory="True"
-                                         SelectedCategoryId="{Binding CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!-- Categories -->
+            <components:CategoryListSelector VerticalAlignment="Center"
+                                         SelectedCategoryIds="{Binding CategoryIds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Remark -->
             <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

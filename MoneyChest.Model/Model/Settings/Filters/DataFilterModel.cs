@@ -53,7 +53,6 @@ namespace MoneyChest.Model.Model
             }
         }
         
-        public bool ShowTemplates { get; set; } = true;
         public bool IsFilterVisible { get; set; }
         public bool IsFilterApplied { get; set; }
         public bool IsCategoryBranchSelection { get; set; }
@@ -72,6 +71,10 @@ namespace MoneyChest.Model.Model
 
         public bool IsDataFiltered => StorageIds.Count > 0 || CategoryIds.Count > 0 || TransactionType != null 
             || !string.IsNullOrEmpty(Description) || !string.IsNullOrEmpty(Remark);
+
+        public bool IncludeWithoutCategory => CategoryIds.Count == 0 || CategoryIds.Contains(-1);
+        public bool AllCategories => CategoryIds.Count == 0;
+        public List<int> ActualCategoryIds => CategoryIds.Where(x => x != -1).ToList();
 
         #endregion
 

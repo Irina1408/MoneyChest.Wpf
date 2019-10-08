@@ -3,6 +3,7 @@ using MoneyChest.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,10 @@ using System.Threading.Tasks;
 namespace MoneyChest.ViewModel.ViewModel
 {
     [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public class TransactionsPageViewModel
+    public class TransactionsPageViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         // Transactions part
         public ObservableCollection<ITransaction> TransactionEntities { get; set; }
         public List<ITransaction> TransactionFilteredEntities { get; set; }
@@ -42,6 +45,7 @@ namespace MoneyChest.ViewModel.ViewModel
         public IMCCommand CreateTransactionFromTemplateCommand { get; set; }
 
         // Common & Transaction filters
+        public bool ShowTemplates { get; set; }
         public DataFilterModel DataFilter { get; set; }
     }
 }

@@ -56,6 +56,23 @@ namespace MoneyChest.View.Utils
             return result;
         }
 
+        public static CategoryViewModelCollection BuildTree(IEnumerable<CategoryModel> categories, List<int> selectCategoryIds,
+            bool insertEmpty = true)
+        {
+            var result = BuildTree(categories, insertEmpty);
+
+            // select categories
+            if (selectCategoryIds.Any())
+            {
+                foreach(var category in result.GetDescendants())
+                {
+                    category.IsSelected = true;
+                }
+            }
+
+            return result;
+        }
+
         private static CategoryViewModel BuildCategoryBranch(IEnumerable<CategoryModel> categories, CategoryModel category)
         {
             var viewModel = new CategoryViewModel()

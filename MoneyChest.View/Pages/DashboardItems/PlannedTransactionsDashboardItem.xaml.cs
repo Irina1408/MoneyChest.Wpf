@@ -69,17 +69,17 @@ namespace MoneyChest.View.Pages.DashboardItems
                     // simple event
                     if (plannedTransaction?.Event is SimpleEventModel)
                         OpenDetails(_recordService.Create(plannedTransaction.Event as SimpleEventModel, 
-                            x => x.Date = plannedTransaction.TransactionDate), true);
+                            x => x.Date = plannedTransaction.TransactionDate), true, true);
 
                     // repay debt
                     if (plannedTransaction?.Event is RepayDebtEventModel)
                         OpenDetails(_recordService.Create(plannedTransaction.Event as RepayDebtEventModel, 
-                            x => x.Date = plannedTransaction.TransactionDate), true);
+                            x => x.Date = plannedTransaction.TransactionDate), true, true);
 
                     // money transfer
                     if (plannedTransaction?.Event is MoneyTransferEventModel)
                         OpenDetails(_moneyTransferService.Create(plannedTransaction.Event as MoneyTransferEventModel, 
-                            x => x.Date = plannedTransaction.TransactionDate), true);
+                            x => x.Date = plannedTransaction.TransactionDate), true, true);
 
                 }, item => item.IsPlanned, true)
             };
@@ -119,17 +119,17 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         #region Private methods
 
-        private void OpenDetails(RecordModel model, bool isNew = false)
+        private void OpenDetails(RecordModel model, bool isNew = false, bool? allowSaveIfNoChanges = null)
         {
-            this.OpenDetailsWindow(new RecordDetailsView(_recordService, model, isNew), () =>
+            this.OpenDetailsWindow(new RecordDetailsView(_recordService, model, isNew, allowSaveIfNoChanges), () =>
             {
                 RefreshTodayTransactions();
             });
         }
 
-        private void OpenDetails(MoneyTransferModel model, bool isNew = false)
+        private void OpenDetails(MoneyTransferModel model, bool isNew = false, bool? allowSaveIfNoChanges = null)
         {
-            this.OpenDetailsWindow(new MoneyTransferDetailsView(_moneyTransferService, model, isNew, false), () =>
+            this.OpenDetailsWindow(new MoneyTransferDetailsView(_moneyTransferService, model, isNew, false, allowSaveIfNoChanges), () =>
             {
                 RefreshTodayTransactions();
             });

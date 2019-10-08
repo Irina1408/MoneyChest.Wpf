@@ -161,10 +161,6 @@ namespace MoneyChest.Services.Services
                 .ForEach(item => item.CategoryId = categoryIdTo);
 
             // replace limits
-            _context.Limits
-                .Where(item => item.CategoryId == categoryIdFrom)
-                .ToList()
-                .ForEach(item => item.CategoryId = categoryIdTo);
 
             // replace events
             _context.SimpleEvents

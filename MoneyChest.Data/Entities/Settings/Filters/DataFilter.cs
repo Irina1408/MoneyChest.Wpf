@@ -21,11 +21,11 @@ namespace MoneyChest.Data.Entities
 
         [Key]
         public int Id { get; set; }
-        public bool ShowTemplates { get; set; }
         public bool IsFilterApplied { get; set; }
         public bool IsFilterVisible { get; set; } = false;
         public bool IsCategoryBranchSelection { get; set; } = false;
         public bool IncludeWithoutCategory { get; set; }
+        public bool AllCategories { get; set; }
         public TransactionType? TransactionType { get; set; }
 
         [StringLength(MaxSize.DescriptionLength)]

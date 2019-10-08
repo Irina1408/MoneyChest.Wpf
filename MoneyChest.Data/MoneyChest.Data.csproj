@@ -82,6 +82,7 @@
     <Compile Include="Entities\History\StorageHistory.cs" />
     <Compile Include="Entities\History\Base\IUserActionHistory.cs" />
     <Compile Include="Entities\History\UserHistory.cs" />
+    <Compile Include="Entities\LimitCategory.cs" />
     <Compile Include="Entities\MoneyTransferTemplate.cs" />
     <Compile Include="Entities\RecordTemplate.cs" />
     <Compile Include="Entities\Settings\CalendarSettings.cs" />
@@ -179,6 +180,22 @@
     <Compile Include="Migrations\201909281642268_update_report_settings2.Designer.cs">
       <DependentUpon>201909281642268_update_report_settings2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909290759275_update_limits.cs" />
+    <Compile Include="Migrations\201909290759275_update_limits.Designer.cs">
+      <DependentUpon>201909290759275_update_limits.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909290858301_minor_settings_changes.cs" />
+    <Compile Include="Migrations\201909290858301_minor_settings_changes.Designer.cs">
+      <DependentUpon>201909290858301_minor_settings_changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910061249454_update_debts.cs" />
+    <Compile Include="Migrations\201910061249454_update_debts.Designer.cs">
+      <DependentUpon>201910061249454_update_debts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910080903252_update_categories_filter.cs" />
+    <Compile Include="Migrations\201910080903252_update_categories_filter.Designer.cs">
+      <DependentUpon>201910080903252_update_categories_filter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -252,6 +269,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909281642268_update_report_settings2.resx">
       <DependentUpon>201909281642268_update_report_settings2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909290759275_update_limits.resx">
+      <DependentUpon>201909290759275_update_limits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909290858301_minor_settings_changes.resx">
+      <DependentUpon>201909290858301_minor_settings_changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910061249454_update_debts.resx">
+      <DependentUpon>201910061249454_update_debts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910080903252_update_categories_filter.resx">
+      <DependentUpon>201910080903252_update_categories_filter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

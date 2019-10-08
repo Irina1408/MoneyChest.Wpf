@@ -70,7 +70,6 @@
     <Compile Include="Enums\Settings\CalendarPeriodType.cs" />
     <Compile Include="Enums\Settings\Language.cs" />
     <Compile Include="Enums\Settings\Month.cs" />
-    <Compile Include="Enums\Settings\PeriodFilterType.cs" />
     <Compile Include="Enums\Settings\ChartType.cs" />
     <Compile Include="Enums\RecordType.cs" />
     <Compile Include="Model\Base\IHas.cs" />

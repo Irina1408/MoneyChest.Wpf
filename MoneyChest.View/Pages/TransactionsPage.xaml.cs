@@ -346,6 +346,17 @@ namespace MoneyChest.View.Pages
             {
                 var settings = _settingsService.GetForUser(GlobalVariables.UserId);
 
+                _viewModel.ShowTemplates = settings.ShowTemplates;
+                _viewModel.PropertyChanged += (sender, e) =>
+                {
+                    if (e.PropertyName == nameof(TransactionsPageViewModel.ShowTemplates))
+                    {
+                        // save changes
+                        settings.ShowTemplates = _viewModel.ShowTemplates;
+                        _settingsService.Update(settings);
+                    }
+                };
+
                 _viewModel.PeriodFilter = settings.PeriodFilter;
                 _viewModel.PeriodFilter.OnPeriodChanged += (sender, e) =>
                 {

@@ -27,7 +27,7 @@ namespace MoneyChest.ViewModel.Extensions
                     filters.Add((t) => t.TransactionType == dataFilter.TransactionType.Value);
 
                 if (dataFilter.CategoryIds.Count > 0)
-                    filters.Add((t) => (dataFilter.CategoryIds.Contains(-1) && t.TransactionCategory == null)
+                    filters.Add((t) => (dataFilter.IncludeWithoutCategory && t.TransactionCategory == null)
                         || (t.TransactionCategory != null && dataFilter.CategoryIds.Contains(t.TransactionCategory.Id)));
 
                 if (dataFilter.StorageIds.Count > 0)
@@ -55,7 +55,7 @@ namespace MoneyChest.ViewModel.Extensions
                     filterExpressions.Add((t) => t.TransactionType == dataFilter.TransactionType.Value);
 
                 if (dataFilter.CategoryIds.Count > 0)
-                    filterExpressions.Add((t) => (dataFilter.CategoryIds.Contains(-1) && t.TransactionCategory == null)
+                    filterExpressions.Add((t) => (dataFilter.IncludeWithoutCategory && t.TransactionCategory == null)
                         || (t.TransactionCategory != null && dataFilter.CategoryIds.Contains(t.TransactionCategory.Id)));
 
                 if (dataFilter.StorageIds.Count > 0)
@@ -81,7 +81,7 @@ namespace MoneyChest.ViewModel.Extensions
 
                     && (dataFilter.TransactionType == null || t.TransactionType == dataFilter.TransactionType.Value)
 
-                    && (dataFilter.CategoryIds.Count == 0 || ((dataFilter.CategoryIds.Contains(-1) && t.TransactionCategory == null)
+                    && (dataFilter.AllCategories || ((dataFilter.IncludeWithoutCategory && t.TransactionCategory == null)
                         || (t.TransactionCategory != null && dataFilter.CategoryIds.Contains(t.TransactionCategory.Id))))
 
                     && (dataFilter.StorageIds.Count == 0 || t.TransactionStorageIds.Any(x => dataFilter.StorageIds.Contains(x))))

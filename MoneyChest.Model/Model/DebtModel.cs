@@ -27,7 +27,7 @@ namespace MoneyChest.Model.Model
             CurrencyExchangeRate = 1;
             MonthCount = 12;
             DebtType = DebtType.TakeBorrow;
-            TakeInitialFeeFromStorage = true;
+            OnlyInitialFee = false;
             Penalties = new ObservableCollection<DebtPenaltyModel>();
         }
 
@@ -45,7 +45,7 @@ namespace MoneyChest.Model.Model
         public decimal Value { get; set; }                  // initial value that will be added/removed to/from storage
         public decimal InitialFee { get; set; }  // initial paid value
         public decimal PaidValue { get; set; }  // paid value by user records in Money Chest
-        public bool TakeInitialFeeFromStorage { get; set; } // TODO: to be removed
+        public bool OnlyInitialFee { get; set; } // if exists StorageId -> true if add/remove Value to/from storage
 
         // payment conditions
         public DebtPaymentType PaymentType { get; set; }
@@ -123,6 +123,9 @@ namespace MoneyChest.Model.Model
         public string ValueCurrency => Currency?.FormatValue(Value);
         public string RemainsToPayCurrency => Currency?.FormatValue(RemainsToPay);
         public string ValueToBePaidCurrency => Currency?.FormatValue(ValueToBePaid) ?? ValueToBePaid.ToString("0.##");
+
+        public decimal ValueExchangeRate => Storage?.CurrencyId != CurrencyId ? Value * CurrencyExchangeRate : Value;
+        public decimal InitialFeeExchangeRate => Storage?.CurrencyId != CurrencyId ? InitialFee * CurrencyExchangeRate : InitialFee;
 
         public decimal Progress => ValueToBePaid != 0 ? RemainsToPay / ValueToBePaid : 0;
         public decimal RemainsToPay => ValueToBePaid - InitialFee - PaidValue;

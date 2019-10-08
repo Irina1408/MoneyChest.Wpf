@@ -14,7 +14,9 @@ namespace MoneyChest.Services.Services
     {
         List<ITransaction> Get(int userId, DateTime dateFrom, DateTime dateUntil);
         List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil, bool? AutoExecuted = null);
+        List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
         List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil, bool onlyFuture = true, bool? autoExecution = null);
+
         List<ITransaction> ExecutePlanned(IEnumerable<ITransaction> transactions, DateTime? date = null, bool isAutoExecution = false);
         void Delete(IEnumerable<ITransaction> entities);
     }
@@ -63,6 +65,18 @@ namespace MoneyChest.Services.Services
             result.AddRange(_recordService.Get(userId, dateFrom, dateUntil, AutoExecuted));
             // load money transfers
             result.AddRange(_moneyTransferService.Get(userId, dateFrom, dateUntil, AutoExecuted));
+
+            return result.OrderByDescending(x => x.TransactionDate).ToList();
+        }
+
+        public List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null)
+        {
+            var result = new List<ITransaction>();
+
+            // load records
+            result.AddRange(_recordService.Get(userId, dateFrom, dateUntil, recordType, includeWithoutCategory, categoryIds));
+            // load money transfers
+            result.AddRange(_moneyTransferService.Get(userId, dateFrom, dateUntil, recordType, includeWithoutCategory, categoryIds));
 
             return result.OrderByDescending(x => x.TransactionDate).ToList();
         }

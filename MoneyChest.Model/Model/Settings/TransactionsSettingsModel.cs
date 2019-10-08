@@ -18,6 +18,7 @@ namespace MoneyChest.Model.Model
         }
 
         public int UserId { get; set; }
+        public bool ShowTemplates { get; set; }
         public PeriodFilterModel PeriodFilter { get; set; }
         public DataFilterModel DataFilter { get; set; }
     }

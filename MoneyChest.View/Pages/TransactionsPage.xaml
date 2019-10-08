@@ -71,7 +71,7 @@
 
                 <Separator/>
 
-                <ToggleButton IsChecked="{Binding DataFilter.ShowTemplates, UpdateSourceTrigger=PropertyChanged}" 
+                <ToggleButton IsChecked="{Binding ShowTemplates, UpdateSourceTrigger=PropertyChanged}" 
                               ToolTip="{moneyChestView:MultiLangBinding Transaction_ShowTemplates}" HorizontalAlignment="Right">
                     <iconPacks:PackIconEntypo Kind="TextDocument" />
                 </ToggleButton>
@@ -160,7 +160,7 @@
 
         <!-- Transaction templates list -->
         <GroupBox x:Name="TemplatesGroupBox" Grid.Column="1"  Grid.Row="0" Grid.RowSpan="3"
-                  Visibility="{Binding DataFilter.ShowTemplates, Converter={StaticResource BVConverter}}"
+                  Visibility="{Binding ShowTemplates, Converter={StaticResource BVConverter}, UpdateSourceTrigger=PropertyChanged}"
                   Width="255" Margin="0">
             <GroupBox.Header>
                 <Grid Margin="5 0 0 0">

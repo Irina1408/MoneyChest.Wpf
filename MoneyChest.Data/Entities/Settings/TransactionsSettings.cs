@@ -15,7 +15,9 @@ namespace MoneyChest.Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }
-        
+
+        public bool ShowTemplates { get; set; }
+
         public int DataFilterId { get; set; }
         public int PeriodFilterId { get; set; }
 

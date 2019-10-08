@@ -77,8 +77,8 @@ namespace MoneyChest.Model.Model
         public bool IsDifferentCurrenciesSelected =>
             StorageFromCurrency != null && StorageToCurrency != null && StorageFromCurrency.Id != StorageToCurrency.Id;
 
-        private decimal StorageFromCommissionValue => CommissionType == CommissionType.Currency ? Commission : Commission / 100 * Value;
-        private decimal StorageToCommissionValue => CommissionType == CommissionType.Currency
+        public decimal StorageFromCommissionValue => CommissionType == CommissionType.Currency ? Commission : Commission / 100 * Value;
+        public decimal StorageToCommissionValue => CommissionType == CommissionType.Currency
             ? (IsDifferentCurrenciesSelected ? Commission * CurrencyExchangeRate : Commission)
             : Commission / 100 * (IsDifferentCurrenciesSelected ? Value * CurrencyExchangeRate : Value);
 

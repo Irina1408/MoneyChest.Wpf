@@ -21,7 +21,7 @@ namespace MoneyChest.Data.Entities
         {
             ChildCategories = new List<Category>();
             SimpleEvents = new List<SimpleEvent>();
-            Limits = new List<Limit>();
+            Limits = new List<LimitCategory>();
             Records = new List<Record>();
             Debts = new List<Debt>();
             MoneyTransfers = new List<MoneyTransfer>();
@@ -61,7 +61,7 @@ namespace MoneyChest.Data.Entities
                 
         public virtual ICollection<Category> ChildCategories { get; set; }
         public virtual ICollection<SimpleEvent> SimpleEvents { get; set; }
-        public virtual ICollection<Limit> Limits { get; set; }
+        public virtual ICollection<LimitCategory> Limits { get; set; }
         public virtual ICollection<Record> Records { get; set; }
         public virtual ICollection<Debt> Debts { get; set; }
         public virtual ICollection<MoneyTransfer> MoneyTransfers { get; set; }

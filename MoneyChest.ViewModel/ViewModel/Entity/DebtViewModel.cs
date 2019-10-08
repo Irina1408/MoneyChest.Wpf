@@ -26,7 +26,7 @@ namespace MoneyChest.ViewModel.ViewModel
             Value = debt.Value;
             InitialFee = debt.InitialFee;
             PaidValue = debt.PaidValue;
-            TakeInitialFeeFromStorage = debt.TakeInitialFeeFromStorage;
+            OnlyInitialFee = debt.OnlyInitialFee;
 
             PaymentType = debt.PaymentType;
             FixedAmount = debt.FixedAmount;

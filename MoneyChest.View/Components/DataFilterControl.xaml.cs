@@ -179,12 +179,12 @@ namespace MoneyChest.View.Components
             if (!isCatsApplying && DataFilter != null)
             {
                 isCatsApplying = true;
-                bool allSelected = false;
+                var allSelected = false;
 
                 foreach (var cat in Categories.GetDescendants())
                 {
                     // set selection
-                    cat.IsSelected = DataFilter.CategoryIds.Count == 0 || DataFilter.CategoryIds.Contains(cat.Id);
+                    cat.IsSelected = DataFilter.AllCategories || DataFilter.CategoryIds.Contains(cat.Id);
                     // expand category in the tree if it's selected
                     if(cat.IsSelected) Categories.ExpandToDescendant(cat, true);
                     // add event on category selection changed

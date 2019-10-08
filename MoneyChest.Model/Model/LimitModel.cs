@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class LimitModel : IHasId, IHasUserId, IHasDescription, IHasCategory, IHasRemark, INotifyPropertyChanged
+    public class LimitModel : IHasId, IHasUserId, IHasDescription, IHasRemark, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -19,6 +19,7 @@ namespace MoneyChest.Model.Model
         {
             DateFrom = DateTime.Today.AddDays(1);
             DateUntil = DateFrom.Date;
+            CategoryIds = new List<int>();
         }
 
         public int Id { get; set; }
@@ -31,14 +32,13 @@ namespace MoneyChest.Model.Model
         [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
         
+        public List<int> CategoryIds { get; set; }
+
         public int CurrencyId { get; set; }
-        public int? CategoryId { get; set; }
         public int UserId { get; set; }
 
 
         public CurrencyReference Currency { get; set; }
-        public CategoryReference Category { get; set; }
-
 
         public LimitState State => 
             DateUntil < DateTime.Today ? LimitState.Closed : (DateFrom > DateTime.Today ? LimitState.Planned : LimitState.Active);
@@ -47,7 +47,11 @@ namespace MoneyChest.Model.Model
         public decimal RemainingPercent => Value > 0 ? (RemainingValue / Value * 100) : 0;
         public string ValueCurrency => Currency?.FormatValue(Value);
         public string RemainingValueCurrency => Currency?.FormatValue(RemainingValue);
-        public string RemainingPercentValueCurrency => 
-            $"{Currency?.FormatValue(RemainingValue)} ({Decimal.Round(RemainingPercent, 2)}%)";
+        public string RemainingPercentValueCurrency =>
+            $"{Currency?.FormatValue(RemainingValue)} ({Decimal.Round(RemainingPercent, 0)}%)";
+
+        public bool IncludeWithoutCategory => CategoryIds.Count == 0 || CategoryIds.Contains(-1);
+        public bool AllCategories => CategoryIds.Count == 0;
+        public List<int> ActualCategoryIds => CategoryIds.Where(x => x != -1).ToList();
     }
 }

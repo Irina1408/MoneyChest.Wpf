@@ -22,7 +22,7 @@ namespace MoneyChest.Services.Converters
             entity.Value = model.Value;
             entity.InitialFee = model.InitialFee;
             entity.PaidValue = model.PaidValue;
-            entity.TakeInitialFeeFromStorage = model.TakeInitialFeeFromStorage;
+            entity.OnlyInitialFee = model.OnlyInitialFee;
 
             entity.PaymentType = model.PaymentType;
             entity.FixedAmount = model.FixedAmount;
@@ -52,7 +52,7 @@ namespace MoneyChest.Services.Converters
             model.Value = entity.Value;
             model.InitialFee = entity.InitialFee;
             model.PaidValue = entity.PaidValue;
-            model.TakeInitialFeeFromStorage = entity.TakeInitialFeeFromStorage;
+            model.OnlyInitialFee = entity.OnlyInitialFee;
 
             model.PaymentType = entity.PaymentType;
             model.FixedAmount = entity.FixedAmount;

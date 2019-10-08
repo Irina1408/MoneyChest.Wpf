@@ -20,8 +20,9 @@ namespace MoneyChest.Services.Converters
             entity.Value = model.Value;
             entity.SpentValue = model.SpentValue;
             entity.Remark = model.Remark;
+            entity.IncludeWithoutCategory = model.IncludeWithoutCategory;
+            entity.AllCategories = model.AllCategories;
             entity.CurrencyId = model.CurrencyId;
-            entity.CategoryId = model?.CategoryId;
             entity.UserId = model.UserId;
         }
 
@@ -35,10 +36,11 @@ namespace MoneyChest.Services.Converters
             model.SpentValue = entity.SpentValue;
             model.Remark = entity.Remark;
             model.CurrencyId = entity.CurrencyId;
-            model.CategoryId = entity?.CategoryId;
             model.UserId = entity.UserId;
             model.Currency = entity.Currency.ToReferenceView();
-            model.Category = entity?.Category?.ToReferenceView();
+            model.CategoryIds = entity.Categories.Select(x => x.CategoryId).ToList();
+            if (entity.IncludeWithoutCategory && !entity.AllCategories)
+                model.CategoryIds.Add(-1);
         }
     }
 }

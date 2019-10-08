@@ -301,8 +301,7 @@
     <value>Withdraw initial fee from account</value>
   </data>
   <data name="Debt_ValueToBePaid" xml:space="preserve">
-    <value>Value to be paid 
-(without initial fee)</value>
+    <value>Value to be paid</value>
   </data>
   <data name="EventState_Active" xml:space="preserve">
     <value>Active</value>
@@ -1035,5 +1034,14 @@
   </data>
   <data name="ReportSettings_IncludeFuturePlannedTransactions" xml:space="preserve">
     <value>Include future planned transactions</value>
+  </data>
+  <data name="Debt_GiveBorrowOnlyInitialFeeDetailed" xml:space="preserve">
+    <value>If selected, not withdraw debt value into the target account, only add initial fee</value>
+  </data>
+  <data name="Debt_OnlyInitialFee" xml:space="preserve">
+    <value>Only initial fee</value>
+  </data>
+  <data name="Debt_TakeBorrowOnlyInitialFeeDetailed" xml:space="preserve">
+    <value>If selected, not add debt value into the target account, only withdraw initial fee</value>
   </data>
 </root>

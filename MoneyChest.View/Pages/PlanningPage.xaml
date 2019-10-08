@@ -338,8 +338,6 @@
 
                         <DataGridTextColumn Binding="{Binding RemainingPercentValueCurrency, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding Limit_RemainingValue}"/>
 
-                        <DataGridTextColumn Binding="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}"
-                                            Header="{moneyChestView:MultiLangBinding Category_Singular}" />
                         <DataGridTextColumn Binding="{Binding Remark, UpdateSourceTrigger=PropertyChanged}"
                                             Header="{moneyChestView:MultiLangBinding General_Remark}" />
                     </DataGrid.Columns>

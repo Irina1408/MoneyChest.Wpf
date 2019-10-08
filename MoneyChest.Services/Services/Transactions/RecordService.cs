@@ -20,54 +20,39 @@ namespace MoneyChest.Services.Services
 {
     public interface IRecordService : IIdManagableUserableListServiceBase<RecordModel>
     {
-        List<RecordModel> Get(int userId, PeriodFilterType period, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
         List<RecordModel> Get(int userId, DateTime from, DateTime until, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
-
         List<RecordModel> Get(int userId, DateTime from, DateTime until, bool? AutoExecuted = null);
 
         RecordModel Create(SimpleEventModel model, Action<RecordModel> overrides = null);
         RecordModel Create(RepayDebtEventModel model, Action<RecordModel> overrides = null);
 
         RecordModel Duplicate(RecordModel model, Action<RecordModel> overrides = null);
+
+        void CreateForDebt(DebtModel model);
     }
 
     public class RecordService : HistoricizedIdManageableUserableListServiceBase<Record, RecordModel, RecordConverter>, IRecordService
     {
+        #region Private fields
+
+        private ITransactionDependenceService _transactionDependenceService;
+
+        #endregion
+
         #region Initialization
 
         public RecordService(ApplicationDbContext context) : base(context)
         {
+            _transactionDependenceService = new TransactionDependenceService(context);
         }
 
         #endregion
 
         #region IRecordService implementation
 
-        public List<RecordModel> Get(int userId, PeriodFilterType period, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null)
-        {
-            if (period == PeriodFilterType.All || period == PeriodFilterType.CustomPeriod)
-                // all records for transaction type and categories
-                if(categoryIds == null)
-                    return Scope.Where(item => item.UserId == userId && item.RecordType == recordType
-                         && (includeWithoutCategory && item.CategoryId == null || item.CategoryId != null)).ToList().ConvertAll(_converter.ToModel);
-                else
-                    return Scope.Where(item => item.UserId == userId && item.RecordType == recordType
-                         && (includeWithoutCategory && item.CategoryId == null
-                        || (item.CategoryId != null && categoryIds.Contains((int)item.CategoryId)))).ToList().ConvertAll(_converter.ToModel);
-            else
-            {
-                // get general settings for getting first day of week
-                var generalSettings = _context.GeneralSettings.FirstOrDefault(item => item.UserId == userId);
-                // get period
-                var p = ServiceHelper.GetPeriod(period, generalSettings.FirstDayOfWeek);
-                // return result
-                return Get(userId, p.Item1, p.Item2, recordType, includeWithoutCategory, categoryIds);
-            }
-        }
-
         public List<RecordModel> Get(int userId, DateTime from, DateTime until, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null)
         {
-            if(categoryIds == null)
+            if (categoryIds == null)
                 return Scope.Where(item => item.UserId == userId && item.RecordType == recordType
                     && item.Date >= from && item.Date <= until
                     && (includeWithoutCategory && item.CategoryId == null || item.CategoryId != null)).ToList().ConvertAll(_converter.ToModel);
@@ -167,6 +152,52 @@ namespace MoneyChest.Services.Services
             return record;
         }
 
+        public void CreateForDebt(DebtModel model)
+        {
+            // only when storage is defined
+            if (!model.StorageId.HasValue || model.StorageId <= 0) return;
+
+            // value to be added to the related storage
+            var valueForStorage = 0M;
+            // values that should be used for updating limits
+            var valueForLimits = 0M;
+            var valueExchangeRateForLimits = 0M;
+
+            // create a new record for the debt to keep the history
+            if (!model.OnlyInitialFee)
+            {
+                var record = this.Add(CreateRecordForDebt(model, 
+                    model.DebtType == DebtType.TakeBorrow ? RecordType.Income : RecordType.Expense, x => x.Value));
+
+                valueForStorage += model.ValueExchangeRate;
+                valueForLimits += record.RecordType == RecordType.Expense ? model.Value : 0;
+                valueExchangeRateForLimits += record.RecordType == RecordType.Expense ? model.ValueExchangeRate : 0;
+            }
+
+            // create record for the initial fee
+            if (model.InitialFee != 0)
+            {
+                var record = this.Add(CreateRecordForDebt(model, 
+                    model.DebtType == DebtType.TakeBorrow ? RecordType.Expense : RecordType.Income, x => x.InitialFee));
+
+                valueForStorage += -model.InitialFeeExchangeRate;
+                valueForLimits += record.RecordType == RecordType.Expense ? model.InitialFee : 0;
+                valueExchangeRateForLimits += record.RecordType == RecordType.Expense ? model.InitialFeeExchangeRate : 0;
+            }
+
+            // update related storage value
+            if (valueForStorage != 0)
+            {
+                _transactionDependenceService.AddValueToStorage(model.StorageId.Value,
+                    (model.DebtType == Model.Enums.DebtType.TakeBorrow ? 1 : -1) * valueForStorage);
+            }
+
+            // update limits
+            if (valueForLimits != 0 || valueExchangeRateForLimits != 0)
+                _transactionDependenceService.UpdateLimits(model.TakingDate, model.CategoryId,
+                    model.CurrencyId, valueForLimits, model.Storage?.CurrencyId, valueExchangeRateForLimits);
+        }
+
         #endregion
 
         #region Overrides
@@ -209,11 +240,16 @@ namespace MoneyChest.Services.Services
             base.OnAdded(model, entity);
 
             // update related storage
-            AddValueToStorage(model.StorageId, model.ResultValueSignExchangeRate);
+            _transactionDependenceService.AddValueToStorage(model.StorageId, model.ResultValueSignExchangeRate);
 
             // update related debt
             if (model.DebtId.HasValue)
-                AddValueToDebt(model.DebtId.Value, model.ResultValueExchangeRate);
+                _transactionDependenceService.AddValueToDebt(model.DebtId.Value, model.ResultValueExchangeRate);
+
+            // update limits
+            if (model.RecordType == RecordType.Expense)
+                _transactionDependenceService.UpdateLimits(model.Date, model.CategoryId, 
+                    model.CurrencyId, model.ResultValue, model.CurrencyIdForRate, model.ResultValueExchangeRate);
 
             // save changes
             SaveChanges();
@@ -227,27 +263,42 @@ namespace MoneyChest.Services.Services
             if (oldModel.StorageId != model.StorageId)
             {
                 // remove value from old storage
-                AddValueToStorage(oldModel.StorageId, -oldModel.ResultValueSignExchangeRate);
-
+                _transactionDependenceService.AddValueToStorage(oldModel.StorageId, -oldModel.ResultValueSignExchangeRate);
                 // add value to the new storage
-                AddValueToStorage(model.StorageId, model.ResultValueSignExchangeRate);
+                _transactionDependenceService.AddValueToStorage(model.StorageId, model.ResultValueSignExchangeRate);
             }
-            else if(oldModel.ResultValueSignExchangeRate != model.ResultValueSignExchangeRate)
-                AddValueToStorage(model.StorageId, model.ResultValueSignExchangeRate - oldModel.ResultValueSignExchangeRate);
+            else if (oldModel.ResultValueSignExchangeRate != model.ResultValueSignExchangeRate)
+                _transactionDependenceService.AddValueToStorage(model.StorageId, model.ResultValueSignExchangeRate - oldModel.ResultValueSignExchangeRate);
+
 
             // update related debt
             if (oldModel.DebtId != model.DebtId)
             {
                 // remove value from old debt
                 if (oldModel.DebtId.HasValue)
-                    AddValueToDebt(oldModel.DebtId.Value, -oldModel.ResultValueExchangeRate);
-
+                    _transactionDependenceService.AddValueToDebt(oldModel.DebtId.Value, -oldModel.ResultValueExchangeRate);
                 // add value to the new debt
                 if (model.DebtId.HasValue)
-                    AddValueToDebt(model.DebtId.Value, model.ResultValueExchangeRate);
+                    _transactionDependenceService.AddValueToDebt(model.DebtId.Value, model.ResultValueExchangeRate);
             }
             else if (oldModel.ResultValueExchangeRate != model.ResultValueExchangeRate && model.DebtId.HasValue)
-                AddValueToDebt(model.DebtId.Value, model.ResultValueExchangeRate - oldModel.ResultValueExchangeRate);
+                _transactionDependenceService.AddValueToDebt(model.DebtId.Value, model.ResultValueExchangeRate - oldModel.ResultValueExchangeRate);
+
+            // update limits
+            if (oldModel.RecordType != model.RecordType 
+                || oldModel.CategoryId != model.CategoryId || oldModel.Date != model.Date
+                || oldModel.CurrencyId != model.CurrencyId || oldModel.CurrencyIdForRate != model.CurrencyIdForRate
+                || oldModel.ResultValue != model.ResultValue || oldModel.ResultValueExchangeRate != model.ResultValueExchangeRate)
+            {
+                // remove from limits an old spent value
+                _transactionDependenceService.UpdateLimits(oldModel.Date, oldModel.CategoryId, 
+                    oldModel.CurrencyId, -oldModel.ResultValue, oldModel.CurrencyIdForRate, -oldModel.ResultValueExchangeRate);
+
+                // if record is expence update limits spent value
+                if (model.RecordType == RecordType.Expense)
+                    _transactionDependenceService.UpdateLimits(model.Date, model.CategoryId, 
+                        model.CurrencyId, model.ResultValue, model.CurrencyIdForRate, model.ResultValueExchangeRate);
+            }
 
             // save changes
             SaveChanges();
@@ -258,11 +309,16 @@ namespace MoneyChest.Services.Services
             base.OnDeleted(model);
 
             // update related storage
-            AddValueToStorage(model.StorageId, -model.ResultValueSignExchangeRate);
+            _transactionDependenceService.AddValueToStorage(model.StorageId, -model.ResultValueSignExchangeRate);
 
             // update related debt
             if (model.DebtId.HasValue)
-                AddValueToDebt(model.DebtId.Value, -model.ResultValueExchangeRate);
+                _transactionDependenceService.AddValueToDebt(model.DebtId.Value, -model.ResultValueExchangeRate);
+
+            // update limits
+            if (model.RecordType == RecordType.Expense)
+                _transactionDependenceService.UpdateLimits(model.Date, model.CategoryId, 
+                    model.CurrencyId, -model.ResultValue, model.CurrencyIdForRate, -model.ResultValueExchangeRate);
 
             // save changes
             SaveChanges();
@@ -274,20 +330,22 @@ namespace MoneyChest.Services.Services
 
         #region Private methods
 
-        private void AddValueToStorage(int storageId, decimal value)
+        private Record CreateRecordForDebt(DebtModel model, RecordType recordType, Func<DebtModel, decimal> value)
         {
-            var storage = _context.Storages.FirstOrDefault(_ => _.Id == storageId);
-            storage.Value += value;
-            _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
-        }
-
-        private void AddValueToDebt(int debtId, decimal value)
-        {
-            var debtConverter = new DebtConverter();
-            var debt = _context.Debts.Include(_ => _.DebtPenalties).FirstOrDefault(_ => _.Id == debtId);
-            debt.PaidValue += value;
-            debt.IsRepaid = debtConverter.ToModel(debt).RemainsToPay <= 0;
-            _historyService.WriteHistory(debt, ActionType.Update, debt.UserId);
+            return new Record()
+            {
+                Date = model.TakingDate,
+                Description = model.Description,
+                CategoryId = model.CategoryId,
+                CurrencyExchangeRate = model.CurrencyExchangeRate,
+                CurrencyId = model.CurrencyId,
+                DebtId = model.Id,
+                RecordType = recordType,
+                StorageId = model.StorageId.Value,
+                UserId = model.UserId,
+                Value = value(model),
+                Remark = model.Remark
+            };
         }
 
         #endregion

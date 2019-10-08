@@ -113,7 +113,7 @@
                                           Style="{DynamicResource CircleToggleButtonStyle}"
                                           Foreground="{DynamicResource IdealForegroundColorBrush}"
                                           Height="30" Width="30">
-                                <iconPacks:PackIconMaterial Kind="CheckboxMultipleMarkedOutline" />
+                                <iconPacks:PackIconMaterial Kind="FileTree" />
                             </ToggleButton>
                         </Grid>
                     </Expander.Header>

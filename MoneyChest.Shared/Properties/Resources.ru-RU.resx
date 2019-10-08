@@ -301,8 +301,7 @@
     <value>Списать первоначальный взнос со счета</value>
   </data>
   <data name="Debt_ValueToBePaid" xml:space="preserve">
-    <value>Подлежащая выплате сумма 
-(без первоначального взноса)</value>
+    <value>Подлежащая выплате сумма</value>
   </data>
   <data name="EventState_Active" xml:space="preserve">
     <value>Активно</value>
@@ -1032,5 +1031,14 @@
   </data>
   <data name="ReportSettings_IncludeFuturePlannedTransactions" xml:space="preserve">
     <value>Включить запланированные будущие транзакции</value>
+  </data>
+  <data name="Debt_GiveBorrowOnlyInitialFeeDetailed" xml:space="preserve">
+    <value>Если выбрано, не списывать сумму долга со счета, только зачислить первоначальный взнос</value>
+  </data>
+  <data name="Debt_OnlyInitialFee" xml:space="preserve">
+    <value>Только первоначальный взнос</value>
+  </data>
+  <data name="Debt_TakeBorrowOnlyInitialFeeDetailed" xml:space="preserve">
+    <value>Если выбрано, не зачислять сумму долга на счет, только списать первоначальный взнос</value>
   </data>
 </root>

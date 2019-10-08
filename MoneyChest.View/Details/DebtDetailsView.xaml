@@ -145,26 +145,27 @@
                     <ComboBox x:Name="comboStorage" Grid.Row="0"
                               SelectedValue="{Binding StorageId}" DisplayMemberPath="NameValue" SelectedValuePath="Id"
                               materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding Storage_Singular}"
-                              SelectionChanged="comboStorage_SelectionChanged" Background="{DynamicResource WhiteBrush}"/>
+                              SelectionChanged="comboStorage_SelectionChanged" Background="{DynamicResource WhiteBrush}"
+                              Width="Auto"/>
 
-                    <!-- TakeInitialFeeFromStorage -->
-                    <!--<CheckBox Grid.Row="1" IsChecked="{Binding TakeInitialFeeFromStorage}">
+                    <!-- OnlyInitialFee -->
+                    <CheckBox Grid.Row="1" IsChecked="{Binding OnlyInitialFee}" 
+                              Content="{moneyChestView:MultiLangBinding Debt_OnlyInitialFee}">
                         <CheckBox.Style>
                             <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MCCheckBoxStyle}">
-                                <Setter Property="Content" Value="{moneyChestView:MultiLangBinding Debt_AddInitialFeeToStorage}"/>
-                                <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Debt_AddInitialFeeToStorage}"/>
+                                <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Debt_TakeBorrowOnlyInitialFeeDetailed}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding DebtType, Converter={StaticResource EBConverter}, ConverterParameter={x:Static enums:DebtType.TakeBorrow}}" Value="false">
-                                        <Setter Property="Content" Value="{moneyChestView:MultiLangBinding Debt_TakeInitialFeeFromStorage}"/>
-                                        <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Debt_TakeInitialFeeFromStorage}"/>
+                                        <Setter Property="ToolTip" Value="{moneyChestView:MultiLangBinding Debt_GiveBorrowOnlyInitialFeeDetailed}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </CheckBox.Style>
-                    </CheckBox>-->
+                    </CheckBox>
 
                     <!-- Currency exchange rate -->
                     <components:CurrencyExchangeRateControl x:Name="compCurrencyExchangeRate" Grid.Column="1" Grid.Row="2" Margin="5"
+                              
                               ShowTakeExisting="False" 
                               CurrencyFromId="{Binding CurrencyId}" CurrencyToId="{Binding Storage.CurrencyId}"
                               CurrencyExchangeRate="{Binding CurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
