@@ -15,7 +15,7 @@ namespace MoneyChest.Services.Converters
 
         protected override void FillEntity(CalendarSettings entity, CalendarSettingsModel model)
         {
-            entity.ShowLimits = model.ShowLimits;
+            entity.ShowAllLimits = model.ShowAllLimits;
             entity.ShowSettings = model.ShowSettings;
             entity.ShowAllStorages = model.ShowAllStorages;
             entity.ShowAllTransactionsPerDay = model.ShowAllTransactionsPerDay;
@@ -31,7 +31,7 @@ namespace MoneyChest.Services.Converters
 
         protected override void FillModel(CalendarSettings entity, CalendarSettingsModel model)
         {
-            model.ShowLimits = entity.ShowLimits;
+            model.ShowAllLimits = entity.ShowAllLimits;
             model.ShowSettings = entity.ShowSettings;
             model.ShowAllStorages = entity.ShowAllStorages;
             model.ShowAllTransactionsPerDay = entity.ShowAllTransactionsPerDay;

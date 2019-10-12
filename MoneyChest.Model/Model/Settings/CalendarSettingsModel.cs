@@ -16,7 +16,6 @@ namespace MoneyChest.Model.Model
 
         public CalendarSettingsModel()
         {
-            ShowLimits = true;
             PeriodFilter = new PeriodFilterModel();
             DataFilter = new DataFilterModel();
         }
@@ -25,7 +24,7 @@ namespace MoneyChest.Model.Model
 
         public bool ShowSettings { get; set; }
         public bool ShowAllStorages { get; set; } = true;
-        public bool ShowLimits { get; set; }
+        public bool ShowAllLimits { get; set; } = false;
         public bool ShowAllTransactionsPerDay { get; set; }
         public int MaxTransactionsCountPerDay { get; set; } = 3;
         public PeriodFilterModel PeriodFilter { get; set; }

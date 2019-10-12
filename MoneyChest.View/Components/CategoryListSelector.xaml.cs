@@ -33,6 +33,8 @@ namespace MoneyChest.View.Components
     {
         private const int EmptyCategoryId = -1;
         private ICategoryService categoryService;
+        private List<int> _selectedCategoryIds = new List<int>();
+        private string label;
 
         public CategoryListSelector()
         {
@@ -73,7 +75,7 @@ namespace MoneyChest.View.Components
         {
             if (!Equals(eventArgs.Parameter, "1")) return;
 
-            SelectedCategoryIds = Categories.GetDescendants().Where(_ => _.IsSelected).Select(x => x.Id).ToList();
+            SelectedCategoryIds = _selectedCategoryIds.ToList();
         }
 
         #endregion
@@ -111,6 +113,8 @@ namespace MoneyChest.View.Components
 
         private static void SelectedCategoryIdsChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            // set local selected category ids
+            (d as CategoryListSelector)._selectedCategoryIds = (e.NewValue as List<int>)?.ToList() ?? new List<int>();
             // refresh selected categories
             (d as CategoryListSelector).ApplySelectedCategories();
 
@@ -219,28 +223,6 @@ namespace MoneyChest.View.Components
 
         #endregion
 
-        //#region IsCategoryBranchSelection Property
-
-        //public bool IsCategoryBranchSelection
-        //{
-        //    get => (bool)this.GetValue(IsCategoryBranchSelectionProperty);
-        //    set => this.SetValue(IsCategoryBranchSelectionProperty, value);
-        //}
-
-        //public static readonly DependencyProperty IsCategoryBranchSelectionProperty = DependencyProperty.Register(
-        //    nameof(IsCategoryBranchSelection), typeof(bool), typeof(CategoryListSelector),
-        //    new FrameworkPropertyMetadata(false, IsCategoryBranchSelectionBlockChangedCallback));
-
-        //private static void IsCategoryBranchSelectionBlockChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    // get selector
-        //    var categoryListSelector = (d as CategoryListSelector);
-        //    // reload categories list
-        //    categoryListSelector.Categories = categoryListSelector.LoadCategories();
-        //}
-
-        //#endregion
-
         #region Commands
 
         public IMCCommand AddCommand { get; set; }
@@ -267,11 +249,11 @@ namespace MoneyChest.View.Components
             this.OpenDetailsWindow(new CategoryDetailsView(categoryService, model, isNew, Categories), () =>
             {
                 // reload data
-                Categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId, 
-                    SelectedCategoryIds.Select(x => (int?)x).ToArray())
+                Categories = TreeHelper.BuildTree(categoryService.GetActive(GlobalVariables.UserId,
+                    _selectedCategoryIds.Select(x => (int?)x).ToArray())
                         .OrderByDescending(_ => _.RecordType)
                         .ThenBy(_ => _.Name)
-                        .ToList(), SelectedCategoryIds, true);
+                        .ToList(), _selectedCategoryIds, true);
 
                 // set expanded branch where category was changed
                 Categories.ExpandToDescendant(model, true);
@@ -282,12 +264,12 @@ namespace MoneyChest.View.Components
         {
             var categories = ShowInactive
                 ? categoryService.GetListForUser(GlobalVariables.UserId)
-                : categoryService.GetActive(GlobalVariables.UserId, SelectedCategoryIds.Select(x => (int?)x).ToArray());
+                : categoryService.GetActive(GlobalVariables.UserId, _selectedCategoryIds.Select(x => (int?)x).ToArray());
 
             return TreeHelper.BuildTree(categories
                 .OrderByDescending(_ => _.RecordType)
                 .ThenBy(_ => _.Name)
-                .ToList(), SelectedCategoryIds, true);
+                .ToList(), _selectedCategoryIds, true);
         }
 
         #endregion
@@ -307,13 +289,13 @@ namespace MoneyChest.View.Components
                 foreach (var cat in Categories.GetDescendants())
                 {
                     // set selection
-                    cat.IsSelected = SelectedCategoryIds.Count == 0 || SelectedCategoryIds.Contains(cat.Id);
+                    cat.IsSelected = _selectedCategoryIds.Count == 0 || _selectedCategoryIds.Contains(cat.Id);
                     // expand category in the tree if it's selected
                     if (cat.IsSelected) Categories.ExpandToDescendant(cat, true);
                     // add event on category selection changed
                     cat.PropertyChanged += (sender, e) =>
                     {
-                        if (e.PropertyName == nameof(CategoryViewModel.IsSelected) && !isSelectionChanged)
+                        if (e.PropertyName == nameof(CategoryViewModel.IsSelected) && !isSelectionChanged && !isCatsApplying)
                         {
                             isSelectionChanged = true;
                             // select full branch when IsCategoryBranchSelection
@@ -325,7 +307,7 @@ namespace MoneyChest.View.Components
                             allSelected = allCats.Count == allCats.Where(x => x.IsSelected).Count();
 
                             // update selected categories list
-                            SelectedCategoryIds = allSelected ? new List<int>() : allCats.Where(x => x.IsSelected).Select(x => x.Id).ToList();
+                            _selectedCategoryIds = allSelected ? new List<int>() : allCats.Where(x => x.IsSelected).Select(x => x.Id).ToList();
 
                             // update shown category name or categories count
                             var categoriesLabel = GetCategoriesLabel(allSelected, allCats);
@@ -366,10 +348,10 @@ namespace MoneyChest.View.Components
             // if all categories are selected show 'All'
             if (allSelected) return MultiLangResourceManager.Instance[MultiLangResourceName.All];
             // if only one category is selected show category name
-            if (SelectedCategoryIds.Count == 1)
-                return categories.FirstOrDefault(x => x.Id == SelectedCategoryIds[0])?.Name;
+            if (_selectedCategoryIds.Count == 1)
+                return categories.FirstOrDefault(x => x.Id == _selectedCategoryIds[0])?.Name;
             // in all other cases show categories count
-            return $"{SelectedCategoryIds.Count} {MultiLangResourceManager.Instance[MultiLangResourceName.Plural(typeof(CategoryViewModel))].ToLower()}";
+            return $"{_selectedCategoryIds.Count} {MultiLangResourceManager.Instance[MultiLangResourceName.Plural(typeof(CategoryViewModel))].ToLower()}";
         }
 
         #endregion

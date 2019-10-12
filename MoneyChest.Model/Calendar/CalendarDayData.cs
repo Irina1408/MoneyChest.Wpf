@@ -37,6 +37,7 @@ namespace MoneyChest.Model.Calendar
 
         public List<ITransaction> Transactions { get; set; } = new List<ITransaction>();
         public List<StorageState> Storages { get; set; } = new List<StorageState>();
+        public List<LimitState> Limits { get; set; } = new List<LimitState>();
 
         #endregion
 
@@ -44,6 +45,7 @@ namespace MoneyChest.Model.Calendar
 
         public List<ITransaction> FilteredTransactions { get; set; }
         public List<StorageState> FilteredStorages { get; set; }
+        public List<LimitState> FilteredLimits { get; set; }
 
         public int MaxTransactionsCount { get; set; } = -1;
         public List<ITransaction> LimitedTransactions => MaxTransactionsCount < 0 ? FilteredTransactions : FilteredTransactions.Take(MaxTransactionsCount).ToList();
@@ -64,6 +66,8 @@ namespace MoneyChest.Model.Calendar
         #region Alerts
 
         public bool IsAnyAccountNegative => FilteredStorages.Any(x => x.Amount < 0);
+        public bool IsAnyLimit => FilteredLimits.Any();
+        public bool IsAnyLimitExceeded => FilteredLimits.Any(x => x.IsExceeded);
 
         #endregion
 

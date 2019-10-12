@@ -45,6 +45,16 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="MCMarkExceededLimitLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MCCalendarLabelStyle}">
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsExceeded}" Value="true">
+                <Setter Property="Foreground" Value="{DynamicResource RedBrush}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="MCDetailsHeaderLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
         <Setter Property="FontSize" Value="{StaticResource LargeFontSize}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>

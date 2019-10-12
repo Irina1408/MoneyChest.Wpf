@@ -138,7 +138,7 @@ namespace MoneyChest.Data.Mock
             f.Define<CalendarSettings>(e =>
             {
                 //e.PeriodType = CalendarPeriodType.Month;
-                e.ShowLimits = false;
+                e.ShowAllLimits = false;
             });
 
             f.Define<ForecastSetting>(e =>

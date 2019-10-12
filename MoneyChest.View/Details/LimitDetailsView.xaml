@@ -53,7 +53,7 @@
 
             <!-- Categories -->
             <components:CategoryListSelector VerticalAlignment="Center"
-                                         SelectedCategoryIds="{Binding CategoryIds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                         SelectedCategoryIds="{Binding CategoryIds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}"/>
 
             <!-- Remark -->
             <input:RemarkInput Remark="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

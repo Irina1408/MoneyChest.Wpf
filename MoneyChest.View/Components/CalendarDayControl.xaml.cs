@@ -69,8 +69,13 @@ namespace MoneyChest.View.Components
 
         public bool IsActive => Data != null;
         public bool ShowDots => Data?.IsLimitedTransactions ?? false;
+
         public bool ShowAnyAccountNegative => (Data?.IsAnyAccountNegative ?? false) && !ShowAllStorages;
         public bool ShowAllStorages { get; set; }
+
+        public bool ShowLimitsIcon => (Data?.IsAnyLimit ?? false) && !ShowAllLimits;
+        public bool ShowLimitsList => (Data?.IsAnyLimit ?? false) && ShowAllLimits;
+        public bool ShowAllLimits { get; set; }
 
         #endregion
     }

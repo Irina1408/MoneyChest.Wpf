@@ -831,8 +831,8 @@
   <data name="Calendar_MaxTransactionsCountPerDay_All" xml:space="preserve">
     <value>Все</value>
   </data>
-  <data name="Calendar_ShowLimits" xml:space="preserve">
-    <value>Показать лимиты</value>
+  <data name="Calendar_ShowAllLimits" xml:space="preserve">
+    <value>Показать все лимиты</value>
   </data>
   <data name="General_Settings" xml:space="preserve">
     <value>Настройки</value>
@@ -1040,5 +1040,8 @@
   </data>
   <data name="Debt_TakeBorrowOnlyInitialFeeDetailed" xml:space="preserve">
     <value>Если выбрано, не зачислять сумму долга на счет, только списать первоначальный взнос</value>
+  </data>
+  <data name="General_Period" xml:space="preserve">
+    <value>Период</value>
   </data>
 </root>

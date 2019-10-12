@@ -834,8 +834,8 @@
   <data name="Calendar_MaxTransactionsCountPerDay_All" xml:space="preserve">
     <value>All</value>
   </data>
-  <data name="Calendar_ShowLimits" xml:space="preserve">
-    <value>Show limits</value>
+  <data name="Calendar_ShowAllLimits" xml:space="preserve">
+    <value>Show all limits</value>
   </data>
   <data name="General_Settings" xml:space="preserve">
     <value>Settings</value>
@@ -1043,5 +1043,8 @@
   </data>
   <data name="Debt_TakeBorrowOnlyInitialFeeDetailed" xml:space="preserve">
     <value>If selected, not add debt value into the target account, only withdraw initial fee</value>
+  </data>
+  <data name="General_Period" xml:space="preserve">
+    <value>Period</value>
   </data>
 </root>

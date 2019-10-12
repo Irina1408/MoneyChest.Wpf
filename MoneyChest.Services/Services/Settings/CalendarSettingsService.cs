@@ -40,7 +40,7 @@ namespace MoneyChest.Services.Services
                 var periodFilter = periodFilterConverter.ToEntity(new PeriodFilterModel());
                 _context.PeriodFilters.Add(periodFilter);
                 // add full filter
-                Entities.Add(new CalendarSettings() { UserId = userId, ShowLimits = true, DataFilter = dataFilter, PeriodFilter = periodFilter });
+                Entities.Add(new CalendarSettings() { UserId = userId, ShowAllLimits = true, DataFilter = dataFilter, PeriodFilter = periodFilter });
                 _context.SaveChanges();
 
                 settings = Scope.FirstOrDefault(e => e.UserId == userId);

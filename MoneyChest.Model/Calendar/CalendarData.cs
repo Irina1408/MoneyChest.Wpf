@@ -12,5 +12,6 @@ namespace MoneyChest.Model.Calendar
         public CurrencyReference MainCurrency { get; set; }
         public List<CurrencyExchangeRateModel> Rates { get; set; } = new List<CurrencyExchangeRateModel>();
         public List<StorageModel> Storages { get; set; } = new List<StorageModel>();
+        public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
     }
 }

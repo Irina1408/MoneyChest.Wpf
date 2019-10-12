@@ -117,7 +117,7 @@ namespace MoneyChest.Services.Services.Defaults
             _context.CalendarSettings.Add(new CalendarSettings()
             {
                 UserId = _userId,
-                ShowLimits = true,
+                ShowAllLimits = true,
                 DataFilter = _context.DataFilters.Add(new DataFilter()
                 {
                     IncludeWithoutCategory = true

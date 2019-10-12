@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Calendar\CalendarData.cs" />
     <Compile Include="Calendar\CalendarDayData.cs" />
+    <Compile Include="Calendar\LimitState.cs" />
     <Compile Include="Calendar\StorageState.cs" />
     <Compile Include="Constants\MaxSize.cs" />
     <Compile Include="Enums\CurrencySymbolAlignment.cs" />

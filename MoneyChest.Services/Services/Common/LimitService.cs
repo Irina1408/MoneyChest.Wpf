@@ -19,6 +19,7 @@ namespace MoneyChest.Services.Services
 {
     public interface ILimitService : IIdManagableUserableListServiceBase<LimitModel>
     {
+        List<LimitModel> Get(int userId, DateTime dateFrom, DateTime dateUntil);
         void RemoveClosed(int userId);
     }
 
@@ -34,6 +35,12 @@ namespace MoneyChest.Services.Services
         }
 
         #region ILimitService implementation
+
+        public List<LimitModel> Get(int userId, DateTime dateFrom, DateTime dateUntil)
+        {
+            return Scope.Where(x => x.UserId == userId && x.DateFrom <= dateUntil && x.DateUntil >= dateFrom)
+                .ToList().ConvertAll(_converter.ToModel);
+        }
 
         public void RemoveClosed(int userId)
         {

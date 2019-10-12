@@ -33,11 +33,7 @@ namespace MoneyChest.View.Pages
     public partial class CalendarPage : PageBase
     {
         #region Private fields
-
-        private ITransactionService _service;
-        private ICurrencyService _currencyService;
-        private IStorageService _storageService;
-        private ICurrencyExchangeRateService _currencyExchangeRateService;
+        
         private ICalendarSettingsService _settingsService;
 
         private CalendarPageViewModel _viewModel;
@@ -55,14 +51,17 @@ namespace MoneyChest.View.Pages
             InitializeComponent();
 
             // init
-            _service = ServiceManager.ConfigureService<TransactionService>();
-            _currencyService = ServiceManager.ConfigureService<CurrencyService>();
-            _storageService = ServiceManager.ConfigureService<StorageService>();
-            _currencyExchangeRateService = ServiceManager.ConfigureService<CurrencyExchangeRateService>();
             _settingsService = ServiceManager.ConfigureService<CalendarSettingsService>();
-            _builder = new CalendarDataBuilder(GlobalVariables.UserId, _service, _currencyService, _currencyExchangeRateService, _storageService);
             _cellMapping = new List<CellMapping>();
             _daysOfWeek = new List<DayOfWeek>();
+
+            _builder = new CalendarDataBuilder(GlobalVariables.UserId, 
+                ServiceManager.ConfigureService<TransactionService>(),
+                ServiceManager.ConfigureService<CurrencyService>(),
+                ServiceManager.ConfigureService<CurrencyExchangeRateService>(),
+                ServiceManager.ConfigureService<StorageService>(),
+                ServiceManager.ConfigureService<LimitService>(),
+                ServiceManager.ConfigureService<CategoryService>());
 
             InitializeViewModel();
         }
@@ -258,28 +257,34 @@ namespace MoneyChest.View.Pages
         {
             _viewModel.Data.ForEach(x => 
             {
+                // filter transactions
                 x.FilteredTransactions = _viewModel.Settings.DataFilter.ApplyFilter(x.Transactions);
                 x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay;
 
-                if (_viewModel.Settings.DataFilter.IsFilterApplied && _viewModel.Settings.DataFilter.StorageIds.Count > 0)
-                    x.FilteredStorages = x.Storages.Where(e => _viewModel.Settings.DataFilter.StorageIds.Contains(e.Storage.Id)).ToList();
-                else
-                    x.FilteredStorages = x.Storages;
+                // filter storages
+                x.FilteredStorages = _viewModel.Settings.DataFilter.IsFilterApplied && _viewModel.Settings.DataFilter.StorageIds.Count > 0
+                    ? x.Storages.Where(e => _viewModel.Settings.DataFilter.StorageIds.Contains(e.Storage.Id)).ToList()
+                    : x.Storages;
+
+                // filter limits
+                x.FilteredLimits = _viewModel.Settings.DataFilter.IsFilterApplied && _viewModel.Settings.DataFilter.CategoryIds.Count > 0
+                    ? x.Limits.Where(e => e.Limit.CategoryIds.Any(_ => _viewModel.Settings.DataFilter.CategoryIds.Contains(_))).ToList()
+                    : x.Limits;
             });
         }
 
         private void ApplySettings()
         {
-            //_viewModel.Data.ForEach(x =>
-            //{
-            //    x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay;
-            //});
-
+            // set max transactions count to show
             Parallel.ForEach(_viewModel.Data, x =>
             x.MaxTransactionsCount = _viewModel.Settings.ShowAllTransactionsPerDay ? -1 : _viewModel.Settings.MaxTransactionsCountPerDay);
 
-            //_cellMapping.ForEach(x => x.Control.ShowAllStorages = _viewModel.Settings.ShowAllStorages);
-            Parallel.ForEach(_cellMapping, x => x.Control.ShowAllStorages = _viewModel.Settings.ShowAllStorages);
+            // hide / show all storages and limits lists
+            Parallel.ForEach(_cellMapping, x =>
+            {
+                x.Control.ShowAllStorages = _viewModel.Settings.ShowAllStorages;
+                x.Control.ShowAllLimits = _viewModel.Settings.ShowAllLimits;
+            });
         }
 
         #endregion

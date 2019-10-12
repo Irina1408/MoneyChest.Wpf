@@ -2,8 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:model="clr-namespace:MoneyChest.Model.Model;assembly=MoneyChest.Model"
                     xmlns:modelCal="clr-namespace:MoneyChest.Model.Calendar;assembly=MoneyChest.Model"
-                    xmlns:local="clr-namespace:MoneyChest.Style.Controls">
+                    xmlns:local="clr-namespace:MoneyChest.Style.Controls"
+                    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:converters="clr-namespace:MoneyChest.View.Converters;assembly=MoneyChest.View"
+                    xmlns:moneyChestView="clr-namespace:MoneyChest.View;assembly=MoneyChest.View">
 
+    <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
+    <converters:BoolToVisibilityHideConverter x:Key="BVHConverter"/>
+    
     <!-- *********** Transactions *********** -->
     <Style x:Key="TransactionsItemsControlStyle" TargetType="{x:Type ItemsControl}">
         <Setter Property="Focusable" Value="False"/>
@@ -60,13 +66,6 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="ItemsSource" Value="{Binding Data.FilteredStorages}"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
-        <!--<Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Grid}}, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>-->
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type modelCal:StorageState}">
@@ -77,11 +76,164 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="0" Content="{Binding Storage.Name}" FontSize="{DynamicResource SmallFontSize}"
-                                       Style="{DynamicResource MCMarkNegativeStorageLabelStyle}"/>
+                            <Label Grid.Column="0" Content="{Binding Storage.Name}" 
+                                   FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                   Style="{DynamicResource MCMarkNegativeStorageLabelStyle}"/>
 
                             <Label Grid.Column="1" Content="{Binding AmountDetailed}" Margin="5 0 5 0"
-                                       Style="{DynamicResource MCMarkNegativeStorageLabelStyle}"/>
+                                   FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                   Style="{DynamicResource MCMarkNegativeStorageLabelStyle}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- *********** Limits ***********-->
+    <Style x:Key="LimitsItemsControlStyle" TargetType="{x:Type ItemsControl}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="ItemsSource" Value="{Binding Data.FilteredLimits}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type modelCal:LimitState}">
+                    <Border BorderThickness="0.5" BorderBrush="{Binding IdealForegroundColorBrush}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" Content="{Binding Limit.Description}" HorizontalAlignment="Left"
+                                   Style="{DynamicResource MCMarkExceededLimitLabelStyle}"/>
+
+                            <Label Grid.Column="1" Content="{Binding RemainingValueDetailed}" Margin="5 0 5 0"
+                                   Style="{DynamicResource MCMarkExceededLimitLabelStyle}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="LimitsItemsWithIconControlStyle" TargetType="{x:Type ItemsControl}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="ItemsSource" Value="{Binding Data.FilteredLimits}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type modelCal:LimitState}">
+                    <Border BorderThickness="0.5" BorderBrush="{Binding IdealForegroundColorBrush}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icon -->
+                            <Label Grid.Column="0" HorizontalAlignment="Left" Margin="0" Padding="0">
+                                <iconPacks:PackIconFontAwesome Kind="HandPaperOutline">
+                                    <iconPacks:PackIconFontAwesome.Style>
+                                        <Style TargetType="{x:Type iconPacks:PackIconFontAwesome}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsExceeded}" Value="true">
+                                                    <Setter Property="Foreground" Value="{DynamicResource RedBrush}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </iconPacks:PackIconFontAwesome.Style>
+                                </iconPacks:PackIconFontAwesome>
+                                <Label.ToolTip>
+                                    <ToolTip Placement="Mouse">
+                                        <ToolTip.Resources>
+                                            <Style TargetType="Label">
+                                                <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}"/>
+                                                <Setter Property="Margin" Value="3 1 3 1"/>
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="Background" Value="Transparent"/>
+                                            </Style>
+                                        </ToolTip.Resources>
+                                        
+                                        <!-- Show limit details -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            
+                                            <!-- Limit description -->
+                                            <StackPanel Grid.ColumnSpan="2" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center"
+                                                        Margin="0 0 0 5">
+                                                <Label Content="{moneyChestView:MultiLangBinding Limit_Singular}"/>
+                                                <Label Content=" '" Margin="3 1 0 1"/>
+                                                <Label Content="{Binding Limit.Description}"/>
+                                                <Label Content="'" Margin="0 1 0 1"/>
+                                            </StackPanel>
+                                            
+                                            <!-- Period -->
+                                            <Label Grid.Column="0" Grid.Row="1" Content="{moneyChestView:MultiLangBinding General_Period}"/>
+                                            <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0 0 0">
+                                                <Label Content="{Binding Limit.DateFrom, StringFormat=d}"/>
+                                                <Label Content="-"/>
+                                                <Label Content="{Binding Limit.DateUntil, StringFormat=d}"/>
+                                            </StackPanel>
+
+                                            <!-- Categories -->
+                                            <Label Grid.Column="0" Grid.Row="2" Content="{moneyChestView:MultiLangBinding Category_Plural}"/>
+                                            <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0 0 0">
+                                                <!-- Show 'All' if all categories are selected -->
+                                                <Label Content="{moneyChestView:MultiLangBinding General_All}" Visibility="{Binding Limit.AllCategories, Converter={StaticResource BVConverter}}"/>
+                                                <!-- Show category name if only one category is selected -->
+                                                <Label Content="{Binding Categories[0].Name}" Visibility="{Binding OneCategory, Converter={StaticResource BVConverter}}"/>
+                                                <!-- Show 'None' if 'without category' is selected -->
+                                                <Label Content="{moneyChestView:MultiLangBinding General_None}" Visibility="{Binding IsNoneCategory, Converter={StaticResource BVConverter}}"/>
+                                                <!-- Show categories count if several categories are seleted -->
+                                                <Label Content="{Binding Limit.CategoryIds.Count}" Visibility="{Binding SeveralCategories, Converter={StaticResource BVConverter}}"/>
+                                            </StackPanel>
+
+                                            <!-- Limit value -->
+                                            <Label Grid.Column="0" Grid.Row="3" Content="{moneyChestView:MultiLangBinding General_Amount}"/>
+                                            <Label Grid.Column="1" Grid.Row="3" Content="{Binding Limit.ValueCurrency}" Margin="8 1 3 1"/>
+
+                                            <!-- Remaining to spend value -->
+                                            <Label Grid.Column="0" Grid.Row="4" Content="{moneyChestView:MultiLangBinding Limit_RemainingValue}"/>
+                                            <Label Grid.Column="1" Grid.Row="4" Content="{Binding RemainingValueDetailed}">
+                                                <Label.Style>
+                                                    <Style TargetType="Label">
+                                                        <Setter Property="Margin" Value="8 1 3 1"/>
+                                                        <Setter Property="Padding" Value="0"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsExceeded}" Value="true">
+                                                                <Setter Property="Foreground" Value="{DynamicResource RedBrush}"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                            </Label>
+                                        </Grid>
+                                    </ToolTip>
+                                </Label.ToolTip>
+                            </Label>
+
+                            <!-- Limit details -->
+                            <Label Grid.Column="1" Content="{Binding Limit.Description}" HorizontalAlignment="Left"
+                                   Style="{DynamicResource MCMarkExceededLimitLabelStyle}"/>
+
+                            <Label Grid.Column="2" Content="{Binding RemainingValueDetailed}" Margin="5 0 5 0"
+                                   Style="{DynamicResource MCMarkExceededLimitLabelStyle}"/>
                         </Grid>
                     </Border>
                 </DataTemplate>
