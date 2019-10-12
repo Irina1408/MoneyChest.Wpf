@@ -130,7 +130,7 @@
                     
                     <!-- Total spent/income value -->
                     <Label Grid.Column="1" HorizontalAlignment="Right" Content="{Binding Data.TotDayAmountDetailed}" Padding="0" 
-                           FontSize="{StaticResource SmallFontSize}" BorderThickness="0 1 0 0" BorderBrush="{DynamicResource GrayBrush9}"/>
+                           BorderThickness="0 1 0 0" BorderBrush="{DynamicResource GrayBrush9}"/>
                 </Grid>
 
                 <!-- Full limit list row (if ShowAllLimits) -->
@@ -147,7 +147,7 @@
                     </Grid.Style>
                     
                     <ItemsControl ItemsSource="{Binding Data.FilteredLimits}" HorizontalAlignment="Stretch"
-                                  Foreground="{DynamicResource BlackBrush}" FontSize="{DynamicResource SmallFontSize}"
+                                  Foreground="{DynamicResource BlackBrush}" 
                                   Style="{DynamicResource LimitsItemsWithIconControlStyle}"/>
                 </Grid>
                 
@@ -175,7 +175,7 @@
 
                     <!-- Full storages list (if ShowAllStorages) -->
                     <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Grid.Column="2" HorizontalAlignment="Stretch"
-                                  Foreground="{DynamicResource BlackBrush}" FontSize="{DynamicResource SmallFontSize}">
+                                  Foreground="{DynamicResource BlackBrush}" >
                         <ItemsControl.Style>
                             <Style TargetType="{x:Type ItemsControl}" BasedOn="{StaticResource StoragesItemsControlStyle}">
                                 <Setter Property="Visibility" Value="Collapsed"/>

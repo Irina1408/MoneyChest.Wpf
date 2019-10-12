@@ -17,7 +17,6 @@
     <Style x:Key="MCCalendarTransactionLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
         <Setter Property="Margin" Value="3 1 3 1"/>
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
         <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
     </Style>
 
