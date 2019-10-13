@@ -160,21 +160,12 @@ namespace MoneyChest.Services.Services
         {
             var lastDayOfMonth = DateTime.DaysInMonth(date.Year, date.Month);
 
-            // write monthly events
-            foreach (var evnt in events.Where(x => x.Schedule.ScheduleType == ScheduleType.Monthly
-                                            && (x.Schedule.DayOfMonth == -1 && date.Day == lastDayOfMonth
-                                                || x.Schedule.DayOfMonth == date.Day)
-                                            && x.Schedule.Months.Contains((Month)date.Month)))
+            // write monthly/weekly/once events
+            // TODO: check weekly period
+            foreach (var evnt in events.Where(x => SuitableMonthlyEvent(x, date, lastDayOfMonth) 
+                                                || SuitableWeeklyEvent(x, date)
+                                                || SuitableOnceEvent(x, date)))
             {
-                // write event
-                plannedEvents.Add(new PlannedTransactionModel<EventModel>(evnt, date));
-            }
-
-            // write weekly events
-            foreach (var evnt in events.Where(x => x.Schedule.ScheduleType == ScheduleType.Weekly 
-                                            && x.Schedule.DaysOfWeek.Contains(date.DayOfWeek)))
-            {
-                // TODO: check period
                 // write event
                 plannedEvents.Add(new PlannedTransactionModel<EventModel>(evnt, date));
             }
@@ -191,16 +182,19 @@ namespace MoneyChest.Services.Services
                 // write event
                 plannedEvents.Add(new PlannedTransactionModel<EventModel>(evnt, date));
             }
-
-            // write once events
-            foreach (var evnt in events.Where(x => x.Schedule.ScheduleType == ScheduleType.Once
-                                            && x.DateFrom.Year == date.Year && x.DateFrom.Month == date.Month 
-                                            && x.DateFrom.Day == date.Day))
-            {
-                // write event
-                plannedEvents.Add(new PlannedTransactionModel<EventModel>(evnt, date));
-            }
         }
+
+        private bool SuitableMonthlyEvent(EventModel evnt, DateTime date, int lastDayOfMonth) => 
+            evnt.Schedule.ScheduleType == ScheduleType.Monthly
+            && evnt.Schedule.Months.Contains((Month)date.Month)
+            && (evnt.Schedule.DayOfMonth == date.Day || evnt.Schedule.DayOfMonth == -1 && date.Day == lastDayOfMonth);
+
+        private bool SuitableWeeklyEvent(EventModel evnt, DateTime date) => evnt.Schedule.ScheduleType == ScheduleType.Weekly 
+            && evnt.Schedule.DaysOfWeek.Contains(date.DayOfWeek);
+
+        private bool SuitableOnceEvent(EventModel evnt, DateTime date) => evnt.Schedule.ScheduleType == ScheduleType.Once
+            && evnt.DateFrom.Year == date.Year && evnt.DateFrom.Month == date.Month && evnt.DateFrom.Day == date.Day;
+
 
         #endregion
     }

@@ -163,38 +163,32 @@
                   Visibility="{Binding ShowTemplates, Converter={StaticResource BVConverter}, UpdateSourceTrigger=PropertyChanged}"
                   Width="255" Margin="0">
             <GroupBox.Header>
-                <Grid Margin="5 0 0 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Command="{Binding AddRecordTemplateCommand}" 
+                <StackPanel Margin="5 0 0 0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Button Command="{Binding AddRecordTemplateCommand}" 
                                 ToolTip="{moneyChestView:MultiLangBinding RecordTemplate_Add}"
                                 Style="{DynamicResource CircleButtonStyle}"
                                 Foreground="{DynamicResource IdealForegroundColorBrush}"
                                 Height="35" Width="35">
-                            <Grid>
-                                <iconPacks:PackIconMaterial Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <iconPacks:PackIconModern Kind="MathPlusMinus" Style="{DynamicResource MiniRightBottomIconStyle}"
+                        <Grid>
+                            <iconPacks:PackIconMaterial Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <iconPacks:PackIconModern Kind="MathPlusMinus" Style="{DynamicResource MiniRightBottomIconStyle}"
                                                           Margin="0 0 -4 -4" Height="9" Width="9"/>
-                            </Grid>
-                        </Button>
+                        </Grid>
+                    </Button>
 
-                        <Button Command="{Binding AddMoneyTransferTemplateCommand}" 
+                    <Button Command="{Binding AddMoneyTransferTemplateCommand}" 
                                 ToolTip="{moneyChestView:MultiLangBinding MoneyTransferTemplate_Add}"
                                 Style="{DynamicResource CircleButtonStyle}"
                                 Foreground="{DynamicResource IdealForegroundColorBrush}"
                                 Height="35" Width="35">
-                            <Grid>
-                                <iconPacks:PackIconMaterial Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <iconPacks:PackIconModern Kind="ArrowRightLeft" Style="{DynamicResource MiniRightBottomIconStyle}"
+                        <Grid>
+                            <iconPacks:PackIconMaterial Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <iconPacks:PackIconModern Kind="ArrowRightLeft" Style="{DynamicResource MiniRightBottomIconStyle}"
                                                            Margin="0 0 -4 -4" Height="9" Width="9"/>
-                            </Grid>
-                        </Button>
+                        </Grid>
+                    </Button>
 
-                        <!--<Button Command="{Binding EditTemplateCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}"
+                    <!--<Button Command="{Binding EditTemplateCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Edit}"
                                 Style="{DynamicResource CircleButtonStyle}"
                                 Foreground="{DynamicResource IdealForegroundColorBrush}">
                             <iconPacks:PackIconModern Kind="Edit"/>
@@ -206,12 +200,11 @@
 
                             <iconPacks:PackIconModern Kind="Delete"/>
                         </Button>-->
-                    </StackPanel>
 
-                    <TextBlock Grid.Column="1" Text="{moneyChestView:MultiLangBinding Template_Plural}" VerticalAlignment="Center"
+                    <TextBlock Text="{moneyChestView:MultiLangBinding Template_Plural}" VerticalAlignment="Center"
                                Style="{DynamicResource MCGroupBoxHeaderTextBlockStyle}" HorizontalAlignment="Left"
                                Margin="5"/>
-                </Grid>
+                </StackPanel>
             </GroupBox.Header>
             <DataGrid x:Name="GridTemplates" 
                       ItemsSource="{Binding TemplateEntities, UpdateSourceTrigger=PropertyChanged}" 

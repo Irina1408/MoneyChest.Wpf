@@ -74,7 +74,6 @@ namespace MoneyChest.Model.Model
 
         public bool IncludeWithoutCategory => CategoryIds.Count == 0 || CategoryIds.Contains(-1);
         public bool AllCategories => CategoryIds.Count == 0;
-        public List<int> ActualCategoryIds => CategoryIds.Where(x => x != -1).ToList();
 
         #endregion
 

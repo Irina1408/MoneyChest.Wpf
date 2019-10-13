@@ -64,5 +64,13 @@
         <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="Margin" Value="0 0 -7 -7"/>
     </Style>
-    
+
+    <Style x:Key="MarkExceededLimitStyleIconStyle" TargetType="{x:Type Control}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsExceeded}" Value="true">
+                <Setter Property="Foreground" Value="{DynamicResource RedBrush}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

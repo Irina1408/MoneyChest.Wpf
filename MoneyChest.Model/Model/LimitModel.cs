@@ -13,6 +13,8 @@ namespace MoneyChest.Model.Model
 {
     public class LimitModel : IHasId, IHasUserId, IHasDescription, IHasRemark, INotifyPropertyChanged
     {
+        private List<int> _categoryIds;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public LimitModel()
@@ -32,7 +34,15 @@ namespace MoneyChest.Model.Model
         [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
         
-        public List<int> CategoryIds { get; set; }
+        public List<int> CategoryIds
+        {
+            get => _categoryIds;
+            set
+            {
+                _categoryIds = value;
+                ActualCategoryIds = _categoryIds.Where(x => x != -1).ToList();
+            }
+        }
 
         public int CurrencyId { get; set; }
         public int UserId { get; set; }
@@ -52,6 +62,6 @@ namespace MoneyChest.Model.Model
 
         public bool IncludeWithoutCategory => CategoryIds.Count == 0 || CategoryIds.Contains(-1);
         public bool AllCategories => CategoryIds.Count == 0;
-        public List<int> ActualCategoryIds => CategoryIds.Where(x => x != -1).ToList();
+        public List<int> ActualCategoryIds { get; set; }
     }
 }

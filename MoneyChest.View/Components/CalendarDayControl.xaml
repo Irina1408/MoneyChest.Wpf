@@ -14,24 +14,13 @@
     
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BVConverter"/>
+        <converters:BoolToVisibilityOppositeConverter x:Key="BVOConverter"/>
         <converters:PercentageConverter x:Key="PctConverter"/>
 
         <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCCalendarLabelStyle}"/>
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
-        <!-- Change opacity for inactive day -->
-        <Grid.Style>
-            <Style TargetType="{x:Type Grid}">
-                <Setter Property="Opacity" Value="1"/>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsActive}" Value="false">
-                        <Setter Property="Opacity" Value="0.5"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Grid.Style>
-        
         <!-- Main day border -->
         <Border BorderThickness="1" BorderBrush="{DynamicResource GrayBrush7}">
 
@@ -46,15 +35,10 @@
                 </Grid.RowDefinitions>
 
                 <!-- Top row (month name or "today" remark and day of month)-->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
+                <DockPanel>
                     <!-- Change background for today and weekend -->
-                    <Grid.Style>
-                        <Style TargetType="{x:Type Grid}">
+                    <DockPanel.Style>
+                        <Style TargetType="{x:Type DockPanel}">
                             <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Data.IsWeekend}" Value="true">
@@ -65,22 +49,24 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Grid.Style>
+                    </DockPanel.Style>
 
-                    <Label Grid.Column="0" Content="{Binding Header}" FontSize="{DynamicResource MiddleFontSize}"/>
-                    <Label Grid.Column="1" Content="{Binding Data.DayOfMonth}" FontSize="{DynamicResource MiddleFontSize}" FontWeight="Bold"/>
-                </Grid>
+                    <TextBlock DockPanel.Dock="Left" Text="{Binding Header}" Style="{DynamicResource MCCalendarTextBlockStyle}" FontSize="{DynamicResource MiddleFontSize}"/>
+                    <TextBlock DockPanel.Dock="Right" Text="{Binding Data.DayOfMonth}" Style="{DynamicResource MCCalendarTextBlockStyle}" FontSize="{DynamicResource MiddleFontSize}" FontWeight="Bold"/>
+                </DockPanel>
 
                 <!-- Transactions list -->
-                <Grid Grid.Row="1" Background="Transparent">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <DockPanel Grid.Row="1" Background="Transparent">
+                    
+                    <!-- Three dots -->
+                    <iconPacks:PackIconEntypo Kind="DotsThreeHorizontal" DockPanel.Dock="Bottom"
+                                              Visibility="{Binding ShowDots, Converter={StaticResource BVConverter}}" Margin="5 -2 5 -10"/>
 
-                    <StackPanel Grid.Row="0">
-                        <ItemsControl ItemsSource="{Binding Data.LimitedTransactions}" Style="{StaticResource TransactionsItemsControlStyle}"
-                                      Foreground="{DynamicResource BlackBrush}">
+                    <StackPanel>
+                        <ItemsControl ItemsSource="{Binding Data.LimitedTransactions}" 
+                                  Style="{StaticResource TransactionsItemsControlStyle}"
+                                  Foreground="{DynamicResource BlackBrush}"
+                                  Visibility="{Binding IsActive, Converter={StaticResource BVConverter}}">
                             <ItemsControl.ToolTip>
                                 <ToolTip Placement="Mouse">
                                     <ItemsControl ItemsSource="{Binding Data.FilteredTransactions}" Style="{StaticResource TransactionsToolTipItemsControlStyle}" Foreground="{DynamicResource WhiteBrush}"/>
@@ -89,19 +75,13 @@
                         </ItemsControl>
                     </StackPanel>
 
-                    <iconPacks:PackIconEntypo Kind="DotsThreeHorizontal" Grid.Row="1"
-                                              Visibility="{Binding ShowDots, Converter={StaticResource BVConverter}}" Margin="5 -2 5 -10"/>
-                </Grid>
+                </DockPanel>
                 
                 <!-- Limits / Totals row -->
-                <Grid Grid.Row="2" Margin="0 5 0 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <DockPanel Grid.Row="2" Margin="0 5 0 0">
 
-                    <!-- Icon to show limits state (if not ShowAllLimits) -->
-                    <Label Grid.Column="0" HorizontalAlignment="Left" Margin="0" Padding="0"
+                    <!-- Icon to show limits state (if not ShowAllLimits) -->                    
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="0" Padding="0"
                            Visibility="{Binding ShowLimitsIcon, Converter={StaticResource BVConverter}}">
                         <iconPacks:PackIconFontAwesome Kind="HandPaperOutline">
                             <iconPacks:PackIconFontAwesome.Style>
@@ -116,7 +96,7 @@
                         </iconPacks:PackIconFontAwesome>
                         <Label.ToolTip>
                             <ToolTip Placement="Mouse">
-                                <!-- Show limits list in tooltip -->
+                                 <!--Show limits list in tooltip--> 
                                 <StackPanel>
                                     <Label HorizontalAlignment="Center" Content="{moneyChestView:MultiLangBinding Limit_Plural}"
                                            Foreground="{DynamicResource WhiteBrush}"/>
@@ -129,37 +109,22 @@
                     </Label>
                     
                     <!-- Total spent/income value -->
-                    <Label Grid.Column="1" HorizontalAlignment="Right" Content="{Binding Data.TotDayAmountDetailed}" Padding="0" 
+                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="{Binding Data.TotDayAmountDetailed}" Padding="0" 
                            BorderThickness="0 1 0 0" BorderBrush="{DynamicResource GrayBrush9}"/>
-                </Grid>
+                </DockPanel>
 
                 <!-- Full limit list row (if ShowAllLimits) -->
-                <Grid Grid.Row="3" Background="{DynamicResource GrayBrush10}">
-                    <Grid.Style>
-                        <Style TargetType="{x:Type Grid}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ShowLimitsList}" Value="true">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                    
-                    <ItemsControl ItemsSource="{Binding Data.FilteredLimits}" HorizontalAlignment="Stretch"
-                                  Foreground="{DynamicResource BlackBrush}" 
-                                  Style="{DynamicResource LimitsItemsWithIconControlStyle}"/>
-                </Grid>
-                
+                <ItemsControl Grid.Row="3" Background="{DynamicResource GrayBrush10}" 
+                              Visibility="{Binding ShowLimitsList, Converter={StaticResource BVConverter}}"
+                              ItemsSource="{Binding Data.FilteredLimits}" HorizontalAlignment="Stretch"
+                              Foreground="{DynamicResource BlackBrush}"
+                              Style="{DynamicResource LimitsItemsWithIconControlStyle}"/>
+
                 <!-- Bottom row (Storage summary) -->
-                <Grid Grid.Row="4" Background="{DynamicResource GrayBrush9}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <DockPanel Grid.Row="4" Background="{DynamicResource GrayBrush9}">
 
                     <!-- Alert icon -->
-                    <Label Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"
                            Visibility="{Binding ShowAnyAccountNegative, Converter={StaticResource BVConverter}}">
                         <Label.ToolTip>
                             <ToolTip Placement="Mouse">
@@ -173,39 +138,23 @@
                         <iconPacks:PackIconOcticons Kind="Alert" Foreground="{DynamicResource RedBrush}"/>
                     </Label>
 
-                    <!-- Full storages list (if ShowAllStorages) -->
-                    <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Grid.Column="2" HorizontalAlignment="Stretch"
-                                  Foreground="{DynamicResource BlackBrush}" >
-                        <ItemsControl.Style>
-                            <Style TargetType="{x:Type ItemsControl}" BasedOn="{StaticResource StoragesItemsControlStyle}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ShowAllStorages}" Value="true">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ItemsControl.Style>
-                    </ItemsControl>
-
                     <!-- Storage summary (if not ShowAllStorages) -->
-                    <Label Grid.Column="2" HorizontalAlignment="Right" Content="{Binding Data.TotStorageSummaryDetailed}">
-                        <Label.Style>
-                            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource MCCalendarLabelStyle}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ShowAllStorages}" Value="true">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Label.Style>
+                    <Label DockPanel.Dock="Right" HorizontalAlignment="Right" Content="{Binding Data.TotStorageSummaryDetailed}"
+                           Style="{DynamicResource MCCalendarLabelStyle}"
+                           Visibility="{Binding ShowAllStorages, Converter={StaticResource BVOConverter}}">
                         <Label.ToolTip>
                             <ToolTip Placement="Mouse">
                                 <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" Style="{DynamicResource StoragesItemsControlStyle}"/>
                             </ToolTip>
                         </Label.ToolTip>
                     </Label>
-                </Grid>
+
+                    <!-- Full storages list (if ShowAllStorages) -->
+                    <ItemsControl ItemsSource="{Binding Data.FilteredStorages}" HorizontalAlignment="Stretch"
+                                  Foreground="{DynamicResource BlackBrush}"
+                                  Style="{DynamicResource StoragesItemsControlStyle}"
+                                  Visibility="{Binding ShowAllStorages, Converter={StaticResource BVConverter}}"/>
+                </DockPanel>
             </Grid>
         </Border>
     </Grid>

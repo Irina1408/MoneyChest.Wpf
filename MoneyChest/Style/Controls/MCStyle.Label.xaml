@@ -14,46 +14,6 @@
         <Setter Property="Background" Value="Transparent"/>
     </Style>
 
-    <Style x:Key="MCCalendarTransactionLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
-        <Setter Property="Margin" Value="3 1 3 1"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-    </Style>
-
-    <Style x:Key="MCMarkTypeCalendarTransactionLabelStyle" TargetType="{x:Type Label}" 
-           BasedOn="{StaticResource MCCalendarTransactionLabelStyle}">
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsPlanned}" Value="True">
-                <Setter Property="Opacity" Value="0.5" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding IsIncome}" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding IsExpense}" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="MCMarkNegativeStorageLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MCCalendarLabelStyle}">
-        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsNegative}" Value="true">
-                <Setter Property="Foreground" Value="{DynamicResource RedBrush}"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="MCMarkExceededLimitLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MCCalendarLabelStyle}">
-        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsExceeded}" Value="true">
-                <Setter Property="Foreground" Value="{DynamicResource RedBrush}"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
     <Style x:Key="MCDetailsHeaderLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource MCLabelStyle}">
         <Setter Property="FontSize" Value="{StaticResource LargeFontSize}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -67,6 +27,65 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="5 0 0 0"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+    </Style>
+
+    <Style x:Key="MCCalendarTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Margin" Value="3 1 3 1"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style x:Key="MCCalendarTransactionTextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MCCalendarTextBlockStyle}">
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+    </Style>
+
+    <Style x:Key="MCMarkTypeCalendarTransactionTextBlockStyle" TargetType="{x:Type TextBlock}" 
+           BasedOn="{StaticResource MCCalendarTransactionTextBlockStyle}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsPlanned}" Value="True">
+                <Setter Property="Opacity" Value="0.5" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsIncome}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource GreenBrush}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsExpense}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource RedBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="MCMarkNegativeStorageTextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MCCalendarTransactionTextBlockStyle}">
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsNegative}" Value="true">
+                <Setter Property="Foreground" Value="{DynamicResource RedBrush}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="MCMarkExceededLimitTextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MCCalendarTextBlockStyle}">
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsExceeded}" Value="true">
+                <Setter Property="Foreground" Value="{DynamicResource RedBrush}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="MCLimitToolTipTextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MCCalendarTextBlockStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}"/>
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="MCMarkExceededLimitToolTipTextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MCLimitToolTipTextBlockStyle}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsExceeded}" Value="true">
+                <Setter Property="Foreground" Value="{DynamicResource RedBrush}"/>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

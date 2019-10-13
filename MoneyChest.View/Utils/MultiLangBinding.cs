@@ -10,12 +10,25 @@ namespace MoneyChest.View
 {
     public class MultiLangBinding : Binding
     {
-        public MultiLangBinding(string path)
-            : base($"[{path}]")
+        public MultiLangBinding() : base()
         {
             Mode = BindingMode.OneWay;
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             Source = MultiLangResourceManager.Instance;
+        }
+
+        public MultiLangBinding(string path) : this()
+            //: base($"[{path}]")
+        {
+            //Mode = BindingMode.OneWay;
+            //UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //Source = MultiLangResourceManager.Instance;
+            MultiLangPath = path;
+        }
+
+        public string MultiLangPath
+        {
+            set => Path = new System.Windows.PropertyPath($"[{value}]");
         }
     }
 

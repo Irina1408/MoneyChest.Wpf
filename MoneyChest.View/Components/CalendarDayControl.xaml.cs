@@ -33,6 +33,7 @@ namespace MoneyChest.View.Components
 
             // init data context
             MainGrid.DataContext = this;
+            UpdateOpacity();
         }
 
         #region CalendarDayData Property
@@ -49,13 +50,17 @@ namespace MoneyChest.View.Components
         private static void DataChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // get control
-            var control = (d as CalendarDayControl);
-            if(control.Data != null)
+            var control = d as CalendarDayControl;
+            if (control.Data != null)
+            {
                 control.Data.PropertyChanged += (sender, arg) =>
                 {
                     if (arg.PropertyName == nameof(CalendarDayData.IsLimitedTransactions))
                         control.PropertyChanged?.Invoke(control, new PropertyChangedEventArgs(nameof(ShowDots)));
                 };
+            }
+
+            control.UpdateOpacity();
         }
 
         #endregion
@@ -76,6 +81,15 @@ namespace MoneyChest.View.Components
         public bool ShowLimitsIcon => (Data?.IsAnyLimit ?? false) && !ShowAllLimits;
         public bool ShowLimitsList => (Data?.IsAnyLimit ?? false) && ShowAllLimits;
         public bool ShowAllLimits { get; set; }
+
+        #endregion
+
+        #region Private methods
+
+        private void UpdateOpacity()
+        {
+            MainGrid.Opacity = Data != null ? 1 : 0.5;
+        }
 
         #endregion
     }

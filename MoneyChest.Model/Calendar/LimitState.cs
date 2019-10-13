@@ -20,7 +20,10 @@ namespace MoneyChest.Model.Calendar
         public decimal SpentValue { get; set; }
         public decimal RemainingValue => Limit.Value - SpentValue;
         public string RemainingValueDetailed => Limit.Currency?.FormatValue(RemainingValue) ?? RemainingValue.ToString();
-        
+
+        //public decimal RemmendedMaxSpendValue { get; set; }
+        //public string RemmendedMaxSpendValueDetailed => Limit.Currency?.FormatValue(RemmendedMaxSpendValue) ?? RemmendedMaxSpendValue.ToString();
+
         public bool IsExceeded => RemainingValue < 0;
     }
 }

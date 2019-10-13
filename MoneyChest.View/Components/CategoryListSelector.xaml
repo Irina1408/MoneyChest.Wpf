@@ -19,19 +19,10 @@
     <materialDesign:DialogHost Name="dialog" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{DynamicResource WhiteBrush}"
                                DialogClosing="CategoryDialogClosingEventHandler">
         <materialDesign:DialogHost.DialogContent>
-            <Grid MinWidth="300" Margin="5" Background="{DynamicResource WhiteBrush}">
-                <!--<Grid.Resources>
-                    <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource CategoryTreeViewSelectableItemContainerStyle}"/>
-                </Grid.Resources>-->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <ToolBarTray x:Name="MainToolBarTray">
+            <DockPanel MinWidth="300" Margin="5" Background="{DynamicResource WhiteBrush}">
+                
+                <ToolBarTray x:Name="MainToolBarTray" DockPanel.Dock="Top">
                     <ToolBar>
-                        
                         <!-- Add new category button -->
                         <Button Command="{Binding AddCommand}" ToolTip="{moneyChestView:MultiLangBinding General_Add}">
                             <iconPacks:PackIconMaterial Kind="Plus"/>
@@ -73,7 +64,15 @@
                     </ToolBar>
                 </ToolBarTray>
 
-                <TreeView x:Name="TreeViewCategories" Grid.Row="1" 
+                <StackPanel DockPanel.Dock="Bottom" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 
+                                    CommandParameter="1" Style="{DynamicResource AccentedButtonStyle}"
+                                    Content="{moneyChestView:MultiLangBinding General_Ok}" IsDefault="True"/>
+                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0"
+                                    Content="{moneyChestView:MultiLangBinding General_Cancel}"/>
+                </StackPanel>
+
+                <TreeView x:Name="TreeViewCategories"
                           ItemContainerStyle="{DynamicResource CategoryTreeViewCheckableItemContainerStyle}"
                           ItemTemplate="{DynamicResource CheckableCategoryTreeViewItemTemplate}"
                           ItemsSource="{Binding Categories}" Focusable="False">
@@ -90,15 +89,7 @@
                         </ContextMenu>
                     </TreeView.ContextMenu>
                 </TreeView>
-
-                <StackPanel Grid.Row="2" Margin="5 5 5 0" HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 
-                                    CommandParameter="1" Style="{DynamicResource AccentedButtonStyle}"
-                                    Content="{moneyChestView:MultiLangBinding General_Ok}" IsDefault="True"/>
-                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0"
-                                    Content="{moneyChestView:MultiLangBinding General_Cancel}"/>
-                </StackPanel>
-            </Grid>
+            </DockPanel>
         </materialDesign:DialogHost.DialogContent>
         <Grid HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
