@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Data.Entity;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Converters;
+using MoneyChest.Services.Utils;
 
 namespace MoneyChest.Services.Services.Settings
 {
@@ -51,15 +52,12 @@ namespace MoneyChest.Services.Services.Settings
 
         protected override ReportSetting Update(ReportSetting entity, ReportSettingModel model)
         {
-            entity.DataFilter.Categories.Clear();
-            entity.DataFilter.Storages.Clear();
-            SaveChanges();
-
-            var categories = _context.Categories.Where(e => model.DataFilter.CategoryIds.Contains(e.Id)).ToList();
-            categories.ForEach(e => entity.DataFilter.Categories.Add(e));
-
-            var storages = _context.Storages.Where(e => model.DataFilter.StorageIds.Contains(e.Id)).ToList();
-            storages.ForEach(e => entity.DataFilter.Storages.Add(e));
+            // update categories and storages lists
+            if (ServiceHelper.UpdateRelatedEntities(_context, entity.DataFilter.Categories, model.DataFilter.CategoryIds)
+                || ServiceHelper.UpdateRelatedEntities(_context, entity.DataFilter.Storages, model.DataFilter.StorageIds))
+            {
+                SaveChanges();
+            }
 
             return entity;
         }

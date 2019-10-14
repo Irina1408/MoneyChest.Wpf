@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace MoneyChest.View.Pages
 {
@@ -22,27 +23,6 @@ namespace MoneyChest.View.Pages
 
         public PageBase() : base()
         {
-            // attach events
-            Loaded += Page_Loaded;
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            // complete initialization once
-            if(!_initializationComplete)
-            {
-                InitializationComplete();
-                _initializationComplete = true;
-            }
-
-            // TODO: remove and uncomment on data management is done
-            Reload();
-
-            //if (RequiresReload)
-            //{
-            //    Reload();
-            //    RequiresReload = false;
-            //}
         }
 
         #endregion
@@ -61,7 +41,18 @@ namespace MoneyChest.View.Pages
         // Data management
         public event EventHandler DataChanged;
         public bool RequiresReload { get; set; } = true;
-        public virtual void Reload() => RequiresReload = false;
+        public virtual void Reload()
+        {
+            // complete initialization once
+            if (!_initializationComplete)
+            {
+                InitializationComplete();
+                _initializationComplete = true;
+            }
+
+            // mark as reloaded
+            RequiresReload = false;
+        }
 
         #endregion
 

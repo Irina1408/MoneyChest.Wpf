@@ -43,7 +43,10 @@ namespace MoneyChest.View.Pages
         public DebtsPage() : base()
         {
             InitializeComponent();
+        }
 
+        protected override void InitializationComplete()
+        {
             // init
             _service = ServiceManager.ConfigureService<DebtService>();
             InitializeViewModel();

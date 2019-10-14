@@ -59,7 +59,10 @@ namespace MoneyChest.View.Pages
         public StoragesPage() : base()
         {
             InitializeComponent();
+        }
 
+        protected override void InitializationComplete()
+        {
             // init
             _service = ServiceManager.ConfigureService<StorageService>();
             _storageGroupService = ServiceManager.ConfigureService<StorageGroupService>();

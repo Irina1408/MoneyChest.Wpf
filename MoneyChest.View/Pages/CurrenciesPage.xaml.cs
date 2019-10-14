@@ -39,7 +39,10 @@ namespace MoneyChest.View.Pages
         public CurrenciesPage() : base()
         {
             InitializeComponent();
+        }
 
+        protected override void InitializationComplete()
+        {
             // init
             _service = ServiceManager.ConfigureService<CurrencyService>();
             _currencyExchangeRateService = ServiceManager.ConfigureService<CurrencyExchangeRateService>();

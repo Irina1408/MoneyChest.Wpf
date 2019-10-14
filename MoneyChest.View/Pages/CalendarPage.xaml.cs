@@ -8,6 +8,7 @@ using MoneyChest.Services.Services;
 using MoneyChest.Shared;
 using MoneyChest.Shared.MultiLang;
 using MoneyChest.View.Components;
+using MoneyChest.View.Utils;
 using MoneyChest.ViewModel.Extensions;
 using MoneyChest.ViewModel.ViewModel;
 using System;
@@ -49,13 +50,16 @@ namespace MoneyChest.View.Pages
         public CalendarPage() : base()
         {
             InitializeComponent();
+        }
 
+        protected override void InitializationComplete()
+        {
             // init
             _settingsService = ServiceManager.ConfigureService<CalendarSettingsService>();
             _cellMapping = new List<CellMapping>();
             _daysOfWeek = new List<DayOfWeek>();
 
-            _builder = new CalendarDataBuilder(GlobalVariables.UserId, 
+            _builder = new CalendarDataBuilder(GlobalVariables.UserId,
                 ServiceManager.ConfigureService<TransactionService>(),
                 ServiceManager.ConfigureService<CurrencyService>(),
                 ServiceManager.ConfigureService<CurrencyExchangeRateService>(),
@@ -103,7 +107,7 @@ namespace MoneyChest.View.Pages
                     // save changes
                     _settingsService.Update(_viewModel.Settings);
                     // reload page
-                    Reload();
+                    using (new WaitCursor()) Reload();
                 };
                 
                 _viewModel.Settings.DataFilter.OnFilterChanged += (sender, e) =>

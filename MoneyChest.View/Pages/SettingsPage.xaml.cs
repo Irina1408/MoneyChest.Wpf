@@ -41,7 +41,10 @@ namespace MoneyChest.View.Pages
         public SettingsPage() : base()
         {
             InitializeComponent();
+        }
 
+        protected override void InitializationComplete()
+        {
             // init
             _service = ServiceManager.ConfigureService<GeneralSettingService>();
             _viewModel = new SettingsPageViewModel();

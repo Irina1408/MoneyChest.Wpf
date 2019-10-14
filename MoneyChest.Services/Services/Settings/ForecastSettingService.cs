@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using MoneyChest.Model.Model;
 using MoneyChest.Services.Converters;
 using System.Data.Entity;
+using MoneyChest.Services.Utils;
 
 namespace MoneyChest.Services.Services
 {
@@ -27,11 +28,9 @@ namespace MoneyChest.Services.Services
 
         protected override ForecastSetting Update(ForecastSetting entity, ForecastSettingModel model)
         {
-            entity.Categories.Clear();
-            SaveChanges();
-
-            var categories = _context.Categories.Where(e => model.CategoryIds.Contains(e.Id)).ToList();
-            categories.ForEach(e => entity.Categories.Add(e));
+            // update category list
+            if (ServiceHelper.UpdateRelatedEntities(_context, entity.Categories, model.CategoryIds))
+                SaveChanges();
 
             return entity;
         }

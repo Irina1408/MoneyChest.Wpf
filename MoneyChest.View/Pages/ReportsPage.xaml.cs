@@ -30,6 +30,7 @@ using LiveCharts.Definitions.Series;
 using MoneyChest.Model.Report;
 using LiveCharts.Definitions.Points;
 using LiveCharts.Configurations;
+using MoneyChest.View.Utils;
 
 namespace MoneyChest.View.Pages
 {
@@ -228,30 +229,33 @@ namespace MoneyChest.View.Pages
 
         private void RebuildReport(bool force = false)
         {
-            // hide all charts
-            _viewModel.IsAnyData = false;
+            using (new WaitCursor())
+            {
+                // hide all charts
+                _viewModel.IsAnyData = false;
 
-            // fill empty category name
-            _builder.NoneCategoryName = MultiLangResourceManager.Instance[MultiLangResourceName.None];
-            // build report result
-            var result = _builder.Build(_viewModel.GetBuildSettings(), force);
-            
-            // cleanup chart data source
-            pieChart.Series = null;
-            barChartColumns.Series = null;
-            barChartRows.Series = null;
+                // fill empty category name
+                _builder.NoneCategoryName = MultiLangResourceManager.Instance[MultiLangResourceName.None];
+                // build report result
+                var result = _builder.Build(_viewModel.GetBuildSettings(), force);
 
-            _viewModel.ChartData = _chartDataBuilder.Build(result.ReportUnits, _viewModel.Settings);
-            _viewModel.IsAnyData = _viewModel.ChartData.SeriesCollection.Any();
-            // update total
-            _viewModel.ChartData.Total = result.TotAmountDetailed;
+                // cleanup chart data source
+                pieChart.Series = null;
+                barChartColumns.Series = null;
+                barChartRows.Series = null;
 
-            // populate chart datasource
-            if (_viewModel.Settings.IsPieChartSelected) pieChart.Series = _viewModel.ChartData.SeriesCollection;
-            if (_viewModel.Settings.IsBarChartColumnsSelected) barChartColumns.Series = _viewModel.ChartData.SeriesCollection;
-            if (_viewModel.Settings.IsBarChartRowsSelected) barChartRows.Series = _viewModel.ChartData.SeriesCollection;
-            // update legend visibility
-            UpdateLegendVisibility(_viewModel.Settings.ShowLegendView);
+                _viewModel.ChartData = _chartDataBuilder.Build(result.ReportUnits, _viewModel.Settings);
+                _viewModel.IsAnyData = _viewModel.ChartData.SeriesCollection.Any();
+                // update total
+                _viewModel.ChartData.Total = result.TotAmountDetailed;
+
+                // populate chart datasource
+                if (_viewModel.Settings.IsPieChartSelected) pieChart.Series = _viewModel.ChartData.SeriesCollection;
+                if (_viewModel.Settings.IsBarChartColumnsSelected) barChartColumns.Series = _viewModel.ChartData.SeriesCollection;
+                if (_viewModel.Settings.IsBarChartRowsSelected) barChartRows.Series = _viewModel.ChartData.SeriesCollection;
+                // update legend visibility
+                UpdateLegendVisibility(_viewModel.Settings.ShowLegendView);
+            }
         }
 
         private void UpdateLegendVisibility(bool showLegend)

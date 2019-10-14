@@ -38,5 +38,25 @@ namespace MoneyChest.Services.Utils
                 }
             }
         }
+
+        public static bool UpdateRelatedEntities<TRelation>(ApplicationDbContext context, ICollection<TRelation> relatedEntities, List<int> entityIds)
+            where TRelation : class, IHasId
+        {
+            // check parameters
+            if (relatedEntities == null || entityIds == null) return false;
+
+            var entitiesToRemove = new List<TRelation>();
+            // remove external related entities
+            foreach (var entity in relatedEntities.Where(x => !entityIds.Contains(x.Id)))
+                entitiesToRemove.Add(entity);
+            foreach (var entity in entitiesToRemove)
+                relatedEntities.Remove(entity);
+
+            // add new related entities
+            var newRelationIds = entityIds.Where(x => !relatedEntities.Any(_ => _.Id == x)).ToList();
+            context.Set<TRelation>().Where(_ => newRelationIds.Contains(_.Id)).ToList().ForEach(item => relatedEntities.Add(item));
+
+            return entitiesToRemove.Count > 0 || newRelationIds.Count > 0;
+        }
     }
 }

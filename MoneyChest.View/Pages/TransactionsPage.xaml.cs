@@ -56,7 +56,10 @@ namespace MoneyChest.View.Pages
         public TransactionsPage() : base()
         {
             InitializeComponent();
+        }
 
+        protected override void InitializationComplete()
+        {
             // init
             _transactionService = ServiceManager.ConfigureService<TransactionService>();
             _settingsService = ServiceManager.ConfigureService<TransactionsSettingsService>();

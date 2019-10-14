@@ -52,7 +52,10 @@ namespace MoneyChest.View.Pages
         public PlanningPage() : base()
         {
             InitializeComponent();
+        }
 
+        protected override void InitializationComplete()
+        {
             // init
             _moneyTransferEventService = ServiceManager.ConfigureService<MoneyTransferEventService>();
             _repayDebtEventService = ServiceManager.ConfigureService<RepayDebtEventService>();

@@ -59,8 +59,13 @@ namespace MoneyChest.View.Main
                 .ForEach(t => pages.Add(Activator.CreateInstance(t) as IPage));
 
             // build hamburger menu
+            IPage firstPage = null;
             foreach (var page in pages.OrderBy(_ => _.Order))
             {
+                // keep the first page
+                if (firstPage == null && !page.IsOptionsPage) firstPage = page;
+
+                // create new menu item
                 var menuItem = new CustomHamburgerMenuItem()
                 {
                     Label = page.Label,
@@ -80,11 +85,21 @@ namespace MoneyChest.View.Main
                         p.RequiresReload = true;
                 });
             }
+
+            // force load the first page
+            if (firstPage != null) firstPage.Reload();
         }
 
         private void HamburgerMenuControl_ItemClick(object sender, ItemClickEventArgs e)
         {
             HamburgerMenuControl.Content = e.ClickedItem;
+
+            // reload page data
+            // TODO: check RequiresReload on data management is done
+            using (new WaitCursor())
+            {
+                (((CustomHamburgerMenuItem)e.ClickedItem).View as IPage).Reload();
+            }
         }
 
         #endregion

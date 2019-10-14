@@ -44,7 +44,10 @@ namespace MoneyChest.View.Pages
         public CategoriesPage() : base()
         {
             InitializeComponent();
+        }
 
+        protected override void InitializationComplete()
+        {
             // init
             _service = ServiceManager.ConfigureService<CategoryService>();
             InitializeViewModel();
