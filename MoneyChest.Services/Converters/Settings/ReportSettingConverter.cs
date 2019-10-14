@@ -44,25 +44,26 @@ namespace MoneyChest.Services.Converters
 
         protected override void FillModel(ReportSetting entity, ReportSettingModel model)
         {
-            model.UserId = entity.UserId;
-            model.ShowSettings = entity.ShowSettings;
-            model.ChartType = entity.ChartType;
-            model.DataType = entity.DataType;
-            model.CategoryLevel = entity.CategoryLevel;
+            // check every property before update to avoid double changes handling
+            if (model.UserId != entity.UserId) model.UserId = entity.UserId;
+            if (model.ShowSettings != entity.ShowSettings) model.ShowSettings = entity.ShowSettings;
+            if (model.ChartType != entity.ChartType) model.ChartType = entity.ChartType;
+            if (model.DataType != entity.DataType) model.DataType = entity.DataType;
+            if (model.CategoryLevel != entity.CategoryLevel) model.CategoryLevel = entity.CategoryLevel;
             
-            model.Sorting = entity.Sorting;
-            model.ShowLegend = entity.ShowLegend;
-            model.ShowValue = entity.ShowValue;
-            model.IncludeActualTransactions = entity.IncludeActualTransactions;
-            model.IncludeFuturePlannedTransactions = entity.IncludeFuturePlannedTransactions;
+            if (model.Sorting != entity.Sorting) model.Sorting = entity.Sorting;
+            if (model.ShowLegend != entity.ShowLegend) model.ShowLegend = entity.ShowLegend;
+            if (model.ShowValue != entity.ShowValue) model.ShowValue = entity.ShowValue;
+            if (model.IncludeActualTransactions != entity.IncludeActualTransactions) model.IncludeActualTransactions = entity.IncludeActualTransactions;
+            if (model.IncludeFuturePlannedTransactions != entity.IncludeFuturePlannedTransactions) model.IncludeFuturePlannedTransactions = entity.IncludeFuturePlannedTransactions;
 
-            model.PieChartInnerRadius = entity.PieChartInnerRadius;
-            model.PieChartDetailsDepth = entity.PieChartDetailsDepth;
+            if (model.PieChartInnerRadius != entity.PieChartInnerRadius) model.PieChartInnerRadius = entity.PieChartInnerRadius;
+            if (model.PieChartDetailsDepth != entity.PieChartDetailsDepth) model.PieChartDetailsDepth = entity.PieChartDetailsDepth;
             
-            model.BarChartView = entity.BarChartView;
-            model.BarChartSection = entity.BarChartSection;
-            model.BarChartSectionPeriod = entity.BarChartSectionPeriod;
-            model.BarChartDetail = entity.BarChartDetail;
+            if (model.BarChartView != entity.BarChartView) model.BarChartView = entity.BarChartView;
+            if (model.BarChartSection != entity.BarChartSection) model.BarChartSection = entity.BarChartSection;
+            if (model.BarChartSectionPeriod != entity.BarChartSectionPeriod) model.BarChartSectionPeriod = entity.BarChartSectionPeriod;
+            if (model.BarChartDetail != entity.BarChartDetail) model.BarChartDetail = entity.BarChartDetail;
 
             if (entity.PeriodFilter != null)
                 periodFilterConverter.UpdateModel(entity.PeriodFilter, model.PeriodFilter);

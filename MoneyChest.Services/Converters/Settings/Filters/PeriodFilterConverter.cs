@@ -19,12 +19,16 @@ namespace MoneyChest.Services.Converters
 
         protected override void FillModel(PeriodFilter entity, PeriodFilterModel model)
         {
-            model.PeriodType = entity.PeriodType;
-
-            if(model.PeriodType == Model.Enums.PeriodType.Custom)
+            // check every property before update to avoid double changes handling
+            if (model.PeriodType != entity.PeriodType)
             {
-                model.DateFrom = entity.DateFrom;
-                model.DateUntil = entity.DateUntil;
+                model.PeriodType = entity.PeriodType;
+
+                if (model.PeriodType == Model.Enums.PeriodType.Custom)
+                {
+                    if (model.DateFrom != entity.DateFrom) model.DateFrom = entity.DateFrom;
+                    if (model.DateUntil != entity.DateUntil) model.DateUntil = entity.DateUntil;
+                }
             }
         }
     }

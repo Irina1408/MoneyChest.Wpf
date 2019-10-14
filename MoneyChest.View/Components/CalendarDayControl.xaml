@@ -35,7 +35,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Top row (month name or "today" remark and day of month)-->
-                <DockPanel>
+                <DockPanel HorizontalAlignment="Stretch">
                     <!-- Change background for today and weekend -->
                     <DockPanel.Style>
                         <Style TargetType="{x:Type DockPanel}">
@@ -51,8 +51,8 @@
                         </Style>
                     </DockPanel.Style>
 
-                    <TextBlock DockPanel.Dock="Left" Text="{Binding Header}" Style="{DynamicResource MCCalendarTextBlockStyle}" FontSize="{DynamicResource MiddleFontSize}"/>
                     <TextBlock DockPanel.Dock="Right" Text="{Binding Data.DayOfMonth}" Style="{DynamicResource MCCalendarTextBlockStyle}" FontSize="{DynamicResource MiddleFontSize}" FontWeight="Bold"/>
+                    <TextBlock DockPanel.Dock="Left" Text="{Binding Header}" Style="{DynamicResource MCCalendarTextBlockStyle}" FontSize="{DynamicResource MiddleFontSize}"/>
                 </DockPanel>
 
                 <!-- Transactions list -->
@@ -65,8 +65,7 @@
                     <StackPanel>
                         <ItemsControl ItemsSource="{Binding Data.LimitedTransactions}" 
                                   Style="{StaticResource TransactionsItemsControlStyle}"
-                                  Foreground="{DynamicResource BlackBrush}"
-                                  Visibility="{Binding IsActive, Converter={StaticResource BVConverter}}">
+                                  Foreground="{DynamicResource BlackBrush}">
                             <ItemsControl.ToolTip>
                                 <ToolTip Placement="Mouse">
                                     <ItemsControl ItemsSource="{Binding Data.FilteredTransactions}" Style="{StaticResource TransactionsToolTipItemsControlStyle}" Foreground="{DynamicResource WhiteBrush}"/>

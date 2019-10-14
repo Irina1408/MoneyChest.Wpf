@@ -53,7 +53,9 @@ namespace MoneyChest.Services.Services.Base
             // save changes
             SaveChanges();
 
-            return _converter.ToModel(dbEntity);
+            // to avoid not required extra actions just return the same model
+            return model;
+            //return _converter.UpdateModel(dbEntity, model);
         }
 
         /// <summary>

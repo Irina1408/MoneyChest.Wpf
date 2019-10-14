@@ -31,6 +31,13 @@ namespace MoneyChest.Model.Model
 
             PropertyChanged += (sender, e) =>
             {
+                // skip additional properties
+                if (e.PropertyName == nameof(IsPopulation)
+                    || e.PropertyName == nameof(IsDataFiltered)
+                    || e.PropertyName == nameof(IncludeWithoutCategory)
+                    || e.PropertyName == nameof(AllCategories))
+                    return;
+
                 if (!_isPopulation)
                     NotifyFilterChanged(e.PropertyName);
                 else
