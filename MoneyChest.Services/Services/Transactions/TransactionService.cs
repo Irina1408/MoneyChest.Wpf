@@ -13,6 +13,7 @@ namespace MoneyChest.Services.Services
     public interface ITransactionService
     {
         List<ITransaction> Get(int userId, DateTime dateFrom, DateTime dateUntil);
+        List<ITransaction> GetActual(int userId, int daysCount);
         List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil, bool? AutoExecuted = null);
         List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
         List<PlannedTransactionModel<EventModel>> GetPlanned(int userId, DateTime dateFrom, DateTime dateUntil, bool onlyFuture = true, bool? autoExecution = null);
@@ -55,6 +56,27 @@ namespace MoneyChest.Services.Services
                 result.AddRange(GetPlanned(userId, dateFrom, dateUntil));
 
             return result.OrderByDescending(x => x.TransactionDate).ToList();
+        }
+
+        public List<ITransaction> GetActual(int userId, int daysCount)
+        {
+            // load recent dates with transactions
+            var lastDates = new List<DateTime>();
+            
+            lastDates.AddRange(_recordService.GetRecentDates(userId, daysCount));
+            lastDates.AddRange(_moneyTransferService.GetRecentDates(userId, daysCount));
+
+            // sort dates
+            lastDates.Sort();
+            if (!lastDates.Any()) return new List<ITransaction>();
+
+            // fetch period
+            var requiredDays = lastDates.OrderByDescending(x => x).Take(daysCount).ToList();
+            var from = requiredDays.Min();
+            var until = requiredDays.Max();
+
+            // load transactions for last daysCount days
+            return GetActual(userId, from, until);
         }
 
         public List<ITransaction> GetActual(int userId, DateTime dateFrom, DateTime dateUntil, bool? AutoExecuted = null)

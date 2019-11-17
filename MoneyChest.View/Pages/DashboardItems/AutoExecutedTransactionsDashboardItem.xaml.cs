@@ -98,7 +98,7 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         public FrameworkElement View => this;
 
-        public int Order => 3;
+        public int Order => 1;
 
         #endregion
 

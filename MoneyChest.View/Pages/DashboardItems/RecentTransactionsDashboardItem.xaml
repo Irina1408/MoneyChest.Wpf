@@ -1,23 +1,22 @@
-﻿<UserControl x:Class="MoneyChest.View.Pages.DashboardItems.TodayTransactionsDashboardItem"
+﻿<UserControl x:Class="MoneyChest.View.Pages.DashboardItems.RecentTransactionsDashboardItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MoneyChest.View.Pages.DashboardItems"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:moneyChestView="clr-namespace:MoneyChest.View"
-             xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              xmlns:converters="clr-namespace:MoneyChest.View.Converters"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:enums="clr-namespace:MoneyChest.Model.Enums;assembly=MoneyChest.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
     <UserControl.Resources>
         <converters:EnumToBoolConverter x:Key="EBConverter"/>
     </UserControl.Resources>
-    
+
     <Grid>
-        <Border Width="260" Height="300" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" 
+        <Border BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" 
                 ClipToBounds="True" Margin="5">
             <Grid Background="Transparent">
                 <Grid.RowDefinitions>
@@ -36,7 +35,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Margin="10 0 0 0" 
-                                   Text="{moneyChestView:MultiLangBinding Dashboard_TodayTransactions}" 
+                                   Text="{moneyChestView:MultiLangBinding Dashboard_RecentTransactions}" 
                                    FontSize="{DynamicResource DefaultFontSize}" VerticalAlignment="Center"/>
 
                         <Button Command="{Binding AddRecordCommand}" ToolTip="{moneyChestView:MultiLangBinding Record_Add}"
@@ -112,29 +111,14 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        
+                        <DataGridTextColumn Binding="{Binding TransactionDate, UpdateSourceTrigger=PropertyChanged, StringFormat=d}" Header="{moneyChestView:MultiLangBinding General_Date}" />
 
                         <DataGridTextColumn Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Description}" MaxWidth="140"/>
 
                         <DataGridTextColumn Binding="{Binding TransactionValueDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Amount}" />
                     </DataGrid.Columns>
                 </DataGrid>
-
-                <!--<materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False" HorizontalAlignment="Right"
-                                             VerticalAlignment="Center" Foreground="{DynamicResource IdealForegroundColorBrush}"
-                                             Style="{DynamicResource MaterialDesignPopupBox}">
-                    <StackPanel Orientation="Vertical">
-                        <Button Content="{moneyChestView:MultiLangBinding Record_Add}" Command="{Binding AddRecordCommand}"
-                                    Margin="0" BorderThickness="0"/>
-                        <Button Content="{moneyChestView:MultiLangBinding MoneyTransfer_Add}" Command="{Binding AddMoneyTransferCommand}"
-                                    Margin="0" BorderThickness="0"/>
-                        <Button Content="{moneyChestView:MultiLangBinding Transactions_AddCheque}" Command="{Binding AddChequeCommand}"
-                                    Margin="0" BorderThickness="0"/>
-                        <Button Command="{Binding EditCommand}" Content="{moneyChestView:MultiLangBinding General_Edit}"
-                                    Margin="0" BorderThickness="0"/>
-                        <Button Command="{Binding DeleteCommand}" Content="{moneyChestView:MultiLangBinding General_Delete}"
-                                    Margin="0" BorderThickness="0"/>
-                    </StackPanel>
-                </materialDesign:PopupBox>-->
             </Grid>
         </Border>
     </Grid>

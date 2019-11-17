@@ -19,6 +19,8 @@ namespace MoneyChest.Services.Services
 {
     public interface IMoneyTransferService : IIdManagableServiceBase<MoneyTransferModel>, IUserableListService<MoneyTransferModel>
     {
+        List<DateTime> GetRecentDates(int userId, int count);
+
         List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, bool? AutoExecuted = null);
 
         List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
@@ -46,6 +48,16 @@ namespace MoneyChest.Services.Services
         #endregion
 
         #region IMoneyTransferService implementation
+
+        public List<DateTime> GetRecentDates(int userId, int count)
+        {
+            return Scope.Where(item => item.StorageFrom.UserId == userId)
+                .OrderByDescending(item => item.Date)
+                .Select(item => item.Date)
+                .Distinct()
+                .Take(count)
+                .ToList();
+        }
 
         public List<MoneyTransferModel> Get(int userId, DateTime from, DateTime until, bool? AutoExecuted = null)
         {

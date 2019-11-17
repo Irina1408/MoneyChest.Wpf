@@ -62,9 +62,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\ChequeViewModel.cs" />
     <Compile Include="ViewModel\DashboardItem\AutoExecutedTransactionsDashboardItemModel.cs" />
-    <Compile Include="ViewModel\DashboardItem\PlannedForTodayTransactionsDashboardItemModel.cs" />
     <Compile Include="ViewModel\DashboardItem\PlannedTransactionsDashboardItemModel.cs" />
-    <Compile Include="ViewModel\DashboardItem\TodayTransactionsDashboardItemModel.cs" />
+    <Compile Include="ViewModel\DashboardItem\RecentTransactionsDashboardItemModel.cs" />
     <Compile Include="ViewModel\Details\DebtDetailsViewModel.cs" />
     <Compile Include="ViewModel\EntityListViewModel.cs" />
     <Compile Include="ViewModel\Entity\DebtPenaltyViewModel.cs" />

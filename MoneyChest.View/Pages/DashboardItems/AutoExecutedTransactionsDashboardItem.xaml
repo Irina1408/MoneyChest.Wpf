@@ -18,7 +18,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Border Width="315" Height="300" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" 
+        <Border MinWidth="315" MinHeight="300" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" 
                 ClipToBounds="True" Margin="5">
             <Grid Background="Transparent">
                 <Grid.RowDefinitions>
@@ -91,9 +91,10 @@
                         
                         <DataGridTextColumn Binding="{Binding TransactionDate, UpdateSourceTrigger=PropertyChanged, StringFormat=d}" Header="{moneyChestView:MultiLangBinding General_Date}" />
 
-                        <DataGridTextColumn Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Description}" MaxWidth="140"/>
+                        <DataGridTextColumn Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Description}"/>
 
-                        <DataGridTextColumn Binding="{Binding TransactionValueDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Amount}" />
+                        <DataGridTextColumn Binding="{Binding TransactionValueDetailed, UpdateSourceTrigger=PropertyChanged}" Header="{moneyChestView:MultiLangBinding General_Amount}" 
+                                            CellStyle="{DynamicResource MCDataGridAmountCellStyle}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

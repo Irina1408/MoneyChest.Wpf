@@ -24,7 +24,7 @@
 
     <!--*********************************** DataGridRow ***********************************-->
     <Style x:Key="MCDataGridRowStyle" TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MetroDataGridRow}"/>
-
+    
     <Style x:Key="EventsRowStyle" TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MCDataGridRowStyle}">
         <Style.Triggers>
             <DataTrigger Binding="{Binding ActualEventState}" Value="{x:Static enums:ActualEventState.Paused}">
@@ -55,5 +55,9 @@
 
     <!--*********************************** DataGridCell ***********************************-->
     <Style x:Key="MCDataGridCellStyle" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MetroDataGridCell}"/>
+    
+    <Style x:Key="MCDataGridAmountCellStyle" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MCDataGridCellStyle}">
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+    </Style>
 
 </ResourceDictionary>

@@ -51,16 +51,34 @@ namespace MoneyChest.View.Pages
                 .ToList()
                 .ForEach(t => dashboardItems.Add(Activator.CreateInstance(t) as IDashboardItem));
 
+            // update items order
+            dashboardItems = dashboardItems.OrderBy(x => x.Order).ToList();
+
+            var iRow = 0;
+            var iCol = 0;
+            var maxCol = 3;
+
             // build view
-            foreach (var dashboardItem in dashboardItems.OrderBy(x => x.Order))
+            for (int i = 0; i < dashboardItems.Count; i++)
             {
-                dashboardItem.ReloadActual = () =>
+                // attach actions
+                dashboardItems[i].ReloadActual = () =>
                 {
                     foreach(var item in dashboardItems.Where(x => x.ContainsActual))
                         item.Reload();
                 };
 
-                DashboardItemsPanel.Children.Add(dashboardItem.View);
+                // configure item view
+                Grid.SetRow(dashboardItems[i].View, iRow);
+                Grid.SetColumn(dashboardItems[i].View, iCol);
+
+                // add item into the view
+                //DashboardItemsPanel.Children.Add(dashboardItem.View);
+                DashboardItemsGrid.Children.Add(dashboardItems[i].View);
+
+                // next row/column
+                iCol = iCol == maxCol ? 0 : iCol + 1;
+                iRow = iCol == 0 ? iRow + 1 : iRow;
             }
         }
 

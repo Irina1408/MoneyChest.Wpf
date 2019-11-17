@@ -966,8 +966,8 @@
   <data name="ActiveEventState_EnumName" xml:space="preserve">
     <value>Состояние</value>
   </data>
-  <data name="Dashboard_TodayTransactions" xml:space="preserve">
-    <value>Сегодняшние транзакции</value>
+  <data name="Dashboard_RecentTransactions" xml:space="preserve">
+    <value>Последние транзакции</value>
   </data>
   <data name="General_Select" xml:space="preserve">
     <value>Выбрать</value>

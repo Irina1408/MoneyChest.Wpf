@@ -7,12 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Grid>
-                <WrapPanel x:Name="DashboardItemsPanel">
+        <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">-->
+            <!--<Grid>
+                --><!--<WrapPanel x:Name="DashboardItemsPanel">
                     
-                </WrapPanel>
-            </Grid>
-        </ScrollViewer>
+                </WrapPanel>--><!--
+            </Grid>-->
+            <UniformGrid x:Name="DashboardItemsGrid" Columns="4"/>
+        <!--</ScrollViewer>-->
     </Grid>
 </local:PageBase>

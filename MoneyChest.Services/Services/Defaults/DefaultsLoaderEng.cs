@@ -57,7 +57,6 @@ namespace MoneyChest.Services.Services.Defaults
 
             // Without type categories
             var other = AddCategory("Other");
-            AddCategory("Debts", null, other);
             AddCategory("Gifts", null, other);
         }
 
@@ -188,7 +187,7 @@ namespace MoneyChest.Services.Services.Defaults
             {
                 Currency = currency,
                 CurrencyId = currency.Id,
-                Name = string.Format("{0} {1}", currency.Name, storageGroup.Name),
+                Name = string.Format("{0} ({1})", storageGroup.Name, currency.Symbol),
                 StorageGroup = storageGroup,
                 UserId = _userId,
                 IsVisible = true,

@@ -20,6 +20,8 @@ namespace MoneyChest.Services.Services
 {
     public interface IRecordService : IIdManagableUserableListServiceBase<RecordModel>
     {
+        List<DateTime> GetRecentDates(int userId, int count);
+
         List<RecordModel> Get(int userId, DateTime from, DateTime until, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null);
         List<RecordModel> Get(int userId, DateTime from, DateTime until, bool? AutoExecuted = null);
 
@@ -49,6 +51,16 @@ namespace MoneyChest.Services.Services
         #endregion
 
         #region IRecordService implementation
+
+        public List<DateTime> GetRecentDates(int userId, int count)
+        {
+            return Scope.Where(item => item.UserId == userId)
+                .OrderByDescending(item => item.Date)
+                .Select(item => item.Date)
+                .Distinct()
+                .Take(count)
+                .ToList();
+        }
 
         public List<RecordModel> Get(int userId, DateTime from, DateTime until, RecordType recordType, bool includeWithoutCategory, List<int> categoryIds = null)
         {

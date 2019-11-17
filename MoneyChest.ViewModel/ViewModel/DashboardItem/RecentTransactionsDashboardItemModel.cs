@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace MoneyChest.ViewModel.ViewModel
 {
     [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public class TodayTransactionsDashboardItemModel
+    public class RecentTransactionsDashboardItemModel
     {
         public ObservableCollection<ITransaction> Entities { get; set; }
 

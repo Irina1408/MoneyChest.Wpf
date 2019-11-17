@@ -25,13 +25,13 @@ using System.Windows.Shapes;
 namespace MoneyChest.View.Pages.DashboardItems
 {
     /// <summary>
-    /// Interaction logic for TodayTransactionsDashboardItem.xaml
+    /// Interaction logic for RecentTransactionsDashboardItem.xaml
     /// </summary>
-    public partial class TodayTransactionsDashboardItem : UserControl, IDashboardItem
+    public partial class RecentTransactionsDashboardItem : UserControl, IDashboardItem
     {
         #region Private fields
 
-        private TodayTransactionsDashboardItemModel _viewModel;
+        private RecentTransactionsDashboardItemModel _viewModel;
         private ITransactionService _service;
         private IRecordService _recordService;
         private IMoneyTransferService _moneyTransferService;
@@ -40,7 +40,7 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         #region Initialization
 
-        public TodayTransactionsDashboardItem()
+        public RecentTransactionsDashboardItem()
         {
             InitializeComponent();
 
@@ -54,7 +54,7 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         private void InitializeViewModel()
         {
-            _viewModel = new TodayTransactionsDashboardItemModel()
+            _viewModel = new RecentTransactionsDashboardItemModel()
             {
                 AddRecordCommand = new Command(() =>
                     OpenDetails(_recordService.PrepareNew(new RecordModel() { UserId = GlobalVariables.UserId }), true)),
@@ -96,9 +96,9 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         public void Reload()
         {
-            // load today transactions
+            // load recent transactions for 7 days
             _viewModel.Entities = new System.Collections.ObjectModel.ObservableCollection<ITransaction>(
-                _service.Get(GlobalVariables.UserId, DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1)));
+                _service.GetActual(GlobalVariables.UserId, 7));
         }
 
         public bool ContainsActual => true;
@@ -107,7 +107,7 @@ namespace MoneyChest.View.Pages.DashboardItems
 
         public FrameworkElement View => this;
 
-        public int Order => 0;
+        public int Order => 2;
 
         #endregion
 
@@ -128,36 +128,39 @@ namespace MoneyChest.View.Pages.DashboardItems
         private void OpenDetails(MoneyTransferModel model, bool isNew = false)
         {
             this.OpenDetailsWindow(new MoneyTransferDetailsView(_moneyTransferService, model, isNew, false), () =>
-                {
-                    // update grid
-                    if (isNew) AddNew(model);
-                    else UpdatePlacement(model);
+            {
+                // update grid
+                if (isNew) AddNew(model);
+                else UpdatePlacement(model);
 
-                    //NotifyDataChanged();
-                });
+                //NotifyDataChanged();
+            });
         }
 
         private void AddNew(ITransaction transaction)
         {
-            // show only today transactions
-            if(transaction.TransactionDate >= DateTime.Today && transaction.TransactionDate < DateTime.Today.AddDays(1))
-            {
-                var lastBefore = _viewModel.Entities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
-                if (lastBefore != null)
-                    _viewModel.Entities.Insert(_viewModel.Entities.IndexOf(lastBefore) + 1, transaction);
-                else
-                    _viewModel.Entities.Insert(0, transaction);
-            }
+            // show transaction in the view
+            var lastBefore = _viewModel.Entities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
+            if (lastBefore != null)
+                _viewModel.Entities.Insert(_viewModel.Entities.IndexOf(lastBefore) + 1, transaction);
+            else
+                _viewModel.Entities.Insert(0, transaction);
         }
 
         private void UpdatePlacement(ITransaction transaction)
         {
-            // show only today transactions
-            if (transaction.TransactionDate < DateTime.Today || transaction.TransactionDate >= DateTime.Today.AddDays(1))
+            var lastBefore = _viewModel.Entities.LastOrDefault(x => x.TransactionDate > transaction.TransactionDate);
+            if (lastBefore != null)
             {
-                // remove other day transaction
-                _viewModel.Entities.Remove(transaction);
+                // adapt new index (in case when transaction should be above in list index should be increased by 1)
+                var oldIndex = _viewModel.Entities.IndexOf(transaction);
+                var newIndex = _viewModel.Entities.IndexOf(lastBefore);
+                if (newIndex < oldIndex) newIndex++;
+
+                _viewModel.Entities.Move(oldIndex, newIndex);
             }
+            else
+                _viewModel.Entities.Move(_viewModel.Entities.IndexOf(transaction), 0);
         }
 
         #endregion
