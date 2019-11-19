@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(RecordTemplateHistory))]
-    public class RecordTemplate : IHasId, IHasUserId
+    public class RecordTemplate : IHasId, IHasUserId, IHasExchangeRate
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

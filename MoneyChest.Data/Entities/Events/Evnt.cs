@@ -16,7 +16,7 @@ namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(EventHistory))]
     [Table("Events")]
-    public class Evnt : IHasId, IHasUserId
+    public class Evnt : IHasId, IHasUserId, IHasPlannedExchangeRate
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

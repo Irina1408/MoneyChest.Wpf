@@ -15,7 +15,7 @@ using MoneyChest.Model.Enums;
 namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(DebtHistory))]
-    public class Debt : IHasId, IHasUserId
+    public class Debt : IHasId, IHasUserId, IHasExchangeRate
     {
         public Debt()
         {

@@ -8,10 +8,12 @@ using MoneyChest.Model.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using MoneyChest.Model.Constants;
+using MoneyChest.Model.Extensions;
+using PropertyChanged;
 
 namespace MoneyChest.Model.Model
 {
-    public class RecordTemplateModel : TransactionTemplateBase, IHasId, IHasUserId, IHasDescription, IHasCategory, IHasRemark
+    public class RecordTemplateModel : TransactionTemplateBase, IHasId, IHasUserId, IHasDescription, IHasCategory, IHasExchangeRate, IHasRemark
     {
         #region Initialization
 
@@ -85,8 +87,11 @@ namespace MoneyChest.Model.Model
         public CurrencyReference CurrencyForRate => Debt != null && Debt.CurrencyId != CurrencyId ? Debt.Currency : Storage?.Currency;
 
         // TODO: check service. Removed value from storage and from debt. Case when currency exchange rate is for debt currency
-        public decimal ResultValueExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
-        public decimal ResultValueSignExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
+        public decimal ResultValueExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValue * this.ActualRate() : ResultValue;
+
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
+        public decimal ResultValueSignExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValueSign * this.ActualRate() : ResultValueSign;
         public string ResultValueSignExchangeRateCurrency => CurrencyIdForRate != CurrencyId ? CurrencyForRate?.FormatValue(ResultValueSignExchangeRate, true) ?? ResultValueSignExchangeRate.ToString("0.##") : null;
         public bool IsIncomeRecordType
         {

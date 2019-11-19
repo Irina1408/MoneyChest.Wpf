@@ -209,6 +209,10 @@
     <Compile Include="Migrations\201911190455561_entity_exchange_rate_changes.Designer.cs">
       <DependentUpon>201911190455561_entity_exchange_rate_changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911190637160_update_exchange_rate_accuracy.cs" />
+    <Compile Include="Migrations\201911190637160_update_exchange_rate_accuracy.Designer.cs">
+      <DependentUpon>201911190637160_update_exchange_rate_accuracy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -303,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911190455561_entity_exchange_rate_changes.resx">
       <DependentUpon>201911190455561_entity_exchange_rate_changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911190637160_update_exchange_rate_accuracy.resx">
+      <DependentUpon>201911190637160_update_exchange_rate_accuracy.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -14,7 +14,7 @@ using MoneyChest.Model.Enums;
 namespace MoneyChest.Data.Entities
 {
     [Historicized(typeof(MoneyTransferHistory))]
-    public class MoneyTransfer : IHasId
+    public class MoneyTransfer : IHasId, IHasExchangeRate
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

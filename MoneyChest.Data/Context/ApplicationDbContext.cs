@@ -364,6 +364,29 @@ namespace MoneyChest.Data.Context
                 .HasMany(e => e.TransactionsSettings)
                 .WithRequired(e => e.PeriodFilter)
                 .WillCascadeOnDelete(false);
+
+            // update exchange rate accuracy
+            byte precision = 20;
+            byte scale = 4;
+            modelBuilder.Entity<CurrencyExchangeRate>().Property(x => x.Rate).HasPrecision(precision, scale);
+            modelBuilder.Entity<MoneyTransferEvent>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<RepayDebtEvent>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<SimpleEvent>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<Debt>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<MoneyTransfer>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<MoneyTransferTemplate>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<Record>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<RecordTemplate>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+
+            modelBuilder.Entity<CurrencyExchangeRateHistory>().Property(x => x.Rate).HasPrecision(precision, scale);
+            modelBuilder.Entity<MoneyTransferEventHistory>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<RepayDebtEventHistory>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<SimpleEventHistory>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<DebtHistory>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<MoneyTransferHistory>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<MoneyTransferTemplateHistory>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<RecordHistory>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<RecordTemplateHistory>().Property(x => x.CurrencyExchangeRate).HasPrecision(precision, scale);
         }
 
         #endregion
