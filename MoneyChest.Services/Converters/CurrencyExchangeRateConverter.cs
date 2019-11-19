@@ -15,6 +15,7 @@ namespace MoneyChest.Services.Converters
         protected override void FillEntity(CurrencyExchangeRate entity, CurrencyExchangeRateModel model)
         {
             entity.Rate = model.Rate;
+            entity.SwappedCurrencies = model.SwappedCurrencies;
             entity.CurrencyFromId = model.CurrencyFromId;
             entity.CurrencyToId = model.CurrencyToId;
         }
@@ -22,6 +23,7 @@ namespace MoneyChest.Services.Converters
         protected override void FillModel(CurrencyExchangeRate entity, CurrencyExchangeRateModel model)
         {
             model.Rate = entity.Rate;
+            model.SwappedCurrencies = entity.SwappedCurrencies;
             model.CurrencyFromId = entity.CurrencyFromId;
             model.CurrencyToId = entity.CurrencyToId;
             model.CurrencyFrom = entity.CurrencyFrom.ToReferenceView();

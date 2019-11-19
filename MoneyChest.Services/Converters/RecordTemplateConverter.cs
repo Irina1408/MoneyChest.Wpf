@@ -20,6 +20,7 @@ namespace MoneyChest.Services.Converters
             entity.Value = model.Value;
             entity.Remark = model.Remark;
             entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
+            entity.SwappedCurrenciesRate = model.SwappedCurrenciesRate;
             entity.Commission = model.Commission;
             entity.CommissionType = model.CommissionType;
             entity.CategoryId = model?.CategoryId;
@@ -38,6 +39,7 @@ namespace MoneyChest.Services.Converters
             model.Value = entity.Value;
             model.Remark = entity.Remark;
             model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
+            model.SwappedCurrenciesRate = entity.SwappedCurrenciesRate;
             model.Commission = entity.Commission;
             model.CommissionType = entity.CommissionType;
             model.CategoryId = entity.CategoryId;

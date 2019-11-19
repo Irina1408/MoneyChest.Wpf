@@ -16,6 +16,7 @@ namespace MoneyChest.Services.Converters
         {
             entity.Date = model.Date;
             entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
+            entity.SwappedCurrenciesRate = model.SwappedCurrenciesRate;
             entity.Value = model.Value;
             entity.Description = model.Description;
             entity.Commission = model.Commission;
@@ -34,6 +35,7 @@ namespace MoneyChest.Services.Converters
             model.Id = entity.Id;
             model.Date = entity.Date;
             model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
+            model.SwappedCurrenciesRate = entity.SwappedCurrenciesRate;
             model.Value = entity.Value;
             model.Description = entity.Description;
             model.Commission = entity.Commission;

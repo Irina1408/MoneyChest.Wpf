@@ -36,30 +36,36 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <!-- Example -->
-                    <TextBlock x:Name="txtExchangeRateExample" FontSize="{DynamicResource LargeFontSize}"
-                               Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged, 
-                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="false">
-                                        <Setter Property="Opacity" Value="0.5"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                    <!-- Swap currencies button -->
-                    <!--<Button>
-                        <iconPacks:PackIconFontAwesome Kind="SyncSolid" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Button>-->
-                </StackPanel>
+                <!-- Example -->
+                <TextBlock x:Name="txtExchangeRateExample" FontSize="{DynamicResource LargeFontSize}"
+                           Grid.Row="0" Grid.Column="0"
+                           Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged, 
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" Value="false">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <!-- Swap currencies button -->
+                <ToggleButton IsChecked="{Binding SwappedCurrencies, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CurrencyExchangeRateControl}}, UpdateSourceTrigger=PropertyChanged}"
+                              Grid.Row="0" Grid.Column="1"
+                              Style="{DynamicResource CircleToggleButtonStyle}">
+                    <iconPacks:PackIconOcticons Kind="Sync" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </ToggleButton>
 
                 <!-- Rate -->
-                <TextBox Grid.Row="1" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Rate}"
+                <TextBox Grid.Row="1" Grid.ColumnSpan="2" materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Rate}"
                      Text="{Binding CurrencyExchangeRate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CurrencyExchangeRateControl}}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.####}}" Margin="5 10 5 10" Width="Auto"/>
             </Grid>
         </Grid>

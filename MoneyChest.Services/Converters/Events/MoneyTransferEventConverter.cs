@@ -31,6 +31,7 @@ namespace MoneyChest.Services.Converters
 
             entity.TakeExistingCurrencyExchangeRate = model.TakeExistingCurrencyExchangeRate;
             entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
+            entity.SwappedCurrenciesRate = model.SwappedCurrenciesRate;
             entity.Commission = model.Commission;
             entity.TakeCommissionFromReceiver = model.TakeCommissionFromReceiver;
             entity.CommissionType = model.CommissionType;
@@ -57,6 +58,7 @@ namespace MoneyChest.Services.Converters
             model.UserId = entity.UserId;
 
             model.TakeExistingCurrencyExchangeRate = entity.TakeExistingCurrencyExchangeRate;
+            model.SwappedCurrenciesRate = entity.SwappedCurrenciesRate;
             model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
             model.Commission = entity.Commission;
             model.TakeCommissionFromReceiver = entity.TakeCommissionFromReceiver;

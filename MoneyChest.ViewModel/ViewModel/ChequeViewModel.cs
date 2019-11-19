@@ -1,4 +1,5 @@
-﻿using MoneyChest.Model.Enums;
+﻿using MoneyChest.Model.Base;
+using MoneyChest.Model.Enums;
 using MoneyChest.Model.Model;
 using MoneyChest.Shared.MultiLang;
 using MoneyChest.ViewModel.Commands;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace MoneyChest.ViewModel.ViewModel
 {
     [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public class ChequeViewModel
+    public class ChequeViewModel : IHasExchangeRate
     {
         public ChequeViewModel()
         {
@@ -43,6 +44,7 @@ namespace MoneyChest.ViewModel.ViewModel
         public int StorageId { get; set; }
         public StorageReference Storage { get; set; }
         public decimal CurrencyExchangeRate { get; set; } = 1;
+        public bool SwappedCurrenciesRate { get; set; }
 
         public void RefreshTotalAmount() => TotalAmount = Entities.Sum(x => x.RecordType == RecordType.Expense ? -x.Value : x.Value);
     }

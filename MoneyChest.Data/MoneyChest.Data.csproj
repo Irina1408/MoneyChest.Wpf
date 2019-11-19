@@ -201,6 +201,14 @@
     <Compile Include="Migrations\201910121325192_update_limits1.Designer.cs">
       <DependentUpon>201910121325192_update_limits1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911171655029_currency_exchange_rate_change.cs" />
+    <Compile Include="Migrations\201911171655029_currency_exchange_rate_change.Designer.cs">
+      <DependentUpon>201911171655029_currency_exchange_rate_change.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911190455561_entity_exchange_rate_changes.cs" />
+    <Compile Include="Migrations\201911190455561_entity_exchange_rate_changes.Designer.cs">
+      <DependentUpon>201911190455561_entity_exchange_rate_changes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -289,6 +297,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910121325192_update_limits1.resx">
       <DependentUpon>201910121325192_update_limits1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911171655029_currency_exchange_rate_change.resx">
+      <DependentUpon>201911171655029_currency_exchange_rate_change.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911190455561_entity_exchange_rate_changes.resx">
+      <DependentUpon>201911190455561_entity_exchange_rate_changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

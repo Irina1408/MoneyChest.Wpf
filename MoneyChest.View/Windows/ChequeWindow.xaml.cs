@@ -120,6 +120,7 @@ namespace MoneyChest.View.Windows
                     entity.StorageId = _viewModel.StorageId;
                     entity.Storage = _viewModel.Storage;
                     entity.CurrencyExchangeRate = _viewModel.CurrencyExchangeRate;
+                    entity.SwappedCurrenciesRate = _viewModel.SwappedCurrenciesRate;
                     if (string.IsNullOrEmpty(entity.Description)) entity.Description = _viewModel.Description;
                     if (string.IsNullOrEmpty(entity.Remark)) entity.Remark = _viewModel.Remark;
                     _service.Add(entity);

@@ -38,7 +38,6 @@ namespace MoneyChest.Data.Entities.History
 
         public int Id { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
         [StringLength(MaxSize.DescriptionLength)]
@@ -48,16 +47,24 @@ namespace MoneyChest.Data.Entities.History
 
         public decimal Value { get; set; }
 
+        public decimal CurrencyExchangeRate { get; set; }
+
+        public bool SwappedCurrenciesRate { get; set; }
+
+        public decimal Commission { get; set; }
+
+        public CommissionType CommissionType { get; set; }
+
         [StringLength(MaxSize.RemarkLength)]
         public string Remark { get; set; }
 
         public bool IsAutoExecuted { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         public int CurrencyId { get; set; }
 
-        public int? StorageId { get; set; }
+        public int StorageId { get; set; }
 
         public int? DebtId { get; set; }
 

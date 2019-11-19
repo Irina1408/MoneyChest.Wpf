@@ -29,6 +29,8 @@ namespace MoneyChest.Data.Entities
 
         public decimal CurrencyExchangeRate { get; set; }
 
+        public bool SwappedCurrenciesRate { get; set; }
+
         public decimal Commission { get; set; } // always in StorageFrom currency if CommissionType == Currency
 
         public CommissionType CommissionType { get; set; }

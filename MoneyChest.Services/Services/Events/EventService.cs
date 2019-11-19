@@ -101,8 +101,11 @@ namespace MoneyChest.Services.Services
             // update currency exchange rates for all events
             foreach (var evnt in events.Where(x => x.TakeExistingCurrencyExchangeRate && x.IsCurrencyExchangeRateRequired).ToList())
             {
-                evnt.CurrencyExchangeRate = currencyExchangeRates.FirstOrDefault(x =>
-                    x.CurrencyFromId == evnt.CurrencyFromId && x.CurrencyToId == evnt.CurrencyToId)?.Rate ?? 1;
+                var exchangeRate = currencyExchangeRates.FirstOrDefault(x =>
+                    x.CurrencyFromId == evnt.CurrencyFromId && x.CurrencyToId == evnt.CurrencyToId);
+
+                evnt.CurrencyExchangeRate = exchangeRate?.Rate ?? 1;
+                evnt.SwappedCurrenciesRate = exchangeRate?.SwappedCurrencies ?? false;
             }
 
             return events;

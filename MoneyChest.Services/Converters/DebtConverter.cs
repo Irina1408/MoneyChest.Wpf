@@ -19,6 +19,7 @@ namespace MoneyChest.Services.Converters
             entity.DebtType = model.DebtType;
 
             entity.CurrencyExchangeRate = model.CurrencyExchangeRate;
+            entity.SwappedCurrenciesRate = model.SwappedCurrenciesRate;
             entity.Value = model.Value;
             entity.InitialFee = model.InitialFee;
             entity.PaidValue = model.PaidValue;
@@ -49,6 +50,7 @@ namespace MoneyChest.Services.Converters
             model.DebtType = entity.DebtType;
 
             model.CurrencyExchangeRate = entity.CurrencyExchangeRate;
+            model.SwappedCurrenciesRate = entity.SwappedCurrenciesRate;
             model.Value = entity.Value;
             model.InitialFee = entity.InitialFee;
             model.PaidValue = entity.PaidValue;

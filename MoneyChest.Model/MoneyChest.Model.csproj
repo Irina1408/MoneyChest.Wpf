@@ -61,6 +61,7 @@
     <Compile Include="Enums\Settings\Sorting.cs" />
     <Compile Include="Enums\TransactionType.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\EntityRateExtensions.cs" />
     <Compile Include="Extensions\ToReferenceView.cs" />
     <Compile Include="Enums\CommissionType.cs" />
     <Compile Include="Enums\DebtType.cs" />

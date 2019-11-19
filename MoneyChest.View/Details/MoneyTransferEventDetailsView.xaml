@@ -137,7 +137,8 @@
                               ShowTakeExisting="True" 
                               CurrencyFromId="{Binding StorageFromCurrency.Id}" CurrencyToId="{Binding StorageToCurrency.Id}"
                               CurrencyExchangeRate="{Binding CurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                              TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SwappedCurrencies="{Binding SwappedCurrenciesRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Comission -->
             <components:CommissionControl Grid.Column="1" Grid.Row="2" Margin="5 10 5 5" ShowTakeCommissionFromReceiver="True"

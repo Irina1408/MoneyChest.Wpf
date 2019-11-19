@@ -33,6 +33,7 @@ namespace MoneyChest.Data.Entities
         public DebtType DebtType { get; set; }
 
         public decimal CurrencyExchangeRate { get; set; }   // if exists StorageId -> for add/remove money to/from storage
+        public bool SwappedCurrenciesRate { get; set; }
         public decimal Value { get; set; }                  // initial value that will be added/removed to/from storage
         public decimal InitialFee { get; set; }  // initial paid value
         public decimal PaidValue { get; set; }  // paid value by user records in Money Chest

@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using MoneyChest.Model.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using MoneyChest.Model.Extensions;
+using PropertyChanged;
 
 namespace MoneyChest.Model.Model
 {
-    public class RecordModel : TransactionBase, IHasId, IHasUserId, IHasDescription, IHasCategory, IHasRemark, INotifyPropertyChanged
+    public class RecordModel : TransactionBase, IHasId, IHasUserId, IHasDescription, IHasCategory, IHasRemark, IHasExchangeRate, INotifyPropertyChanged
     {
         //public event PropertyChangedEventHandler PropertyChanged;
 
@@ -32,6 +34,7 @@ namespace MoneyChest.Model.Model
         public RecordType RecordType { get; set; }
         public decimal Value { get; set; }
         public decimal CurrencyExchangeRate { get; set; }
+        public bool SwappedCurrenciesRate { get; set; }
         public decimal Commission { get; set; }
         public CommissionType CommissionType { get; set; }
         public bool IsAutoExecuted { get; set; }
@@ -85,8 +88,11 @@ namespace MoneyChest.Model.Model
         public CurrencyReference CurrencyForRate => Debt != null && Debt.CurrencyId != CurrencyId ? Debt.Currency : Storage?.Currency;
 
         // TODO: check service. Removed value from storage and from debt. Case when currency exchange rate is for debt currency
-        public decimal ResultValueExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
-        public decimal ResultValueSignExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
+        public decimal ResultValueExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValue * this.ActualRate() : ResultValue;
+
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
+        public decimal ResultValueSignExchangeRate => CurrencyIdForRate != CurrencyId ? ResultValueSign * this.ActualRate() : ResultValueSign;
         public string ResultValueSignExchangeRateCurrency => CurrencyIdForRate != CurrencyId ? CurrencyForRate?.FormatValue(ResultValueSignExchangeRate, true) : null;
         public bool IsIncomeRecordType
         {

@@ -1,6 +1,8 @@
 ﻿using MoneyChest.Model.Base;
 using MoneyChest.Model.Constants;
 using MoneyChest.Model.Enums;
+using MoneyChest.Model.Extensions;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class DebtModel : IHasId, IHasUserId, IHasDescription, IHasCategory, IHasRemark, INotifyPropertyChanged
+    public class DebtModel : IHasId, IHasUserId, IHasDescription, IHasCategory, IHasRemark, IHasExchangeRate, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private ObservableCollection<DebtPenaltyModel> penalties;
@@ -42,6 +44,7 @@ namespace MoneyChest.Model.Model
         public DebtType DebtType { get; set; }
 
         public decimal CurrencyExchangeRate { get; set; }   // if exists StorageId -> for add/remove money to/from storage
+        public bool SwappedCurrenciesRate { get; set; }
         public decimal Value { get; set; }                  // initial value that will be added/removed to/from storage
         public decimal InitialFee { get; set; }  // initial paid value
         public decimal PaidValue { get; set; }  // paid value by user records in Money Chest
@@ -124,8 +127,11 @@ namespace MoneyChest.Model.Model
         public string RemainsToPayCurrency => Currency?.FormatValue(RemainsToPay);
         public string ValueToBePaidCurrency => Currency?.FormatValue(ValueToBePaid) ?? ValueToBePaid.ToString("0.##");
 
-        public decimal ValueExchangeRate => Storage?.CurrencyId != CurrencyId ? Value * CurrencyExchangeRate : Value;
-        public decimal InitialFeeExchangeRate => Storage?.CurrencyId != CurrencyId ? InitialFee * CurrencyExchangeRate : InitialFee;
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
+        public decimal ValueExchangeRate => Storage?.CurrencyId != CurrencyId ? Value * this.ActualRate() : Value;
+
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
+        public decimal InitialFeeExchangeRate => Storage?.CurrencyId != CurrencyId ? InitialFee * this.ActualRate() : InitialFee;
 
         public decimal Progress => ValueToBePaid != 0 ? RemainsToPay / ValueToBePaid : 0;
         public decimal RemainsToPay => ValueToBePaid - InitialFee - PaidValue;

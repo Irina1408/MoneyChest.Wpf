@@ -29,6 +29,7 @@ namespace MoneyChest.Model.Model
         public RecordType RecordType { get; set; }
         public decimal Value { get; set; }
         public decimal CurrencyExchangeRate { get; set; }
+        public bool SwappedCurrenciesRate { get; set; }
         public decimal Commission { get; set; }
         public CommissionType CommissionType { get; set; }
 

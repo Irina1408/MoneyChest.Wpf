@@ -88,15 +88,19 @@ namespace MoneyChest.Services.Services
                 {
                     // update limits with different currencies correspond to provided rate
                     // try to find exchange rate
-                    var rate = rates.FirstOrDefault(x => x.CurrencyFromId == currencyId && x.CurrencyToId == limit.CurrencyId)?.Rate;
+                    var exchangeRate = rates.FirstOrDefault(x => x.CurrencyFromId == currencyId && x.CurrencyToId == limit.CurrencyId);
+                    var rate = exchangeRate != null && exchangeRate.SwappedCurrencies && exchangeRate.Rate != 0
+                        ? 1M / exchangeRate.Rate
+                        : exchangeRate?.Rate;
 
                     // try to fing an opposite exchange rate
-                    if (!rate.HasValue)
+                    if (exchangeRate == null)
                     {
                         // find existing rate
-                        rate = rates.FirstOrDefault(x => x.CurrencyFromId == limit.CurrencyId && x.CurrencyToId == currencyId)?.Rate;
-                        // adapt rate
-                        if (rate.HasValue) rate = 1M / rate;
+                        exchangeRate = rates.FirstOrDefault(x => x.CurrencyFromId == limit.CurrencyId && x.CurrencyToId == currencyId);
+                        rate = exchangeRate != null && !exchangeRate.SwappedCurrencies && exchangeRate.Rate != 0
+                            ? 1M / exchangeRate.Rate
+                            : exchangeRate?.Rate; 
                     }
 
                     // check any rate was found

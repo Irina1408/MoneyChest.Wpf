@@ -14,7 +14,7 @@ namespace MoneyChest.Calculation.Common
         {
             if (currencyId == targetCurrencyId) return value;
             var rate = rates.FirstOrDefault(item => item.CurrencyFromId == currencyId && item.CurrencyToId == targetCurrencyId);
-            return value * (rate != null ? rate.Rate : 1);
+            return value * (rate != null ? rate.ActualRate : 1);
         }
     }
 }

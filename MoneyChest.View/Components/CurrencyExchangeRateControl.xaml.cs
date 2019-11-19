@@ -55,6 +55,27 @@ namespace MoneyChest.View.Components
 
         #endregion
 
+        #region SwappedCurrencies Property
+
+        public bool SwappedCurrencies
+        {
+            get => (bool)this.GetValue(SwappedCurrenciesProperty);
+            set => this.SetValue(SwappedCurrenciesProperty, value);
+        }
+
+        public static readonly DependencyProperty SwappedCurrenciesProperty = DependencyProperty.Register(
+            nameof(SwappedCurrencies), typeof(bool), typeof(CurrencyExchangeRateControl), new PropertyMetadata(false, SwappedCurrenciesChangedCallback));
+
+        private static void SwappedCurrenciesChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // get control
+            var c = (d as CurrencyExchangeRateControl);
+            // update example
+           c. txtExchangeRateExample.Text = c.ExchangeRateExample;
+        }
+
+        #endregion
+
         #region TakeExistingCurrencyExchangeRate Property
 
         public bool TakeExistingCurrencyExchangeRate
@@ -165,11 +186,11 @@ namespace MoneyChest.View.Components
         private CurrencyReference CurrencyFrom => CurrencyFromId > 0 ? Currencies.FirstOrDefault(x => x.Id == CurrencyFromId) : null;
         private CurrencyReference CurrencyTo => CurrencyToId > 0 ? Currencies.FirstOrDefault(x => x.Id == CurrencyToId) : null;
 
-        private string ExchangeRateExample => CurrencyFrom != null && CurrencyTo != null
-            ? $"{CurrencyFrom.FormatValue(1)} = {CurrencyTo.FormatValue(CurrencyExchangeRate)}"
+        private string ExchangeRateExample => CurrencyFrom != null && CurrencyTo != null 
+            ? (!SwappedCurrencies 
+                ? $"{CurrencyFrom.FormatValue(1)} = {CurrencyTo.FormatRequiredDecimalsValue(CurrencyExchangeRate)}" 
+                : $"{CurrencyTo.FormatValue(1)} = {CurrencyFrom.FormatRequiredDecimalsValue(CurrencyExchangeRate)}")
             : null;
-
-        private bool IsSwappedCurrencies { get; set; } = false;
 
         #endregion
 
@@ -194,11 +215,14 @@ namespace MoneyChest.View.Components
 
         private void UpdateCurrencyExchangeRate()
         {
+            // find existing currency exchange rate
+            var exchangeRate = CurrencyEchangeRates.FirstOrDefault(x => x.CurrencyFromId == CurrencyFromId && x.CurrencyToId == CurrencyToId);
             // update CurrencyExchangeRate
             CurrencyExchangeRate = CurrencyFromId != CurrencyToId && CurrencyFromId > 0 && CurrencyToId > 0
-                ? CurrencyEchangeRates.FirstOrDefault(x => x.CurrencyFromId == CurrencyFromId && x.CurrencyToId == CurrencyToId)?.Rate ?? 1
+                ? exchangeRate?.Rate ?? 1
                 : 1;
-            //IsSwappedCurrencies = false;
+            // update additional property
+            SwappedCurrencies = exchangeRate?.SwappedCurrencies ?? false;
 
             //// update CurrencyExchangeRate
             //if (CurrencyFromId != CurrencyToId && CurrencyFromId > 0 && CurrencyToId > 0)

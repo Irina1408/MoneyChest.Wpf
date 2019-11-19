@@ -1,5 +1,6 @@
 ﻿using MoneyChest.Model.Base;
 using MoneyChest.Model.Enums;
+using MoneyChest.Model.Extensions;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,7 @@ namespace MoneyChest.Model.Model
         
         public override decimal Value { get; set; }
         public override decimal CurrencyExchangeRate { get; set; }
+        public override bool SwappedCurrenciesRate { get; set; }
         public override decimal Commission
         {
             get => base.Commission;
@@ -73,8 +75,8 @@ namespace MoneyChest.Model.Model
         [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
         private decimal StorageFromCommissionValue => CommissionValue;
 
-        [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
-        private decimal StorageToCommissionValue => IsCurrencyExchangeRateRequired ? CommissionValue * CurrencyExchangeRate : CommissionValue;
+        [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate), nameof(Commission), nameof(CommissionType))]
+        private decimal StorageToCommissionValue => IsCurrencyExchangeRateRequired ? CommissionValue * this.ActualRate() : CommissionValue;
         
         public decimal StorageFromCommission => TakeCommissionFromReceiver ? 0 : StorageFromCommissionValue;
         public decimal StorageToCommission => TakeCommissionFromReceiver ? StorageToCommissionValue : 0;
@@ -86,15 +88,15 @@ namespace MoneyChest.Model.Model
             set => Value = value - StorageFromCommission;
         }
 
-        [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(Commission), nameof(CommissionType))]
+        [DependsOn(nameof(Value), nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate), nameof(Commission), nameof(CommissionType))]
         public decimal StorageToValue
         {
-            get => IsCurrencyExchangeRateRequired ? Value * CurrencyExchangeRate - StorageToCommission : Value - StorageToCommission;
+            get => IsCurrencyExchangeRateRequired ? Value * this.ActualRate() - StorageToCommission : Value - StorageToCommission;
             set
             {
                 // take into account currency exchange rate and commission
-                if (IsCurrencyExchangeRateRequired && CurrencyExchangeRate != 0)
-                    Value = value / CurrencyExchangeRate + StorageToCommission;
+                if (IsCurrencyExchangeRateRequired && this.ActualRate() != 0)
+                    Value = value / this.ActualRate() + StorageToCommission;
                 else
                     Value = value + StorageToCommission;
             }

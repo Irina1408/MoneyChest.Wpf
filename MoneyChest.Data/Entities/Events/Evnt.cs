@@ -29,6 +29,8 @@ namespace MoneyChest.Data.Entities
 
         public decimal CurrencyExchangeRate { get; set; }
 
+        public bool SwappedCurrenciesRate { get; set; }
+
         public bool TakeExistingCurrencyExchangeRate { get; set; }
 
         public decimal Commission { get; set; }

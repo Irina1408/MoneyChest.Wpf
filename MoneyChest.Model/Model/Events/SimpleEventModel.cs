@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Model.Base;
 using MoneyChest.Model.Enums;
+using MoneyChest.Model.Extensions;
 using PropertyChanged;
 
 namespace MoneyChest.Model.Model
@@ -67,8 +68,11 @@ namespace MoneyChest.Model.Model
         public decimal ResultValueSign => RecordType == RecordType.Expense ? -ResultValue : ResultValue;
         public string ResultValueSignCurrency => Currency?.FormatValue(ResultValueSign) ?? ResultValueSign.ToString("0.##");
 
-        public decimal ResultValueExchangeRate => Storage?.CurrencyId != CurrencyId ? ResultValue * CurrencyExchangeRate : ResultValue;
-        public decimal ResultValueSignExchangeRate => Storage?.CurrencyId != CurrencyId ? ResultValueSign * CurrencyExchangeRate : ResultValueSign;
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
+        public decimal ResultValueExchangeRate => Storage?.CurrencyId != CurrencyId ? ResultValue * this.ActualRate() : ResultValue;
+
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
+        public decimal ResultValueSignExchangeRate => Storage?.CurrencyId != CurrencyId ? ResultValueSign * this.ActualRate() : ResultValueSign;
         public string ResultValueSignExchangeRateCurrency => Storage?.CurrencyId != CurrencyId ? Storage?.Currency?.FormatValue(ResultValueSignExchangeRate) ?? ResultValueSignExchangeRate.ToString("0.##") : null;
 
         #endregion

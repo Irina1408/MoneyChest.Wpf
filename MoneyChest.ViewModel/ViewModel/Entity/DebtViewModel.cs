@@ -23,6 +23,7 @@ namespace MoneyChest.ViewModel.ViewModel
             DebtType = debt.DebtType;
 
             CurrencyExchangeRate = debt.CurrencyExchangeRate;
+            SwappedCurrenciesRate = debt.SwappedCurrenciesRate;
             Value = debt.Value;
             InitialFee = debt.InitialFee;
             PaidValue = debt.PaidValue;

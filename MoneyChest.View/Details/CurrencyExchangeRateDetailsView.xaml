@@ -32,9 +32,10 @@
             <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Right" Margin="0 0 10 0">
                 <!--<iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>-->
                 <ComboBox x:Name="comboFromCurrencies" 
-                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_CurrencyFrom}"
-                                      DisplayMemberPath="Name" SelectedValuePath="Id"
-                                      SelectedValue="{Binding CurrencyFromId}"/>
+                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_CurrencyFrom}"
+                          DisplayMemberPath="Name" SelectedValuePath="Id"
+                          SelectedValue="{Binding CurrencyFromId}"
+                          SelectionChanged="comboFromCurrencies_SelectionChanged"/>
             </StackPanel>
 
             <!-- Arrow -->
@@ -44,18 +45,42 @@
             <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Left" Margin="10 0 0 0">
                 <!--<iconPacks:PackIconModern Kind="CurrencyDollar" Style="{DynamicResource TextBoxIconStyle}"/>-->
                 <ComboBox x:Name="comboToCurrencies" 
-                                      materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_CurrencyTo}"
-                                      DisplayMemberPath="Name" SelectedValuePath="Id"
-                                      SelectedValue="{Binding CurrencyToId}"/>
+                          materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding General_CurrencyTo}"
+                          DisplayMemberPath="Name" SelectedValuePath="Id"
+                          SelectedValue="{Binding CurrencyToId}"
+                          SelectionChanged="comboToCurrencies_SelectionChanged"/>
             </StackPanel>
         </Grid>
 
-        <!-- Rate -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-            <iconPacks:PackIconOcticons Kind="ArrowRight" Style="{DynamicResource TextBoxIconStyle}"/>
-            <TextBox materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Rate}"
-                                     Text="{Binding Rate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.####}}"/>
-        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Rate -->
+            <TextBox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                     materialDesign:HintAssist.Hint="{moneyChestView:MultiLangBinding CurrencyExchangeRate_Rate}"
+                     Text="{Binding Rate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, StringFormat={}{0:0.####}}"/>
+
+            <!-- Example -->
+            <Border Grid.Column="2" BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueLightBrush}" Margin="5">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                    <!-- Example -->
+                    <TextBlock Text="{Binding ExchangeRateExample}"
+                       FontSize="{DynamicResource LargeFontSize}"
+                       Foreground="{DynamicResource BlackBrush}"
+                       VerticalAlignment="Center"/>
+
+                    <!-- Swap currencies button -->
+                    <ToggleButton IsChecked="{Binding SwappedCurrencies, UpdateSourceTrigger=PropertyChanged}"
+                          Style="{DynamicResource CircleToggleButtonStyle}">
+                        <iconPacks:PackIconOcticons Kind="Sync" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </ToggleButton>
+                </StackPanel>
+            </Border>
+        </Grid>
 
         <!-- Ok/Cancel buttons -->
         <components:DetailsViewCommandsPanel x:Name="CommandsPanel" Grid.Row="4"/>

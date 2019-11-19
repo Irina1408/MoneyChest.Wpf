@@ -131,7 +131,8 @@
                     <components:CurrencyExchangeRateControl x:Name="compCurrencyExchangeRate" Grid.Row="1" Margin="5"
                               ShowTakeExisting="True" CurrencyFromId="{Binding CurrencyId}" CurrencyToId="{Binding Storage.CurrencyId}"
                               CurrencyExchangeRate="{Binding CurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                              TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SwappedCurrencies="{Binding SwappedCurrenciesRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </GroupBox>
         </Grid>

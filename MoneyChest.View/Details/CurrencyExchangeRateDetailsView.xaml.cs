@@ -1,4 +1,5 @@
-﻿using MoneyChest.Model.Model;
+﻿using MoneyChest.Model.Extensions;
+using MoneyChest.Model.Model;
 using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Base;
 using MoneyChest.Shared.MultiLang;
@@ -38,6 +39,7 @@ namespace MoneyChest.View.Details
         #region Private fields
 
         private IEnumerable<CurrencyExchangeRateModel> _existingCurrencyExchangeRates;
+        private IEnumerable<CurrencyModel> _activeCurrencies;
 
         #endregion
 
@@ -53,11 +55,10 @@ namespace MoneyChest.View.Details
             _existingCurrencyExchangeRates = currencyExchangeRates;
 
             // initialize datacontexts
-            IEnumerable<CurrencyModel> activeCurrencies = 
-                currencies.Where(_ => _.IsActive || _.Id == entity.CurrencyFromId || _.Id == entity.CurrencyToId);
+            _activeCurrencies = currencies.Where(_ => _.IsActive || _.Id == entity.CurrencyFromId || _.Id == entity.CurrencyToId);
 
-            comboFromCurrencies.ItemsSource = activeCurrencies;
-            comboToCurrencies.ItemsSource = activeCurrencies;
+            comboFromCurrencies.ItemsSource = _activeCurrencies;
+            comboToCurrencies.ItemsSource = _activeCurrencies;
 
             // disable currency comboboxes for not new currency exchange rates
             comboFromCurrencies.IsEnabled = IsNew;
@@ -90,6 +91,8 @@ namespace MoneyChest.View.Details
                 if (existingCurrencyExchangeRate != null)
                 {
                     existingCurrencyExchangeRate.Rate = WrappedEntity.Entity.Rate;
+                    existingCurrencyExchangeRate.SwappedCurrencies = WrappedEntity.Entity.SwappedCurrencies;
+
                     Service.Update(WrappedEntity.Entity);
                 }
                 else
@@ -100,6 +103,22 @@ namespace MoneyChest.View.Details
 
             WrappedEntity.IsChanged = false;
             DialogResult = true;
+        }
+
+        #endregion
+
+        #region Event handlers
+
+        private void comboFromCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!WrappedEntity.IsChanged) return;
+            WrappedEntity.Entity.CurrencyFrom = _activeCurrencies.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.CurrencyFromId)?.ToReferenceView();
+        }
+
+        private void comboToCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!WrappedEntity.IsChanged) return;
+            WrappedEntity.Entity.CurrencyTo = _activeCurrencies.FirstOrDefault(_ => _.Id == WrappedEntity.Entity.CurrencyToId)?.ToReferenceView();
         }
 
         #endregion

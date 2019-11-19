@@ -1,5 +1,7 @@
 ﻿using MoneyChest.Model.Base;
 using MoneyChest.Model.Enums;
+using MoneyChest.Model.Extensions;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public class MoneyTransferModel : TransactionBase, IHasId, IHasDescription, IHasCategory, IHasRemark, INotifyPropertyChanged
+    public class MoneyTransferModel : TransactionBase, IHasId, IHasDescription, IHasCategory, IHasRemark, IHasExchangeRate, INotifyPropertyChanged
     {
         //public event PropertyChangedEventHandler PropertyChanged;
         
@@ -32,6 +34,7 @@ namespace MoneyChest.Model.Model
         public DateTime Date { get; set; }
         public decimal Value { get; set; }  // always in StorageFrom currency
         public decimal CurrencyExchangeRate { get; set; }
+        public bool SwappedCurrenciesRate { get; set; }
         public decimal Commission { get; set; } // always in StorageFrom currency if CommissionType == Currency
         public CommissionType CommissionType { get; set; }
         public bool TakeCommissionFromReceiver { get; set; }
@@ -78,9 +81,11 @@ namespace MoneyChest.Model.Model
             StorageFromCurrency != null && StorageToCurrency != null && StorageFromCurrency.Id != StorageToCurrency.Id;
 
         public decimal StorageFromCommissionValue => CommissionType == CommissionType.Currency ? Commission : Commission / 100 * Value;
+
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
         public decimal StorageToCommissionValue => CommissionType == CommissionType.Currency
-            ? (IsDifferentCurrenciesSelected ? Commission * CurrencyExchangeRate : Commission)
-            : Commission / 100 * (IsDifferentCurrenciesSelected ? Value * CurrencyExchangeRate : Value);
+            ? (IsDifferentCurrenciesSelected ? Commission * this.ActualRate() : Commission)
+            : Commission / 100 * (IsDifferentCurrenciesSelected ? Value * this.ActualRate() : Value);
 
         public decimal StorageFromCommission => TakeCommissionFromReceiver ? 0 : StorageFromCommissionValue;
         public decimal StorageToCommission => TakeCommissionFromReceiver ? StorageToCommissionValue : 0;
@@ -90,14 +95,16 @@ namespace MoneyChest.Model.Model
             get => Value + StorageFromCommission;
             set => Value = value - StorageFromCommission;
         }
+
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
         public decimal StorageToValue
         {
-            get => IsDifferentCurrenciesSelected ? Value * CurrencyExchangeRate - StorageToCommission : Value - StorageToCommission;
+            get => IsDifferentCurrenciesSelected ? Value * this.ActualRate() - StorageToCommission : Value - StorageToCommission;
             set
             {
                 // take into account currency exchange rate and commission
-                if (IsDifferentCurrenciesSelected && CurrencyExchangeRate != 0)
-                    Value = value / CurrencyExchangeRate + StorageToCommission;
+                if (IsDifferentCurrenciesSelected && this.ActualRate() != 0)
+                    Value = value / this.ActualRate() + StorageToCommission;
                 else
                     Value = value + StorageToCommission;
             }

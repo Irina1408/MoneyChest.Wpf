@@ -35,4 +35,15 @@ namespace MoneyChest.Model.Base
     {
         int? CategoryId { get; set; }
     }
+
+    public interface IHasExchangeRate
+    {
+        decimal CurrencyExchangeRate { get; set; }
+        bool SwappedCurrenciesRate { get; set; }
+    }
+
+    public interface IHasPlannedExchangeRate : IHasExchangeRate
+    {
+        bool TakeExistingCurrencyExchangeRate { get; set; }
+    }
 }

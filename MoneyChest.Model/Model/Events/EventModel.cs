@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MoneyChest.Model.Model
 {
-    public abstract class EventModel : IHasId, IHasUserId, IHasDescription, IHasRemark, INotifyPropertyChanged
+    public abstract class EventModel : IHasId, IHasUserId, IHasDescription, IHasRemark, IHasPlannedExchangeRate, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -53,6 +53,8 @@ namespace MoneyChest.Model.Model
         public virtual decimal Value { get; set; }
 
         public virtual decimal CurrencyExchangeRate { get; set; }
+
+        public virtual bool SwappedCurrenciesRate { get; set; }
 
         public bool TakeExistingCurrencyExchangeRate { get; set; }
 

@@ -129,7 +129,8 @@
                               ShowTakeExisting="False" 
                               CurrencyFromId="{Binding StorageFromCurrency.Id}" CurrencyToId="{Binding StorageToCurrency.Id}"
                               CurrencyExchangeRate="{Binding CurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                              TakeExistingCurrencyExchangeRate="{Binding TakeExistingCurrencyExchangeRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SwappedCurrencies="{Binding SwappedCurrenciesRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
         <!-- Ok/Cancel buttons -->

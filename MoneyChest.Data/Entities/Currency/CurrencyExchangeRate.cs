@@ -24,6 +24,8 @@ namespace MoneyChest.Data.Entities
 
         public decimal Rate { get; set; }
 
+        public bool SwappedCurrencies { get; set; }
+
 
         [ForeignKey(nameof(CurrencyFromId))]
         public virtual Currency CurrencyFrom { get; set; }

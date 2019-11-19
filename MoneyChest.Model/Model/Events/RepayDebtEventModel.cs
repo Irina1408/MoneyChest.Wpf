@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoneyChest.Model.Enums;
+using MoneyChest.Model.Extensions;
 using PropertyChanged;
 
 namespace MoneyChest.Model.Model
@@ -56,7 +57,9 @@ namespace MoneyChest.Model.Model
         public override CategoryReference TransactionCategory => DebtCategory;
         public override StorageReference TransactionStorage => Storage;
         public override int TransactionCurrencyId => Storage.CurrencyId;
-        public override decimal TransactionAmount => IsValueInStorageCurrency ? ResultValueSign : ResultValueSign * CurrencyExchangeRate;
+
+        [DependsOn(nameof(CurrencyExchangeRate), nameof(SwappedCurrenciesRate))]
+        public override decimal TransactionAmount => IsValueInStorageCurrency ? ResultValueSign : ResultValueSign * this.ActualRate();
 
         #endregion
 
