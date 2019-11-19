@@ -55,9 +55,9 @@ namespace MoneyChest.Services.Services
         public List<DateTime> GetRecentDates(int userId, int count)
         {
             return Scope.Where(item => item.UserId == userId)
-                .OrderByDescending(item => item.Date)
                 .Select(item => item.Date)
                 .Distinct()
+                .OrderByDescending(item => item)
                 .Take(count)
                 .ToList();
         }
