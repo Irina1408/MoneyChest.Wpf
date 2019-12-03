@@ -54,8 +54,7 @@ namespace MoneyChest.Services.Services
                 Remark = model.Remark,
                 Currency = model.Currency,
                 Storage = model.Storage,
-                Category = model.Category,
-                EventId = model.Id
+                Category = model.Category
             };
 
             overrides?.Invoke(record);
