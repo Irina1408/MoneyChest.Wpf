@@ -14,7 +14,7 @@ using MoneyChest.Data.Entities;
 
 namespace MoneyChest.Services.Services
 {
-    public interface ITransactionDependenceService
+    public interface ITransactionDependenceService : IServiceBase
     {
         void AddValueToStorage(int storageId, decimal value);
         void AddValueToDebt(int debtId, decimal value);
@@ -22,13 +22,10 @@ namespace MoneyChest.Services.Services
             int? currencyForRateId, decimal spentValueByRate);
     }
 
-    public class TransactionDependenceService : ServiceBase, ITransactionDependenceService
+    internal class TransactionDependenceService : HistoryService, ITransactionDependenceService
     {
-        internal HistoryService _historyService;
-
         public TransactionDependenceService(ApplicationDbContext context) : base(context)
         {
-            _historyService = new HistoryService(context);
         }
 
         public void AddValueToStorage(int storageId, decimal value)
@@ -38,7 +35,7 @@ namespace MoneyChest.Services.Services
             // add provided value (it's expected that the value in the correct currency)
             storage.Value += value;
             // update history
-            _historyService.WriteHistory(storage, ActionType.Update, storage.UserId);
+            WriteHistory(storage, ActionType.Update, storage.UserId);
         }
 
         public void AddValueToDebt(int debtId, decimal value)
@@ -50,7 +47,7 @@ namespace MoneyChest.Services.Services
             var debtConverter = new DebtConverter();
             debt.IsRepaid = debtConverter.ToModel(debt).RemainsToPay <= 0;
             // update history
-            _historyService.WriteHistory(debt, ActionType.Update, debt.UserId);
+            WriteHistory(debt, ActionType.Update, debt.UserId);
         }
 
         public void UpdateLimits(DateTime date, int? categoryId, int currencyId, decimal spentValue,
@@ -108,6 +105,8 @@ namespace MoneyChest.Services.Services
 
                     // update limit value
                     limit.SpentValue += spentValue * rate.Value;
+                    // update history
+                    WriteHistory(limit, ActionType.Update, limit.UserId);
                 }
             }
         }

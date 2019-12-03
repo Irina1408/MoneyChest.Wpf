@@ -132,7 +132,12 @@ namespace MoneyChest.Services.Services
                 Remark = model.Remark,
                 StorageFromId = model.StorageFromId,
                 StorageToId = model.StorageToId,
-                CategoryId = model.CategoryId
+                CategoryId = model.CategoryId,
+                StorageFrom = model.StorageFrom,
+                StorageFromCurrency = model.StorageFromCurrency,
+                StorageTo = model.StorageTo,
+                StorageToCurrency = model.StorageToCurrency,
+                Category = model.Category,
             };
 
             overrides?.Invoke(moneyTransfer);
@@ -181,6 +186,8 @@ namespace MoneyChest.Services.Services
 
             // save changes
             SaveChanges();
+            // save dependence history
+            _transactionDependenceService.SaveChanges();
         }
 
         public override void OnUpdated(MoneyTransferModel oldModel, MoneyTransferModel model)
@@ -229,6 +236,8 @@ namespace MoneyChest.Services.Services
 
             // save changes
             SaveChanges();
+            // save dependence history
+            _transactionDependenceService.SaveChanges();
         }
 
         public override void OnDeleted(MoneyTransferModel model)
@@ -247,6 +256,8 @@ namespace MoneyChest.Services.Services
 
             // save changes
             SaveChanges();
+            // save dependence history
+            _transactionDependenceService.SaveChanges();
         }
 
         protected override IQueryable<MoneyTransfer> Scope => Entities.Include(_ => _.StorageFrom.Currency).Include(_ => _.StorageTo.Currency).Include(_ => _.Category);

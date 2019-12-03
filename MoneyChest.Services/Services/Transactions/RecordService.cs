@@ -133,6 +133,7 @@ namespace MoneyChest.Services.Services
                 Debt = debt.ToReferenceView(),
                 Storage = model.Storage,
                 Category = model.DebtCategory,
+                Currency = model.Currency,
                 EventId = model.Id
             };
 
@@ -156,6 +157,7 @@ namespace MoneyChest.Services.Services
                 CurrencyId = model.CurrencyId,
                 Currency = model.Currency,
                 StorageId = model.StorageId,
+                Storage = model.Storage,
                 DebtId = model?.DebtId,
                 UserId = model.UserId
             };
@@ -265,6 +267,8 @@ namespace MoneyChest.Services.Services
 
             // save changes
             SaveChanges();
+            // save dependence history
+            _transactionDependenceService.SaveChanges();
         }
 
         public override void OnUpdated(RecordModel oldModel, RecordModel model)
@@ -314,6 +318,8 @@ namespace MoneyChest.Services.Services
 
             // save changes
             SaveChanges();
+            // save dependence history
+            _transactionDependenceService.SaveChanges();
         }
 
         public override void OnDeleted(RecordModel model)
@@ -334,6 +340,8 @@ namespace MoneyChest.Services.Services
 
             // save changes
             SaveChanges();
+            // save dependence history
+            _transactionDependenceService.SaveChanges();
         }
 
         protected override IQueryable<Record> Scope => Entities.Include(_ => _.Currency).Include(_ => _.Category).Include(_ => _.Storage).Include(_ => _.Debt);
