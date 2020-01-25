@@ -178,8 +178,8 @@ namespace MoneyChest.Calculation.Builders
             if (incomeTransactions.Any())
             {
                 // build incomes report unit
-                var reportUnit = BuildReportUnit(incomeTransactions, null, ReportDataTypeDescriptions[ReportDataType.Income],
-                    categoryLevel - 1, detailsDepth, sorting);
+                var reportUnit = BuildReportUnit(incomeTransactions, null, ReportDataTypeDescriptions[ReportDataType.Income], categoryLevel - 1, detailsDepth, sorting);
+                reportUnit.Color = ReportUnitColor.Green;
 
                 // update total incomes
                 sbTotalAmount.Append(FormatMainCurrency(reportUnit.Amount, true, true));
@@ -192,8 +192,8 @@ namespace MoneyChest.Calculation.Builders
             if (expenseTransactions.Any())
             {
                 // build expenses report unit
-                var reportUnit = BuildReportUnit(expenseTransactions, null, ReportDataTypeDescriptions[ReportDataType.Expense],
-                    categoryLevel - 1, detailsDepth, sorting);
+                var reportUnit = BuildReportUnit(expenseTransactions, null, ReportDataTypeDescriptions[ReportDataType.Expense], categoryLevel - 1, detailsDepth, sorting);
+                reportUnit.Color = ReportUnitColor.Red;
 
                 // update total expenses
                 if (sbTotalAmount.Length > 0) sbTotalAmount.AppendLine();
@@ -226,13 +226,15 @@ namespace MoneyChest.Calculation.Builders
                 var incomesReportUnit = new ReportUnit
                 {
                     Caption = ReportDataTypeDescriptions[ReportDataType.Income],
-                    Amount = Math.Abs(periodTransactions.Where(x => x.IsIncome).Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId)))
+                    Amount = Math.Abs(periodTransactions.Where(x => x.IsIncome).Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId))),
+                    Color = ReportUnitColor.Green
                 };
                 // create expense report unit
                 var expensesReportUnit = new ReportUnit
                 {
                     Caption = ReportDataTypeDescriptions[ReportDataType.Expense],
-                    Amount = Math.Abs(periodTransactions.Where(x => x.IsExpense).Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId)))
+                    Amount = Math.Abs(periodTransactions.Where(x => x.IsExpense).Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId))),
+                    Color = ReportUnitColor.Red
                 };
 
                 result.ReportUnits.Add(new ReportUnit

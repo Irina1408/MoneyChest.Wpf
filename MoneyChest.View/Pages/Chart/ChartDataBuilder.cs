@@ -224,6 +224,12 @@ namespace MoneyChest.View.Pages
                 DataLabels = settings.ShowValue
             };
 
+            // set color if required
+            if (reportUnit.Color == ReportUnitColor.Green)
+                series.Fill = Brushes.Green;
+            else if (reportUnit.Color == ReportUnitColor.Red)
+                series.Fill = Brushes.Red;
+
             // all previous and next values should be equal to 0 but not current 
             for (int i = 0; i < itemsCount; i++)
                 series.Values.Add(i != itemIndex ? new ReportUnit() : reportUnit);

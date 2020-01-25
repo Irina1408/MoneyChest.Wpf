@@ -13,7 +13,6 @@ namespace MoneyChest.View.Utils
         {
             var colors = new List<Color>();
             var rand = new Random();
-            var existing = new List<ColorData>();
             var contrast = number > 1000 ? 5 : 8;
             var maxContrastColorsNumber = (int)Math.Pow(255 / contrast, 3);
 
@@ -26,8 +25,8 @@ namespace MoneyChest.View.Utils
                 byte b = (byte)rand.Next(0, 255);
 
                 // check on existing new value
-                while (existing.Count < maxContrastColorsNumber
-                     && existing.Any(item => item.A > a - contrast && item.A < a + contrast
+                while (colors.Count < maxContrastColorsNumber
+                     && colors.Any(item => item.A > a - contrast && item.A < a + contrast
                      && item.R > r - contrast && item.R < r + contrast
                      && item.G > g - contrast && item.G < g + contrast
                      && item.B > b - contrast && item.B < b + contrast))
@@ -37,16 +36,9 @@ namespace MoneyChest.View.Utils
                     b = (byte)rand.Next(0, 255);
                 }
 
-                // add new agrb value to list of existing
-                existing.Add(new ColorData(a, r, g, b));
                 // add new brush
                 colors.Add(new Color() { A = a, R = r, G = g, B = b });
             }
-
-            // cleanup
-            existing.Clear();
-            existing = null;
-            rand = null;
 
             return colors;
         }
