@@ -13,7 +13,7 @@ namespace MoneyChest.Model.Report
         public DateTime DateFrom { get; set; }
         public DateTime DateUntil { get; set; }
         public int CategoryLevel { get; set; }
-        public RecordType DataType { get; set; }
+        public ReportDataType DataType { get; set; }
         public Sorting Sorting { get; set; }
         public int DetailsDepth { get; set; }
         public BarChartSection Section { get; set; }

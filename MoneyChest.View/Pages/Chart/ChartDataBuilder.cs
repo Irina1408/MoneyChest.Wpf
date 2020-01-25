@@ -23,6 +23,7 @@ namespace MoneyChest.View.Pages
         private CartesianMapper<ReportUnit> reportUnitMapperRow;
         private PieMapper<ReportUnit> reportUnitMapperPie;
         private ReportSettingModel settings;
+        private List<ReportUnit> reportUnits;
 
         #endregion
 
@@ -61,9 +62,20 @@ namespace MoneyChest.View.Pages
 
         #region Public methods
 
-        public ChartData Build(List<ReportUnit> reportUnits, ReportSettingModel settings)
+        public ChartDataBuilder WithReportUnits(List<ReportUnit> reportUnits)
+        {
+            this.reportUnits = reportUnits;
+            return this;
+        }
+
+        public ChartDataBuilder WithSettings(ReportSettingModel settings)
         {
             this.settings = settings;
+            return this;
+        }
+
+        public ChartData Build()
+        {
             var result = new ChartData();
 
             // save global mapper
@@ -76,21 +88,25 @@ namespace MoneyChest.View.Pages
 
             for (int i = 0; i < reportUnits.Count; i++)
             {
-                //build collection
+                // build collection
                 if (settings.IsBarChartSelected && settings.BarChartSection == BarChartSection.Period)
                 {
                     if (result.SeriesCollection.Count == 0)
-                        result.SeriesCollection.AddRange(BuildSeries(reportUnits[i], i, reportUnits.Count));
+                        result.SeriesCollection.AddRange(BuildSeries(reportUnits[i], i, reportUnits.Count, false));
 
-                    result.SeriesCollection[0].Values[i] = reportUnits[i];
+                    if (settings.DataType == ReportDataType.All)
+                    {
+                        for (int iDetail = 0; iDetail < reportUnits[i].Detailing.Count; iDetail++)
+                            result.SeriesCollection[iDetail].Values[i] = reportUnits[i].Detailing[iDetail];
+                    }
+                    else
+                        result.SeriesCollection[0].Values[i] = reportUnits[i];
                 }
                 else
                 {
-                    result.SeriesCollection.AddRange(BuildSeries(reportUnits[i], i, reportUnits.Count));
+                    result.SeriesCollection.AddRange(BuildSeries(reportUnits[i], i, reportUnits.Count, true));
                 }
 
-                // build collection
-                //result.SeriesCollection.AddRange(BuildSeries(reportUnits[i], settings, i, reportUnits.Count));
                 // populate caption list
                 result.Titles.Add(reportUnits[i].Caption);
             }
@@ -106,12 +122,16 @@ namespace MoneyChest.View.Pages
         {
             foreach(var series in seriesCollection)
             {
-                if(series is MCPieSeries)
-                    (series as MCPieSeries).DataLabels = showLables;
-                if (series is MCStackedColumnSeries)
-                    (series as MCStackedColumnSeries).DataLabels = showLables;
-                if (series is MCStackedRowSeries)
-                    (series as MCStackedRowSeries).DataLabels = showLables;
+                if (series is MCPieSeries pieSeries)
+                    pieSeries.DataLabels = showLables;
+                if (series is MCStackedColumnSeries stackedColumnSeries)
+                    stackedColumnSeries.DataLabels = showLables;
+                if (series is MCStackedRowSeries stackedRowSeries)
+                    stackedRowSeries.DataLabels = showLables;
+                if (series is MCRowSeries rowSeries)
+                    rowSeries.DataLabels = showLables;
+                if (series is MCColumnSeries columnSeries)
+                    columnSeries.DataLabels = showLables;
             }
         }
 
@@ -119,7 +139,7 @@ namespace MoneyChest.View.Pages
 
         #region Private methods
 
-        private IEnumerable<ISeriesView> BuildSeries(ReportUnit reportUnit, int itemIndex, int totalCount)
+        private IEnumerable<ISeriesView> BuildSeries(ReportUnit reportUnit, int itemIndex, int totalCount, bool stacked)
         {
             var result = new List<ISeriesView>();
 
@@ -136,12 +156,16 @@ namespace MoneyChest.View.Pages
             }
 
             // series for bar chart with columns
-            if (settings.IsBarChartColumnsSelected)
+            if (settings.IsBarChartColumnsSelected && stacked)
                 result.AddRange(BuildBarChartSeries<MCStackedColumnSeries>(reportUnit, itemIndex, totalCount));
+            else if (settings.IsBarChartColumnsSelected && !stacked)
+                result.AddRange(BuildBarChartSeries<MCColumnSeries>(reportUnit, itemIndex, totalCount));
 
             // series for bar chart with rows
-            if (settings.IsBarChartRowsSelected)
+            if (settings.IsBarChartRowsSelected && stacked)
                 result.AddRange(BuildBarChartSeries<MCStackedRowSeries>(reportUnit, itemIndex, totalCount));
+            else if (settings.IsBarChartRowsSelected && !stacked)
+                result.AddRange(BuildBarChartSeries<MCRowSeries>(reportUnit, itemIndex, totalCount));
 
             return result;
         }

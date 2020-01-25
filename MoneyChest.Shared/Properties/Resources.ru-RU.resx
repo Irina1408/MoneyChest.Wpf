@@ -1044,4 +1044,13 @@
   <data name="General_Period" xml:space="preserve">
     <value>Период</value>
   </data>
+  <data name="ReportDataType_All" xml:space="preserve">
+    <value>Все (+/-)</value>
+  </data>
+  <data name="ReportDataType_Expense" xml:space="preserve">
+    <value>Расход (-)</value>
+  </data>
+  <data name="ReportDataType_Income" xml:space="preserve">
+    <value>Доход (+)</value>
+  </data>
 </root>

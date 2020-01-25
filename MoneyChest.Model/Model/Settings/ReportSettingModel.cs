@@ -25,7 +25,7 @@ namespace MoneyChest.Model.Model
 
         public bool ShowSettings { get; set; } = true;
         public ChartType ChartType { get; set; }
-        public RecordType DataType { get; set; }
+        public ReportDataType DataType { get; set; }
         public int CategoryLevel { get; set; }
         public Sorting Sorting { get; set; }
         public bool ShowLegend { get; set; } = true;

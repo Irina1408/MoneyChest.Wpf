@@ -53,6 +53,8 @@ namespace MoneyChest.Calculation.Builders
 
         public string NoneCategoryName { get; set; }
 
+        public Dictionary<ReportDataType, string> ReportDataTypeDescriptions { get; set; }
+
         public ReportResult Build(ReportBuildSettings settings, bool force = false)
         {
             // load data that doen't depend of settings
@@ -62,20 +64,14 @@ namespace MoneyChest.Calculation.Builders
 
             // filter transactions by data type
             var filteredTransactions = _transactions.Where(x => 
-                (settings.DataType == RecordType.Expense && x.IsExpense) || (settings.DataType == RecordType.Income && x.IsIncome));
+                (settings.DataType == ReportDataType.All && (x.IsExpense || x.IsIncome))
+                || (settings.DataType == ReportDataType.Expense && x.IsExpense) 
+                || (settings.DataType == ReportDataType.Income && x.IsIncome));
+
             // filter transactions by user data filter
             filteredTransactions = settings.ApplyFilter(filteredTransactions);
-            
-            // build result
-            var result = new ReportResult();
-            // populate report units correspont to selected section
-            result.ReportUnits = settings.Section == BarChartSection.Category
-                ? BuildReportUnits(filteredTransactions, settings.CategoryLevel, settings.DetailsDepth, settings.Sorting)
-                : BuildReportUnits(filteredTransactions, settings.PeriodType, settings.DateFrom, settings.DateUntil);
-            // calculate total
-            result.TotAmountDetailed = FormatMainCurrency(result.ReportUnits.Sum(x => x.Amount), true);
 
-            return result;
+            return BuildReportResult(filteredTransactions, settings);
         }
 
         #endregion
@@ -143,6 +139,153 @@ namespace MoneyChest.Calculation.Builders
 
         #region Build
 
+        private ReportResult BuildReportResult(IEnumerable<ITransaction> transactions, ReportBuildSettings settings)
+        {
+            // if combine incomes and expenses
+            if (settings.DataType == ReportDataType.All)
+            {
+                // populate report units correspont to requested Section
+                if (settings.Section == BarChartSection.Category)
+                    return BuildReportResultAllDataType(transactions, settings.CategoryLevel, settings.DetailsDepth, settings.Sorting);
+                else
+                    return BuildReportResultAllDataType(transactions, settings.PeriodType, settings.DateFrom, settings.DateUntil);
+            }
+            else
+            {
+                var result = new ReportResult();
+
+                // populate report units correspont to requested Section
+                if (settings.Section == BarChartSection.Category)
+                    result.ReportUnits = BuildReportUnits(transactions, settings.CategoryLevel, settings.DetailsDepth, settings.Sorting);
+                else
+                    result.ReportUnits = BuildReportUnits(transactions, settings.PeriodType, settings.DateFrom, settings.DateUntil);
+
+                // update total amount
+                result.TotAmountDetailed = FormatMainCurrency(result.ReportUnits.Sum(x => x.Amount), true);
+
+                return result;
+            }
+        }
+
+        private ReportResult BuildReportResultAllDataType(IEnumerable<ITransaction> transactions, 
+            int categoryLevel, int detailsDepth, Sorting sorting)
+        {
+            var result = new ReportResult() { ReportUnits = new List<ReportUnit>() };
+            var sbTotalAmount = new StringBuilder();
+
+            // build incomes if any
+            var incomeTransactions = transactions.Where(x => x.IsIncome).ToList();
+            if (incomeTransactions.Any())
+            {
+                // build incomes report unit
+                var reportUnit = BuildReportUnit(incomeTransactions, null, ReportDataTypeDescriptions[ReportDataType.Income],
+                    categoryLevel - 1, detailsDepth, sorting);
+
+                // update total incomes
+                sbTotalAmount.Append(FormatMainCurrency(reportUnit.Amount, true, true));
+                // add report unit to the result
+                result.ReportUnits.Add(reportUnit);
+            }
+
+            // build expenses if any
+            var expenseTransactions = transactions.Where(x => x.IsExpense).ToList();
+            if (expenseTransactions.Any())
+            {
+                // build expenses report unit
+                var reportUnit = BuildReportUnit(expenseTransactions, null, ReportDataTypeDescriptions[ReportDataType.Expense],
+                    categoryLevel - 1, detailsDepth, sorting);
+
+                // update total expenses
+                if (sbTotalAmount.Length > 0) sbTotalAmount.AppendLine();
+                sbTotalAmount.Append(" " + FormatMainCurrency(-reportUnit.Amount, true, true));
+                // add report unit to the result
+                result.ReportUnits.Add(reportUnit);
+            }
+
+            // sort result report units
+            result.ReportUnits = ApplySorting(result.ReportUnits, sorting).ToList();
+            // update total amount
+            result.TotAmountDetailed = sbTotalAmount.ToString();
+
+            return result;
+        }
+
+        private ReportResult BuildReportResultAllDataType(IEnumerable<ITransaction> transactions,
+            PeriodType periodType, DateTime dateFrom, DateTime dateUntil)
+        {
+            var result = new ReportResult() { ReportUnits = new List<ReportUnit>() };
+            var periods = PeriodUtils.SplitDateRange(periodType, dateFrom, dateUntil);
+
+            foreach (var period in periods)
+            {
+                // get transactions for the correspond date range
+                var periodTransactions = transactions
+                    .Where(x => x.TransactionDate >= period.DateFrom && x.TransactionDate <= period.DateUntil);
+
+                // create incomes report unit
+                var incomesReportUnit = new ReportUnit
+                {
+                    Caption = ReportDataTypeDescriptions[ReportDataType.Income],
+                    Amount = Math.Abs(periodTransactions.Where(x => x.IsIncome).Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId)))
+                };
+                // create expense report unit
+                var expensesReportUnit = new ReportUnit
+                {
+                    Caption = ReportDataTypeDescriptions[ReportDataType.Expense],
+                    Amount = Math.Abs(periodTransactions.Where(x => x.IsExpense).Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId)))
+                };
+
+                result.ReportUnits.Add(new ReportUnit
+                {
+                    Caption = PeriodUtils.GetPeriodRangeDetails(periodType, period.DateFrom, period.DateUntil),
+                    Detailing = new List<ReportUnit>() { incomesReportUnit, expensesReportUnit }
+                });
+            }
+
+            return result;
+        }
+
+        private ReportUnit BuildReportUnit(IEnumerable<ITransaction> transactions, int? categoryId, string caption,
+            int categoryLevel, int detailsDepth, Sorting sorting)
+        {
+            // create root item
+            var root = new ReportUnit
+            {
+                CategoryId = categoryId,
+                Caption = caption,
+                Amount = Math.Abs(transactions.Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId)))
+            };
+
+            // add child items
+            if (detailsDepth > 0)
+                root.Detailing = BuildReportUnits(transactions, categoryLevel + 1, detailsDepth - 1, sorting);
+
+            return root;
+        }
+
+        private List<ReportUnit> BuildReportUnits(IEnumerable<ITransaction> transactions, int categoryLevel, int detailsDepth, 
+            Sorting sorting)
+        {
+            var result = new List<ReportUnit>();
+
+            foreach (var t in GetCategorizedTransactions(transactions, categoryLevel))
+            {
+                // create report unit
+                var reportUnit = BuildReportUnit(t.Transactions, t.CategoryId, 
+                    _data.Categories.FirstOrDefault(_ => _.Id == t.CategoryId)?.Name,
+                    categoryLevel, detailsDepth, sorting);
+
+                // add report unit to result list
+                result.Add(reportUnit);
+            }
+
+            var sortedResult = ApplySorting(result, sorting).ToList();
+            // fix caption for empty category after sorting (empty category should be first/last if alphabetical sorting)
+            sortedResult.Where(x => x.CategoryId == null).ToList().ForEach(x => x.Caption = NoneCategoryName);
+
+            return sortedResult;
+        }
+
         private List<ReportUnit> BuildReportUnits(IEnumerable<ITransaction> transactions, PeriodType periodType, DateTime dateFrom, DateTime dateUntil)
         {
             var result = new List<ReportUnit>();
@@ -154,47 +297,15 @@ namespace MoneyChest.Calculation.Builders
                 var periodTransactions = transactions
                     .Where(x => x.TransactionDate >= period.DateFrom && x.TransactionDate <= period.DateUntil);
 
-                // create report unit
-                var reportUnit = new ReportUnit
+                // create report unit and add it to result list
+                result.Add(new ReportUnit
                 {
                     Caption = PeriodUtils.GetPeriodRangeDetails(periodType, period.DateFrom, period.DateUntil),
                     Amount = Math.Abs(periodTransactions.Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId)))
-                };
-                // add report unit to result list
-                result.Add(reportUnit);
+                });
             }
 
             return result;
-        }
-
-        private List<ReportUnit> BuildReportUnits(IEnumerable<ITransaction> transactions, int categoryLevel, int detailsDepth, 
-            Sorting sorting)
-        {
-            var result = new List<ReportUnit>();
-
-            foreach (var t in GetCategorizedTransactions(transactions, categoryLevel))
-            {
-                // create report unit
-                var reportUnit = new ReportUnit
-                {
-                    CategoryId = t.CategoryId,
-                    Caption = _data.Categories.FirstOrDefault(_ => _.Id == t.CategoryId)?.Name,
-                    Amount = Math.Abs(t.Transactions.Sum(_ => ToMainCurrency(_.TransactionAmount, _.TransactionCurrencyId)))
-                };
-
-                // build details
-                if(detailsDepth > 0)
-                    reportUnit.Detailing = BuildReportUnits(t.Transactions, categoryLevel + 1, detailsDepth - 1, sorting);
-
-                // add report unit to result list
-                result.Add(reportUnit);
-            }
-
-            var sortedResult = ApplySorting(result, sorting).ToList();
-            // fix caption for empty category after sorting (empty category should be first/last if alphabetical sorting)
-            sortedResult.Where(x => x.CategoryId == null).ToList().ForEach(x => x.Caption = NoneCategoryName);
-
-            return sortedResult;
         }
 
         private IEnumerable<CategoryTransactions> GetCategorizedTransactions(IEnumerable<ITransaction> transactions, int categoryLevel)

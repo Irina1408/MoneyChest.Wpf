@@ -21,13 +21,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                     Visibility="{Binding ShowTotal, Converter={StaticResource BVConverter}}">
             
             <Label Content="{moneyChestView:MultiLangBinding Report_Total}" FontSize="{DynamicResource MiddleFontSize}"
-                   HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="-5 5 5 5"/>
+                   HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="-5 5 5 5" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
             <Label Content="{Binding Total, UpdateSourceTrigger=PropertyChanged}" FontSize="{DynamicResource MiddleFontSize}"
-                   HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0 5 5 5"/>
+                   HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0 5 5 5" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
         </StackPanel>
 
         <Grid Grid.Row="1">

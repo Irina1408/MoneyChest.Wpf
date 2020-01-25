@@ -58,6 +58,7 @@
     <Compile Include="Enums\Settings\BarChartSection.cs" />
     <Compile Include="Enums\Settings\BarChartView.cs" />
     <Compile Include="Enums\Settings\PeriodType.cs" />
+    <Compile Include="Enums\Settings\ReportDataType.cs" />
     <Compile Include="Enums\Settings\Sorting.cs" />
     <Compile Include="Enums\TransactionType.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />

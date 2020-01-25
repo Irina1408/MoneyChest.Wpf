@@ -1047,4 +1047,13 @@
   <data name="General_Period" xml:space="preserve">
     <value>Period</value>
   </data>
+  <data name="ReportDataType_All" xml:space="preserve">
+    <value>All (+/-)</value>
+  </data>
+  <data name="ReportDataType_Expense" xml:space="preserve">
+    <value>Expense (-)</value>
+  </data>
+  <data name="ReportDataType_Income" xml:space="preserve">
+    <value>Income (+)</value>
+  </data>
 </root>

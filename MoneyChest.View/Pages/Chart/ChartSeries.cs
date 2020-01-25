@@ -38,4 +38,34 @@ namespace MoneyChest.View.Pages
             return base.GetPointView(point, label);
         }
     }
+
+    public class MCColumnSeries : ColumnSeries
+    {
+        public MCColumnSeries() : base()
+        {
+            LabelsPosition = BarLabelPosition.Parallel;
+        }
+
+        public override IChartPointView GetPointView(ChartPoint point, string label)
+        {
+            if (label == "0") label = null;
+
+            return base.GetPointView(point, label);
+        }
+    }
+
+    public class MCRowSeries : RowSeries
+    {
+        public MCRowSeries() : base()
+        {
+            LabelsPosition = BarLabelPosition.Parallel;
+        }
+
+        public override IChartPointView GetPointView(ChartPoint point, string label)
+        {
+            if (label == "0") label = null;
+
+            return base.GetPointView(point, label);
+        }
+    }
 }

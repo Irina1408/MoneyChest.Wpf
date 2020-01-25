@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.IconPacks;
-using MoneyChest.Model.Model;
+﻿using MoneyChest.Model.Model;
 using MoneyChest.Services;
 using MoneyChest.Services.Services;
 using MoneyChest.Services.Services.Settings;
@@ -9,27 +8,10 @@ using MoneyChest.ViewModel.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using LiveCharts;
-using LiveCharts.Wpf;
 using MoneyChest.Calculation.Builders;
-using LiveCharts.Defaults;
-using System.ComponentModel;
 using MoneyChest.Model.Enums;
-using LiveCharts.Definitions.Series;
-using MoneyChest.Model.Report;
-using LiveCharts.Definitions.Points;
-using LiveCharts.Configurations;
 using MoneyChest.View.Utils;
 
 namespace MoneyChest.View.Pages
@@ -74,9 +56,23 @@ namespace MoneyChest.View.Pages
             _builder = new ReportDataBuilder(GlobalVariables.UserId, _service, _currencyService, _currencyExchangeRateService, _categoryService);
             _chartDataBuilder = new ChartDataBuilder();
 
+            // preload report data type descriptions
+            var reportDataTypes = MultiLangEnumHelper.ToCollection(typeof(ReportDataType));
+
+            // fill additional properties correspond to language
+            _builder.NoneCategoryName = MultiLangResourceManager.Instance[MultiLangResourceName.None];
+            _builder.ReportDataTypeDescriptions = reportDataTypes.ToDictionary(x => (ReportDataType)x.Value, x => x.Description);
+
+            // add builder properties updating correspond to changed culture
+            MultiLangResourceManager.Instance.CultureChanged += (sender, e) =>
+            {
+                _builder.NoneCategoryName = MultiLangResourceManager.Instance[MultiLangResourceName.None];
+                _builder.ReportDataTypeDescriptions = reportDataTypes.ToDictionary(x => (ReportDataType)x.Value, x => x.Description);
+            };
+
             // init comboboxes
             comboChartType.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(ChartType));
-            comboDataType.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(RecordType));
+            comboDataType.ItemsSource = reportDataTypes;
             comboBarChartView.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(BarChartView));
             comboSorting.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(Sorting));
             comboBarChartSection.ItemsSource = MultiLangEnumHelper.ToCollection(typeof(BarChartSection));
@@ -164,7 +160,8 @@ namespace MoneyChest.View.Pages
                         }
                         else
                         {
-                            if (e.PropertyName == nameof(ReportSettingModel.CategoryLevel))
+                            if (e.PropertyName == nameof(ReportSettingModel.CategoryLevel)
+                                || e.PropertyName == nameof(ReportSettingModel.DataType))
                             {
                                 // refresh items source of comboDetailsDepth
                                 RefreshAvailableDetailsDepth();
@@ -220,6 +217,10 @@ namespace MoneyChest.View.Pages
             else
                 depthDictionary.Add(0, 1);
 
+            // add additional depth for selected datatype 'All'
+            if (_viewModel.Settings.DataType == ReportDataType.All)
+                depthDictionary.Add(depthDictionary.Count, depthDictionary.Count + 1);
+
             // make sure curreny depth is correct
             if (!depthDictionary.ContainsKey(_viewModel.Settings.PieChartDetailsDepth))
                 _viewModel.Settings.PieChartDetailsDepth = depthDictionary.Last().Key;
@@ -234,8 +235,6 @@ namespace MoneyChest.View.Pages
                 // hide all charts
                 _viewModel.IsAnyData = false;
 
-                // fill empty category name
-                _builder.NoneCategoryName = MultiLangResourceManager.Instance[MultiLangResourceName.None];
                 // build report result
                 var result = _builder.Build(_viewModel.GetBuildSettings(), force);
 
@@ -244,7 +243,11 @@ namespace MoneyChest.View.Pages
                 barChartColumns.Series = null;
                 barChartRows.Series = null;
 
-                _viewModel.ChartData = _chartDataBuilder.Build(result.ReportUnits, _viewModel.Settings);
+                _viewModel.ChartData = _chartDataBuilder
+                    .WithReportUnits(result.ReportUnits)
+                    .WithSettings(_viewModel.Settings)
+                    .Build();
+
                 _viewModel.IsAnyData = _viewModel.ChartData.SeriesCollection.Any();
                 // update total
                 _viewModel.ChartData.Total = result.TotAmountDetailed;
