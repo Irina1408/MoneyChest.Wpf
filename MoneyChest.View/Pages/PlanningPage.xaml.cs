@@ -198,7 +198,8 @@ namespace MoneyChest.View.Pages
             _viewModel.SimpleEventsViewModel.Entities = new ObservableCollection<SimpleEventViewModel>(
                 _simpleEventService.GetListForUser(GlobalVariables.UserId)
                 .Select(e => new SimpleEventViewModel(e))
-                .OrderBy(_ => _.ActualEventState));
+                .OrderBy(_ => _.ActualEventState)
+                .ThenBy(x => x.Description));
 
             // reload Money Transfer Events
             _viewModel.MoneyTransferEventsViewModel.Entities = new ObservableCollection<MoneyTransferEventViewModel>(
